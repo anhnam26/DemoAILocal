@@ -1,1 +1,254 @@
-[{"id": "firewall", "name": "Triển khai firewall / VPN", "price": 12000000, "days": 4, "scope": "01 site, thiết bị và license sẵn có; chưa gồm HA hoặc migration phức tạp"}, {"id": "wifi", "name": "Khảo sát và cấu hình Wi-Fi", "price": 8000000, "days": 3, "scope": "01 site, tối đa 5 AP có sẵn; chưa gồm kéo cáp hoặc vật tư"}, {"id": "backup", "name": "Backup và diễn tập restore", "price": 10000000, "days": 4, "scope": "01 hệ thống nguồn và 01 kho backup có sẵn; phạm vi dữ liệu đã thống nhất"}, {"id": "waf", "name": "Triển khai WAF cơ bản", "price": 14000000, "days": 5, "scope": "01 ứng dụng web; DNS/TLS và license sẵn có; chưa gồm xử lý lỗi ứng dụng"}]
+[
+  {
+    "id": "firewall",
+    "name": "Triển khai firewall / VPN",
+    "price": 12000000,
+    "days": 4,
+    "scope": "01 site, 01 firewall, tối đa 10 VLAN và 02 tunnel VPN",
+    "aliases": [
+      "firewall",
+      "tường lửa",
+      "fortigate",
+      "vpn"
+    ],
+    "conditions": "Thiết bị và license có sẵn; tối đa 100 policy; không HA, không đổi IP diện rộng",
+    "outputs": "Backup cấu hình; sơ đồ; bảng policy; UAT Internet/VPN; hướng dẫn vận hành",
+    "exclusions": "Chờ mua thiết bị 5–10 ngày làm việc nếu hết kho; chưa gồm kéo cáp hoặc license",
+    "delivery_min": 4,
+    "delivery_max": 6,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-FIREWALL"
+  },
+  {
+    "id": "wifi",
+    "name": "Khảo sát và cấu hình Wi-Fi",
+    "price": 8000000,
+    "days": 3,
+    "scope": "01 site, tối đa 05 AP",
+    "aliases": [
+      "wifi",
+      "wi-fi",
+      "wireless",
+      "access point",
+      "ap"
+    ],
+    "conditions": "Mặt bằng tối đa 500m²; cáp và PoE sẵn có; 05 AP hoặc ít hơn",
+    "outputs": "Sơ đồ AP; báo cáo vùng phủ; cấu hình; UAT roaming",
+    "exclusions": "Chưa gồm AP, switch PoE và kéo cáp; diện tích lớn khảo sát riêng",
+    "delivery_min": 3,
+    "delivery_max": 5,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-WIFI"
+  },
+  {
+    "id": "backup",
+    "name": "Backup và diễn tập restore",
+    "price": 10000000,
+    "days": 4,
+    "scope": "01 hệ thống nguồn, tối đa 02TB, 01 kho backup",
+    "aliases": [
+      "backup",
+      "sao lưu",
+      "phục hồi",
+      "nas",
+      "restore"
+    ],
+    "conditions": "Kho backup đủ dung lượng; quyền nguồn sẵn có; mạng LAN ổn định",
+    "outputs": "Chính sách backup; báo cáo restore; runbook RPO/RTO",
+    "exclusions": "RPO/RTO thực tế phải đo; không cam kết theo dung lượng đơn thuần",
+    "delivery_min": 4,
+    "delivery_max": 6,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-BACKUP"
+  },
+  {
+    "id": "waf",
+    "name": "Triển khai WAF cơ bản",
+    "price": 14000000,
+    "days": 5,
+    "scope": "01 ứng dụng web, 01 tên miền, tối đa 10 API chính",
+    "aliases": [
+      "waf",
+      "fortiweb",
+      "web application firewall"
+    ],
+    "conditions": "Có DNS/TLS và test account; có đầu mối ứng dụng; không thay source code",
+    "outputs": "Sơ đồ luồng; chính sách; kết quả test; danh sách ngoại lệ",
+    "exclusions": "Chưa gồm license, chống DDoS volumetric hoặc sửa lỗi ứng dụng",
+    "delivery_min": 5,
+    "delivery_max": 7,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-WAF"
+  },
+  {
+    "id": "switch",
+    "name": "Triển khai switch và VLAN",
+    "price": 9000000,
+    "days": 3,
+    "scope": "01 site, tối đa 03 switch, 10 VLAN",
+    "aliases": [
+      "switch",
+      "vlan",
+      "lan",
+      "mạng nội bộ"
+    ],
+    "conditions": "Switch và license có sẵn; không gồm cáp mới",
+    "outputs": "Topology; port map; bảng VLAN; backup cấu hình",
+    "exclusions": "Không gồm thay cáp quang, module SFP và đi dây",
+    "delivery_min": 3,
+    "delivery_max": 5,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-SWITCH"
+  },
+  {
+    "id": "server",
+    "name": "Máy chủ và ảo hóa",
+    "price": 18000000,
+    "days": 6,
+    "scope": "02 host, tối đa 08 máy ảo",
+    "aliases": [
+      "server",
+      "máy chủ",
+      "ảo hóa",
+      "vmware",
+      "hypervisor"
+    ],
+    "conditions": "Phần cứng tương thích đã xác minh; license hợp lệ; storage có sẵn",
+    "outputs": "Danh mục VM; cấu hình network/storage; checklist backup",
+    "exclusions": "Chưa gồm di chuyển cơ sở dữ liệu lớn hoặc license hệ điều hành",
+    "delivery_min": 6,
+    "delivery_max": 8,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-SERVER"
+  },
+  {
+    "id": "endpoint",
+    "name": "Triển khai bảo vệ endpoint",
+    "price": 6000000,
+    "days": 2,
+    "scope": "Tối đa 50 máy Windows trong 01 tenant",
+    "aliases": [
+      "endpoint",
+      "edr",
+      "antivirus",
+      "bitdefender"
+    ],
+    "conditions": "Máy đáp ứng cấu hình hãng; tài khoản triển khai có quyền",
+    "outputs": "Danh sách agent; policy; hướng dẫn xử lý cảnh báo",
+    "exclusions": "Chưa gồm license; hệ điều hành không hỗ trợ cần đánh giá riêng",
+    "delivery_min": 2,
+    "delivery_max": 4,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-ENDPOINT"
+  },
+  {
+    "id": "pam",
+    "name": "Triển khai PAM khởi đầu",
+    "price": 24000000,
+    "days": 8,
+    "scope": "10 quản trị viên, 20 tài sản",
+    "aliases": [
+      "pam",
+      "đặc quyền",
+      "privileged"
+    ],
+    "conditions": "Có directory, MFA và danh sách tài sản; license có sẵn",
+    "outputs": "Ma trận quyền; workflow; biên bản kiểm truy vết",
+    "exclusions": "Không nhập bí mật thật vào AI; hệ thống legacy báo phạm vi riêng",
+    "delivery_min": 8,
+    "delivery_max": 10,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-PAM"
+  },
+  {
+    "id": "siem",
+    "name": "Tích hợp SIEM cơ bản",
+    "price": 20000000,
+    "days": 7,
+    "scope": "10 nguồn log, 05 use case",
+    "aliases": [
+      "siem",
+      "soc",
+      "log",
+      "giám sát"
+    ],
+    "conditions": "Kho log, license và kết nối có sẵn; đầu mối ứng cứu",
+    "outputs": "Sơ đồ log; danh mục use case; SOP phân loại cảnh báo",
+    "exclusions": "EPS/lưu trữ phải đo; không hứa phát hiện mọi tấn công",
+    "delivery_min": 7,
+    "delivery_max": 9,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-SIEM"
+  },
+  {
+    "id": "audit",
+    "name": "Khảo sát và thiết kế hạ tầng",
+    "price": 7000000,
+    "days": 3,
+    "scope": "01 site, tối đa 20 thiết bị",
+    "aliases": [
+      "khảo sát",
+      "thiết kế",
+      "hld",
+      "lld",
+      "tư vấn"
+    ],
+    "conditions": "Có đầu mối IT; được phép truy cập chỉ đọc",
+    "outputs": "Báo cáo hiện trạng; HLD; roadmap ưu tiên",
+    "exclusions": "Không gồm pentest hay thay đổi production",
+    "delivery_min": 3,
+    "delivery_max": 5,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-AUDIT"
+  },
+  {
+    "id": "training",
+    "name": "Đào tạo và chuyển giao vận hành",
+    "price": 5000000,
+    "days": 2,
+    "scope": "02 buổi, tối đa 10 học viên",
+    "aliases": [
+      "đào tạo",
+      "chuyển giao",
+      "training"
+    ],
+    "conditions": "Môi trường lab; tài khoản giả lập; lịch học thống nhất",
+    "outputs": "Slide; bài lab; checklist vận hành; đánh giá",
+    "exclusions": "Không bao gồm chứng chỉ hãng hoặc lệ phí thi",
+    "delivery_min": 2,
+    "delivery_max": 4,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-TRAINING"
+  },
+  {
+    "id": "migration",
+    "name": "Di chuyển firewall có kiểm soát",
+    "price": 22000000,
+    "days": 7,
+    "scope": "01 site, tối đa 150 policy và 04 VPN",
+    "aliases": [
+      "migration",
+      "di chuyển",
+      "đổi firewall"
+    ],
+    "conditions": "Thiết bị hai đầu sẵn có; change window; rollback được duyệt",
+    "outputs": "Mapping policy; kế hoạch cutover; UAT; cấu hình hoàn công",
+    "exclusions": "Chưa gồm HA liên site hoặc viết lại toàn bộ thiết kế IP",
+    "delivery_min": 7,
+    "delivery_max": 9,
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "source_id": "RATE-MIGRATION"
+  }
+]

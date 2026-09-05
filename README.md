@@ -6,8 +6,8 @@ Demo chạy trong **D:\TestSystem**, dành cho sale và kỹ thuật, sử dụn
 
 Truy cập **http://127.0.0.1:8088**. Chọn một tài khoản giả lập:
 
-- **Sale / Minh Anh**: dịch vụ, giải pháp, chính sách và hồ sơ khách giả lập A.
-- **Kỹ thuật / Hoàng Nam**: thêm runbook kỹ thuật, hồ sơ khách giả lập B; không xem khách A.
+- **Sale / Minh Anh**: dịch vụ, giải pháp, chính sách và hồ sơ 5 khách giả lập A/C/E/G/I.
+- **Kỹ thuật / Hoàng Nam**: thêm runbook kỹ thuật, hồ sơ 5 khách giả lập B/D/F/H/J; không xem nhóm khách của sale.
 - **Quản trị**: xem, tải lên, duyệt/thu hồi tri thức và nhật ký demo.
 
 Đăng nhập chọn nhanh là cơ chế mô phỏng vai trò, **không phải xác thực production**. Hệ thống chỉ bind localhost. Không đổi bind thành `0.0.0.0` để dùng chung trước khi bổ sung xác thực thực sự.
@@ -31,8 +31,8 @@ Lệnh dừng chỉ nhắm tiến trình model/demo thuộc thư mục này; gi�
 
 ## Luồng dùng thử trong 10 phút
 
-1. Vào Sale, hỏi **“Firewall mạng và WAF khác nhau như thế nào?”**. AI dùng model local; mở nguồn ở bên phải hoặc các nút mã nguồn dưới câu trả lời.
-2. Hỏi **“Cam kết hoàn thành trong 2 ngày được không?”**. Quy tắc nghiệp vụ chặn chốt cam kết, hỏi thêm và chuyển duyệt. Loại câu này được xử lý bằng quy tắc, không cần gọi LLM; UI hiển thị rõ.
+1. Vào Sale, hỏi **“Firewall mạng và WAF khác nhau như thế nào?”**. Bảng so sánh lấy từ tài liệu đã duyệt; hỏi tiếp “Tạo bảng so sánh hai cái đó”. Mở nguồn ở bên phải hoặc các nút mã nguồn dưới câu trả lời.
+2. Hỏi **“Cam kết hoàn thành trong 2 ngày được không?”**. Trợ lý đưa dữ liệu gói chuẩn để đối chiếu và chuyển duyệt cam kết cụ thể. Loại câu này được xử lý bằng quy tắc, không cần gọi LLM; UI hiển thị rõ.
 3. Vào **Dự toán dịch vụ**, chọn firewall, 1 site, đánh dấu thiết bị/license sẵn sàng: kết quả **12 triệu đồng / 4 ngày công DEMO**, chưa VAT, phần cứng, license. Bỏ điều kiện sẵn sàng hoặc chọn HA/migration phức tạp: yêu cầu khảo sát, không xuất số chắc chắn.
 4. Đổi sang Kỹ thuật, hỏi **“VPN gián đoạn sau nâng firmware cần kiểm tra gì?”** hoặc dùng gợi ý MOP. Cần kiểm chứng phiên bản và người có quyền duyệt trước thao tác.
 5. So sánh Kho tri thức ở hai vai trò: hồ sơ khách A/B và tài liệu kỹ thuật có phạm vi khác nhau; ACL nằm ở backend, không phải chỉ ẩn trên giao diện.
@@ -55,25 +55,26 @@ Lệnh dừng chỉ nhắm tiến trình model/demo thuộc thư mục này; gi�
 Trình duyệt → FastAPI (localhost:8088) → tài khoản / ACL / hiệu lực
   ├─ Chat → tách đoạn + tìm từ khóa/TF-IDF → ngữ cảnh được phép
   │         → llama.cpp Qwen3.5-9B trên GPU → JSON + kiểm mã nguồn → trả lời
-  ├─ Dự toán → service_catalog.json → công thức Python → nháp cần duyệt
+  ├─ Nghiệp vụ / Dự toán → tài liệu có cấu trúc đã duyệt → công thức Python → nháp cần duyệt
+  ├─ Hồ sơ công ty → 134 hồ sơ giả lập → lọc quyền / tìm kiếm / đọc nguồn
   └─ Quản trị → tải text → pending → đọc/duyệt → SQLite / audit
 ```
 
-RAG demo dùng **word + character TF-IDF** trên CPU, không phải neural semantic embeddings/reranker trong kiến trúc production. Tìm kiếm bỏ dấu, chia đoạn tài liệu dài và lọc quyền trước khi xếp hạng. Không fine-tuning và không tự học chat.
+RAG demo dùng **word + character TF-IDF** trên CPU, không phải neural semantic embeddings/reranker trong kiến trúc production. Tìm kiếm bỏ dấu, chia đoạn tài liệu dài và lọc quyền trước khi xếp hạng. Cache tối đa 3 bộ chỉ mục float32 trên CPU, làm mới theo nội dung và quyền; không nạp thêm LLM hay tăng context GPU. Không fine-tuning và không tự học chat.
 
-Kiểm trích dẫn đảm bảo ID tồn tại trong các nguồn đã gửi và có trong câu trả lời; **chưa tự chứng minh từng nhận định được nguồn hỗ trợ đầy đủ**. Người dùng phải đọc nguồn. Quy tắc chặn giá/SLA/tiến độ theo từ khóa chỉ là demo và không bảo đảm nhận diện mọi cách diễn đạt.
+Kiểm trích dẫn đảm bảo ID tồn tại trong các nguồn đã gửi và có trong câu trả lời; **chưa tự chứng minh từng nhận định được nguồn hỗ trợ đầy đủ**. Người dùng phải đọc nguồn. Giá, ngày công, gói SLA và hồ sơ có cấu trúc được trả bằng quy tắc Python từ tài liệu được phép xem. Qwen giải thích và tổng hợp các câu hỏi khác. Bộ nhận diện ý định còn dựa trên từ khóa; câu hỏi nhiều ý hoặc tên viết tắt lạ có thể cần nêu rõ hơn.
 
-Mỗi lượt hỏi tra cứu độc lập; lịch sử được hiển thị nhưng không tự đưa toàn bộ vào prompt. Hãy nêu lại thiết bị/dịch vụ khi hỏi tiếp. Đầu vào tối đa 1.500 ký tự và câu trả lời giới hạn token; khi nguồn quá dài/context vượt giới hạn, hệ thống báo lỗi thay vì gọi cloud.
+Câu hỏi tiếp nối ngắn có thể dùng chủ đề lượt trước trong cùng phiên, sau khi kiểm lại quyền và hiệu lực nguồn. Không đưa toàn bộ lịch sử vào prompt. Nút “Cuộc trò chuyện mới” ngắt chủ đề và ẩn lịch sử cũ khỏi phiên xem; bản ghi audit/chat vẫn lưu local. Đầu vào tối đa 1.500 ký tự và câu trả lời giới hạn token; khi nguồn quá dài/context vượt giới hạn, hệ thống báo lỗi thay vì gọi cloud.
 
 ## Dữ liệu
 
-18 tài liệu tổng hợp trong `data/demo_documents.json`; 4 định mức trong `data/service_catalog.json`. Các nhóm: firewall/VPN, Wi-Fi, backup/NAS, WAF, PAM, vận hành, SLA, RMA, checklist sale, MOP, VPN, restore, RCA và hai khách hoàn toàn giả lập.
+251 tài liệu trong `data/demo_documents.json`; 12 định mức dịch vụ. Snapshot giả lập ngày 05/09/2026 gồm 10 khách, 10 hợp đồng, 20 dự án, 20 báo giá, 40 ticket, 16 mã kho hàng và 18 nhân sự (134 hồ sơ vận hành). Có bảng giá/scope/tiến độ/runbook/FAQ cho từng dịch vụ, 3 gói SLA, bảng so sánh và chính sách thanh toán, chiết khấu, bảo hành, phát sinh. `data/company_documents/` chứa bản Markdown từng tài liệu để đọc và sửa có kiểm soát. `data/company_operations.json` là bản xuất hồ sơ; ứng dụng dùng bản ghi SQLite đã lọc quyền và hiệu lực.
 
 **Tất cả giá, số ngày, SLA và khách hàng đều là DEMO, không phải dữ liệu thật hoặc chính sách CyberAnt.** Danh mục được lấy cảm hứng từ website công khai https://cyberant.vn/; không sao chép tài liệu nội bộ.
 
 - Tài liệu runtime, tài khoản phiên, lịch sử, feedback và audit nằm trong `data/demo.sqlite3`.
 - Upload nhận tối đa 2MB, 12.000 ký tự; PDF đọc tối đa 30 trang có text. Không có OCR hoặc antivirus trong demo: chỉ tải tài liệu mẫu tin cậy, không nhập bí mật thật.
-- Metadata gồm owner, vai trò, customer, version, trạng thái và hiệu lực. Tài liệu mẫu có hiệu lực giả lập tới 31/12/2027.
+- Metadata gồm owner, vai trò, customer, version, trạng thái và hiệu lực. Đa số tài liệu mẫu có hiệu lực giả lập tới 31/12/2027; báo giá mẫu tới 30/09/2026. Các ngày đã qua trong snapshot là dữ liệu lịch sử, không tự trở thành lịch hiện tại.
 - Tải lên/thu hồi thao tác trên SQLite; file seed không tự ghi đè dữ liệu đã có khi restart.
 - Tài liệu thiếu OCR, số liệu thiếu thẩm quyền và nguồn mâu thuẫn vẫn cần biên tập/phê duyệt.
 
@@ -113,7 +114,7 @@ Lệnh tạo SQLite backup nhất quán và sao chép seed/catalog JSON vào `ba
 ```text
 D:\TestSystem\
   Start-Demo.ps1 / Stop-Demo.ps1 / README.md
-  app.py / seed_data.py / requirements-lock.txt
+  app.py / business.py / company_data.py / seed_data.py / requirements-lock.txt
   static/            giao diện, không CDN
   data/              SQLite, seed, catalog, khóa API local
   models/            GGUF + manifest
@@ -127,3 +128,27 @@ D:\TestSystem\
 Nếu model báo thiếu VRAM: đóng ứng dụng GPU không cần thiết, giảm context hoặc giảm số lớp GPU trong `Start-Demo.ps1`, rồi restart. Không cài/đổi driver NVIDIA tự động trong demo này. Giữ cấu hình đã kiểm thử nếu chưa có vấn đề.
 
 Nếu cổng bị chiếm: kiểm dịch vụ nào đang dùng cổng, không tắt tiến trình không rõ nguồn. Script stop chỉ dừng model/backend của demo trong thư mục này.
+
+
+## Bộ dữ liệu công ty mở rộng — cách test
+
+Vào **Hồ sơ công ty** để lọc loại hồ sơ, tìm tên hoặc mã và bấm **Hỏi trợ lý**. Admin thấy toàn bộ 134 hồ sơ; sale và kỹ thuật thấy các nhóm khách được phân công, sale không xem ticket/runbook chi tiết. Chọn Admin nếu muốn thử tất cả khách hàng trong cùng phiên demo.
+
+| Vai trò | Câu hỏi thử | Kết quả có nguồn |
+|---|---|---|
+| Sale | Triển khai firewall bao lâu và mất bao nhiêu tiền? | 12 triệu, 4 ngày công, lịch mẫu 4–6 ngày làm việc / site |
+| Sale | Báo giá firewall cho 2 site | 24 triệu, 8 ngày công; PM xếp lịch |
+| Sale | So sánh BASIC PLUS PREMIUM về SLA, giá, bảo trì | Bảng 3 gói; phân biệt phản hồi với khôi phục |
+| Sale | Hợp đồng bảo trì của An Minh Retail có gì? | CONTRACT-A, BASIC, 3 triệu/tháng |
+| Sale | Cho tôi thông tin QUOTE-A-01 | Báo giá dịch vụ và dự án liên kết |
+| Sale | Firewall mạng và WAF khác nhau thế nào? → Tạo bảng so sánh hai cái đó | Bảng so sánh giữ chủ đề |
+| Sale | Tồn kho firewall còn bao nhiêu? | Hàng DEMO, đơn giá, tồn/giữ/khả dụng |
+| Kỹ thuật | Tóm tắt TICKET-B-02 | Sự cố backup, nguyên nhân và xử lý trong kịch bản |
+| Kỹ thuật | Checklist MOP triển khai firewall gồm những bước nào? | Qwen + runbook có dẫn nguồn |
+| Admin | Cho tôi thông tin PROJECT-C-01 | Phạm vi, lịch, PM, kỹ sư, giá dự án mẫu |
+
+Trợ lý chỉ đọc hồ sơ và soạn dự toán. Nút hỏi không tạo ticket, đặt lịch, giữ kho hay gửi báo giá. Lịch nhân sự và dự án là các tình huống demo, chưa có bộ máy tối ưu và kiểm xung đột phân công.
+
+Muốn tái tạo bộ dữ liệu mẫu: chạy `Backup-Data.py` trước, sau đó `.venv-runtime\Scripts\python.exe company_data.py`. Lệnh này cập nhật tài liệu mẫu theo ID; giữ tài liệu upload và trạng thái thu hồi của bản mẫu đã mở rộng. Không chạy nếu đã thay nội dung mẫu bằng dữ liệu thật mà chưa sao lưu. Khởi động lại app bằng `Restart-App.ps1` để giữ model đang nạp trên GPU.
+
+Kiểm tra bổ sung: `python -m pytest test_app.py test_company.py -q` và `python check_company_ui.py` bằng Python trong `.venv-runtime`. Báo cáo/screenshot trong `artifacts/company-ui-report.json`, `06-company-comparison.png` đến `09-company-tickets.png`.
