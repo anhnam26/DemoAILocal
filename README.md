@@ -2,6 +2,8 @@
 
 Demo chạy trong **D:\TestSystem**, dành cho sale và kỹ thuật, sử dụng **Qwen3.5-9B Q4_K_M thật trên GPU NVIDIA RTX 4060 Laptop 8GB**.
 
+Bộ dữ liệu hiện tại: **453 tài liệu** = 251 tài liệu/hồ sơ công ty + 48 tri thức ATTT + 154 hồ sơ tài chính. Mở **Tài chính demo** để xem dự toán trọn gói, thanh toán và công nợ; dùng **Quản trị** để xem đủ khách và giá vốn/lợi nhuận.
+
 ## Mở demo
 
 Truy cập **http://127.0.0.1:8088**. Chọn một tài khoản giả lập:
@@ -171,3 +173,52 @@ Thử: **“MFA chống phishing là gì?”**, **“Zero Trust có phải chỉ
 Kiểm trích dẫn chỉ kiểm mã tài liệu thuộc nguồn được phép, không chứng minh mọi nhận định đúng. Nếu model khai báo nguồn trong JSON nhưng không gắn vào từng ý, ứng dụng hiển thị mục **Nguồn model sử dụng** để người đọc đối chiếu; không tự gắn một nguồn vào một nhận định cụ thể. Nguồn không hợp lệ vẫn chuyển sang trích đoạn tài liệu.
 
 Kiểm tra bổ sung: `test_security.py` kiểm quyền, nguồn, thu hồi và độ liên quan của truy xuất; `check_readability.py` kiểm câu trả lời ATTT trên GPU, tiêu đề/danh sách, cỡ chữ/lưu lựa chọn, clipboard, tải Markdown, thu gọn, bộ lọc, liên kết nguồn và màn hình 390/768/1440px. Báo cáo tại `artifacts/readability-report.json`.
+
+## Giá, tiến độ, SLA và tài chính — bộ dữ liệu mở rộng
+
+`finance_data.py` tạo **154 tài liệu có trường dữ liệu và bản đọc được**, không lấy giá thương mại thật:
+
+| Nhóm | Số lượng | Nội dung |
+|---|---:|---|
+| Gói trọn bộ | 20 | 12 gói hạ tầng + 8 gói ATTT; dòng thiết bị/license/công, thuế mô phỏng, duy trì và TCO |
+| Lịch định mức | 12 | Ngày công từng công đoạn, ngày đệm, chờ hàng/duyệt và điều kiện |
+| SLA chi tiết | 3 | P1–P4, cập nhật, mục tiêu khôi phục/onsite, bảo trì và tín dụng dịch vụ |
+| Tài chính báo giá | 20 | Liên kết QUOTE/PROJECT, VAT mô phỏng, tổng trả và các đợt 40/40/20 |
+| Chứng từ yêu cầu thu | 40 | Số phát hành, hạn thu, đã thu, còn nợ, ngày quá hạn |
+| Phiếu thu | 27 | Phân bổ duy nhất vào chứng từ, có ngày và số tiền đối soát |
+| Công nợ khách | 10 | Tổng và chi tiết dư nợ theo snapshot |
+| Giá vốn nội bộ | 20 | Công nội bộ, đi lại, presales, lãi gộp và biên; chỉ admin |
+| Báo cáo quản trị / quy ước | 2 | Danh mục đã nghiệm thu và công thức tài chính |
+
+8 gói ATTT bổ sung: MFA, pilot Zero Trust/ZTNA, đánh giá lỗ hổng, pentest web được cấp quyền, khởi tạo SOC, retainer ứng cứu, pilot DLP và đào tạo nhận thức. Giá mới nằm ở **Tài chính demo / Gói trọn bộ**, còn tab **Dự toán dịch vụ** cũ giữ 12 định mức phí công ban đầu.
+
+**VAT 10% là tham số giả lập để trình diễn công thức, không phải kết luận thuế suất hiện hành.** Tổng năm đầu/TCO trước thuế; giả định giá không đổi, không phát sinh quy mô. Chiết khấu chỉ áp vào phí công dịch vụ, luôn là đề xuất cần duyệt. Hệ thống tính bằng số nguyên VND trên backend; model không tự tính tiền.
+
+### Các câu hỏi mẫu có số cụ thể
+
+| Câu hỏi | Kết quả chính |
+|---|---|
+| Báo giá trọn gói firewall gồm thiết bị, license và VAT | 39.000.000 trước thuế, 3.900.000 VAT mô phỏng, 42.900.000 tổng; 4 ngày công, lịch 4–6 ngày làm việc/site |
+| Firewall 2 site trọn gói chiết khấu 5% gồm VAT | Giảm 1.200.000 trên công, tổng 84.480.000; 8 ngày công |
+| TCO 3 năm trọn gói firewall | 165.000.000 trước thuế cho 1 site, gồm 36 tháng BASIC và 2 lần gia hạn license |
+| Triển khai MFA giá bao nhiêu và mất mấy ngày? | 10 triệu công + 5 triệu license lab, 16,5 triệu gồm thuế mô phỏng; 4 ngày công |
+| Chi tiết thanh toán QUOTE-A-01 gồm VAT | 13,2 triệu tổng, các đợt 5,28 / 5,28 / 2,64 triệu |
+| Công nợ An Minh Retail còn bao nhiêu? | Tổng đã phát hành 14,08 triệu, thu 8,8 triệu, dư 5,28 triệu tại snapshot |
+| SLA PLUS chi tiết về khôi phục và bồi hoàn | P1 phản hồi 1 giờ; mục tiêu khôi phục 8 giờ có điều kiện; 130.000 tín dụng cho 1 vi phạm phản hồi P1 được xác nhận/site, trần 650.000/tháng/site |
+| Phân bổ ngày công chi tiết firewall | 1 ngày khảo sát/thiết kế + 2 triển khai + 1 kiểm thử/bàn giao |
+| Lợi nhuận danh mục đã nghiệm thu là bao nhiêu? (admin) | Doanh thu trước thuế 255 triệu, giá vốn 125,15 triệu, lãi gộp 129,85 triệu; sau phân bổ quản lý 94,85 triệu trước thuế mô phỏng |
+
+Sổ thu tiền toàn bộ 10 khách trong snapshot: phát hành **347.820.000**, đã thu **179.190.000**, còn phải thu **168.630.000 VND**. Các đợt còn dư đều quá hạn tại ngày 05/09/2026 trong kịch bản này. Sale/kỹ thuật chỉ thấy nhóm khách được phân công. Sổ này chưa gồm thu định kỳ bảo trì, mua hàng nhà cung cấp, tồn quỹ, tài khoản ngân hàng hay sổ cái kế toán đầy đủ.
+
+Phí công trong QUOTE cũ và OFFER trọn bộ là hai phạm vi khác nhau; không tự cộng OFFER vào báo giá đã ký. Chứng từ thu không phải hóa đơn điện tử và không phát sinh giao dịch. P&L là danh mục 10 dự án đã nghiệm thu, không phải báo cáo toàn công ty. Các ngày là snapshot, không phải lịch nhân sự tự cập nhật.
+
+Nguồn dẫn xuất có `requires`: nếu tài liệu giá/thiết bị/báo giá gốc bị thu hồi hoặc hết hiệu lực, gói và hồ sơ phụ thuộc ngừng được tra cứu/tính. Bản lưu JSON/Markdown vẫn ở máy; quản trị có thể đọc tài liệu thu hồi để kiểm tra. Tổng dashboard cộng các chứng từ hiện được phép xem.
+
+### Vị trí dữ liệu và kiểm thử
+
+- `data/finance_documents.json`: toàn bộ 154 tài liệu và các trường số; `data/finance_documents/`: từng bản Markdown; `data/finance_manifest.json`: số lượng và quy ước.
+- `finance_data.py`: tái tạo bộ giả lập (sao lưu trước); giữ upload và trạng thái thu hồi của bản đã tạo. Nếu đổi dữ liệu công ty nền, cần rà soát và tái tạo bộ tài chính để giữ liên kết, không chỉ sửa một tổng tiền ở file JSON.
+- `finance_logic.py`: tính dự toán, TCO, tổng thu/nợ và định tuyến câu hỏi; `static/finance.js`: bảng điều khiển.
+- `test_finance.py`: đối soát từng chứng từ/phiếu thu, mốc 40/40/20, giá, thuế mô phỏng, TCO, ACL và thu hồi nguồn.
+- `check_finance_ui.py`: kiểm giao diện ở 390/768/1440px, 20 gói, 5/10 khách, giá vốn chỉ admin, tính 2 site và hỏi công nợ/SLA.
+- Bằng chứng: `artifacts/finance-report.json`, `14-finance-dashboard.png`, `15-finance-mobile.png`, `16-finance-admin.png`.

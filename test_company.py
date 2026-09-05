@@ -53,7 +53,8 @@ def test_packages_customer_and_acl():
     records=c.get('/api/operations').json()['records']
     assert all(r['customer'] in (None,'A','C','E','G','I') for r in records)
     assert not any(r['kind']=='Ticket' for r in records)
-    assert len(client('admin').get('/api/operations').json()['records'])==134
+    records=client('admin').get('/api/operations').json()['records']
+    assert sum(r['kind'] in ('Kho hàng','Khách hàng','Hợp đồng','Dự án','Báo giá','Nhân sự','Ticket') for r in records)==134
 
 def test_retirement_affects_catalog_calculations_and_operations():
     admin=client('admin');c=client('sale')

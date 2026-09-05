@@ -14,6 +14,7 @@ import io
 from functools import lru_cache
 from collections import Counter
 from business import respond as business_answer, context_query, has, service_matches
+from finance_logic import respond as finance_answer, dashboard as finance_dashboard, calculate as finance_calculate
 
 ROOT=Path(__file__).parent
 DATA=ROOT/'data'; DATA.mkdir(exist_ok=True)
@@ -51,6 +52,9 @@ def init():
         if (DATA/'security_documents.json').exists():
             for d in json.loads((DATA/'security_documents.json').read_text(encoding='utf8')):
                 c.execute('INSERT OR IGNORE INTO docs VALUES(?,?)',(d['id'],json.dumps(d,ensure_ascii=False)))
+        if (DATA/'finance_documents.json').exists():
+            for d in json.loads((DATA/'finance_documents.json').read_text(encoding='utf8')):
+                c.execute('INSERT OR IGNORE INTO docs VALUES(?,?)',(d['id'],json.dumps(d,ensure_ascii=False)))
 init()
 app=FastAPI(title='CyberAnt Local Demo',docs_url=None,redoc_url=None)
 app.mount('/static',StaticFiles(directory=ROOT/'static'),name='static')
@@ -81,6 +85,13 @@ def docs_for(u,pending=False):
         if u['role']!='admin' and (u['role'] not in d['roles'] or (d.get('customer') is not None and d['customer'] not in u.get('customers',[u['customer']]))): continue
         if not pending and (d['status']!='approved' or not d['valid_from']<=date.today().isoformat()<=d['valid_to']): continue
         result.append(d)
+    if not pending:
+        # Derived financial snapshots disappear if a required source is withdrawn.
+        while True:
+            ids={d['id'] for d in result}
+            kept=[d for d in result if all(id in ids for id in d.get('requires',[]))]
+            if len(kept)==len(result):break
+            result=kept
     return result
 @lru_cache(maxsize=3)
 def search_index(corpus):
@@ -133,6 +144,10 @@ class Estimate(BaseModel):
     readiness:bool
     complex:bool=False
 class Feedback(BaseModel): chat_id:int; rating:int=Field(ge=-1,le=1)
+class FinanceEstimate(BaseModel):
+    offer_id:str
+    sites:int=Field(default=1,ge=1,le=5)
+    discount_percent:int=Field(default=0,ge=0,le=20)
 @app.get('/')
 def index():return FileResponse(ROOT/'static'/'index.html')
 @app.post('/api/login')
@@ -179,6 +194,18 @@ def reset_chat(req:Request):
         last=c.execute('SELECT COALESCE(MAX(id),0) FROM chats WHERE session=?',(u['token'],)).fetchone()[0]
         c.execute('UPDATE sessions SET context_after=? WHERE token=?',(last,u['token']))
     return {'ok':True}
+
+@app.get('/api/finance')
+def finance(req:Request):
+    u=user(req);return {**finance_dashboard(docs_for(u)),'role':u['role'],'demo':True}
+
+@app.post('/api/finance/estimate')
+def financial_estimate(data:FinanceEstimate,req:Request):
+    u=user(req);allowed={d['id']:d for d in docs_for(u)};d=allowed.get(data.offer_id)
+    if not d or d['category']!='Gói trọn bộ' or 'FIN-RULES' not in allowed:raise HTTPException(404,'Gói hoặc quy tắc tính đã hết hiệu lực/không được phép xem.')
+    result=finance_calculate(d,data.sites,data.discount_percent)
+    audit('financial_estimate',u['role'],f'{d["id"]}; sites={data.sites}; discount={data.discount_percent}%')
+    return {**result,'demo':True,'source':source(d),'note':'VAT 10% là tham số mô phỏng. Chiết khấu chỉ trên công dịch vụ; đề xuất chưa được phê duyệt. Năm đầu/TCO chưa thuế.'}
 @app.post('/api/estimate')
 def estimate(data:Estimate,req:Request):
     u=user(req);items=[d['service'] for d in docs_for(u) if d.get('service')]
@@ -204,7 +231,7 @@ async def chat(data:Chat,req:Request):
     for d in docs_for(PROFILES['admin']):
         if d['id'] in allowed_ids:continue
         if has(effective,d['id']) or (d['id'].startswith('CRM-') and (has(effective,' '.join(d['fields']['name'].split()[:2])) or has(effective,'khach '+d['customer']) or has(effective,'khach hang '+d['customer']))):forbidden=True;break
-    structured=business_answer(effective,allowed) if not forbidden else ('Hồ sơ được hỏi nằm ngoài phạm vi tài khoản này. Mở Hồ sơ công ty để chọn dữ liệu được phân công, hoặc dùng tài khoản quản trị demo để kiểm thử toàn bộ.',[],True)
+    structured=(finance_answer(effective,allowed,u['role']) or business_answer(effective,allowed)) if not forbidden else ('Hồ sơ được hỏi nằm ngoài phạm vi tài khoản này. Mở Hồ sơ công ty để chọn dữ liệu được phân công, hoặc dùng tài khoản quản trị demo để kiểm thử toàn bộ.',[],True)
     found=[];answer=None;review=False;mode='Qwen3.5-9B + RAG'
     used=[]
     if structured:

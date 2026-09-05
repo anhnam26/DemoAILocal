@@ -43,7 +43,7 @@ with sync_playwright() as p:
 assert not errors,errors
 with httpx.Client(base_url='http://127.0.0.1:8088',trust_env=False) as c:
     c.post('/api/login',json={'profile':'admin'}).raise_for_status()
-    ops=c.get('/api/operations').json();assert len(ops['records'])==134
+    ops=c.get('/api/operations').json();assert sum(ops['counts'][k] for k in ('Kho hàng','Khách hàng','Hợp đồng','Dự án','Báo giá','Nhân sự','Ticket'))==134
     health=c.get('/api/health').json();assert health['ready']
 (out/'company-ui-report.json').write_text(json.dumps(dict(passed=True,checks=report,console_errors=errors,admin_counts=ops['counts'],health=health),ensure_ascii=False,indent=2),encoding='utf8')
 print('Company demo: 6 chat scenarios, follow-up table, mobile, operations search, source navigation, reset, ACL counts and GPU readiness passed.')
