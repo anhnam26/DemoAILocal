@@ -152,3 +152,22 @@ Trợ lý chỉ đọc hồ sơ và soạn dự toán. Nút hỏi không tạo t
 Muốn tái tạo bộ dữ liệu mẫu: chạy `Backup-Data.py` trước, sau đó `.venv-runtime\Scripts\python.exe company_data.py`. Lệnh này cập nhật tài liệu mẫu theo ID; giữ tài liệu upload và trạng thái thu hồi của bản mẫu đã mở rộng. Không chạy nếu đã thay nội dung mẫu bằng dữ liệu thật mà chưa sao lưu. Khởi động lại app bằng `Restart-App.ps1` để giữ model đang nạp trên GPU.
 
 Kiểm tra bổ sung: `python -m pytest test_app.py test_company.py -q` và `python check_company_ui.py` bằng Python trong `.venv-runtime`. Báo cáo/screenshot trong `artifacts/company-ui-report.json`, `06-company-comparison.png` đến `09-company-tickets.png`.
+
+
+## Giao diện dễ đọc và tri thức ATTT — cập nhật 05/09/2026
+
+- Cỡ chữ trả lời mặc định **18px**, nút **A− / A+** chọn 16–22px và lưu tùy chọn trên trình duyệt.
+- Câu trả lời mới được yêu cầu chia thành 2–4 mục, gạch đầu dòng/checklist. Bộ hiển thị hỗ trợ tiêu đề, danh sách đánh số, bảng và code; không thực thi HTML do model sinh.
+- Mỗi câu trả lời có **Sao chép**, **Lưu .md**, **Thu gọn / Mở câu trả lời**. Lưu chỉ tải nội dung về máy, không gửi đi.
+- Kho tri thức có bộ lọc chủ đề. Tài liệu ATTT có liên kết nguồn chính thức và ngày kiểm nguồn trong cửa sổ đọc; đọc nội dung local không cần Internet, mở website tham khảo cần Internet.
+- Thêm **48 tài liệu / 24 chủ đề** từ `security_data.py`, đưa tổng bộ mặc định lên **299 tài liệu**: 251 hồ sơ/tài liệu công ty + 48 tài liệu ATTT. Sale thấy 24 bản kiến thức và tư vấn; kỹ thuật/admin có thêm 24 bài tập lab.
+- Chủ đề: NIST CSF 2.0, rủi ro, MFA, IAM, PAM, Zero Trust, phân đoạn mạng, ransomware, backup an toàn, ứng cứu, chứng cứ, phishing/BEC, KEV, bản vá, SOC/SIEM/EDR, detection, logging, OWASP web/API, secret, container, AI RAG, nhà cung cấp và tabletop.
+- Nguồn nền tảng: NIST, CISA, OWASP và MITRE. Nội dung là diễn giải tiếng Việt do demo biên soạn; câu hỏi khảo sát, checklist và bài tập là đề xuất của demo, không phải bản dịch tiêu chuẩn hay quy trình được hãng chứng nhận. Metadata `references`, `reviewed_at`, `knowledge_type` phân biệt với hồ sơ công ty giả lập.
+- Dữ liệu ở `data/security_documents.json`, bản Markdown trong `data/security_documents/`, danh sách nguồn trong `data/security_manifest.json`. Chạy `security_data.py` để nạp lại riêng bộ ATTT sau sao lưu; không ghi đè upload hoặc trạng thái thu hồi. Bộ này không chứa threat feed/CVE realtime, không tự cập nhật tiêu chuẩn hoặc thông số thiết bị.
+- Tài liệu ngắn được giữ nguyên khi truy xuất để không mất checklist. Chỉ mục TF-IDF vẫn giới hạn 3 cache, context GPU 4096 và một model như trước.
+
+Thử: **“MFA chống phishing là gì?”**, **“Zero Trust có phải chỉ mua một thiết bị?”**, **“Ưu tiên lỗ hổng theo KEV thế nào?”**; vai trò kỹ thuật hỏi **“Checklist ứng cứu khi nghi nhiễm ransomware gồm những gì?”**. Mở nguồn để đọc hướng dẫn đầy đủ; chat chỉ tổng hợp trong giới hạn token.
+
+Kiểm trích dẫn chỉ kiểm mã tài liệu thuộc nguồn được phép, không chứng minh mọi nhận định đúng. Nếu model khai báo nguồn trong JSON nhưng không gắn vào từng ý, ứng dụng hiển thị mục **Nguồn model sử dụng** để người đọc đối chiếu; không tự gắn một nguồn vào một nhận định cụ thể. Nguồn không hợp lệ vẫn chuyển sang trích đoạn tài liệu.
+
+Kiểm tra bổ sung: `test_security.py` kiểm quyền, nguồn, thu hồi và độ liên quan của truy xuất; `check_readability.py` kiểm câu trả lời ATTT trên GPU, tiêu đề/danh sách, cỡ chữ/lưu lựa chọn, clipboard, tải Markdown, thu gọn, bộ lọc, liên kết nguồn và màn hình 390/768/1440px. Báo cáo tại `artifacts/readability-report.json`.

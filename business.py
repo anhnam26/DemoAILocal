@@ -32,8 +32,13 @@ def respond(q,docs):
     n=norm(q);byid={d['id']:d for d in docs};matched=service_matches(q,docs)
     direct=[d for d in docs if has(q,d['id'])]
     def excerpts(items,lead='Thông tin DEMO từ hồ sơ đang được phép xem:'):
-        return lead+'\n\n'+'\n\n'.join(d['body']+' ['+d['id']+']' for d in items),items,True
-    if direct:return excerpts(direct[:4])
+        sections=[]
+        for i,d in enumerate(items):
+            if d['body'].startswith('## '):sections.append(d['body']+'\n\n['+d['id']+']');continue
+            parts=re.split(r'(?<=[.!?])\s+(?=[A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯẠ-Ỹ])',d['body'])
+            sections.append(f'## {i+1}. {d["title"]}\n'+'\n'.join('- '+p for p in parts)+'\n\n['+d['id']+']')
+        return lead+'\n\n'+'\n\n'.join(sections),items,True
+    if direct:return excerpts(direct[:4],'Thông tin từ tài liệu tham khảo và bài tập biên soạn:' if any(d.get('knowledge_type') for d in direct) else 'Thông tin DEMO từ hồ sơ đang được phép xem:')
     # An actual approval requires a workflow, never a chat keyword.
     if any(has(n,t) for t in ('duyet','cam ket','chot gia','chot lich','gui bao gia')) and not any(has(n,t) for t in ('quy trinh','ai duyet','can ai','cap duyet','chinh sach')):
         items=matched[:2]+[byid[k] for k in ('BIZ-DISCOUNT','BIZ-CHANGE') if k in byid]
@@ -88,7 +93,7 @@ def respond(q,docs):
             for d in matched:
                 s=d['service'];rows.append([s['name'],money(s['price']*sites),s['days']*sites,f"{s['delivery_min']}–{s['delivery_max']} ngày làm việc"])
                 if len(matched)<=3:details.append(f"{s['name']}: {s['scope']}. Điều kiện: {s['conditions']}. [{d['id']}]")
-            answer=table(rows)+'\n\n'+'\n\n'.join(details)+'\n\nGiá tham khảo giả lập, chưa VAT, thiết bị và license. Ngày công khác ngày lịch; nhiều site cần PM xếp lịch. Khung trên chưa gồm thời gian chờ thiết bị, quyền truy cập và duyệt change.'
+            answer='## 1. Giá và thời gian tham khảo\n\n'+table(rows)+'\n\n## 2. Phạm vi áp dụng\n\n'+'\n\n'.join('- '+x for x in details)+'\n\n## 3. Điều kiện cần nhớ\n- Giá tham khảo giả lập, chưa VAT, thiết bị và license.\n- Ngày công khác ngày lịch; nhiều site cần PM xếp lịch.\n- Khung trên chưa gồm thời gian chờ thiết bị, quyền truy cập và duyệt change.'
             if any(has(n,t) for t in ('ha','chua co thiet bi','phuc tap')):answer+=' Nhu cầu có ngoại lệ: số trên chỉ là gói chuẩn để so sánh; chưa phải dự toán áp dụng cho cấu hình riêng này.'
             return answer+'\n'+' '.join('['+d['id']+']' for d in matched),matched,True
     return None
