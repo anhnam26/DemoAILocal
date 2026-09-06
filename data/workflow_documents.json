@@ -1,0 +1,1040 @@
+[
+  {
+    "id": "INPUT-FIREWALL",
+    "title": "Triển khai firewall / VPN — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: firewall\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 01 site, 01 firewall, tối đa 10 VLAN và 02 tunnel VPN\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Backup cấu hình; sơ đồ; bảng policy; UAT Internet/VPN; hướng dẫn vận hành\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "firewall",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "01 site, 01 firewall, tối đa 10 VLAN và 02 tunnel VPN",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Backup cấu hình; sơ đồ; bảng policy; UAT Internet/VPN; hướng dẫn vận hành",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-FIREWALL"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-WIFI",
+    "title": "Khảo sát và cấu hình Wi-Fi — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: wifi\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 01 site, tối đa 05 AP\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Sơ đồ AP; báo cáo vùng phủ; cấu hình; UAT roaming\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "wifi",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "01 site, tối đa 05 AP",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Sơ đồ AP; báo cáo vùng phủ; cấu hình; UAT roaming",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-WIFI"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-BACKUP",
+    "title": "Backup và diễn tập restore — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: backup\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 01 hệ thống nguồn, tối đa 02TB, 01 kho backup\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Chính sách backup; báo cáo restore; runbook RPO/RTO\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "backup",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "01 hệ thống nguồn, tối đa 02TB, 01 kho backup",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Chính sách backup; báo cáo restore; runbook RPO/RTO",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-BACKUP"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-WAF",
+    "title": "Triển khai WAF cơ bản — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: waf\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 01 ứng dụng web, 01 tên miền, tối đa 10 API chính\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Sơ đồ luồng; chính sách; kết quả test; danh sách ngoại lệ\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "waf",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "01 ứng dụng web, 01 tên miền, tối đa 10 API chính",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Sơ đồ luồng; chính sách; kết quả test; danh sách ngoại lệ",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-WAF"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-SWITCH",
+    "title": "Triển khai switch và VLAN — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: switch\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 01 site, tối đa 03 switch, 10 VLAN\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Topology; port map; bảng VLAN; backup cấu hình\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "switch",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "01 site, tối đa 03 switch, 10 VLAN",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Topology; port map; bảng VLAN; backup cấu hình",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-SWITCH"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-SERVER",
+    "title": "Máy chủ và ảo hóa — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: server\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 02 host, tối đa 08 máy ảo\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Danh mục VM; cấu hình network/storage; checklist backup\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "server",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "02 host, tối đa 08 máy ảo",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Danh mục VM; cấu hình network/storage; checklist backup",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-SERVER"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-ENDPOINT",
+    "title": "Triển khai bảo vệ endpoint — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: endpoint\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: Tối đa 50 máy Windows trong 01 tenant\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Danh sách agent; policy; hướng dẫn xử lý cảnh báo\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "endpoint",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "Tối đa 50 máy Windows trong 01 tenant",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Danh sách agent; policy; hướng dẫn xử lý cảnh báo",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-ENDPOINT"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-PAM",
+    "title": "Triển khai PAM khởi đầu — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: pam\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 10 quản trị viên, 20 tài sản\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Ma trận quyền; workflow; biên bản kiểm truy vết\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "pam",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "10 quản trị viên, 20 tài sản",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Ma trận quyền; workflow; biên bản kiểm truy vết",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-PAM"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-SIEM",
+    "title": "Tích hợp SIEM cơ bản — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: siem\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 10 nguồn log, 05 use case\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Sơ đồ log; danh mục use case; SOP phân loại cảnh báo\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "siem",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "10 nguồn log, 05 use case",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Sơ đồ log; danh mục use case; SOP phân loại cảnh báo",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-SIEM"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-AUDIT",
+    "title": "Khảo sát và thiết kế hạ tầng — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: audit\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 01 site, tối đa 20 thiết bị\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Báo cáo hiện trạng; HLD; roadmap ưu tiên\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "audit",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "01 site, tối đa 20 thiết bị",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Báo cáo hiện trạng; HLD; roadmap ưu tiên",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-AUDIT"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-TRAINING",
+    "title": "Đào tạo và chuyển giao vận hành — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: training\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 02 buổi, tối đa 10 học viên\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Slide; bài lab; checklist vận hành; đánh giá\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "training",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "02 buổi, tối đa 10 học viên",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Slide; bài lab; checklist vận hành; đánh giá",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-TRAINING"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-MIGRATION",
+    "title": "Di chuyển firewall có kiểm soát — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: migration\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 01 site, tối đa 150 policy và 04 VPN\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Mapping policy; kế hoạch cutover; UAT; cấu hình hoàn công\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "migration",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "01 site, tối đa 150 policy và 04 VPN",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Mapping policy; kế hoạch cutover; UAT; cấu hình hoàn công",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-MIGRATION"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "RATE-MFA",
+    "title": "Triển khai MFA — định mức công dịch vụ",
+    "category": "Bảng giá",
+    "body": "Gói DEMO Triển khai MFA: phí công 10,000,000 VND, 4 ngày công; lịch 1 site/gói 4–6 ngày làm việc. Phạm vi 50 người dùng, 2 ứng dụng SaaS, 1 tenant. Điều kiện Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt. Không gồm thiết bị/license/duy trì và VAT; OFFER là gói có phạm vi tài chính riêng.",
+    "service": {
+      "id": "mfa",
+      "name": "Triển khai MFA",
+      "price": 10000000,
+      "days": 4,
+      "scope": "50 người dùng, 2 ứng dụng SaaS, 1 tenant",
+      "aliases": [
+        "mfa",
+        "xác thực đa yếu tố"
+      ],
+      "conditions": "Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt",
+      "outputs": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "exclusions": "Không gồm license, thiết bị, phí duy trì hoặc kiểm thử ngoài phạm vi đã được cấp quyền",
+      "delivery_min": 4,
+      "delivery_max": 6,
+      "valid_from": "2026-01-01",
+      "valid_to": "2027-12-31",
+      "source_id": "RATE-MFA"
+    },
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-MFA",
+    "title": "Triển khai MFA — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: mfa\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 50 người dùng, 2 ứng dụng SaaS, 1 tenant\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "mfa",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "50 người dùng, 2 ứng dụng SaaS, 1 tenant",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-MFA"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "RATE-ZTNA",
+    "title": "Pilot Zero Trust / ZTNA — định mức công dịch vụ",
+    "category": "Bảng giá",
+    "body": "Gói DEMO Pilot Zero Trust / ZTNA: phí công 28,000,000 VND, 10 ngày công; lịch 1 site/gói 10–12 ngày làm việc. Phạm vi 1 ứng dụng nội bộ, 30 người dùng, 1 IdP. Điều kiện Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt. Không gồm thiết bị/license/duy trì và VAT; OFFER là gói có phạm vi tài chính riêng.",
+    "service": {
+      "id": "ztna",
+      "name": "Pilot Zero Trust / ZTNA",
+      "price": 28000000,
+      "days": 10,
+      "scope": "1 ứng dụng nội bộ, 30 người dùng, 1 IdP",
+      "aliases": [
+        "zero trust",
+        "ztna"
+      ],
+      "conditions": "Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt",
+      "outputs": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "exclusions": "Không gồm license, thiết bị, phí duy trì hoặc kiểm thử ngoài phạm vi đã được cấp quyền",
+      "delivery_min": 10,
+      "delivery_max": 12,
+      "valid_from": "2026-01-01",
+      "valid_to": "2027-12-31",
+      "source_id": "RATE-ZTNA"
+    },
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-ZTNA",
+    "title": "Pilot Zero Trust / ZTNA — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: ztna\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 1 ứng dụng nội bộ, 30 người dùng, 1 IdP\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "ztna",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "1 ứng dụng nội bộ, 30 người dùng, 1 IdP",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-ZTNA"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "RATE-VULN",
+    "title": "Đánh giá lỗ hổng — định mức công dịch vụ",
+    "category": "Bảng giá",
+    "body": "Gói DEMO Đánh giá lỗ hổng: phí công 12,000,000 VND, 4 ngày công; lịch 1 site/gói 4–6 ngày làm việc. Phạm vi 20 tài sản, quét được cấp quyền, 1 lần kiểm lại. Điều kiện Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt. Không gồm thiết bị/license/duy trì và VAT; OFFER là gói có phạm vi tài chính riêng.",
+    "service": {
+      "id": "vuln",
+      "name": "Đánh giá lỗ hổng",
+      "price": 12000000,
+      "days": 4,
+      "scope": "20 tài sản, quét được cấp quyền, 1 lần kiểm lại",
+      "aliases": [
+        "lỗ hổng",
+        "vulnerability",
+        "quét"
+      ],
+      "conditions": "Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt",
+      "outputs": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "exclusions": "Không gồm license, thiết bị, phí duy trì hoặc kiểm thử ngoài phạm vi đã được cấp quyền",
+      "delivery_min": 4,
+      "delivery_max": 6,
+      "valid_from": "2026-01-01",
+      "valid_to": "2027-12-31",
+      "source_id": "RATE-VULN"
+    },
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-VULN",
+    "title": "Đánh giá lỗ hổng — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: vuln\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 20 tài sản, quét được cấp quyền, 1 lần kiểm lại\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "vuln",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "20 tài sản, quét được cấp quyền, 1 lần kiểm lại",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-VULN"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "RATE-PENTEST",
+    "title": "Kiểm thử bảo mật web — định mức công dịch vụ",
+    "category": "Bảng giá",
+    "body": "Gói DEMO Kiểm thử bảo mật web: phí công 30,000,000 VND, 10 ngày công; lịch 1 site/gói 10–12 ngày làm việc. Phạm vi 1 web, 10 luồng nghiệp vụ, 3 vai trò test, 1 retest. Điều kiện Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt. Không gồm thiết bị/license/duy trì và VAT; OFFER là gói có phạm vi tài chính riêng.",
+    "service": {
+      "id": "pentest",
+      "name": "Kiểm thử bảo mật web",
+      "price": 30000000,
+      "days": 10,
+      "scope": "1 web, 10 luồng nghiệp vụ, 3 vai trò test, 1 retest",
+      "aliases": [
+        "pentest",
+        "kiểm thử bảo mật"
+      ],
+      "conditions": "Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt",
+      "outputs": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "exclusions": "Không gồm license, thiết bị, phí duy trì hoặc kiểm thử ngoài phạm vi đã được cấp quyền",
+      "delivery_min": 10,
+      "delivery_max": 12,
+      "valid_from": "2026-01-01",
+      "valid_to": "2027-12-31",
+      "source_id": "RATE-PENTEST"
+    },
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-PENTEST",
+    "title": "Kiểm thử bảo mật web — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: pentest\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 1 web, 10 luồng nghiệp vụ, 3 vai trò test, 1 retest\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "pentest",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "1 web, 10 luồng nghiệp vụ, 3 vai trò test, 1 retest",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-PENTEST"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "RATE-SOC",
+    "title": "Khởi tạo giám sát SOC — định mức công dịch vụ",
+    "category": "Bảng giá",
+    "body": "Gói DEMO Khởi tạo giám sát SOC: phí công 48,000,000 VND, 12 ngày công; lịch 1 site/gói 12–14 ngày làm việc. Phạm vi 10 nguồn log, 5 use case, không gồm license SIEM. Điều kiện Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt. Không gồm thiết bị/license/duy trì và VAT; OFFER là gói có phạm vi tài chính riêng.",
+    "service": {
+      "id": "soc",
+      "name": "Khởi tạo giám sát SOC",
+      "price": 48000000,
+      "days": 12,
+      "scope": "10 nguồn log, 5 use case, không gồm license SIEM",
+      "aliases": [
+        "soc",
+        "giám sát an ninh"
+      ],
+      "conditions": "Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt",
+      "outputs": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "exclusions": "Không gồm license, thiết bị, phí duy trì hoặc kiểm thử ngoài phạm vi đã được cấp quyền",
+      "delivery_min": 12,
+      "delivery_max": 14,
+      "valid_from": "2026-01-01",
+      "valid_to": "2027-12-31",
+      "source_id": "RATE-SOC"
+    },
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-SOC",
+    "title": "Khởi tạo giám sát SOC — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: soc\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 10 nguồn log, 5 use case, không gồm license SIEM\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "soc",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "10 nguồn log, 5 use case, không gồm license SIEM",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-SOC"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "RATE-IR",
+    "title": "Retainer ứng cứu sự cố — định mức công dịch vụ",
+    "category": "Bảng giá",
+    "body": "Gói DEMO Retainer ứng cứu sự cố: phí công 6,000,000 VND, 2 ngày công; lịch 1 site/gói 2–4 ngày làm việc. Phạm vi Khởi tạo đầu mối và diễn tập bàn; tối đa 8 giờ công hỗ trợ/tháng. Điều kiện Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt. Không gồm thiết bị/license/duy trì và VAT; OFFER là gói có phạm vi tài chính riêng.",
+    "service": {
+      "id": "ir",
+      "name": "Retainer ứng cứu sự cố",
+      "price": 6000000,
+      "days": 2,
+      "scope": "Khởi tạo đầu mối và diễn tập bàn; tối đa 8 giờ công hỗ trợ/tháng",
+      "aliases": [
+        "retainer",
+        "ứng cứu sự cố"
+      ],
+      "conditions": "Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt",
+      "outputs": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "exclusions": "Không gồm license, thiết bị, phí duy trì hoặc kiểm thử ngoài phạm vi đã được cấp quyền",
+      "delivery_min": 2,
+      "delivery_max": 4,
+      "valid_from": "2026-01-01",
+      "valid_to": "2027-12-31",
+      "source_id": "RATE-IR"
+    },
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-IR",
+    "title": "Retainer ứng cứu sự cố — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: ir\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: Khởi tạo đầu mối và diễn tập bàn; tối đa 8 giờ công hỗ trợ/tháng\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "ir",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "Khởi tạo đầu mối và diễn tập bàn; tối đa 8 giờ công hỗ trợ/tháng",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-IR"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "RATE-DLP",
+    "title": "Pilot DLP bảo vệ dữ liệu — định mức công dịch vụ",
+    "category": "Bảng giá",
+    "body": "Gói DEMO Pilot DLP bảo vệ dữ liệu: phí công 25,000,000 VND, 8 ngày công; lịch 1 site/gói 8–10 ngày làm việc. Phạm vi 50 endpoint, 3 nhóm dữ liệu, 1 tenant. Điều kiện Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt. Không gồm thiết bị/license/duy trì và VAT; OFFER là gói có phạm vi tài chính riêng.",
+    "service": {
+      "id": "dlp",
+      "name": "Pilot DLP bảo vệ dữ liệu",
+      "price": 25000000,
+      "days": 8,
+      "scope": "50 endpoint, 3 nhóm dữ liệu, 1 tenant",
+      "aliases": [
+        "dlp",
+        "chống thất thoát"
+      ],
+      "conditions": "Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt",
+      "outputs": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "exclusions": "Không gồm license, thiết bị, phí duy trì hoặc kiểm thử ngoài phạm vi đã được cấp quyền",
+      "delivery_min": 8,
+      "delivery_max": 10,
+      "valid_from": "2026-01-01",
+      "valid_to": "2027-12-31",
+      "source_id": "RATE-DLP"
+    },
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-DLP",
+    "title": "Pilot DLP bảo vệ dữ liệu — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: dlp\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 50 endpoint, 3 nhóm dữ liệu, 1 tenant\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "dlp",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "50 endpoint, 3 nhóm dữ liệu, 1 tenant",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-DLP"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "RATE-AWARENESS",
+    "title": "Đào tạo nhận thức ATTT — định mức công dịch vụ",
+    "category": "Bảng giá",
+    "body": "Gói DEMO Đào tạo nhận thức ATTT: phí công 6,000,000 VND, 2 ngày công; lịch 1 site/gói 2–4 ngày làm việc. Phạm vi 20 học viên, 2 buổi, bài kiểm tra và báo cáo. Điều kiện Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt. Không gồm thiết bị/license/duy trì và VAT; OFFER là gói có phạm vi tài chính riêng.",
+    "service": {
+      "id": "awareness",
+      "name": "Đào tạo nhận thức ATTT",
+      "price": 6000000,
+      "days": 2,
+      "scope": "20 học viên, 2 buổi, bài kiểm tra và báo cáo",
+      "aliases": [
+        "nhận thức",
+        "awareness",
+        "phishing"
+      ],
+      "conditions": "Có scope, quyền kiểm thử, đầu mối, dữ liệu lab và change được duyệt",
+      "outputs": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "exclusions": "Không gồm license, thiết bị, phí duy trì hoặc kiểm thử ngoài phạm vi đã được cấp quyền",
+      "delivery_min": 2,
+      "delivery_max": 4,
+      "valid_from": "2026-01-01",
+      "valid_to": "2027-12-31",
+      "source_id": "RATE-AWARENESS"
+    },
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  },
+  {
+    "id": "INPUT-AWARENESS",
+    "title": "Đào tạo nhận thức ATTT — đầu vào dự toán đầy đủ",
+    "category": "Đầu vào dự toán",
+    "body": "## Hồ sơ đầu vào DEMO\n- service_id: awareness\n- sites: 1\n- readiness: True\n- complex: False\n- customer_id: A\n- requested_start: 2026-09-14\n- engineers: 1\n- scope: 20 học viên, 2 buổi, bài kiểm tra và báo cáo\n- equipment: Thiết bị hoặc môi trường lab theo scope đã sẵn sàng\n- license: License lab hợp lệ và đủ phạm vi\n- access: Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI\n- window: Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM\n- acceptance: Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo\n- notes: Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật.",
+    "estimate_template": {
+      "service_id": "awareness",
+      "sites": 1,
+      "readiness": true,
+      "complex": false,
+      "customer_id": "A",
+      "requested_start": "2026-09-14",
+      "engineers": 1,
+      "scope": "20 học viên, 2 buổi, bài kiểm tra và báo cáo",
+      "equipment": "Thiết bị hoặc môi trường lab theo scope đã sẵn sàng",
+      "license": "License lab hợp lệ và đủ phạm vi",
+      "access": "Có tài khoản triển khai được cấp quyền; không nhập mật khẩu vào AI",
+      "window": "Thứ Hai–thứ Sáu 08:30–17:30; change window theo PM",
+      "acceptance": "Hồ sơ phạm vi, báo cáo kiểm thử/pilot, hướng dẫn và danh sách việc tiếp theo",
+      "notes": "Dữ liệu giả lập đầy đủ để test dự toán; lịch chưa giữ chỗ, không phải lịch thật."
+    },
+    "requires": [
+      "RATE-AWARENESS"
+    ],
+    "roles": [
+      "sale",
+      "technical",
+      "admin"
+    ],
+    "customer": null,
+    "version": "workflow-1.0",
+    "status": "approved",
+    "valid_from": "2026-01-01",
+    "valid_to": "2027-12-31",
+    "owner": "PM giả lập",
+    "synthetic": true
+  }
+]

@@ -11,6 +11,10 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel,Field
 from pypdf import PdfReader
 import io
+import accounts
+import system_runtime
+import workflows
+import admin_system
 from functools import lru_cache
 from collections import Counter
 from business import respond as business_answer, context_query, has, service_matches
@@ -47,6 +51,8 @@ def init():
         CREATE TABLE IF NOT EXISTS feedback(id INTEGER PRIMARY KEY,chat_id INTEGER,session TEXT,rating INTEGER,ts TEXT);''')
         if 'context_after' not in {r[1] for r in c.execute('PRAGMA table_info(sessions)')}:
             c.execute('ALTER TABLE sessions ADD COLUMN context_after INTEGER DEFAULT 0')
+        if 'user_id' not in {r[1] for r in c.execute('PRAGMA table_info(chats)')}:
+            c.execute('ALTER TABLE chats ADD COLUMN user_id TEXT')
         for d in json.loads((DATA/'demo_documents.json').read_text(encoding='utf8')):
             c.execute('INSERT OR IGNORE INTO docs VALUES(?,?)',(d['id'],json.dumps(d,ensure_ascii=False)))
         if (DATA/'security_documents.json').exists():
@@ -54,6 +60,12 @@ def init():
                 c.execute('INSERT OR IGNORE INTO docs VALUES(?,?)',(d['id'],json.dumps(d,ensure_ascii=False)))
         if (DATA/'finance_documents.json').exists():
             for d in json.loads((DATA/'finance_documents.json').read_text(encoding='utf8')):
+                c.execute('INSERT OR IGNORE INTO docs VALUES(?,?)',(d['id'],json.dumps(d,ensure_ascii=False)))
+    accounts.init(connect)
+    workflows.init(connect)
+    if (DATA/'workflow_documents.json').exists():
+        with connect() as c:
+            for d in json.loads((DATA/'workflow_documents.json').read_text(encoding='utf8')):
                 c.execute('INSERT OR IGNORE INTO docs VALUES(?,?)',(d['id'],json.dumps(d,ensure_ascii=False)))
 init()
 app=FastAPI(title='CyberAnt Local Demo',docs_url=None,redoc_url=None)
@@ -73,10 +85,8 @@ async def local_guard(request,call_next):
     return res
 
 def user(req):
-    token=req.cookies.get('cyberant_session','')
-    with connect() as c: row=c.execute('SELECT * FROM sessions WHERE token=?',(token,)).fetchone()
-    if not row or time.time()-row['created']>43200: raise HTTPException(401,'Hãy chọn tài khoản demo để đăng nhập.')
-    return {**PROFILES[row['profile']],'token':token,'context_after':row['context_after'] or 0}
+    return accounts.current(req,connect)
+
 def docs_for(u,pending=False):
     with connect() as c: rows=c.execute('SELECT payload FROM docs').fetchall()
     result=[]
@@ -136,7 +146,6 @@ def retrieve(q,u):
     threshold=max(.075,float(scores.max())*.30)
     return [{**docs[i],'score':round(float(scores[i]),3)} for i in order if scores[i]>threshold]
 def source(d):return {**{k:d[k] for k in ('id','title','category','version','owner','valid_to')},'references':d.get('references',[]),'knowledge_type':d.get('knowledge_type','company_demo')}
-class Login(BaseModel): profile:str
 class Chat(BaseModel): question:str=Field(min_length=2,max_length=1500)
 class Estimate(BaseModel):
     service_id:str
@@ -150,20 +159,8 @@ class FinanceEstimate(BaseModel):
     discount_percent:int=Field(default=0,ge=0,le=20)
 @app.get('/')
 def index():return FileResponse(ROOT/'static'/'index.html')
-@app.post('/api/login')
-def login(data:Login,response:Response):
-    if data.profile not in PROFILES:raise HTTPException(400,'Tài khoản không hợp lệ')
-    token=secrets.token_urlsafe(32)
-    with connect() as c:c.execute('INSERT INTO sessions(token,profile,created) VALUES(?,?,?)',(token,data.profile,time.time()))
-    response.set_cookie('cyberant_session',token,httponly=True,samesite='strict',max_age=43200)
-    audit('login',data.profile,'Đăng nhập tài khoản giả lập')
-    return PROFILES[data.profile]
-@app.post('/api/logout')
-def logout(req:Request,res:Response):
-    with connect() as c:c.execute('DELETE FROM sessions WHERE token=?',(req.cookies.get('cyberant_session',''),))
-    res.delete_cookie('cyberant_session');return {'ok':True}
 @app.get('/api/me')
-def me(req:Request):u=user(req);return {k:v for k,v in u.items() if k not in ('token','context_after')}
+def me(req:Request):u=user(req);return {k:v for k,v in u.items() if k not in ('token','context_after','sid')}
 @app.get('/api/health')
 async def health():
     ready=False
@@ -171,7 +168,8 @@ async def health():
         async with httpx.AsyncClient(timeout=2,trust_env=False) as c:
             r=await c.get(MODEL_URL+'/v1/models',headers=model_headers());ready=r.status_code==200 and any(m.get('id')==MODEL_ID for m in r.json().get('data',[]))
     except httpx.HTTPError:pass
-    return dict(model=MODEL_ID,ready=ready,backend='llama.cpp • Vulkan GPU',context=4096,parallel=1,retrieval='Từ khóa + vector TF-IDF (CPU, local)',demo=True)
+    observed=system_runtime.observed_config()
+    return dict(model=MODEL_ID,ready=ready,backend='llama.cpp • Vulkan GPU',context=observed.get('context') if observed else None,parallel=observed.get('parallel') if observed else None,retrieval='Từ khóa + vector TF-IDF (CPU, local)',demo=True)
 @app.get('/api/documents')
 def documents(req:Request):return [source(d) for d in docs_for(user(req))]
 @app.get('/api/documents/{id}')
@@ -240,6 +238,17 @@ async def chat(data:Chat,req:Request):
     if not answer and not found:
         answer='Kho tri thức được phép truy cập chưa có đủ căn cứ cho câu hỏi này. Hãy bổ sung tên dịch vụ, thiết bị/phiên bản hoặc chuyển chuyên gia phụ trách.';review=True;mode='Thiếu căn cứ'
     elif not answer:
+        runtime_config=system_runtime.config()
+        observed=system_runtime.observed_config() or {}
+        actual_context=observed.get('context') or runtime_config['context']
+        # Reserve room for instructions and output; avoid sending full long sources to a small context.
+        source_budget=max(900,(actual_context-runtime_config['max_tokens']-1100)*2)
+        limited=[]
+        for d in found:
+            if source_budget<180:break
+            body=d['body'][:min(1500,source_budget)]
+            limited.append({**d,'body':body});source_budget-=len(body)+len(d['title'])+40
+        found=limited
         context='\n\n'.join(f"[{d['id']}] {d['title']}\n{d['body']}" for d in found)
         system='''Bạn là trợ lý NỘI BỘ CyberAnt DEMO. Trả lời tiếng Việt dễ hiểu, tối đa 300 từ.
 Trình bày theo 2–4 mục có tiêu đề Markdown dạng "## 1. ...". Dưới mỗi mục dùng gạch đầu dòng, mỗi ý một dòng; quy trình dùng danh sách đánh số. Mở đầu trả lời đúng trọng tâm; giải thích từ viết tắt khi cần. Không viết một đoạn dài nhiều ý. Chọn tiêu đề phù hợp câu hỏi: Kết luận, Các bước, Điều kiện hoặc Việc tiếp theo. Không thêm mục rỗng. Bảng chỉ dùng khi so sánh.
@@ -254,7 +263,7 @@ Trả JSON đúng schema: answer (chuỗi có trích dẫn), used_sources (mản
         except TimeoutError:raise HTTPException(429,'GPU đang bận. Vui lòng thử lại sau khi lượt hiện tại hoàn tất.')
         try:
             async with httpx.AsyncClient(timeout=180,trust_env=False) as client:
-                r=await client.post(MODEL_URL+'/v1/chat/completions',headers=model_headers(),json={'model':MODEL_ID,'messages':[{'role':'system','content':system},{'role':'user','content':f'NGUỒN ĐƯỢC PHÉP:\n{context}\n\nCÂU HỎI: {effective}'}],'temperature':.2,'max_tokens':800,'chat_template_kwargs':{'enable_thinking':False},'response_format':{'type':'json_schema','json_schema':{'name':'grounded_answer','strict':True,'schema':schema}}})
+                r=await client.post(MODEL_URL+'/v1/chat/completions',headers=model_headers(),json={'model':MODEL_ID,'messages':[{'role':'system','content':system},{'role':'user','content':f'NGUỒN ĐƯỢC PHÉP:\n{context}\n\nCÂU HỎI: {effective}'}],'temperature':runtime_config['temperature'],'max_tokens':min(runtime_config['max_tokens'],max(256,actual_context//4)),'chat_template_kwargs':{'enable_thinking':False},'response_format':{'type':'json_schema','json_schema':{'name':'grounded_answer','strict':True,'schema':schema}}})
                 r.raise_for_status();payload=r.json();raw=payload['choices'][0]['message']['content']
                 result=json.loads(re.sub(r'<think>.*?</think>','',raw,flags=re.S).strip())
                 ids=set(d['id'] for d in found);used=[x for x in result['used_sources'] if x in ids]
@@ -272,10 +281,13 @@ Trả JSON đúng schema: answer (chuỗi có trích dẫn), used_sources (mản
             audit('model_error',u['role'],type(e).__name__)
             raise HTTPException(503,'Model local chưa sẵn sàng hoặc phản hồi chưa hợp lệ. Kiểm tra tab Hệ thống và chạy Start-Demo.ps1; không có chuyển tiếp lên cloud.')
         finally:LOCK.release()
-    source_docs={d['id']:d for d in found if d['id'] in used} if used else {d['id']:d for d in found[:2]}
+    # Recheck a session and its sources after a potentially long model call.
+    fresh=user(req);fresh_ids={d['id'] for d in docs_for(fresh)}
+    if any(id not in fresh_ids for id in used):raise HTTPException(409,'Quyền hoặc nguồn đã thay đổi trong lúc xử lý; hãy hỏi lại.')
+    source_docs={d['id']:d for d in found if d['id'] in used} if used else {d['id']:d for d in found[:2] if d['id'] in fresh_ids}
     out={'answer':answer,'sources':[source(d) for d in source_docs.values()],'needs_review':review,'mode':mode,'elapsed':round(time.monotonic()-start,2),'demo':True,'citations_verified':bool(used),'effective_query':effective}
     with connect() as c:
-        cur=c.execute('INSERT INTO chats(session,question,result,ts) VALUES(?,?,?,?)',(u['token'],q,json.dumps(out,ensure_ascii=False),now()));out['chat_id']=cur.lastrowid
+        cur=c.execute('INSERT INTO chats(session,question,result,ts,user_id) VALUES(?,?,?,?,?)',(u['token'],q,json.dumps(out,ensure_ascii=False),now(),u['id']));out['chat_id']=cur.lastrowid
     audit('chat',u['role'],f"{mode}; sources={','.join(used)}; {out['elapsed']}s")
     return out
 @app.get('/api/history')
@@ -330,3 +342,7 @@ def approve(id:str,action:str,req:Request):
         d=json.loads(row['payload']);d['status']='approved' if action=='approve' else 'retired'
         c.execute('UPDATE docs SET payload=? WHERE id=?',(json.dumps(d,ensure_ascii=False),id))
     audit(action,u['role'],id);return {'ok':True}
+
+accounts.install(app,connect,user,audit)
+workflows.install(app,connect,user,docs_for,audit)
+admin_system.install(app,connect,user,audit,LOCK,docs_for)

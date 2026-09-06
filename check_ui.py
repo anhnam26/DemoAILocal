@@ -1,3 +1,4 @@
+from testing_accounts import credentials,browser_login
 from pathlib import Path
 from playwright.sync_api import sync_playwright,expect
 import json
@@ -10,7 +11,7 @@ with sync_playwright() as p:
     page.on('console',lambda msg:errors.append(msg.text) if msg.type=='error' and '401' not in msg.text else None)
     page.goto('http://127.0.0.1:8088',wait_until='networkidle')
     page.screenshot(path=str(out/'01-login.png'),full_page=True)
-    page.locator('[data-profile="sale"]').click()
+    browser_login(page,'sale')
     page.locator('#workspace').wait_for(state='visible')
     page.locator('.suggestion').first.wait_for()
     page.screenshot(path=str(out/'02-workspace.png'),full_page=True)

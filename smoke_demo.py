@@ -1,3 +1,4 @@
+from testing_accounts import credentials,browser_login
 from pathlib import Path
 import httpx,json,time
 root=Path(__file__).parent
@@ -5,7 +6,7 @@ out=root/'artifacts';out.mkdir(exist_ok=True)
 report=[]
 for role,question in [('sale','Cần hỏi khách những gì trước khi triển khai Wi-Fi?'),('technical','Checklist MOP triển khai firewall gồm những bước nào?')]:
     with httpx.Client(base_url='http://127.0.0.1:8088',timeout=200,trust_env=False) as c:
-        c.post('/api/login',json={'profile':role}).raise_for_status()
+        c.post('/api/login',json=credentials(role)).raise_for_status()
         start=time.monotonic();r=c.post('/api/chat',json={'question':question})
         data=r.json();report.append({'role':role,'question':question,'status':r.status_code,'seconds':round(time.monotonic()-start,2),'result':data})
         print(json.dumps(report[-1],ensure_ascii=True),flush=True)

@@ -1,3 +1,4 @@
+from testing_accounts import credentials,browser_login
 import json
 import pytest
 from fastapi.testclient import TestClient
@@ -7,7 +8,7 @@ import app
 def isolated_db(tmp_path,monkeypatch):
     monkeypatch.setattr(app,'DB',tmp_path/'test.sqlite3');app.init()
 def client(role):
-    c=TestClient(app.app);assert c.post('/api/login',json={'profile':role}).status_code==200;return c
+    c=TestClient(app.app);assert c.post('/api/login',json=credentials(role)).status_code==200;return c
 def test_role_and_customer_boundary():
     sale=client('sale');tech=client('technical')
     assert sale.get('/api/documents/CASE-B').status_code==404

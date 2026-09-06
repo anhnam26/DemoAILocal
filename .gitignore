@@ -9,3 +9,8 @@ data/*.sqlite3*
 logs/
 backups/
 artifacts/
+
+# Local credentials and user snapshots
+data/initial-accounts.json
+data/runtime-config.json
+backups/

@@ -6,6 +6,15 @@ $modelExe = Join-Path $demoRoot 'runtime\llama-server.exe'
 $modelFile = Join-Path $demoRoot 'models\Qwen3.5-9B-Q4_K_M.gguf'
 $pythonExe = Join-Path $demoRoot '.venv-runtime\Scripts\python.exe'
 $keyFile = Join-Path $demoRoot 'data\model-api-key.txt'
+$runtimeSettings = @{ context=4096; gpu_layers=99; cache_ram=256 }
+$settingsFile = Join-Path $demoRoot 'data\runtime-config.json'
+if (Test-Path -LiteralPath $settingsFile) {
+    $savedSettings = Get-Content -LiteralPath $settingsFile -Raw -Encoding UTF8 | ConvertFrom-Json
+    $runtimeSettings.context = [int]$savedSettings.context
+    $runtimeSettings.gpu_layers = [int]$savedSettings.gpu_layers
+    $runtimeSettings.cache_ram = [int]$savedSettings.cache_ram
+    if ($runtimeSettings.context -lt 2048 -or $runtimeSettings.context -gt 8192 -or $runtimeSettings.gpu_layers -lt 0 -or $runtimeSettings.gpu_layers -gt 99 -or $runtimeSettings.cache_ram -lt 0 -or $runtimeSettings.cache_ram -gt 512) { throw 'Runtime settings outside supported demo limits.' }
+}
 foreach ($requiredFile in @($modelExe,$modelFile,$pythonExe)) {
     if (-not (Test-Path -LiteralPath $requiredFile)) { throw "Missing: $requiredFile. See README.md for setup." }
 }
@@ -22,7 +31,7 @@ if (-not (Test-DemoEndpoint 'http://127.0.0.1:1234/health')) {
     $listener = Get-NetTCPConnection -LocalPort 1234 -State Listen -ErrorAction SilentlyContinue
     if ($listener) { Write-Output 'Port 1234 is already starting or occupied. Existing process left unchanged.' }
     else {
-        $modelArgs = @('-m',('"'+$modelFile+'"'),'--alias','cyberant-qwen3.5-9b','--device','Vulkan0','--gpu-layers','99','--ctx-size','4096','--parallel','1','--flash-attn','on','--cache-type-k','q8_0','--cache-type-v','q8_0','--batch-size','256','--ubatch-size','128','--cache-ram','256','--host','127.0.0.1','--port','1234','--api-key-file',('"'+$keyFile+'"'),'--cors-origins','http://127.0.0.1:8088','--no-webui','--log-verbosity','4')
+        $modelArgs = @('-m',('"'+$modelFile+'"'),'--alias','cyberant-qwen3.5-9b','--device','Vulkan0','--gpu-layers',([string]$runtimeSettings.gpu_layers),'--ctx-size',([string]$runtimeSettings.context),'--parallel','1','--flash-attn','on','--cache-type-k','q8_0','--cache-type-v','q8_0','--batch-size','256','--ubatch-size','128','--cache-ram',([string]$runtimeSettings.cache_ram),'--host','127.0.0.1','--port','1234','--api-key-file',('"'+$keyFile+'"'),'--cors-origins','http://127.0.0.1:8088','--no-webui','--log-verbosity','4')
         $modelProcess = Start-Process -FilePath $modelExe -ArgumentList $modelArgs -WorkingDirectory $demoRoot -WindowStyle Hidden -RedirectStandardOutput (Join-Path $logRoot 'model.stdout.log') -RedirectStandardError (Join-Path $logRoot 'model.stderr.log') -PassThru
         $records += @{id=$modelProcess.Id;path=$modelExe;started=$modelProcess.StartTime.ToUniversalTime().ToString('o')}
         Write-Output ('Starting GPU model, PID '+$modelProcess.Id)

@@ -1,3 +1,4 @@
+from testing_accounts import credentials,browser_login
 from pathlib import Path
 from playwright.sync_api import sync_playwright,expect
 import json,httpx
@@ -7,7 +8,7 @@ with sync_playwright() as p:
     page=browser.new_page(viewport={'width':1440,'height':1000})
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto('http://127.0.0.1:8088',wait_until='networkidle')
-    page.locator('[data-profile="sale"]').click();page.locator('.suggestion').first.wait_for()
+    browser_login(page,'sale');page.locator('.suggestion').first.wait_for()
     def ask(q,expected):
         previous=page.locator('.message.assistant').count()
         page.locator('#question').fill(q);page.locator('#send').click()
@@ -35,14 +36,14 @@ with sync_playwright() as p:
     page.locator('#new-chat').click();expect(page.locator('.message.assistant')).to_have_count(0)
     page.reload(wait_until='networkidle');expect(page.locator('.message.assistant')).to_have_count(0)
     assert '<img' not in page.evaluate('renderAnswer("<img src=x onerror=alert(1)>")')
-    page.locator('#logout').click();page.locator('[data-profile="technical"]').click();page.locator('.suggestion').first.wait_for()
+    page.locator('#logout').click();browser_login(page,'technical');page.locator('.suggestion').first.wait_for()
     ask('Tóm tắt TICKET-B-02','Retention')
     page.locator('[data-view="operations"]').click();page.locator('.operation-card').first.wait_for()
     page.locator('#operation-kind').select_option('Ticket');page.locator('#operation-search').fill('');expect(page.locator('.operation-card')).to_have_count(20)
     page.screenshot(path=str(out/'09-company-tickets.png'),full_page=True);browser.close()
 assert not errors,errors
 with httpx.Client(base_url='http://127.0.0.1:8088',trust_env=False) as c:
-    c.post('/api/login',json={'profile':'admin'}).raise_for_status()
+    c.post('/api/login',json=credentials('admin')).raise_for_status()
     ops=c.get('/api/operations').json();assert sum(ops['counts'][k] for k in ('Kho hàng','Khách hàng','Hợp đồng','Dự án','Báo giá','Nhân sự','Ticket'))==134
     health=c.get('/api/health').json();assert health['ready']
 (out/'company-ui-report.json').write_text(json.dumps(dict(passed=True,checks=report,console_errors=errors,admin_counts=ops['counts'],health=health),ensure_ascii=False,indent=2),encoding='utf8')

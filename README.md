@@ -2,17 +2,28 @@
 
 Demo chạy trong **D:\TestSystem**, dành cho sale và kỹ thuật, sử dụng **Qwen3.5-9B Q4_K_M thật trên GPU NVIDIA RTX 4060 Laptop 8GB**.
 
-Bộ dữ liệu hiện tại: **453 tài liệu** = 251 tài liệu/hồ sơ công ty + 48 tri thức ATTT + 154 hồ sơ tài chính. Mở **Tài chính demo** để xem dự toán trọn gói, thanh toán và công nợ; dùng **Quản trị** để xem đủ khách và giá vốn/lợi nhuận.
+Bộ dữ liệu hiện tại: **481 tài liệu** = 251 tài liệu/hồ sơ công ty + 48 tri thức ATTT + 154 hồ sơ tài chính + 28 định mức/biểu mẫu dự toán bổ sung. Có **20 dịch vụ** với đầu vào mẫu, dự toán lưu bền vững, gửi duyệt và nhật ký. Mở **Tài chính demo** để xem dự toán trọn gói, thanh toán và công nợ; dùng tài khoản quản trị để xem đủ khách và giá vốn/lợi nhuận.
 
 ## Mở demo
 
-Truy cập **http://127.0.0.1:8088**. Chọn một tài khoản giả lập:
+Truy cập **http://127.0.0.1:8088**; nhấn Ctrl+F5 nếu đang mở giao diện cũ. Đăng nhập bằng tên người dùng và mật khẩu. Mật khẩu khởi tạo ngẫu nhiên nằm trong **`D:\TestSystem\data\initial-accounts.json`**, mở file tại máy để xem; không tải file này vào kho tri thức hoặc chia sẻ công khai.
 
-- **Sale / Minh Anh**: dịch vụ, giải pháp, chính sách và hồ sơ 5 khách giả lập A/C/E/G/I.
-- **Kỹ thuật / Hoàng Nam**: thêm runbook kỹ thuật, hồ sơ 5 khách giả lập B/D/F/H/J; không xem nhóm khách của sale.
-- **Quản trị**: xem, tải lên, duyệt/thu hồi tri thức và nhật ký demo.
+- **`sales` / Sales / Minh Anh**: dịch vụ, giải pháp, chính sách, dự toán và hồ sơ 5 khách giả lập A/C/E/G/I.
+- **`kythuat` / Kỹ thuật / Hoàng Nam**: thêm runbook kỹ thuật, dự toán và hồ sơ 5 khách giả lập B/D/F/H/J.
+- **`admin` / Quản trị**: toàn bộ phạm vi dữ liệu; quản lý người dùng, phiên online, phê duyệt dự toán, tri thức, hội thoại, phần cứng và cấu hình model.
 
-Đăng nhập chọn nhanh là cơ chế mô phỏng vai trò, **không phải xác thực production**. Hệ thống chỉ bind localhost. Không đổi bind thành `0.0.0.0` để dùng chung trước khi bổ sung xác thực thực sự.
+Mật khẩu lưu trong SQLite dưới dạng scrypt có salt; cookie HttpOnly/SameSite Strict, phiên hết hạn sau 12 giờ. Có giới hạn đăng nhập sai và thu hồi phiên. Đổi mật khẩu tại **Tài khoản**; quản trị đặt lại mật khẩu tại **Người dùng**. File khởi tạo không cập nhật theo mật khẩu mới. Hệ thống chỉ bind localhost; triển khai cho nhiều máy cần thêm HTTPS, quản trị mạng và kiểm thử bảo mật/tải.
+
+## Quản trị và dự toán đã lưu
+
+- **Người dùng**: tạo/sửa tài khoản, phân vai trò và nhóm khách A–J, bật/tắt, đặt lại mật khẩu, xem IP/thời điểm truy cập và thu hồi từng phiên. Online được xác định từ heartbeat trong 75 giây gần nhất; trang đang mở gửi heartbeat mỗi 25 giây. Không cho tắt hoặc hạ quyền quản trị hoạt động cuối cùng. Thay đổi quyền/mật khẩu thu hồi phiên cũ.
+- **Hệ thống local**: CPU, RAM dùng/khả dụng, swap, ổ đĩa, VRAM/GPU/nhiệt độ, tiến trình app/model, kết nối, context thực tế, số slot và số bản ghi. Số RAM/VRAM toàn máy gồm cả ứng dụng khác; RSS từng tiến trình có thể chứa trang chia sẻ, không cộng thẳng để suy ra RAM vật lý. Chỉ số thiếu được báo không có dữ liệu, không tạo số giả. Dữ liệu làm mới khi đang mở trang.
+- Cấu hình lưu tại `data/runtime-config.json`: context 2.048–8.192 token, GPU layers 0–99, prompt cache RAM 0–512MiB, temperature và giới hạn token trả lời. **Context/GPU/cache cần khởi động lại model**; giao diện phân biệt cấu hình đã lưu với tiến trình đang chạy. Temperature/token đầu ra áp dụng cho câu hỏi tiếp theo. Có dừng/khởi động/khởi động lại model, log gần nhất và sao lưu. Thao tác model bị chặn trong lúc đang sinh câu trả lời.
+- **Dự toán dịch vụ → Hồ sơ dự toán**: chọn dịch vụ và khách được phân công, dùng đầu vào mẫu về phạm vi, thiết bị, license, quyền truy cập, cửa sổ triển khai, nghiệm thu, ngày dự kiến và số kỹ sư. Chỉnh lại rồi lưu nháp → gửi duyệt → quản trị duyệt/từ chối kèm ghi chú; mọi bước lưu SQLite và nhật ký. Hồ sơ thiếu điều kiện/phức tạp chuyển **Cần khảo sát**, không cho gửi duyệt; nút bổ sung tạo bản mới giữ đầu vào cũ.
+- Giá ở hồ sơ dự toán là **phí công chưa VAT, thiết bị và license**. Tab **Tài chính demo** tính trọn gói theo phạm vi riêng. Lịch dự kiến tuần tự có 2 ngày làm việc đệm, bỏ thứ Bảy/Chủ nhật, chưa tính ngày lễ hoặc đặt nguồn lực thực tế; tăng số kỹ sư không tự chia ngày công. Nguồn bị thu hồi/hết hạn hoặc định mức thay đổi sẽ chặn duyệt bản cũ.
+- Quản trị xem 100 hội thoại gần nhất tại trang quản trị tri thức; nguồn và hiệu lực được kiểm lại. Đổi quyền hoặc thu hồi phiên trong lúc model trả lời được kiểm tra trước khi gửi kết quả.
+
+Luồng demo nhanh: đăng nhập `sales` → Dự toán dịch vụ → chọn MFA → điền mẫu → lưu **10 triệu phí công / 4 ngày công** → gửi duyệt. Đăng nhập `admin` ở cửa sổ riêng → mở hồ sơ → duyệt có ghi chú → xem Người dùng và Hệ thống local. Dữ liệu và phê duyệt này đều là mô phỏng, không gửi báo giá hoặc tạo giao dịch bên ngoài.
 
 ## Bật / tắt
 
@@ -70,7 +81,7 @@ Câu hỏi tiếp nối ngắn có thể dùng chủ đề lượt trước tron
 
 ## Dữ liệu
 
-251 tài liệu trong `data/demo_documents.json`; 12 định mức dịch vụ. Snapshot giả lập ngày 05/09/2026 gồm 10 khách, 10 hợp đồng, 20 dự án, 20 báo giá, 40 ticket, 16 mã kho hàng và 18 nhân sự (134 hồ sơ vận hành). Có bảng giá/scope/tiến độ/runbook/FAQ cho từng dịch vụ, 3 gói SLA, bảng so sánh và chính sách thanh toán, chiết khấu, bảo hành, phát sinh. `data/company_documents/` chứa bản Markdown từng tài liệu để đọc và sửa có kiểm soát. `data/company_operations.json` là bản xuất hồ sơ; ứng dụng dùng bản ghi SQLite đã lọc quyền và hiệu lực.
+251 tài liệu trong `data/demo_documents.json`; 12 định mức dịch vụ nền và 8 định mức ATTT bổ sung cùng 20 biểu mẫu ở `data/workflow_documents.json` (sinh bằng `workflow_data.py`). Snapshot giả lập ngày 05/09/2026 gồm 10 khách, 10 hợp đồng, 20 dự án, 20 báo giá, 40 ticket, 16 mã kho hàng và 18 nhân sự (134 hồ sơ vận hành). Có bảng giá/scope/tiến độ/runbook/FAQ cho từng dịch vụ, 3 gói SLA, bảng so sánh và chính sách thanh toán, chiết khấu, bảo hành, phát sinh. `data/company_documents/` chứa bản Markdown từng tài liệu để đọc và sửa có kiểm soát. `data/company_operations.json` là bản xuất hồ sơ; ứng dụng dùng bản ghi SQLite đã lọc quyền và hiệu lực.
 
 **Tất cả giá, số ngày, SLA và khách hàng đều là DEMO, không phải dữ liệu thật hoặc chính sách CyberAnt.** Danh mục được lấy cảm hứng từ website công khai https://cyberant.vn/; không sao chép tài liệu nội bộ.
 
@@ -86,9 +97,9 @@ Backend kiểm session cookie HttpOnly/SameSite, origin, Host; không bật CORS
 
 Model/thư viện tải về cần Internet khi setup; inference và tìm kiếm dùng địa chỉ loopback và tài nguyên local. Không có cloud fallback hay CDN frontend. **Chưa thực hiện kiểm toán lưu lượng toàn máy hoặc air-gap vật lý**; chương trình khác trên máy vẫn có thể dùng Internet.
 
-Chưa triển khai SSO/MFA, người dùng thật, semantic embeddings, reranker, OCR, antivirus sandbox, mã hóa/retention doanh nghiệp, HA, CRM/ticket connector, workflow phê duyệt báo giá thật hoặc chịu tải 20 người. Bản demo minh họa quy trình cốt lõi trong kế hoạch; chưa phải hệ thống production.
+Chưa triển khai SSO/MFA, HTTPS cho truy cập mạng, semantic embeddings, reranker, OCR, antivirus sandbox, mã hóa/retention doanh nghiệp, HA, CRM/ticket connector, ký/gửi báo giá thương mại hoặc kiểm thử chịu tải 20 người. Có xác thực tài khoản local và workflow phê duyệt dự toán demo; chưa phải hệ thống production.
 
-Hội thoại demo lưu local cho tới khi quản trị xử lý; không có job tự xóa theo hạn. Nội dung đã thấy hoặc chụp màn hình không thể thu hồi từ thiết bị người dùng. Session demo hết hạn sau 12 giờ; đổi vai trò tạo phiên mới.
+Hội thoại demo lưu local cho tới khi quản trị xử lý; không có job tự xóa theo hạn. Nội dung đã thấy hoặc chụp màn hình không thể thu hồi từ thiết bị người dùng. Session hết hạn sau 12 giờ; đổi quyền yêu cầu đăng nhập lại.
 
 ## Kiểm thử / bằng chứng
 
@@ -101,6 +112,9 @@ Hội thoại demo lưu local cho tới khi quản trị xử lý; không có jo
 - `test_app.py`: kiểm ACL theo vai trò/khách, quyền admin, tính giá/effort, điều kiện thiếu, chặn cam kết, duyệt/thu hồi, tách lịch sử/feedback, origin/session. Test DB dùng thư mục tạm, không sửa dữ liệu chạy thật.
 - `smoke_demo.py`: gọi model thật cho sale và kỹ thuật, kiểm trả lời có mã nguồn; báo cáo trong `artifacts/smoke-report.json`.
 - `check_ui.py`: Chrome headless có sẵn trên máy; kiểm đăng nhập, modal nguồn, dự toán, chặn cam kết và mobile. Ảnh/báo cáo ở `artifacts/`.
+- `test_accounts_system.py`: mật khẩu/phiên, tạo và khóa tài khoản, giới hạn đăng nhập, quản trị cuối cùng, quyền hệ thống, dự toán lưu/gửi/duyệt, chặn nguồn giá thay đổi.
+- `check_management_ui.py`: đăng nhập, 20 biểu mẫu, lưu/gửi/duyệt MFA, quản lý phiên, số phần cứng thực và màn hình 390/768/1440px. Tạo một hồ sơ DEMO trong dữ liệu chạy thật để thử toàn luồng.
+- `check_model_control.py`: thực sự dừng/bật lại model demo và kiểm tra lưu cấu hình; chạy lúc không có ai hỏi AI. Kết thúc để model sẵn sàng. Báo cáo `artifacts/model-control-report.json`.
 - Log runtime/backend ở `logs/`. Log có thể chứa thông tin demo; không chia sẻ nếu sau này dùng dữ liệu thật.
 
 ## Sao lưu
@@ -109,7 +123,7 @@ Hội thoại demo lưu local cho tới khi quản trị xử lý; không có jo
 .\.venv-runtime\Scripts\python.exe .\Backup-Data.py
 ```
 
-Lệnh tạo SQLite backup nhất quán và sao chép seed/catalog JSON vào `backups/<timestamp>`. Để khôi phục: dừng demo, giữ một bản dữ liệu hiện tại, thay `data/demo.sqlite3` bằng bản backup được chọn, khởi động lại. Khóa API model có thể giữ nguyên hoặc tạo lại; backup mẫu này không sao chép khóa. Chưa phải chính sách backup doanh nghiệp.
+Lệnh tạo SQLite backup nhất quán và sao chép seed/catalog/cấu hình JSON vào `backups/<timestamp>`, giống nút sao lưu trong quản trị. Không sao chép mật khẩu khởi tạo hoặc khóa API model. Bản SQLite chứa tài khoản băm mật khẩu, lịch sử và dự toán; cần bảo quản như dữ liệu nội bộ. Để khôi phục: dừng demo, giữ một bản dữ liệu hiện tại, thay `data/demo.sqlite3` bằng bản backup được chọn, khôi phục `runtime-config.json` nếu cần rồi khởi động lại. Khóa API model có thể giữ nguyên hoặc tạo lại. Chưa phải chính sách backup doanh nghiệp.
 
 ## Cấu trúc
 
@@ -127,7 +141,7 @@ D:\TestSystem\
   backups/           bản sao dữ liệu
 ```
 
-Nếu model báo thiếu VRAM: đóng ứng dụng GPU không cần thiết, giảm context hoặc giảm số lớp GPU trong `Start-Demo.ps1`, rồi restart. Không cài/đổi driver NVIDIA tự động trong demo này. Giữ cấu hình đã kiểm thử nếu chưa có vấn đề.
+Nếu model báo thiếu VRAM: đóng ứng dụng GPU không cần thiết, quản trị giảm context hoặc số lớp GPU trong **Hệ thống local**, lưu rồi khởi động lại model. Không cài/đổi driver NVIDIA tự động trong demo này. Mặc định 4.096 token phù hợp cấu hình đã kiểm thử; 8.192 là giới hạn nhập, không phải cam kết đủ bộ nhớ.
 
 Nếu cổng bị chiếm: kiểm dịch vụ nào đang dùng cổng, không tắt tiến trình không rõ nguồn. Script stop chỉ dừng model/backend của demo trong thư mục này.
 
@@ -190,7 +204,7 @@ Kiểm tra bổ sung: `test_security.py` kiểm quyền, nguồn, thu hồi và 
 | Giá vốn nội bộ | 20 | Công nội bộ, đi lại, presales, lãi gộp và biên; chỉ admin |
 | Báo cáo quản trị / quy ước | 2 | Danh mục đã nghiệm thu và công thức tài chính |
 
-8 gói ATTT bổ sung: MFA, pilot Zero Trust/ZTNA, đánh giá lỗ hổng, pentest web được cấp quyền, khởi tạo SOC, retainer ứng cứu, pilot DLP và đào tạo nhận thức. Giá mới nằm ở **Tài chính demo / Gói trọn bộ**, còn tab **Dự toán dịch vụ** cũ giữ 12 định mức phí công ban đầu.
+8 gói ATTT bổ sung: MFA, pilot Zero Trust/ZTNA, đánh giá lỗ hổng, pentest web được cấp quyền, khởi tạo SOC, retainer ứng cứu, pilot DLP và đào tạo nhận thức. **Tài chính demo / Gói trọn bộ** có 20 gói; **Dự toán dịch vụ** cũng có đủ 20 định mức phí công và biểu mẫu đầu vào tương ứng.
 
 **VAT 10% là tham số giả lập để trình diễn công thức, không phải kết luận thuế suất hiện hành.** Tổng năm đầu/TCO trước thuế; giả định giá không đổi, không phát sinh quy mô. Chiết khấu chỉ áp vào phí công dịch vụ, luôn là đề xuất cần duyệt. Hệ thống tính bằng số nguyên VND trên backend; model không tự tính tiền.
 
