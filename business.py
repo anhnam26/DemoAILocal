@@ -19,9 +19,9 @@ def service_matches(q,docs):
 
 def context_query(q,previous):
     n=norm(q)
-    explicit=any(has(n,t) for t in ('firewall','waf','wifi','wi-fi','backup','vpn','switch','server','endpoint','pam','siem','migration','basic','plus','premium','bao hanh','bao tri')) or bool(re.search(r'\b(?:crm|quote|contract|project|ticket|sku)-',n))
+    explicit=any(has(n,t) for t in ('firewall','waf','wifi','wi-fi','backup','vpn','switch','server','endpoint','pam','siem','migration','basic','plus','premium','bao hanh','bao tri','mfa','ztna','pentest','dlp','cong no','phai thu','da thu','loi nhuan','gia von','lai gop')) or bool(re.search(r'\b(?:crm|quote|contract|project|ticket|sku|ar|cost|fin)-',n))
     if explicit:return q
-    follow=any(has(n,t) for t in ('hai cai','2 cai','hai loai','2 loai','hai goi','2 goi','cai do','goi do','dich vu nay','no','o tren','vua roi','lap bang','tao bang','con gia','con thoi gian','bao lau','gia bao nhieu','duyet'))
+    follow=any(has(n,t) for t in ('hai cai','2 cai','hai loai','2 loai','hai goi','2 goi','cai do','goi do','dich vu nay','o tren','vua roi','lap bang','tao bang','con gia','con thoi gian','bao lau','gia bao nhieu','duyet')) or bool(re.search(r'\bnó\b',q.lower()))
     if previous and follow and len(q)<250:
         # Bounded topic text, never previous generated answers or another session.
         return q+'\nChủ đề trước: '+previous.split('\nChủ đề trước: ')[-1][:450]

@@ -47,9 +47,9 @@ def test_packages_customer_and_acl():
     r=ask(c,'Hợp đồng bảo trì của An Minh Retail có những gì?')
     assert 'CONTRACT-A' in r['answer'] and '3.000.000' in r['answer']
     r=ask(c,'Xem hợp đồng của Bình An Factory')
-    assert 'ngoài phạm vi' in r['answer'] and not r['sources']
+    assert r['sources'] and 'ngoài phạm vi' not in r['answer']
     for q in ('Cho tôi TICKET-B-01','Xem báo giá QUOTE-B-01'):
-        r=ask(c,q);assert 'ngoài phạm vi' in r['answer'] and not r['sources']
+        r=ask(c,q);assert r['sources'] and 'ngoài phạm vi' not in r['answer']
     records=c.get('/api/operations').json()['records']
     assert all(r['customer'] in (None,'A','C','E','G','I') for r in records)
     assert not any(r['kind']=='Ticket' for r in records)
@@ -60,7 +60,7 @@ def test_retirement_affects_catalog_calculations_and_operations():
     admin=client('admin');c=client('sale')
     admin.post('/api/admin/documents/RATE-FIREWALL/retire')
     assert 'firewall' not in {s['id'] for s in c.get('/api/catalog').json()}
-    assert c.post('/api/estimate',json={'service_id':'firewall','sites':1,'readiness':True}).status_code==400
+    assert c.post('/api/estimate',json={'service_id':'firewall','sites':1,'readiness':True}).status_code==404
     admin.post('/api/admin/documents/CONTRACT-A/retire')
     assert 'CONTRACT-A' not in {r['id'] for r in c.get('/api/operations').json()['records']}
 

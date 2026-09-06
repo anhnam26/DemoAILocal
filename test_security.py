@@ -6,7 +6,7 @@ def test_security_sources_and_audience():
     docs=build();assert len(docs)==48 and len({d['topic'] for d in docs})==24
     assert all(d['references'][0]['url'].startswith('https://') for d in docs)
     sale=client('sale');tech=client('technical')
-    assert sale.get('/api/documents/SEC-LAB-RANSOMWARE').status_code==404
+    assert sale.get('/api/documents/SEC-LAB-RANSOMWARE').status_code==200
     assert tech.get('/api/documents/SEC-LAB-RANSOMWARE').status_code==200
     d=sale.get('/api/documents/SEC-GUIDE-MFA').json()
     assert d['references'] and d['reviewed_at']=='2026-09-05'

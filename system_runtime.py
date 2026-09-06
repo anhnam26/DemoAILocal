@@ -4,7 +4,7 @@ import json,os,time,subprocess,threading,platform,shutil
 import psutil,httpx
 ROOT=Path(__file__).parent
 CONFIG=ROOT/'data'/'runtime-config.json'
-DEFAULT=dict(context=4096,gpu_layers=99,cache_ram=256,temperature=0.2,max_tokens=800)
+DEFAULT=dict(context=4096,gpu_layers=99,cache_ram=256,temperature=0.2,max_tokens=800,parallel=2)
 BOOT=time.time();ACTION={'state':'idle'};MUTEX=threading.Lock();METRICS={};METRICS_TIME=0
 
 def config():
@@ -27,6 +27,8 @@ def observed_config():
     for flag,key in [('--ctx-size','context'),('--gpu-layers','gpu_layers'),('--parallel','parallel'),('--cache-ram','cache_ram'),('--port','port')]:
         try:result[key]=int(args[args.index(flag)+1])
         except (ValueError,IndexError):result[key]=None
+    result['context_total']=result.get('context')
+    if result.get('context') and result.get('parallel'):result['context']=result['context']//result['parallel']
     result.update(pid=processes[0].pid,device='Vulkan GPU',host='127.0.0.1');return result
 def gpu_metrics():
     exe=shutil.which('nvidia-smi')
@@ -60,7 +62,7 @@ def metrics():
     METRICS=dict(measured_at=time.time(),cpu=dict(percent=psutil.cpu_percent(interval=.1),logical=psutil.cpu_count(),physical=psutil.cpu_count(logical=False)),ram=dict(total=vm.total,available=vm.available,used=vm.total-vm.available,percent=vm.percent),swap=dict(total=swap.total,used=swap.used,percent=swap.percent),disk=dict(path=ROOT.anchor,total=disk.total,free=disk.free,used=disk.used,percent=disk.percent),network=dict(sent=net.bytes_sent,received=net.bytes_recv,note='Bộ đếm lưu lượng toàn máy; không phải thống kê riêng ứng dụng.'),gpu=gpu_metrics(),processes=processes,connections=connections,uptime=time.time()-BOOT,platform=platform.platform(),python=platform.python_version(),configured=config(),observed=observed_config(),action=dict(ACTION))
     METRICS_TIME=time.time();return METRICS
 def model_args(c):
-    return [str(ROOT/'runtime'/'llama-server.exe'),'-m',str(ROOT/'models'/'Qwen3.5-9B-Q4_K_M.gguf'),'--alias','cyberant-qwen3.5-9b','--device','Vulkan0','--gpu-layers',str(c['gpu_layers']),'--ctx-size',str(c['context']),'--parallel','1','--flash-attn','on','--cache-type-k','q8_0','--cache-type-v','q8_0','--batch-size','256','--ubatch-size','128','--cache-ram',str(c['cache_ram']),'--host','127.0.0.1','--port','1234','--api-key-file',str(ROOT/'data'/'model-api-key.txt'),'--cors-origins','http://127.0.0.1:8088','--no-webui','--log-verbosity','4']
+    return [str(ROOT/'runtime'/'llama-server.exe'),'-m',str(ROOT/'models'/'Qwen3.5-9B-Q4_K_M.gguf'),'--alias','cyberant-qwen3.5-9b','--device','Vulkan0','--gpu-layers',str(c['gpu_layers']),'--ctx-size',str(c['context']*c['parallel']),'--parallel',str(c['parallel']),'--flash-attn','on','--cache-type-k','q8_0','--cache-type-v','q8_0','--batch-size','256','--ubatch-size','128','--cache-ram',str(c['cache_ram']),'--host','127.0.0.1','--port','1234','--api-key-file',str(ROOT/'data'/'model-api-key.txt'),'--cors-origins','http://127.0.0.1:8088','--no-webui','--log-verbosity','4']
 def control(action):
     # Called under application generation semaphore; only our exact executable/alias can be stopped.
     global ACTION,METRICS_TIME

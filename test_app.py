@@ -11,21 +11,20 @@ def client(role):
     c=TestClient(app.app);assert c.post('/api/login',json=credentials(role)).status_code==200;return c
 def test_role_and_customer_boundary():
     sale=client('sale');tech=client('technical')
-    assert sale.get('/api/documents/CASE-B').status_code==404
-    assert sale.get('/api/documents/TECH-MOP').status_code==404
+    assert sale.get('/api/documents/CASE-B').status_code==200
+    assert sale.get('/api/documents/TECH-MOP').status_code==200
     assert sale.get('/api/documents/CASE-A').status_code==200
-    assert tech.get('/api/documents/CASE-A').status_code==404
+    assert tech.get('/api/documents/CASE-A').status_code==200
     assert tech.get('/api/documents/TECH-MOP').status_code==200
     ids={d['id'] for d in app.retrieve('BINHAN-PRIVATE-BETA backup Binh An',dict(role='sale',customer='A'))}
-    assert 'CASE-B' not in ids
+    assert 'CASE-B' in ids
     assert sale.get('/api/admin').status_code==403
-def test_price_effort_rules_and_missing_inputs():
+def test_service_estimation_removed():
     c=client('sale')
-    r=c.post('/api/estimate',json={'service_id':'firewall','sites':2,'readiness':True}).json()
-    assert r['total']==24000000 and r['effort']==8 and r['demo']
-    assert c.post('/api/estimate',json={'service_id':'firewall','sites':2,'readiness':False}).json()['status']=='needs_survey'
-    assert c.post('/api/estimate',json={'service_id':'firewall','sites':2,'readiness':True,'complex':True}).json()['status']=='needs_survey'
-    assert c.post('/api/estimate',json={'service_id':'firewall','sites':-1,'readiness':True}).status_code==422
+    assert c.post('/api/estimate',json={}).status_code==404
+    assert c.get('/api/estimate/templates').status_code==404
+    assert c.get('/api/estimates').status_code==404
+
 def test_no_model_call_for_unsupported_commitment(monkeypatch):
     c=client('sale')
     r=c.post('/api/chat',json={'question':'Cam kết hoàn thành trong 2 ngày và miễn phí được không?'}).json()

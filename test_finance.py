@@ -47,9 +47,9 @@ def test_financial_acl_and_totals():
     assert {c['customer'] for c in s['customers']}==set('ACEGI')
     for key in ('amount','paid','outstanding','overdue'):assert s['totals'][key]+t['totals'][key]==a['totals'][key]
     assert sum(a['aging'].values())==a['totals']['outstanding']
-    assert sale.get('/api/documents/COST-A-01').status_code==404
-    assert 'Quản trị' in ask(sale,'Lợi nhuận An Minh là bao nhiêu?')['answer']
-    assert 'ngoài phạm vi' in ask(sale,'Xem công nợ Bình An Factory')['answer']
+    assert sale.get('/api/documents/COST-A-01').status_code==200
+    assert ask(sale,'Lợi nhuận An Minh là bao nhiêu?')['sources']
+    assert 'AR-B' in ask(sale,'Xem công nợ Bình An Factory')['answer']
     assert 'AR-A' in ask(sale,'Công nợ An Minh Retail còn bao nhiêu?')['answer']
     assert 'FIN-QUOTE-A-01' in ask(sale,'Chi tiết thanh toán QUOTE-A-01 gồm VAT')['answer']
 

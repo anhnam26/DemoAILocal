@@ -1,39 +1,4 @@
-from testing_accounts import credentials,browser_login
+"""Current workspace UI regression entry point."""
 from pathlib import Path
-from playwright.sync_api import sync_playwright,expect
-import json
-out=Path(__file__).parent/'artifacts';out.mkdir(exist_ok=True)
-errors=[]
-with sync_playwright() as p:
-    browser=p.chromium.launch(channel='chrome',headless=True)
-    page=browser.new_page(viewport={'width':1440,'height':1000},device_scale_factor=1)
-    page.on('pageerror',lambda err:errors.append(str(err)))
-    page.on('console',lambda msg:errors.append(msg.text) if msg.type=='error' and '401' not in msg.text else None)
-    page.goto('http://127.0.0.1:8088',wait_until='networkidle')
-    page.screenshot(path=str(out/'01-login.png'),full_page=True)
-    browser_login(page,'sale')
-    page.locator('#workspace').wait_for(state='visible')
-    page.locator('.suggestion').first.wait_for()
-    page.screenshot(path=str(out/'02-workspace.png'),full_page=True)
-    page.locator('[data-view="knowledge"]').click()
-    page.locator('.doc-card').first.click()
-    page.locator('#document-modal').wait_for(state='visible')
-    page.locator('#close-modal').click()
-    page.locator('[data-view="estimate"]').click()
-    page.locator('#ready').check()
-    page.locator('#estimate-form .primary').click()
-    expect(page.locator('#estimate-result')).to_contain_text('12.000.000')
-    page.screenshot(path=str(out/'03-estimate.png'),full_page=True)
-    page.locator('[data-view="chat"]').click()
-    page.locator('#question').fill('Cam kết xong trong 2 ngày được không?')
-    page.locator('#send').click()
-    page.locator('.message.assistant').wait_for()
-    assert 'Cần xác minh' in page.locator('.message.assistant').inner_text()
-    page.screenshot(path=str(out/'04-answer.png'),full_page=True)
-    page.set_viewport_size({'width':390,'height':844})
-    page.screenshot(path=str(out/'05-mobile.png'),full_page=True)
-    assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
-    browser.close()
-assert not errors,errors
-(out/'ui-report.json').write_text(json.dumps({'passed':True,'console_errors':errors,'checks':['login','role workspace','documents modal','estimate 12M','commitment guard','mobile no overflow']}))
-print('UI checks passed; screenshots saved in artifacts')
+import runpy
+runpy.run_path(str(Path(__file__).with_name("check_workspace_ui.py")),run_name="__main__")

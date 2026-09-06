@@ -4,6 +4,7 @@ from fastapi import APIRouter,HTTPException,Request
 from pydantic import BaseModel,Field
 import system_runtime as runtime
 class Settings(BaseModel):
+    parallel:int=Field(default=2,ge=1,le=2)
     context:int=Field(ge=2048,le=8192)
     gpu_layers:int=Field(ge=0,le=99)
     cache_ram:int=Field(ge=0,le=512)
@@ -22,16 +23,16 @@ def install(app,connect,user,audit,generation_lock,docs_for):
     def system(req:Request):
         admin(req);data=runtime.metrics()
         with connect() as c:
-            counts={table:c.execute('SELECT COUNT(*) FROM '+table).fetchone()[0] for table in ('users','docs','chats','audit','feedback','estimates')}
+            counts={table:c.execute('SELECT COUNT(*) FROM '+table).fetchone()[0] for table in ('users','docs','chats','audit','feedback','conversations')}
             online=c.execute('SELECT COUNT(DISTINCT user_id) FROM sessions WHERE last_seen>? AND created>?',(time.time()-75,time.time()-43200)).fetchone()[0]
-        return {**data,'database':counts,'online':online,'generation_busy':generation_lock.locked(),'retrieval':'TF-IDF float32, tối đa 3 chỉ mục cache; lọc quyền trước truy xuất','connections_fixed':dict(web='http://127.0.0.1:8088',model='http://127.0.0.1:1234',cloud_fallback=False)}
+        return {**data,'database':counts,'online':online,'generation_busy':generation_lock.locked(),'generation':generation_lock.status(),'retrieval':'TF-IDF float32, tối đa 3 chỉ mục cache; kho chung, lọc trạng thái và hiệu lực trước truy xuất','connections_fixed':dict(web='http://127.0.0.1:8088',model='http://127.0.0.1:1234',cloud_fallback=False)}
     @router.put('/api/admin/system/config')
     def configure(data:Settings,req:Request):
         u=admin(req)
         if data.context%256:raise HTTPException(400,'Context phải là bội số của 256.')
         if generation_lock.locked():raise HTTPException(409,'Có lượt sinh hoặc thao tác model đang chạy. Chờ hoàn tất trước đổi cấu hình.')
         runtime.save_config(data.model_dump());runtime.METRICS_TIME=0;audit('runtime_config',u['role'],json.dumps(data.model_dump()))
-        return dict(ok=True,configured=data.model_dump(),message='Đã lưu. Temperature/token đầu ra áp dụng lượt hỏi mới. Context/lớp GPU/cache áp dụng sau Khởi động lại model.')
+        return dict(ok=True,configured=data.model_dump(),message='Đã lưu. Temperature/token đầu ra áp dụng lượt hỏi mới. Context/số lượt đồng thời/lớp GPU/cache áp dụng sau Khởi động lại model.')
     @router.post('/api/admin/system/model')
     async def control(data:Action,req:Request):
         u=admin(req)

@@ -7,7 +7,7 @@ with sync_playwright() as p:
     browser=p.chromium.launch(channel='chrome',headless=True)
     context=browser.new_context(viewport={'width':1440,'height':1000},permissions=['clipboard-read','clipboard-write'])
     page=context.new_page();page.on('pageerror',lambda e:errors.append(str(e)))
-    page.goto('http://127.0.0.1:8088',wait_until='networkidle');browser_login(page,'technical');page.locator('#workspace').wait_for(state='visible')
+    page.goto('http://127.0.0.1:8088',wait_until='networkidle');browser_login(page,'technical');page.locator('#new-chat').click();page.locator('#workspace').wait_for(state='visible')
     page.screenshot(path=str(out/'10-readable-home.png'),full_page=True)
     page.locator('#question').fill('Checklist ứng cứu khi nghi nhiễm ransomware gồm những gì?');page.locator('#send').click()
     page.locator('.message.assistant').wait_for(timeout=180000)

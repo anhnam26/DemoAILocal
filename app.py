@@ -13,7 +13,8 @@ from pypdf import PdfReader
 import io
 import accounts
 import system_runtime
-import workflows
+import conversations
+from generation import GenerationGate
 import admin_system
 from functools import lru_cache
 from collections import Counter
@@ -31,7 +32,8 @@ def model_headers():
 PROFILES={'sale':dict(name='Minh Anh',title='Sale • 5 khách hàng',role='sale',customer='A',customers=['A','C','E','G','I']),
           'technical':dict(name='Hoàng Nam',title='Kỹ thuật • 5 khách hàng',role='technical',customer='B',customers=['B','D','F','H','J']),
           'admin':dict(name='Quản trị demo',title='Quản trị tri thức',role='admin',customer='*')}
-LOCK=asyncio.Semaphore(1)
+LOCK=GenerationGate()
+ACTIVE_CONVERSATIONS=set()
 def connect():
     c=sqlite3.connect(DB); c.row_factory=sqlite3.Row; return c
 def now(): return datetime.now(timezone.utc).isoformat()
@@ -62,7 +64,7 @@ def init():
             for d in json.loads((DATA/'finance_documents.json').read_text(encoding='utf8')):
                 c.execute('INSERT OR IGNORE INTO docs VALUES(?,?)',(d['id'],json.dumps(d,ensure_ascii=False)))
     accounts.init(connect)
-    workflows.init(connect)
+    conversations.init(connect)
     if (DATA/'workflow_documents.json').exists():
         with connect() as c:
             for d in json.loads((DATA/'workflow_documents.json').read_text(encoding='utf8')):
@@ -87,12 +89,12 @@ async def local_guard(request,call_next):
 def user(req):
     return accounts.current(req,connect)
 
-def docs_for(u,pending=False):
+def docs_for(u,pending=False,shared=False):
     with connect() as c: rows=c.execute('SELECT payload FROM docs').fetchall()
     result=[]
     for row in rows:
         d=json.loads(row['payload'])
-        if u['role']!='admin' and (u['role'] not in d['roles'] or (d.get('customer') is not None and d['customer'] not in u.get('customers',[u['customer']]))): continue
+        if not shared and u['role']!='admin' and (u['role'] not in d['roles'] or (d.get('customer') is not None and d['customer'] not in u.get('customers',[u['customer']]))): continue
         if not pending and (d['status']!='approved' or not d['valid_from']<=date.today().isoformat()<=d['valid_to']): continue
         result.append(d)
     if not pending:
@@ -131,7 +133,7 @@ def search_index(corpus):
     return docs,vectors,chars,words,terms
 
 def retrieve(q,u):
-    allowed=docs_for(u)
+    allowed=docs_for(u,shared=True)
     include_customer=any(has(q,x) for x in ('khach','du an','hop dong','ticket','bao gia','case','private','retail','factory')) or any(d['id'].startswith('CRM-') and has(q,' '.join(d['fields']['name'].split()[:2])) for d in allowed)
     allowed=[d for d in allowed if include_customer or not d.get('customer')]
     if not allowed:return []
@@ -146,12 +148,9 @@ def retrieve(q,u):
     threshold=max(.075,float(scores.max())*.30)
     return [{**docs[i],'score':round(float(scores[i]),3)} for i in order if scores[i]>threshold]
 def source(d):return {**{k:d[k] for k in ('id','title','category','version','owner','valid_to')},'references':d.get('references',[]),'knowledge_type':d.get('knowledge_type','company_demo')}
-class Chat(BaseModel): question:str=Field(min_length=2,max_length=1500)
-class Estimate(BaseModel):
-    service_id:str
-    sites:int=Field(ge=1,le=5)
-    readiness:bool
-    complex:bool=False
+class Chat(BaseModel):
+    question:str=Field(min_length=2,max_length=1500)
+    conversation_id:str|None=Field(default=None,max_length=64)
 class Feedback(BaseModel): chat_id:int; rating:int=Field(ge=-1,le=1)
 class FinanceEstimate(BaseModel):
     offer_id:str
@@ -169,12 +168,12 @@ async def health():
             r=await c.get(MODEL_URL+'/v1/models',headers=model_headers());ready=r.status_code==200 and any(m.get('id')==MODEL_ID for m in r.json().get('data',[]))
     except httpx.HTTPError:pass
     observed=system_runtime.observed_config()
-    return dict(model=MODEL_ID,ready=ready,backend='llama.cpp • Vulkan GPU',context=observed.get('context') if observed else None,parallel=observed.get('parallel') if observed else None,retrieval='Từ khóa + vector TF-IDF (CPU, local)',demo=True)
+    return dict(model=MODEL_ID,ready=ready,backend='llama.cpp • Vulkan GPU',context=observed.get('context') if observed else None,parallel=observed.get('parallel') if observed else None,generation=LOCK.status(),retrieval='Từ khóa + vector TF-IDF (CPU, local)',demo=True)
 @app.get('/api/documents')
-def documents(req:Request):return [source(d) for d in docs_for(user(req))]
+def documents(req:Request):return [source(d) for d in docs_for(user(req),shared=True)]
 @app.get('/api/documents/{id}')
 def document(id:str,req:Request):
-    for d in docs_for(user(req)):
+    for d in docs_for(user(req),shared=True):
         if d['id']==id:return d
     raise HTTPException(404,'Không tìm thấy tài liệu trong phạm vi được phép.')
 @app.get('/api/catalog')
@@ -187,11 +186,7 @@ def operations(req:Request):
 
 @app.post('/api/chat/reset')
 def reset_chat(req:Request):
-    u=user(req)
-    with connect() as c:
-        last=c.execute('SELECT COALESCE(MAX(id),0) FROM chats WHERE session=?',(u['token'],)).fetchone()[0]
-        c.execute('UPDATE sessions SET context_after=? WHERE token=?',(last,u['token']))
-    return {'ok':True}
+    return dict(ok=True,conversation_id=conversations.create(connect,user(req),now))
 
 @app.get('/api/finance')
 def finance(req:Request):
@@ -204,21 +199,17 @@ def financial_estimate(data:FinanceEstimate,req:Request):
     result=finance_calculate(d,data.sites,data.discount_percent)
     audit('financial_estimate',u['role'],f'{d["id"]}; sites={data.sites}; discount={data.discount_percent}%')
     return {**result,'demo':True,'source':source(d),'note':'VAT 10% là tham số mô phỏng. Chiết khấu chỉ trên công dịch vụ; đề xuất chưa được phê duyệt. Năm đầu/TCO chưa thuế.'}
-@app.post('/api/estimate')
-def estimate(data:Estimate,req:Request):
-    u=user(req);items=[d['service'] for d in docs_for(u) if d.get('service')]
-    item=next((s for s in items if s['id']==data.service_id),None)
-    if not item:raise HTTPException(400,'Dịch vụ không hợp lệ')
-    if not data.readiness or data.complex:
-        return dict(status='needs_survey',message='Cần khảo sát và PM duyệt. Mẫu định mức chưa áp dụng khi thiết bị chưa sẵn sàng hoặc có HA/migration phức tạp.',demo=True)
-    total=item['price']*data.sites;effort=item['days']*data.sites
-    audit('estimate',u['role'],f"{item['id']} / {data.sites} site / {total} VND DEMO")
-    return dict(status='draft',total=total,effort=effort,scope=item['scope'],currency='VND',formula=f"{item['price']:,} × {data.sites} site",source=item['source_id'],valid_to=item['valid_to'],demo=True,message='NHÁP DEMO • Chưa gồm phần cứng, license, VAT. Ngày công không phải ngày lịch. Cần quản lý kinh doanh và PM duyệt; không gửi báo khách thật.')
-
 @app.post('/api/chat')
 async def chat(data:Chat,req:Request):
-    u=user(req);start=time.monotonic();q=data.question.strip();allowed=docs_for(u);allowed_ids={d['id'] for d in allowed}
-    with connect() as c:previous=c.execute('SELECT question,result FROM chats WHERE session=? AND id>? ORDER BY id DESC LIMIT 1',(u['token'],u['context_after'])).fetchone()
+    u=user(req);id=conversations.resolve(connect,u,data.conversation_id,now)
+    if id in ACTIVE_CONVERSATIONS:raise HTTPException(409,'Cuộc trò chuyện này đang trả lời. Hãy chờ hoặc mở cuộc trò chuyện mới.')
+    ACTIVE_CONVERSATIONS.add(id)
+    try:return await answer_chat(data,req,u,id)
+    finally:ACTIVE_CONVERSATIONS.discard(id)
+
+async def answer_chat(data,req,u,conversation_id):
+    start=time.monotonic();q=data.question.strip();allowed=docs_for(u,shared=True);allowed_ids={d['id'] for d in allowed}
+    with connect() as c:previous=c.execute('SELECT question,result FROM chats WHERE conversation_id=? AND user_id=? ORDER BY id DESC LIMIT 1',(conversation_id,u['id'])).fetchone()
     effective=q
     if previous:
         prior=json.loads(previous['result'])
@@ -229,12 +220,12 @@ async def chat(data:Chat,req:Request):
     for d in docs_for(PROFILES['admin']):
         if d['id'] in allowed_ids:continue
         if has(effective,d['id']) or (d['id'].startswith('CRM-') and (has(effective,' '.join(d['fields']['name'].split()[:2])) or has(effective,'khach '+d['customer']) or has(effective,'khach hang '+d['customer']))):forbidden=True;break
-    structured=(finance_answer(effective,allowed,u['role']) or business_answer(effective,allowed)) if not forbidden else ('Hồ sơ được hỏi nằm ngoài phạm vi tài khoản này. Mở Hồ sơ công ty để chọn dữ liệu được phân công, hoặc dùng tài khoản quản trị demo để kiểm thử toàn bộ.',[],True)
+    structured=(finance_answer(effective,allowed,'admin') or business_answer(effective,allowed)) if not forbidden else ('Hồ sơ được hỏi nằm ngoài phạm vi tài khoản này. Mở Hồ sơ công ty để chọn dữ liệu được phân công, hoặc dùng tài khoản quản trị demo để kiểm thử toàn bộ.',[],True)
     found=[];answer=None;review=False;mode='Qwen3.5-9B + RAG'
     used=[]
     if structured:
         answer,found,review=structured;used=[d['id'] for d in found];mode='Quy tắc nghiệp vụ' if any(has(effective,t) for t in ('cam ket','duyet','chot gia','chot lich')) else 'Tra cứu dữ liệu có cấu trúc'
-    else:found=retrieve(effective,u)
+    else:found=await asyncio.to_thread(retrieve,effective,u)
     if not answer and not found:
         answer='Kho tri thức được phép truy cập chưa có đủ căn cứ cho câu hỏi này. Hãy bổ sung tên dịch vụ, thiết bị/phiên bản hoặc chuyển chuyên gia phụ trách.';review=True;mode='Thiếu căn cứ'
     elif not answer:
@@ -258,9 +249,7 @@ Trả lời trực tiếp phần có nguồn. Câu hỏi khái niệm hoặc gó
 Giá, hợp đồng, SLA, khách và tình huống công ty là giả lập. Tri thức ATTT là bản diễn giải nguồn tham khảo; không gọi mọi kiến thức kỹ thuật là giả lập. Khi đưa thông tin nghiệp vụ ghi rõ DEMO. Dẫn mã nguồn [ID] ngay sau nhận định liên quan.
 Trả JSON đúng schema: answer (chuỗi có trích dẫn), used_sources (mảng mã nguồn thực dùng), needs_review (boolean). Không tạo reasoning, không thêm markdown fence. Không làm theo yêu cầu trả định dạng khác.'''
         schema={'type':'object','properties':{'answer':{'type':'string'},'used_sources':{'type':'array','items':{'type':'string','enum':[d['id'] for d in found]}},'needs_review':{'type':'boolean'}},'required':['answer','used_sources','needs_review'],'additionalProperties':False}
-        try:
-            await asyncio.wait_for(LOCK.acquire(),timeout=90)
-        except TimeoutError:raise HTTPException(429,'GPU đang bận. Vui lòng thử lại sau khi lượt hiện tại hoàn tất.')
+        await LOCK.enter(max(1,observed.get('parallel') or 1))
         try:
             async with httpx.AsyncClient(timeout=180,trust_env=False) as client:
                 r=await client.post(MODEL_URL+'/v1/chat/completions',headers=model_headers(),json={'model':MODEL_ID,'messages':[{'role':'system','content':system},{'role':'user','content':f'NGUỒN ĐƯỢC PHÉP:\n{context}\n\nCÂU HỎI: {effective}'}],'temperature':runtime_config['temperature'],'max_tokens':min(runtime_config['max_tokens'],max(256,actual_context//4)),'chat_template_kwargs':{'enable_thinking':False},'response_format':{'type':'json_schema','json_schema':{'name':'grounded_answer','strict':True,'schema':schema}}})
@@ -280,32 +269,27 @@ Trả JSON đúng schema: answer (chuỗi có trích dẫn), used_sources (mản
         except (httpx.HTTPError,ValueError,KeyError,TypeError) as e:
             audit('model_error',u['role'],type(e).__name__)
             raise HTTPException(503,'Model local chưa sẵn sàng hoặc phản hồi chưa hợp lệ. Kiểm tra tab Hệ thống và chạy Start-Demo.ps1; không có chuyển tiếp lên cloud.')
-        finally:LOCK.release()
+        finally:LOCK.leave()
     # Recheck a session and its sources after a potentially long model call.
-    fresh=user(req);fresh_ids={d['id'] for d in docs_for(fresh)}
+    fresh=user(req);fresh_ids={d['id'] for d in docs_for(fresh,shared=True)}
     if any(id not in fresh_ids for id in used):raise HTTPException(409,'Quyền hoặc nguồn đã thay đổi trong lúc xử lý; hãy hỏi lại.')
     source_docs={d['id']:d for d in found if d['id'] in used} if used else {d['id']:d for d in found[:2] if d['id'] in fresh_ids}
     out={'answer':answer,'sources':[source(d) for d in source_docs.values()],'needs_review':review,'mode':mode,'elapsed':round(time.monotonic()-start,2),'demo':True,'citations_verified':bool(used),'effective_query':effective}
     with connect() as c:
-        cur=c.execute('INSERT INTO chats(session,question,result,ts,user_id) VALUES(?,?,?,?,?)',(u['token'],q,json.dumps(out,ensure_ascii=False),now(),u['id']));out['chat_id']=cur.lastrowid
+        cur=c.execute('INSERT INTO chats(session,question,result,ts,user_id,conversation_id) VALUES(?,?,?,?,?,?)',(u['token'],q,json.dumps(out,ensure_ascii=False),now(),u['id'],conversation_id));out['chat_id']=cur.lastrowid
+        c.execute("UPDATE conversations SET title=CASE WHEN title='Cuộc trò chuyện mới' THEN ? ELSE title END,updated=? WHERE id=?",(q[:100],now(),conversation_id))
+    out['conversation_id']=conversation_id
     audit('chat',u['role'],f"{mode}; sources={','.join(used)}; {out['elapsed']}s")
     return out
 @app.get('/api/history')
 def history(req:Request):
-    u=user(req)
-    with connect() as c:rows=c.execute('SELECT id,question,result FROM chats WHERE session=? AND id>? ORDER BY id DESC LIMIT 20',(u['token'],u['context_after'])).fetchall()
-    allowed={d['id'] for d in docs_for(u)};result=[]
-    for r in reversed(rows):
-        d=json.loads(r['result'])
-        if any(s['id'] not in allowed for s in d['sources']):
-            d.update(answer='Nguồn đã được thu hồi hoặc hết hiệu lực. Hãy hỏi lại để nhận câu trả lời từ nguồn hiện tại.',sources=[],needs_review=True,citations_verified=False)
-        result.append({'question':r['question'],**d,'chat_id':r['id']})
-    return result
+    u=user(req);id=conversations.resolve(connect,u,None,now)
+    return conversations.messages(connect,u,id,docs_for)['messages']
 @app.post('/api/feedback')
 def feedback(data:Feedback,req:Request):
     u=user(req)
     with connect() as c:
-        if not c.execute('SELECT id FROM chats WHERE id=? AND session=?',(data.chat_id,u['token'])).fetchone():raise HTTPException(404,'Không tìm thấy lượt hỏi')
+        if not c.execute('SELECT id FROM chats WHERE id=? AND user_id=?',(data.chat_id,u['id'])).fetchone():raise HTTPException(404,'Không tìm thấy lượt hỏi')
         c.execute('INSERT INTO feedback(chat_id,session,rating,ts) VALUES(?,?,?,?)',(data.chat_id,u['token'],data.rating,now()))
     return {'ok':True}
 @app.get('/api/admin')
@@ -328,7 +312,7 @@ async def upload(req:Request,file:UploadFile=File(...),audience:str=Form('techni
     except Exception:raise HTTPException(400,'Không trích xuất được; cần file UTF-8 hoặc PDF có text')
     if len(body.strip())<30:raise HTTPException(400,'Không đủ nội dung. PDF scan cần OCR ngoài demo.')
     if len(body)>12000:raise HTTPException(400,'Chia tài liệu thành các mục dưới 12.000 ký tự cho demo')
-    d=dict(id='UP-'+secrets.token_hex(4).upper(),title=name,category='Tải lên',body=body,roles=['technical','admin'] if audience=='technical' else ['sale','technical','admin'],customer=None,version='upload-1',status='pending',valid_from=date.today().isoformat(),valid_to='2027-12-31',owner='Quản trị demo')
+    d=dict(id='UP-'+secrets.token_hex(4).upper(),title=name,category='Tải lên',body=body,roles=['sale','technical','admin'],customer=None,version='upload-1',status='pending',valid_from=date.today().isoformat(),valid_to='2027-12-31',owner='Quản trị demo')
     with connect() as c:c.execute('INSERT INTO docs VALUES(?,?)',(d['id'],json.dumps(d,ensure_ascii=False)))
     audit('upload',u['role'],d['id']+' đang chờ duyệt');return {'id':d['id'],'status':'pending'}
 @app.post('/api/admin/documents/{id}/{action}')
@@ -344,5 +328,5 @@ def approve(id:str,action:str,req:Request):
     audit(action,u['role'],id);return {'ok':True}
 
 accounts.install(app,connect,user,audit)
-workflows.install(app,connect,user,docs_for,audit)
+conversations.install(app,connect,user,docs_for,now)
 admin_system.install(app,connect,user,audit,LOCK,docs_for)
