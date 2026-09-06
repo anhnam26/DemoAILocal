@@ -1,5 +1,9 @@
 # Kiến trúc và luồng dữ liệu
 
+[Về README](../README.md) · [Cài đặt](SETUP.md)
+
+Đọc tài liệu này để thay đổi code hoặc hiểu cách các thành phần phối hợp; người cài lần đầu nên hoàn tất SETUP trước.
+
 ```mermaid
 flowchart LR
   U[Trình duyệt] --> A[FastAPI :8088]
@@ -59,3 +63,26 @@ Xóa conversation dùng transaction: kiểm chủ sở hữu → xóa feedback c
 | `GET /api/admin/users` | Tài khoản và phiên online, chỉ quản trị |
 
 Admin có trang hội thoại toàn hệ thống; lịch sử cá nhân vẫn là của chính admin. Dashboard hồ sơ/tài chính giữ bộ lọc khách được phân công nhưng nguồn đã chia sẻ trong kho chung không còn bí mật theo nhóm khách.
+
+## Cấu trúc sau khi cài từ repo
+
+```text
+repo/
+  app.py, accounts.py, conversations.py, generation.py
+  system_runtime.py, admin_system.py, runtime_limits.py
+  business.py, finance_logic.py, *_data.py
+  Start-Demo.ps1, Stop-Demo.ps1, Restart-App.ps1
+  requirements-lock.txt
+  static/       giao diện cùng origin
+  docs/         hướng dẫn dùng/cài/phát triển
+  examples/     cấu hình mẫu có thể commit
+  data/         seed tổng hợp + DB/credential local (DB/secret bị ignore)
+  models/       manifest có thể commit + GGUF tải riêng
+  runtime/      executable/DLL tải riêng
+  .venv-runtime/ Python local
+  logs/         tạo khi chạy
+  artifacts/    tạo khi test
+  backups/      tạo khi backup
+```
+
+`exports/` không phải thành phần runtime. Trình duyệt không đọc trực tiếp file Python/SQLite; mọi dữ liệu qua API có xác thực. Static được phục vụ từ backend, không mở index.html bằng file:// để chạy ứng dụng.

@@ -1,5 +1,9 @@
 # Context, số lượt đồng thời và trần trả lời
 
+[Về README](../README.md) · [Vận hành](OPERATIONS.md)
+
+Người vừa cài nên giữ mặc định 2 × 4.096/800 và thử một câu có nguồn trước. Không tăng tới cận trên chỉ vì trường nhập cho phép.
+
 ## Ba loại giới hạn khác nhau
 
 1. **Model gốc:** Qwen công bố context gốc **262.144 token**. Đây là năng lực kiến trúc, không bảo đảm GPU 8 GB đủ bộ nhớ hoặc độ trễ phù hợp. [Model card chính thức Qwen3.5-9B](https://huggingface.co/Qwen/Qwen3.5-9B).
@@ -49,3 +53,9 @@ Lưu cấu hình rồi khởi động lại model để đổi slot/context. Tr�
 Mặc định giữ 2 × 4.096, đầu ra 800. Đã đo hai slot thực xử lý đồng thời, câu thứ ba vào hàng chờ. Tăng số slot chia sẻ GPU, không bảo đảm mỗi câu nhanh hơn. Thông số gợi ý vận hành xuất phát từ phép đo trên máy tham chiếu, cần kiểm lại khi đổi máy/runtime hoặc tải nền.
 
 Đã kiểm tra thêm **4 slot × 4.096**, model `/slots` báo 4 lượt cùng xử lý, backend cũng ghi nhận 4 lượt; bốn câu thử hoàn tất khoảng **26,14 giây**. Cấu hình được lưu/restart qua API quản trị rồi phục hồi 2 slot/4.096/800. Bài thử dùng câu khác và tải nền khác phép đo 2 slot, nên không so trực tiếp hai thời gian để kết luận cấu hình nào nhanh hơn. Báo cáo local: `artifacts/four-slot-report.json`.
+
+## Cấu hình mẫu trong repo
+
+`examples/runtime-config.example.json` là bản mẫu không có secret. Chép sang `data/runtime-config.json` chỉ khi cần tạo cấu hình lần đầu; cập nhật trong web sau đó. Không chia sẻ file config local thay cho bản example nếu có thêm thông tin riêng trong tương lai.
+
+Các giá trị cận trên nằm trong `runtime_limits.py`; backend chặn tổng context vượt 65.536. Nếu chọn 4 slot, context 32.768 mỗi slot sẽ bị từ chối vì tổng 131.072. Context 16.384 × 4 nằm trong giới hạn phần mềm nhưng vẫn phải kiểm RAM/VRAM và hiệu năng trước khi sử dụng. Các báo cáo artifacts nêu trên là bằng chứng trên máy tham chiếu, không được tải kèm repo mặc định; chạy bài tương ứng để sinh báo cáo tại máy mới.

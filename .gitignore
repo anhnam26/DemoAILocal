@@ -1,22 +1,60 @@
+# Python environments, bytecode and tool caches
 .venv*/
+venv/
 __pycache__/
+*.py[cod]
 .pytest_cache/
-models/*.gguf
-models/*.partial
-runtime/
-data/model-api-key.txt
-data/*.sqlite3*
-logs/
-backups/
-exports/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.egg-info/
+build/
+dist/
+
+# Downloaded model weights and runtime; keep models/manifest.json
+/models/**/*.gguf
+/models/**/*.partial
+/models/**/*.safetensors
+/models/**/*.bin
+/runtime/
+
+# Local secrets and runtime settings; keep examples/ templates
+/data/model-api-key.txt
+/data/initial-accounts.json
+/data/runtime-config.json
+/data/runtime-config.tmp
 .env
 .env.*
 !.env.example
 *.pem
 *.key
-artifacts/
+*.p12
+*.pfx
 
-# Local credentials and user snapshots
-data/initial-accounts.json
-data/runtime-config.json
-backups/
+# Runtime databases, including SQLite sidecar files
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+
+# Local logs, backups, reports and source export packages
+/logs/
+/backups/
+/exports/
+/artifacts/
+*.log
+
+# Editor and OS temporary files
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Synthetic data JSON/Markdown, docs and source files stay versioned.
