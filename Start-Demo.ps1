@@ -14,7 +14,7 @@ if (Test-Path -LiteralPath $settingsFile) {
     $runtimeSettings.context = [int]$savedSettings.context
     $runtimeSettings.gpu_layers = [int]$savedSettings.gpu_layers
     $runtimeSettings.cache_ram = [int]$savedSettings.cache_ram
-    if ($runtimeSettings.parallel -lt 1 -or $runtimeSettings.parallel -gt 2 -or $runtimeSettings.context -lt 2048 -or $runtimeSettings.context -gt 8192 -or $runtimeSettings.gpu_layers -lt 0 -or $runtimeSettings.gpu_layers -gt 99 -or $runtimeSettings.cache_ram -lt 0 -or $runtimeSettings.cache_ram -gt 512) { throw 'Runtime settings outside supported demo limits.' }
+    if ($runtimeSettings.parallel -lt 1 -or $runtimeSettings.parallel -gt 4 -or $runtimeSettings.context -lt 2048 -or $runtimeSettings.context -gt 65536 -or ($runtimeSettings.context * $runtimeSettings.parallel) -gt 65536 -or $runtimeSettings.gpu_layers -lt 0 -or $runtimeSettings.gpu_layers -gt 99 -or $runtimeSettings.cache_ram -lt 0 -or $runtimeSettings.cache_ram -gt 512) { throw 'Runtime settings outside supported demo limits.' }
 }
 foreach ($requiredFile in @($modelExe,$modelFile,$pythonExe)) {
     if (-not (Test-Path -LiteralPath $requiredFile)) { throw "Missing: $requiredFile. See README.md for setup." }

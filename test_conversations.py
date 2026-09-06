@@ -75,3 +75,21 @@ def test_explicit_financial_topic_does_not_reuse_old_topic():
     q='Xem công nợ Bình An Factory'
     assert context_query(q,'Lợi nhuận An Minh là bao nhiêu?')==q
     assert 'Chủ đề trước:' in context_query('Tạo bảng so sánh hai cái đó','Firewall và WAF khác nhau như thế nào?')
+
+def test_delete_conversation_ownership_cascade_and_busy():
+    s=client('sale');other=client('technical')
+    answer=s.post('/api/chat',json={'question':'Firewall và WAF khác nhau như thế nào?'}).json();id=answer['conversation_id']
+    s.post('/api/feedback',json={'chat_id':answer['chat_id'],'rating':1})
+    assert other.delete('/api/conversations/'+id).status_code==404
+    app.ACTIVE_CONVERSATIONS.add(id)
+    try:assert s.delete('/api/conversations/'+id).status_code==409
+    finally:app.ACTIVE_CONVERSATIONS.discard(id)
+    assert s.delete('/api/conversations/'+id).status_code==200
+    assert s.get('/api/conversations/'+id).status_code==404
+    assert s.post('/api/chat',json={'question':'Hỏi tiếp chủ đề cũ','conversation_id':id}).status_code==404
+    with app.connect() as db:
+        assert db.execute('SELECT COUNT(*) FROM chats WHERE conversation_id=?',(id,)).fetchone()[0]==0
+        assert db.execute('SELECT COUNT(*) FROM feedback WHERE chat_id=?',(answer['chat_id'],)).fetchone()[0]==0
+        assert db.execute('SELECT COUNT(*) FROM sessions WHERE conversation_id=?',(id,)).fetchone()[0]==0
+    conversations.init(app.connect)
+    assert id not in {x['id'] for x in s.get('/api/conversations').json()['items']}

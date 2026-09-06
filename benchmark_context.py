@@ -66,11 +66,13 @@ def run():
                 if p and p.poll() is None:p.terminate();p.wait(timeout=15)
                 p=None
             if trial.get('vram_total_mib',8192)-trial.get('vram_used_mib',0)<512:break
-        report['max_allocated']=max((t['context'] for t in report['trials'] if t.get('state')=='allocated'),default=0)
+        report['max_allocated']=max((t['context'] for t in report['trials'] if t.get('actual_context')),default=0)
         report['max_long_tested']=max((t['context'] for t in report['trials'] if t.get('long_passed')),default=0)
     finally:
         if p and p.poll() is None:p.terminate();p.wait(timeout=15)
         report['finished']=time.strftime('%Y-%m-%d %H:%M:%S');save()
-        subprocess.run(['powershell','-NoProfile','-ExecutionPolicy','Bypass','-File',str(ROOT/'Start-Demo.ps1')],cwd=ROOT,creationflags=FLAGS,capture_output=True,timeout=60)
+        # Do not capture pipes inherited by Windows background descendants.
+        restorer=subprocess.Popen(['powershell','-NoProfile','-ExecutionPolicy','Bypass','-File',str(ROOT/'Start-Demo.ps1')],cwd=ROOT,creationflags=FLAGS,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        restorer.wait(timeout=60)
         print('Original saved configuration restarted; report in artifacts/context-benchmark.json',flush=True)
 if __name__=='__main__':run()

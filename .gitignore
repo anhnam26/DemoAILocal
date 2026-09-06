@@ -8,6 +8,12 @@ data/model-api-key.txt
 data/*.sqlite3*
 logs/
 backups/
+exports/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
 artifacts/
 
 # Local credentials and user snapshots

@@ -13,6 +13,7 @@ from pypdf import PdfReader
 import io
 import accounts
 import system_runtime
+import runtime_limits
 import conversations
 from generation import GenerationGate
 import admin_system
@@ -233,7 +234,8 @@ async def answer_chat(data,req,u,conversation_id):
         observed=system_runtime.observed_config() or {}
         actual_context=observed.get('context') or runtime_config['context']
         # Reserve room for instructions and output; avoid sending full long sources to a small context.
-        source_budget=max(900,(actual_context-runtime_config['max_tokens']-1100)*2)
+        effective_output=runtime_limits.output_limit(actual_context,runtime_config['max_tokens'])
+        source_budget=max(900,(actual_context-effective_output-1100)*2)
         limited=[]
         for d in found:
             if source_budget<180:break
@@ -252,7 +254,7 @@ Trả JSON đúng schema: answer (chuỗi có trích dẫn), used_sources (mản
         await LOCK.enter(max(1,observed.get('parallel') or 1))
         try:
             async with httpx.AsyncClient(timeout=180,trust_env=False) as client:
-                r=await client.post(MODEL_URL+'/v1/chat/completions',headers=model_headers(),json={'model':MODEL_ID,'messages':[{'role':'system','content':system},{'role':'user','content':f'NGUỒN ĐƯỢC PHÉP:\n{context}\n\nCÂU HỎI: {effective}'}],'temperature':runtime_config['temperature'],'max_tokens':min(runtime_config['max_tokens'],max(256,actual_context//4)),'chat_template_kwargs':{'enable_thinking':False},'response_format':{'type':'json_schema','json_schema':{'name':'grounded_answer','strict':True,'schema':schema}}})
+                r=await client.post(MODEL_URL+'/v1/chat/completions',headers=model_headers(),json={'model':MODEL_ID,'messages':[{'role':'system','content':system},{'role':'user','content':f'NGUỒN ĐƯỢC PHÉP:\n{context}\n\nCÂU HỎI: {effective}'}],'temperature':runtime_config['temperature'],'max_tokens':runtime_limits.output_limit(actual_context,runtime_config['max_tokens']),'chat_template_kwargs':{'enable_thinking':False},'response_format':{'type':'json_schema','json_schema':{'name':'grounded_answer','strict':True,'schema':schema}}})
                 r.raise_for_status();payload=r.json();raw=payload['choices'][0]['message']['content']
                 result=json.loads(re.sub(r'<think>.*?</think>','',raw,flags=re.S).strip())
                 ids=set(d['id'] for d in found);used=[x for x in result['used_sources'] if x in ids]
@@ -328,5 +330,5 @@ def approve(id:str,action:str,req:Request):
     audit(action,u['role'],id);return {'ok':True}
 
 accounts.install(app,connect,user,audit)
-conversations.install(app,connect,user,docs_for,now)
+conversations.install(app,connect,user,docs_for,now,ACTIVE_CONVERSATIONS,audit)
 admin_system.install(app,connect,user,audit,LOCK,docs_for)

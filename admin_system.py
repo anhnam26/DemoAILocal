@@ -3,13 +3,14 @@ from pathlib import Path
 from fastapi import APIRouter,HTTPException,Request
 from pydantic import BaseModel,Field
 import system_runtime as runtime
+import runtime_limits as limits
 class Settings(BaseModel):
-    parallel:int=Field(default=2,ge=1,le=2)
-    context:int=Field(ge=2048,le=8192)
+    parallel:int=Field(default=2,ge=1,le=limits.MAX_PARALLEL)
+    context:int=Field(ge=limits.MIN_CONTEXT,le=limits.MAX_CONTEXT)
     gpu_layers:int=Field(ge=0,le=99)
     cache_ram:int=Field(ge=0,le=512)
     temperature:float=Field(ge=0,le=1)
-    max_tokens:int=Field(ge=256,le=1200)
+    max_tokens:int=Field(ge=256,le=limits.MAX_OUTPUT)
 class Action(BaseModel):action:str
 TASKS=set()
 
@@ -22,6 +23,8 @@ def install(app,connect,user,audit,generation_lock,docs_for):
     @router.get('/api/admin/system')
     def system(req:Request):
         admin(req);data=runtime.metrics()
+        configured=data['configured'];observed=data['observed']
+        data={**data,'budgets':{'saved':limits.budget(configured['context'],configured['parallel'],configured['max_tokens']),'running':limits.budget(observed['context'],observed['parallel'],configured['max_tokens']) if observed and observed.get('context') and observed.get('parallel') else None},'limits':dict(max_parallel=limits.MAX_PARALLEL,max_context=limits.MAX_CONTEXT,max_total_context=limits.MAX_TOTAL_CONTEXT,max_output=limits.MAX_OUTPUT)}
         with connect() as c:
             counts={table:c.execute('SELECT COUNT(*) FROM '+table).fetchone()[0] for table in ('users','docs','chats','audit','feedback','conversations')}
             online=c.execute('SELECT COUNT(DISTINCT user_id) FROM sessions WHERE last_seen>? AND created>?',(time.time()-75,time.time()-43200)).fetchone()[0]
@@ -30,6 +33,7 @@ def install(app,connect,user,audit,generation_lock,docs_for):
     def configure(data:Settings,req:Request):
         u=admin(req)
         if data.context%256:raise HTTPException(400,'Context phải là bội số của 256.')
+        if data.context*data.parallel>limits.MAX_TOTAL_CONTEXT:raise HTTPException(400,'Tổng context của tất cả lượt không được vượt '+str(limits.MAX_TOTAL_CONTEXT)+' token trong bản demo.')
         if generation_lock.locked():raise HTTPException(409,'Có lượt sinh hoặc thao tác model đang chạy. Chờ hoàn tất trước đổi cấu hình.')
         runtime.save_config(data.model_dump());runtime.METRICS_TIME=0;audit('runtime_config',u['role'],json.dumps(data.model_dump()))
         return dict(ok=True,configured=data.model_dump(),message='Đã lưu. Temperature/token đầu ra áp dụng lượt hỏi mới. Context/số lượt đồng thời/lớp GPU/cache áp dụng sau Khởi động lại model.')

@@ -50,7 +50,7 @@ def messages(connect,u,id,docs_for,before=None):
         result.append(dict(**d,question=r['question'],chat_id=r['id'],ts=r['ts'],conversation_id=id))
     return dict(messages=result,has_more=more,next_before=rows[-1]['id'] if rows else None)
 
-def install(app,connect,user,docs_for,now):
+def install(app,connect,user,docs_for,now,active_conversations,audit):
     router=APIRouter()
     @router.get('/api/conversations')
     def listing(req:Request,offset:int=Query(0,ge=0),q:str=Query('',max_length=100)):
@@ -64,4 +64,17 @@ def install(app,connect,user,docs_for,now):
     def detail(id:str,req:Request,before:int|None=Query(None,ge=1)):
         u=user(req);resolve(connect,u,id,now)
         return dict(id=id,**messages(connect,u,id,docs_for,before))
+    @router.delete('/api/conversations/{id}')
+    async def delete(id:str,req:Request):
+        u=user(req);resolve(connect,u,id,now)
+        if id in active_conversations:raise HTTPException(409,'Cuộc trò chuyện đang xử lý câu hỏi. Hãy chờ hoàn tất rồi xóa.')
+        with connect() as c:
+            c.execute('BEGIN IMMEDIATE')
+            if not c.execute('SELECT 1 FROM conversations WHERE id=? AND user_id=?',(id,u['id'])).fetchone():raise HTTPException(404,'Cuộc trò chuyện không còn tồn tại.')
+            c.execute('DELETE FROM feedback WHERE chat_id IN (SELECT id FROM chats WHERE conversation_id=?)',(id,))
+            c.execute('DELETE FROM chats WHERE conversation_id=?',(id,))
+            c.execute('UPDATE sessions SET conversation_id=NULL WHERE conversation_id=?',(id,))
+            c.execute('DELETE FROM conversations WHERE id=? AND user_id=?',(id,u['id']))
+        audit('conversation_delete',u['role'],id)
+        return dict(ok=True,id=id)
     app.include_router(router)

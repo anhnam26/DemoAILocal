@@ -23,7 +23,7 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
 $('#logout').onclick=async()=>{await api('/logout',{method:'POST'});location.reload()};
 $('#chat-form').onsubmit=e=>{e.preventDefault();const q=$('#question').value.trim();if(q.length>=2)ask(q)};
 $('#question').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('#chat-form').requestSubmit()}};
-$('#doc-search').oninput=renderDocuments;$('#doc-category').onchange=renderDocuments;$('#close-modal').onclick=()=>$('#document-modal').close();$('#refresh-health').onclick=()=>{checkHealth();loadSystem(true).catch(e=>toast(e.message))};
+$('#doc-search').oninput=renderDocuments;$('#doc-category').onchange=renderDocuments;$('#close-modal').onclick=()=>$('#document-modal').close();$('#refresh-health').onclick=()=>{runtimeFormDirty=false;checkHealth();loadSystem(true).catch(e=>toast(e.message))};
 $('#upload-form').onsubmit=async e=>{e.preventDefault();const f=new FormData();f.append('file',$('#upload-file').files[0]);f.append('audience',$('#audience').value);try{await api('/admin/upload',{method:'POST',body:f});await loadAdmin();$('#upload-form').reset();toast('Tài liệu đang chờ duyệt; chưa được dùng để trả lời.')}catch(err){toast(err.message)}};
 (async()=>{try{const u=await api('/me');await enter(u)}catch{}await checkHealth();setInterval(checkHealth,30000)})();
 
