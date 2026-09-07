@@ -56,5 +56,5 @@ dist/
 .DS_Store
 Thumbs.db
 Desktop.ini
-
+run.txt
 # Synthetic data JSON/Markdown, docs and source files stay versioned.
