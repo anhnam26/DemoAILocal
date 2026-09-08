@@ -58,3 +58,7 @@ Thumbs.db
 Desktop.ini
 run.txt
 # Synthetic data JSON/Markdown, docs and source files stay versioned.
+
+# Private internal deployment: sources, derived data, code and reports stay local.
+/DataReal/
+/.local-internal/

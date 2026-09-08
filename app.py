@@ -332,3 +332,15 @@ def approve(id:str,action:str,req:Request):
 accounts.install(app,connect,user,audit)
 conversations.install(app,connect,user,docs_for,now,ACTIVE_CONVERSATIONS,audit)
 admin_system.install(app,connect,user,audit,LOCK,docs_for)
+
+# Optional machine-local extension. Clones without this ignored directory run normally.
+def _install_local_extension():
+    import importlib.util, os
+    extension=ROOT/'.local-internal'/'extension.py'
+    if os.environ.get('CYBERANT_LOCAL_EXTENSIONS','1')=='0' or not extension.is_file():return
+    spec=importlib.util.spec_from_file_location('cyberant_local_extension',extension)
+    module=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    module.install(app,globals())
+
+_install_local_extension()
