@@ -1,37 +1,52 @@
-# CyberAnt — kho tri thức dùng chung
+# CyberAnt — OpenRouter Knowledge
 
-Một ứng dụng tại http://127.0.0.1:8088, một cơ sở dữ liệu, hai chế độ sinh câu trả lời: **OpenRouter API** hoặc **local llama.cpp**. Không còn trang chọn Demo/Internal hoặc phân chia Sale/Kỹ thuật. Thành viên đọc cùng kho tri thức; quản trị quản lý tài liệu, tài khoản và model.
+Một ứng dụng dùng OpenRouter, kho lý thuyết chung, tài khoản và lịch sử riêng. Không còn model GPU, runtime llama.cpp hoặc chế độ local trong dự án server.
 
-## Chạy trên máy hiện tại
+## Chạy bằng Docker
+
+1. Sao chép `.env.example` thành `.env` trên server. Điền key, bốn model, `APP_ORIGINS=https://<tên-miền>` và mật khẩu admin ban đầu ít nhất 14 ký tự. Không ghi đè `.env` đang có nếu chưa lưu lại key/model.
+2. Chạy `docker compose up -d --build`.
+3. Cấu hình reverse proxy HTTPS theo `deploy/nginx.conf.example`, thay tên miền và certificate. App chỉ được publish ở `127.0.0.1:8088` của server.
+4. Đăng nhập admin. Sau khi DB đã có tài khoản, bỏ `BOOTSTRAP_ADMIN_PASSWORD` khỏi cấu hình và tạo lại container để loại secret khỏi môi trường tiến trình.
+
+Chưa có tên miền thì chuẩn bị cấu hình trước; production không chấp nhận origin HTTP. Để thử trên máy, dùng `APP_ENV=development`, origin `http://127.0.0.1:8088` và chạy Python trực tiếp. Chưa có Docker trên máy làm việc hiện tại nên bản container chưa được build/run tại đây; mã đã kiểm trong môi trường Python sạch.
+
+## Quản trị tài khoản và token
+
+**Người dùng → Tạo/Sửa tài khoản**: chọn vai trò, model trong `.env`, hạn mức tháng, mật khẩu và trạng thái. Để trống mật khẩu khi tạo: cấp ngẫu nhiên; khi sửa: giữ mật khẩu cũ. Admin có thể nhập mật khẩu mới cho mọi tài khoản hoặc cấp lại ngẫu nhiên. Đổi mật khẩu/khóa/đổi vai trò thu hồi phiên. Model và hạn mức cập nhật ngay, không cần đăng xuất.
+
+**Hạn mức = token đầu vào + đầu ra**, bao gồm reasoning nếu nhà cung cấp tính trong usage. Tháng tính theo **UTC**, tự chuyển kỳ bằng khóa `YYYY-MM`, không cần cron và không xóa lịch sử sử dụng. Mặc định tài khoản cũ/mới: **1.000.000 token/tháng**; admin cũng chịu hạn mức. `0` chặn gọi AI, vẫn đăng nhập/đọc tài liệu được.
+
+Trước gọi API, SQLite giữ trước ngân sách đầu vào ước lượng + trần đầu ra bằng transaction. Lượt chạy song song dùng chung hạn mức; không cho cùng chi phần còn lại. Sau phản hồi cập nhật theo `usage` thực và trả phần thừa. Mô hình/tokenizer khác nhau có thể vượt ước lượng: số thực vẫn được ghi đầy đủ và chặn lượt sau; đây không phải hạn mức cứng do OpenRouter thực thi.
+
+**Theo dõi token theo tháng**: lọc tài khoản và tháng; xem token vào/ra, tổng đã dùng, đang giữ, chưa rõ, model và chi phí provider báo. Xóa hội thoại/reset mật khẩu/đổi model không reset lượng đã dùng. Hạn mức hiện tại hiển thị cùng thống kê; chưa lưu lịch sử các mức hạn mức theo từng tháng.
+
+Timeout/mất mạng/khởi động lại lúc gọi có thể đã bị provider tính token: hệ thống giữ ngân sách ở trạng thái **Cần đối soát**, không ghi giả là 0. Admin xem mã generation nếu có, xác minh OpenRouter rồi nhập token thực và ghi chú; thao tác được audit. Không tự gọi lại hoặc đổi model khi lỗi.
+
+## Kho tri thức và chi phí
+
+`knowledge/documents.json` là nguồn chuẩn duy nhất gồm 1.194 tài liệu. Startup hoặc **Hệ thống → Đồng bộ kho tri thức** cập nhật thêm/sửa/xóa vào DB, giữ trạng thái thu hồi. Không cần NewData/Word/Excel gốc để chạy server. Upload TXT/MD/PDF có text chờ admin duyệt; chỉ nhập lý thuyết được phép chia sẻ.
+
+RAG tìm từ/ký tự và ưu tiên nhóm A–F trên CPU, chọn tối đa 6 đoạn đa dạng, bỏ phần lặp và giới hạn prompt. Thường một API call cho câu có nguồn. Không gửi cả kho hoặc toàn lịch sử. Ngân sách đầu vào 6.000 là ước lượng byte UTF-8 bảo thủ, không phải tokenizer chính xác; số thực lấy từ API. Chưa có embeddings/reranker hoặc cache câu trả lời. Nhãn dự thảo kỹ thuật vẫn được giữ.
+
+## Triển khai và dữ liệu
+
+- [Hướng dẫn triển khai, chuyển DB và backup](docs/DEPLOYMENT.md)
+- [Báo cáo thay đổi và kiểm thử](docs/SERVER_REPORT.md)
+- `data/app.sqlite3`: DB hiện có trên máy; Docker mới dùng named volume riêng, **không tự chép tài khoản cũ vào image**.
+- API key, DB, mật khẩu khởi tạo, log, test và model local không được đưa vào Docker image.
+- Một worker / một instance SQLite. Chưa hỗ trợ nhiều replica dùng chung hạn mức và hàng chờ; mở rộng cần thiết kế lại điều phối.
+
+## Kiểm thử và chạy Python
+
+Python 3.14. `requirements-lock.txt` chứa dependency runtime; công cụ kiểm thử nằm riêng ở `requirements-dev.txt`.
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\Start-Demo.ps1
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.venv\Scripts\python.exe -m pytest -q
+powershell -File Start-App.ps1 -Python .venv\Scripts\python.exe
 ```
 
-API key và model được đọc từ `.env`: hỗ trợ `API_KEY`/`MODEL` đang có hoặc `OPENROUTER_API_KEY`/`OPENROUTER_MODEL`. Key không được gửi tới trình duyệt. Model dùng ID gốc của OpenRouter, ví dụ `nvidia/nemotron-3-super-120b-a12b:free`, không thêm tiền tố adapter `openrouter/`.
-
-Chọn **Hệ thống → Chế độ trả lời** hoặc đặt `LLM_MODE=openrouter` / `LLM_MODE=local` trong `.env`. Chế độ API khởi động được khi không có GPU, GGUF hay llama-server. Chọn local khi model chưa chạy thì bấm Khởi động model. Không tự chuyển sang nhà cung cấp khác khi gặp lỗi.
-
-Tài khoản hiện có được giữ mật khẩu, chuyển vai trò Sale/Kỹ thuật thành Thành viên. Tên đăng nhập cũ vẫn sử dụng được. Khi cài mới, tạo member/admin với mật khẩu ngẫu nhiên trong `data/initial-accounts.json`.
-
-## Dữ liệu và RAG
-
-Kho hiện có 1.194 tài liệu sau loại trùng: thuật ngữ, cấu hình, khảo sát, quy trình/SOW, ATTT và quy tắc chất lượng dữ liệu. Không có CRM, hợp đồng khách, công nợ, ticket hay hồ sơ khách hàng ví dụ. Hướng dẫn bổ sung chưa được kỹ sư duyệt vẫn mang nhãn `draft_engineer_review`, không trở thành cam kết thực tế.
-
-Luồng: câu hỏi → tìm kiếm từ/ký tự và ưu tiên nhóm trên CPU → chọn tối đa 6 đoạn đa dạng, bỏ phần lặp → giới hạn prompt → một lượt gọi model → kiểm tra mã trích dẫn → lưu lịch sử theo tài khoản. Câu hỏi hồ sơ khách hàng hoặc không tìm thấy nguồn có thể trả lời mà không gọi model.
-
-Không gọi thêm API phân loại cho mọi câu hỏi. Không gửi nguyên nhóm tài liệu. Ngân sách mặc định: `RAG_INPUT_TOKENS=6000`, `RAG_OUTPUT_TOKENS=1000`, `RAG_TOP_K=6`, `API_PARALLEL=2`. Đếm đầu vào theo byte UTF-8 bảo thủ, không phải tokenizer chính xác của mọi model; token thực tế và chi phí lấy từ `usage` của API. Xem [ngân sách](docs/TOKEN_LIMITS.md).
-
-## Tài liệu và kiểm tra
-
-- [Cài đặt](docs/SETUP.md), [sử dụng](docs/USER_GUIDE.md), [dữ liệu](docs/DATA.md).
-- [Kiến trúc](docs/ARCHITECTURE.md), [vận hành](docs/OPERATIONS.md), [xử lý lỗi](docs/TROUBLESHOOTING.md).
-- [Báo cáo thay đổi và giới hạn](docs/CHANGE_REPORT.md).
-
-```powershell
-.venv-runtime\Scripts\python.exe -X utf8 -m pytest -q
-.venv-runtime\Scripts\python.exe -X utf8 evaluate_rag.py
-.venv-runtime\Scripts\python.exe -X utf8 check_unified.py
-# Có gọi OpenRouter thật; có thể tính phí tùy model:
-.venv-runtime\Scripts\python.exe -X utf8 check_unified.py --live
-```
+Phần local cũ nằm riêng tại `D:\CyberAnt-Local-Archive-20260928` trên máy phát triển, không phải dependency của bản server.

@@ -1,7 +1,7 @@
 # Phát triển
 
-Đọc README và docs/ARCHITECTURE.md. Một app, hai provider, một kho lý thuyết. Không thêm lại CRM/finance hoặc ứng dụng internal riêng.
+Server dùng OpenRouter, không nhập lại dependency GPU/local. Nguồn chuẩn `knowledge/documents.json`; cấu hình qua `config.py`; ghi usage chỉ qua `token_usage.py`.
 
-Chạy `.venv-runtime\Scripts\python.exe -X utf8 -m pytest -q`. Test tạo DB và tài khoản biệt lập, mock provider để không gọi API. `evaluate_rag.py` kiểm truy xuất 16 câu hỏi, chưa chấm độ đúng câu trả lời. `check_unified.py --live` gọi model thật theo .env và có thể tính phí.
+Chạy `python -m pytest -q` với requirements-dev. Test dùng DB/tài khoản tạm, mock API; không gọi model có phí. Các thay đổi quota phải kiểm cạnh tranh, tháng UTC, lỗi mạng, restart, usage thiếu và lịch sử bị xóa. Không log .env/key/password.
 
-Không commit .env, DB, tài khoản, NewData hoặc nội dung công ty khi chưa có quyền chia sẻ. Khi đổi adapter nguồn phải giữ provenance, trạng thái review và kiểm loại dữ liệu khách hàng. Khi đổi prompt/provider phải kiểm budget, lỗi mạng, token usage và mã nguồn giả.
+Docker context chỉ chứa runtime theo allowlist .dockerignore. Không commit DB, mật khẩu khởi tạo hoặc API key. Source tri thức công ty cần được phép chia sẻ trước publish.

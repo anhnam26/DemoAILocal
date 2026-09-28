@@ -4,7 +4,7 @@ import httpx,pytest
 import rag,model_provider,sync_knowledge
 
 def test_budget_and_diverse_chunks():
-    docs=json.loads(Path('data/knowledge_documents.json').read_text(encoding='utf8'))
+    docs=json.loads(Path('knowledge/documents.json').read_text(encoding='utf8'))
     found,route=rag.retrieve('RMA là gì và các bước thực hiện ra sao?',docs)
     messages,selected,count=rag.pack('RMA là gì?',found,6000)
     assert selected and count<=6000 and len(selected)<=6
@@ -26,14 +26,15 @@ def test_sync_updates_deletes_and_preserves_retirement(tmp_path):
 
 def test_env_aliases_and_no_secret_projection(tmp_path,monkeypatch):
     for key in ('LLM_MODE','OPENROUTER_API_KEY','API_KEY','OPENROUTER_MODEL','MODEL'):monkeypatch.delenv(key,raising=False)
-    monkeypatch.setattr(model_provider,'ROOT',tmp_path)
+    monkeypatch.setattr(model_provider.config,'ROOT',tmp_path)
     (tmp_path/'.env').write_text('API_KEY="example-secret"\nMODEL=vendor/model\n',encoding='utf8')
     assert model_provider.settings()['mode']=='openrouter'
     assert model_provider.settings()['model']=='vendor/model'
     assert 'example-secret' not in str(model_provider.public_settings())
-    monkeypatch.setenv('LLM_MODE','local');assert model_provider.settings()['url'].startswith('http://127.0.0.1')
+    monkeypatch.setenv('MODEL1','vendor/second');assert 'vendor/second' in model_provider.models()
+    monkeypatch.setenv('LLM_MODE','local');assert model_provider.settings()['url'].startswith('https://openrouter.ai')
 
-@pytest.mark.parametrize('mode',['local','openrouter'])
+@pytest.mark.parametrize('mode',['openrouter'])
 def test_provider_wire_payload_and_usage(monkeypatch,mode):
     seen=[]
     def handler(request):

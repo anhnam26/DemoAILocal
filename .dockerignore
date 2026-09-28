@@ -1,0 +1,17 @@
+*
+!Dockerfile
+!requirements-lock.txt
+!accounts.py
+!admin_system.py
+!app.py
+!config.py
+!conversations.py
+!generation.py
+!model_provider.py
+!rag.py
+!sync_knowledge.py
+!token_usage.py
+!static/
+!static/**
+!knowledge/
+!knowledge/documents.json

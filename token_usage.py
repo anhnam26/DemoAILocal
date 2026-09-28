@@ -25,6 +25,19 @@ def init(connect):
             created REAL NOT NULL,updated REAL NOT NULL,note TEXT NOT NULL DEFAULT '');
             CREATE INDEX IF NOT EXISTS usage_owner_month ON token_usage(user_id,month);
             CREATE INDEX IF NOT EXISTS usage_created ON token_usage(created);''')
+        c.execute('CREATE TABLE IF NOT EXISTS usage_migrations(name TEXT PRIMARY KEY)')
+        if not c.execute("SELECT 1 FROM usage_migrations WHERE name='import_existing_usage'").fetchone():
+            tables={r[0] for r in c.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+            if 'chats' in tables:
+                for row in c.execute('SELECT id,user_id,result,ts FROM chats WHERE user_id IS NOT NULL').fetchall():
+                    try:
+                        result=json.loads(row[2]);counts=measured(result.get('usage') or {})
+                        if not counts:continue
+                        stamp=datetime.fromisoformat(row[3]).astimezone(timezone.utc)
+                    except (ValueError,TypeError):continue
+                    c.execute('''INSERT OR IGNORE INTO token_usage(id,user_id,month,model,status,reserved_tokens,prompt_tokens,completion_tokens,total_tokens,cost,created,updated,note)
+                       VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)''',('legacy-'+str(row[0]),row[1],stamp.strftime('%Y-%m'),result.get('model') or default_model,'completed',counts[2],*counts,stamp.timestamp(),time.time(),'Usage từ hội thoại trước nâng cấp'))
+            c.execute("INSERT INTO usage_migrations VALUES('import_existing_usage')")
 
 def recover(connect):
     # Called once at single-worker startup; never release potentially sent calls.

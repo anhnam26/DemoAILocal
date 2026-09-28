@@ -8,8 +8,10 @@ def isolated_db(tmp_path,monkeypatch):
     monkeypatch.setattr(app,'DB',tmp_path/'test.sqlite3')
     monkeypatch.setattr(accounts,'BOOTSTRAP',tmp_path/'initial.json')
     accounts.BOOTSTRAP.write_text(json.dumps({'accounts':[dict(username=role,name=role,role=role,customers=[],password='Test-password-12345') for role in ('member','admin')]}),encoding='utf8')
-    app.init();app.ACTIVE_CONVERSATIONS.clear()
     monkeypatch.setenv('LLM_MODE','openrouter');monkeypatch.setenv('OPENROUTER_MODEL','test/model');monkeypatch.setenv('OPENROUTER_API_KEY','test-key')
+    monkeypatch.setenv('APP_ENV','development')
+    monkeypatch.setenv('APP_ORIGINS','http://testserver,http://localhost:8088,http://127.0.0.1:8088')
+    app.init();app.ACTIVE_CONVERSATIONS.clear()
     async def complete(messages,cfg,max_tokens):
         ids=re.findall(r'\[([A-Z0-9-]+)\]',messages[-1]['content'])
         return 'Cần kiểm tra và đối chiếu tài liệu ['+ids[0]+'].',{'prompt_tokens':500,'completion_tokens':40,'total_tokens':540},'stop'
@@ -71,9 +73,9 @@ def test_session_and_origin():
     c.post('/api/logout');assert c.get('/api/documents').status_code==401
 
 def test_no_secrets_in_health():
-    health=TestClient(app.app).get('/api/health').json()
+    health=client().get('/api/model').json()
     assert 'api_key' not in health and 'test-key' not in str(health)
-    assert health['mode']=='openrouter' and health['readiness']=='configured'
+    assert health['mode']=='openrouter' and health['configured']
 
 def test_provider_failure_no_retry(monkeypatch):
     import httpx

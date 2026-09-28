@@ -1,5 +1,0 @@
-Đăng nhập → kho tri thức dùng chung → câu hỏi → ưu tiên nhóm A–F cục bộ → TF-IDF từ/ký tự → chọn đoạn đa dạng → bỏ trùng → đóng gói theo ngân sách → gọi Local hoặc OpenRouter một lần → kiểm mã trích dẫn → trả lời và usage → lưu lịch sử theo tài khoản.
-
-Nguồn chuẩn: data/sources/*.json + NewData/data/processed/company_knowledge.jsonl. Đồng bộ tạo knowledge_documents.json và cập nhật SQLite, xóa nguồn mất, giữ trạng thái thu hồi.
-
-Không có CRM/ticket/công nợ. Không có .local-internal. API key/model trong .env; không đưa key vào trình duyệt. Câu hỏi hồ sơ khách hoặc thiếu nguồn có thể trả lời không gọi API.

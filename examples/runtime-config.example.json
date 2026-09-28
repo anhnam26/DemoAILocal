@@ -1,8 +1,0 @@
-{
-  "context": 4096,
-  "parallel": 2,
-  "max_tokens": 800,
-  "temperature": 0.2,
-  "gpu_layers": 99,
-  "cache_ram": 256
-}

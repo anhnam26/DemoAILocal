@@ -1,9 +1,9 @@
-# Dữ liệu và truy cập
+# Phạm vi bảo vệ
 
-Ứng dụng bind localhost, kiểm Host/Origin, cookie HttpOnly/SameSite, mật khẩu scrypt. Thành viên dùng chung tài liệu; chỉ admin duyệt nguồn, quản lý user và model. Hội thoại kiểm ownership ở backend. Chưa có TLS/SSO/MFA/HA cho phục vụ LAN.
+Mật khẩu scrypt, phiên có thể thu hồi; member không truy cập admin hoặc usage tài khoản khác. Tài khoản model/limit đọc từ DB và kiểm lại khi gửi API. Quota dự trữ/ghi nhận bằng transaction; không phụ thuộc user-supplied usage, lịch sử chat hoặc giá model.
 
-OpenRouter mode gửi câu hỏi và đoạn nguồn ra API. API key đọc từ .env phía server, không trả trong health/admin UI. Không tự retry hoặc chuyển provider khi lỗi. Local mode chỉ gọi localhost.
+HTTPS xử lý bởi reverse proxy, APP_ORIGINS xác định Host/Origin được phép. Cookie Secure trong production, HttpOnly/SameSite. API key chỉ ở .env/env của backend, không trả trong UI. Không dùng cloud fallback hoặc retry tự động. Một process/instance duy nhất.
 
-Kho chỉ chứa lý thuyết và mẫu trống. Không tải dữ liệu khách hàng, secret hoặc thông tin chưa được phép chia sẻ. Mã trích dẫn hợp lệ không bảo đảm câu trả lời đúng ngữ nghĩa; cần đối chiếu nguồn.
+Chỉ đưa lý thuyết được phép chia sẻ vào kho. API gửi câu hỏi và nguồn liên quan tới OpenRouter. Chưa có SSO/MFA, kiểm tra PII tự động, kiểm chứng ngữ nghĩa trích dẫn hoặc kiểm thử xâm nhập độc lập.
 
-Đợt chuyển đổi đã xóa dữ liệu khách hàng trong working tree, DB, backups và chỉ mục cũ. Git history và bản sao ngoài workspace không được rewrite/xóa trong đợt này. Báo sự cố qua kênh riêng của chủ hệ thống, không dán key hoặc hồ sơ nhạy cảm vào issue công khai.
+Docker/package deploy loại .env, DB, plaintext credentials và local archives. Git history cũ có thể chứa file từng commit; xóa working tree không xóa lịch sử. Bản local archive chứa dữ liệu/tài khoản cũ và cần được giữ riêng, không tải cùng source server.
