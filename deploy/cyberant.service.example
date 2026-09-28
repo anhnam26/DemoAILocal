@@ -1,0 +1,24 @@
+[Unit]
+Description=CyberAnt Knowledge API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Replace all three paths/user below with your actual server values.
+User=YOUR_LINUX_USER
+WorkingDirectory=/opt/cyberant
+ExecStart=/home/YOUR_LINUX_USER/miniconda3/envs/cyberant/bin/python /opt/cyberant/main.py
+Environment=APP_ENV=production
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Restart=on-failure
+RestartSec=5
+KillSignal=SIGTERM
+TimeoutStopSec=420
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

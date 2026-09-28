@@ -4,6 +4,7 @@
 !accounts.py
 !admin_system.py
 !app.py
+!main.py
 !config.py
 !conversations.py
 !generation.py
