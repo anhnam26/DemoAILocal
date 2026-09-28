@@ -1,21 +1,73 @@
 # Triển khai server
 
-## Hai lệnh trên Linux
+## Linux có Miniconda3: chạy bằng main.py
 
-Sau khi đưa thư mục dự án lên server, cài Docker Engine + Compose plugin và cấu hình `.env`/HTTPS, chạy trong thư mục đó:
+Ví dụ dưới đây dùng thư mục `/opt/cyberant`; thay bằng vị trí folder thực tế và chạy bằng tài khoản Linux có quyền đọc code/.env, ghi thư mục `data`.
 
 ```bash
-sudo bash Start-App.sh
-sudo bash Stop-App.sh
+conda create -n cyberant python=3.14 pip -y
+conda activate cyberant
+cd /opt/cyberant
+python -m pip install -r requirements-lock.txt
 ```
 
-`Start-App.sh` kiểm tra Docker và `.env`, build image (có cache), chạy nền và chỉ báo thành công khi container healthy. `Stop-App.sh` chỉ dừng service app của dự án, cho phép tối đa 420 giây để các request đang xử lý kết thúc, giữ nguyên volume và tài khoản. Khởi động lại bằng Stop rồi Start. Không cần chmod khi gọi qua bash; file `.sh` dùng LF để chuyển từ Windows sang Linux.
+Không cần Docker cho cách chạy này. Giữ nguyên `.env` đã có key/model và chỉnh các biến sau trên server:
 
-Hai script dùng đường dẫn thư mục chứa script, nên có thể gọi bằng đường dẫn tuyệt đối từ thư mục khác. Giữ nguyên thư mục/tên Compose project giữa các lần chạy để tiếp tục dùng đúng volume.
+```dotenv
+APP_ENV=production
+APP_HOST=127.0.0.1
+APP_PORT=8088
+APP_ORIGINS=https://ai.example.com
+```
 
-**Lần đầu:** việc chép cả folder, kể cả `data/app.sqlite3`, không tự nhập DB đó vào named volume Docker. Nếu muốn giữ tài khoản cũ, thực hiện phần chuyển DB bên dưới trước khi Start. Nếu cài mới, đặt `BOOTSTRAP_ADMIN_PASSWORD` tối thiểu 14 ký tự trong `.env`. Không chép `data/initial-accounts.json` lên server.
+`APP_ORIGINS` phải khớp tên miền HTTPS thực tế. Nginx trên cùng host chuyển tiếp đến `127.0.0.1:8088`; dùng mẫu `deploy/nginx.conf.example` sau khi cấp chứng chỉ. Bỏ `APP_DATA_DIR=/app/data` nếu đã sao chép cấu hình Docker: mặc định bản Python dùng `<thư mục dự án>/data`. Nếu cần dữ liệu ngoài source, đặt APP_DATA_DIR thành đường dẫn tuyệt đối phù hợp.
 
-## Cấu hình
+Giữ tài khoản cũ: dùng SQLite snapshot nhất quán (nút Hệ thống → Sao lưu), chép thành `data/app.sqlite3` trước lần chạy đầu tiên. Không copy đơn lẻ DB đang ghi WAL, không ghi đè DB deployment đang hoạt động. Không đưa `initial-accounts.json`, PID/log Windows hoặc môi trường Python Windows lên Linux. Nếu cài mới chưa có tài khoản, đặt BOOTSTRAP_ADMIN_PASSWORD ít nhất 14 ký tự; xóa biến này sau khi tạo admin thành công.
+
+Chạy trực tiếp để kiểm tra:
+
+```bash
+python main.py
+```
+
+Ứng dụng phục vụ cả giao diện, API, tài khoản, kho tri thức và RAG trên cùng cổng; không cần một tiến trình frontend riêng. Chạy lệnh health trong terminal khác:
+
+```bash
+curl http://127.0.0.1:8088/api/health
+```
+
+Lệnh Python trực tiếp chiếm terminal. Trên server nên dùng service dưới đây để chạy nền và có lệnh stop, không phải Ctrl+C. Nếu đã chạy thử trực tiếp, kết thúc tiến trình đó trước khi bật service; không chạy hai bản cùng DB. `python main.py --help` xem tùy chọn host/port.
+
+## Chạy nền bằng systemd và lệnh start/stop
+
+Trên Linux có systemd, lấy đường dẫn Python sau khi activate Conda:
+
+```bash
+python -c "import sys; print(sys.executable)"
+sudo cp deploy/cyberant.service.example /etc/systemd/system/cyberant.service
+sudo nano /etc/systemd/system/cyberant.service
+```
+
+Thay `User=YOUR_LINUX_USER`, `WorkingDirectory=/opt/cyberant`, và cả hai đường dẫn trong `ExecStart=` bằng tài khoản/thư mục/Python thực tế. Tài khoản service phải có quyền ghi thư mục data. Dùng đường dẫn Python của env Conda nên service không cần gọi `conda activate`. Đường dẫn chứa dấu cách phải được đặt trong dấu nháy kép. App tự đọc `.env`; không ghi API key vào file service.
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start cyberant
+sudo systemctl status cyberant --no-pager
+```
+
+Sau khi cấu hình một lần, dùng hai lệnh:
+
+```bash
+sudo systemctl start cyberant
+sudo systemctl stop cyberant
+```
+
+Xem log: `sudo journalctl -u cyberant -n 100 --no-pager`. Khởi động lại sau chỉnh .env/code: `sudo systemctl restart cyberant`. Muốn tự chạy khi server boot: `sudo systemctl enable cyberant`.
+
+Service gửi SIGTERM, cho phép tới 420 giây để tắt; Uvicorn đợi request tối đa 400 giây. DB và tài khoản không bị xóa. Chỉ một process/worker, không auto-reload. Đã kiểm entrypoint bằng môi trường Python 3.14 sạch trên Windows; chưa chạy Conda/systemd trên server Linux thực.
+
+## Docker (tùy chọn): cấu hình
 
 Compose chạy một process uvicorn, bind container 8088 nhưng chỉ publish vào loopback của host. Nginx/Caddy trên host làm HTTPS; mẫu Nginx ở `deploy/nginx.conf.example`. Đặt `APP_ORIGINS` đúng origin gồm scheme + hostname + port nếu có, phân cách dấu phẩy nếu cần nhiều origin. Chặn Host/Origin khác, cookie Secure/HttpOnly/SameSite trong production. Không dùng wildcard.
 
@@ -24,7 +76,7 @@ Uvicorn hiện không tin proxy headers; IP trong phiên là IP proxy và login 
 ```sh
 cp .env.example .env
 # Chỉnh .env: key, models, APP_ORIGINS, bootstrap password
-sudo bash Start-App.sh
+docker compose up -d --build
 docker compose ps
 docker compose logs --tail=100 app
 curl http://127.0.0.1:8088/api/health
@@ -34,7 +86,7 @@ Health chỉ xác nhận backend sống; không thử key, model availability ho
 
 Dockerfile dùng non-root UID 10001, root filesystem read-only, volume data riêng, bỏ capabilities, giới hạn thư mục temp. Không COPY .env/data/test/archives vào image. Dependency runtime đã khóa cho Python 3.14/Linux; cần build image thật và kiểm trên server đích.
 
-## Giữ tài khoản đang có khi chuyển server
+## Docker: giữ tài khoản đang có khi chuyển server
 
 DB `data/app.sqlite3` hiện giữ tài khoản/mật khẩu đã hash, hội thoại, tài liệu upload, usage và audit. Docker khởi tạo mới sẽ không dùng DB này trừ khi chuyển riêng. Không copy trực tiếp DB đang ghi WAL.
 

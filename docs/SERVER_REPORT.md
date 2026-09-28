@@ -60,6 +60,10 @@ Gói nguồn triển khai được tạo ngoài dự án tại `D:\CyberAnt-Serv
 
 Ba tài khoản `sales`, `kythuat`, `admin` còn hoạt động; cả ba mật khẩu trong file tham khảo đều đã được đối chiếu với hash hiện có. Không đặt lại mật khẩu hoặc thay đổi vai trò của các tài khoản.
 
-## Cập nhật lệnh Linux
+## Cập nhật Linux / Miniconda
 
-Thêm `Start-App.sh` và `Stop-App.sh`, gọi bằng `sudo bash Start-App.sh` / `sudo bash Stop-App.sh`. Start dùng Compose chạy nền, build và đợi health; Stop cho phép request đang chạy kết thúc trong tối đa 420 giây và giữ nguyên volume. Đã kiểm cú pháp Bash và nhánh báo thiếu Docker; chưa chạy container Linux vì máy phát triển chưa cài Docker. Cấu hình `.env`, HTTPS và chuyển DB lần đầu vẫn theo `DEPLOYMENT.md`.
+Đã thay hai script shell bằng `main.py`. Entry point chạy UI và backend bằng Python trong env Conda, đọc .env của dự án, dùng một worker và giữ dữ liệu trong data/app.sqlite3 mặc định. Bind cổng trước khi import app để lần start trùng cổng không chạy lại bước khôi phục usage của DB.
+
+Thêm `deploy/cyberant.service.example` để chạy nền, start/stop qua systemd; không cần Ctrl+C khi vận hành bằng service. Cập nhật Run.txt và DEPLOYMENT.md cho Miniconda, chuyển DB và cấu hình service. Docker vẫn là tùy chọn riêng. Hai file shell đã xóa khỏi source và gói ZIP mới.
+
+Kiểm thử: main.py khởi động ứng dụng thật trên cổng riêng với DB tạm, health/UI/tài liệu/đăng nhập hoạt động, start trùng cổng bị từ chối và không sửa DB, tham số cổng sai bị từ chối. Máy phát triển chưa có Conda/systemd Linux; việc cài service và chạy trên server đích cần kiểm tra tại đó.

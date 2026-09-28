@@ -1,19 +1,27 @@
-SERVER (Docker Compose, Linux)
-1. Doc docs/DEPLOYMENT.md.
-2. Tao .env tu .env.example, dien API key, 4 model, APP_ORIGINS HTTPS va mat khau admin khoi tao.
-3. sudo bash Start-App.sh
-4. docker compose logs --tail=100 app
-5. Cau hinh Nginx/TLS theo deploy/nginx.conf.example.
+SERVER LINUX / MINICONDA3
+Chi can cai mot lan:
+conda create -n cyberant python=3.14 pip -y
+conda activate cyberant
+cd /duong/dan/TestSystem
+python -m pip install -r requirements-lock.txt
 
-CHAY: sudo bash Start-App.sh
-DUNG: sudo bash Stop-App.sh
-Khoi dong lai: chay Stop-App.sh roi Start-App.sh.
-Chay trong thu muc du an. Khong can chmod khi dung bash nhu tren.
-Start tu build image, chay nen va cho health check; Stop giu nguyen volume du lieu.
-Lan dau can cai Docker Engine + Compose plugin, cau hinh .env/domain/HTTPS.
-Neu giu tai khoan cu: nhap snapshot DB vao volume truoc lan Start dau tien theo docs/DEPLOYMENT.md.
-Chi copy data/app.sqlite3 vao thu muc source KHONG tu nhap DB vao Docker volume.
-Khong dung docker compose down -v: lenh nay xoa volume du lieu.
+Cau hinh .env: API_KEY, 4 model, APP_ENV=production, APP_ORIGINS=https://ten-mien.
+DB mac dinh: data/app.sqlite3. De giu tai khoan cu, chuyen SQLite snapshot vao day truoc lan chay dau tien.
+Cai moi chua co DB: dat BOOTSTRAP_ADMIN_PASSWORD it nhat 14 ky tu.
+
+CHAY TRUC TIEP (chiem terminal):
+python main.py
+Mac dinh 127.0.0.1:8088; Nginx/TLS theo deploy/nginx.conf.example.
+
+CHAY NEN VA TAT BANG LENH (cai service mot lan theo docs/DEPLOYMENT.md):
+sudo systemctl start cyberant
+sudo systemctl stop cyberant
+Trang thai: sudo systemctl status cyberant
+Log: sudo journalctl -u cyberant -n 100 --no-pager
+Khong chay python main.py dong thoi khi service dang chay.
+
+Docker van la lua chon rieng: docker compose up -d --build / docker compose stop.
+Khong con script .sh.
 
 CHAY TREN MAY WINDOWS HIEN TAI (OpenRouter API)
 cd D:\TestSystem

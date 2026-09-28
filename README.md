@@ -2,10 +2,26 @@
 
 Một ứng dụng dùng OpenRouter, kho lý thuyết chung, tài khoản và lịch sử riêng. Không còn model GPU, runtime llama.cpp hoặc chế độ local trong dự án server.
 
-## Chạy bằng Docker
+## Chạy trực tiếp với Miniconda trên Linux
+
+```bash
+conda create -n cyberant python=3.14 pip -y
+conda activate cyberant
+cd /duong/dan/TestSystem
+python -m pip install -r requirements-lock.txt
+python main.py
+```
+
+Điền `.env` trước khi chạy: API key, bốn model, `APP_ENV=production` và `APP_ORIGINS` đúng tên miền HTTPS. `main.py` chạy toàn bộ giao diện/API/SQLite/RAG trong một process, mặc định `127.0.0.1:8088`; đọc `.env` trong thư mục dự án. Có thể đổi `APP_HOST`/`APP_PORT` hoặc dùng `--host`/`--port`.
+
+Để chạy nền và tắt bằng lệnh, cài service theo [hướng dẫn Miniconda/systemd](docs/DEPLOYMENT.md), rồi dùng `sudo systemctl start cyberant` / `sudo systemctl stop cyberant`. Chạy trực tiếp `python main.py` chiếm terminal. Không chạy đồng thời service, Python trực tiếp và Docker với cùng DB.
+
+DB mặc định của bản Conda là `data/app.sqlite3` ngay trong dự án. Để giữ tài khoản cũ, chuyển snapshot SQLite nhất quán vào đó trước lần khởi động đầu tiên. Nếu cài mới, đặt `BOOTSTRAP_ADMIN_PASSWORD` ít nhất 14 ký tự. Không mang file mật khẩu tham khảo `data/initial-accounts.json` lên server.
+
+## Chạy bằng Docker (tùy chọn)
 
 1. Sao chép `.env.example` thành `.env` trên server. Điền key, bốn model, `APP_ORIGINS=https://<tên-miền>` và mật khẩu admin ban đầu ít nhất 14 ký tự. Không ghi đè `.env` đang có nếu chưa lưu lại key/model.
-2. Trên Linux, chạy `sudo bash Start-App.sh`. Dừng bằng `sudo bash Stop-App.sh`.
+2. Chạy `docker compose up -d --build`. Dừng bằng `docker compose stop`.
 3. Cấu hình reverse proxy HTTPS theo `deploy/nginx.conf.example`, thay tên miền và certificate. App chỉ được publish ở `127.0.0.1:8088` của server.
 4. Đăng nhập admin. Sau khi DB đã có tài khoản, bỏ `BOOTSTRAP_ADMIN_PASSWORD` khỏi cấu hình và tạo lại container để loại secret khỏi môi trường tiến trình.
 
