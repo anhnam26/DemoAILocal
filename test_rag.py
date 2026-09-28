@@ -47,3 +47,4 @@ def test_provider_wire_payload_and_usage(monkeypatch,mode):
     answer,usage,finish=asyncio.run(model_provider.complete([{'role':'user','content':'Question'}],cfg,256))
     assert usage['prompt_tokens']==123 and usage['cost']==.001 and len(seen)==1
     assert seen[0]['max_tokens']==256 and ('chat_template_kwargs' in seen[0])==(mode=='local')
+    if mode=='openrouter':assert seen[0]['reasoning']=={'enabled':False}

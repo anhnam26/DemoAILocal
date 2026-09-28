@@ -1,10 +1,7 @@
 from pathlib import Path
-from contextlib import asynccontextmanager
 from datetime import date,datetime,timezone
-import asyncio, hashlib, json, re, secrets, sqlite3, time, unicodedata, subprocess
+import asyncio, hashlib, json, re, secrets, sqlite3, time
 import httpx
-import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
 from fastapi import FastAPI,HTTPException,Request,Response,UploadFile,File,Form
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -17,8 +14,6 @@ import runtime_limits
 import conversations
 from generation import GenerationGate
 import admin_system
-from functools import lru_cache
-from collections import Counter
 import rag, model_provider, sync_knowledge
 
 
@@ -30,7 +25,6 @@ ACTIVE_CONVERSATIONS=set()
 def connect():
     c=sqlite3.connect(DB); c.row_factory=sqlite3.Row; return c
 def now(): return datetime.now(timezone.utc).isoformat()
-def norm(s): return ''.join(c for c in unicodedata.normalize('NFD',s.lower().replace('đ','d')) if unicodedata.category(c)!='Mn')
 def audit(action,role,detail):
     with connect() as c: c.execute('INSERT INTO audit(ts,action,role,detail) VALUES(?,?,?,?)',(now(),action,role,detail))
 def init():
@@ -95,7 +89,7 @@ def docs_for(u=None,pending=False,shared=False):
 def retrieve(q,u):
     return rag.retrieve(q,docs_for(u),model_provider.settings()['top_k'])[0]
 
-def source(d):return {**{k:d[k] for k in ('id','title','category','version','owner','valid_to')},'references':d.get('references',[]),'knowledge_type':d.get('knowledge_type','theory'),'group':d.get('group','F'),'review_status':d.get('review_status','reference'),'provenance':d.get('provenance',{})}
+def source(d):return {**{k:d[k] for k in ('id','title','category','version','owner','valid_to')},'references':d.get('references',[]),'knowledge_type':d.get('knowledge_type','theory'),'group':d.get('group','F'),'review_status':d.get('review_status','reference'),'provenance':d.get('provenance',{}),'source_digest':d.get('source_digest') or hashlib.sha256(d['body'].encode()).hexdigest()}
 class Chat(BaseModel):
     question:str=Field(min_length=2,max_length=1500)
     conversation_id:str|None=Field(default=None,max_length=64)
@@ -191,8 +185,9 @@ async def answer_chat(data,req,u,conversation_id):
                     audit('model_error',u['role'],'provider_failure')
                     raise HTTPException(503,'Không nhận được phản hồi hợp lệ. Kiểm tra .env/kết nối hoặc model local. Hệ thống không tự gọi lại.')
                 finally:LOCK.leave()
-    fresh=user(req);fresh_ids={d['id'] for d in docs_for(fresh)}
-    if any(id not in fresh_ids for id in used):raise HTTPException(409,'Nguồn đã thay đổi trong lúc xử lý; hãy hỏi lại.')
+    fresh=user(req);fresh_docs={d['id']:d for d in docs_for(fresh)}
+    if any(d['id'] not in fresh_docs or source(d)['source_digest']!=source(fresh_docs[d['id']])['source_digest'] for d in found if d['id'] in used):
+        raise HTTPException(409,'Nguồn đã thay đổi trong lúc xử lý; hãy hỏi lại.')
     source_docs={d['id']:d for d in found if d['id'] in used}
     out=dict(answer=answer,sources=[source(d) for d in source_docs.values()],needs_review=review,mode=mode,
              elapsed=round(time.monotonic()-start,2),demo=False,citations_verified=bool(used),effective_query=effective,

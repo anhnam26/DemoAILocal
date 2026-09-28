@@ -1,5 +1,5 @@
 """Persistent conversations owned by accounts, independent of login sessions."""
-import json,secrets
+import json,secrets,hashlib
 from fastapi import APIRouter,HTTPException,Request,Query
 
 def init(connect):
@@ -43,10 +43,10 @@ def messages(connect,u,id,docs_for,before=None):
     with connect() as c:
         if not c.execute('SELECT 1 FROM conversations WHERE id=? AND user_id=?',(id,u['id'])).fetchone():raise HTTPException(404,'Không tìm thấy cuộc trò chuyện của tài khoản này.')
         rows=c.execute('SELECT * FROM chats WHERE conversation_id=? AND user_id=? AND id<? ORDER BY id DESC LIMIT 101',(id,u['id'],before or 9223372036854775807)).fetchall()
-    more=len(rows)>100;rows=rows[:100];allowed={d['id'] for d in docs_for(u,shared=True)};result=[]
+    more=len(rows)>100;rows=rows[:100];allowed={d['id']:hashlib.sha256(d['body'].encode()).hexdigest() for d in docs_for(u,shared=True)};result=[]
     for r in reversed(rows):
         d=json.loads(r['result'])
-        if any(s['id'] not in allowed for s in d['sources']):d.update(answer='Nguồn đã được thu hồi hoặc hết hiệu lực. Hãy hỏi lại từ nguồn hiện tại.',sources=[],needs_review=True,citations_verified=False)
+        if any(s['id'] not in allowed or s.get('source_digest',allowed.get(s['id']))!=allowed.get(s['id']) for s in d['sources']):d.update(answer='Nguồn đã thay đổi, thu hồi hoặc hết hiệu lực. Hãy hỏi lại từ nguồn hiện tại.',sources=[],needs_review=True,citations_verified=False)
         result.append(dict(**d,question=r['question'],chat_id=r['id'],ts=r['ts'],conversation_id=id))
     return dict(messages=result,has_more=more,next_before=rows[-1]['id'] if rows else None)
 

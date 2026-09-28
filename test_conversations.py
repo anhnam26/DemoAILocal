@@ -1,4 +1,4 @@
-import asyncio
+import asyncio,json
 import pytest
 from fastapi import HTTPException
 import app
@@ -28,6 +28,16 @@ def test_delete_cascades_and_blocks_active():
     with app.connect() as db:
         assert db.execute('SELECT COUNT(*) FROM feedback').fetchone()[0]==0
         assert db.execute('SELECT COUNT(*) FROM chats').fetchone()[0]==0
+
+def test_history_invalidates_source_revision():
+    c=client();r=c.post('/api/chat',json={'question':'Khái niệm DNS là gì?'}).json()
+    source_id=r['sources'][0]['id']
+    with app.connect() as db:
+        d=json.loads(db.execute('SELECT payload FROM docs WHERE id=?',(source_id,)).fetchone()[0])
+        d['body']+='\nRevised technical guidance.'
+        db.execute('UPDATE docs SET payload=? WHERE id=?',(json.dumps(d),source_id))
+    message=c.get('/api/conversations/'+r['conversation_id']).json()['messages'][0]
+    assert not message['sources'] and 'thay đổi' in message['answer']
 
 def test_gate_parallel_and_cancel():
     async def exercise():

@@ -34,6 +34,7 @@ with sync_playwright() as p:
     assert page.locator('#user-role-select option').all_text_contents()==['Thành viên','Quản trị']
     page.screenshot(path=str(ROOT/'artifacts/unified-desktop.png'),full_page=True)
     page.set_viewport_size({'width':390,'height':844});page.wait_for_timeout(200)
+    if page.locator('#sidebar-toggle').get_attribute('aria-expanded')=='true':page.locator('#sidebar-toggle').click()
     page.screenshot(path=str(ROOT/'artifacts/unified-mobile.png'),full_page=True)
     report['browser_errors']=errors;report['browser_ok']=not errors
     page.locator('#logout').click();browser.close()

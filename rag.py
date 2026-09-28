@@ -36,7 +36,8 @@ def chunks(doc):
                 parts.append(current.strip());current=''
             current+=segment+'\n'
     if current.strip():parts.append(current.strip())
-    return [{**doc,'body':body,'chunk':i+1} for i,body in enumerate(parts)]
+    digest=hashlib.sha256(text.encode()).hexdigest()
+    return [{**doc,'body':body,'chunk':i+1,'source_digest':digest} for i,body in enumerate(parts)]
 
 @lru_cache(maxsize=2)
 def index(encoded):
