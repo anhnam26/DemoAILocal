@@ -1,5 +1,20 @@
 # Triển khai server
 
+## Hai lệnh trên Linux
+
+Sau khi đưa thư mục dự án lên server, cài Docker Engine + Compose plugin và cấu hình `.env`/HTTPS, chạy trong thư mục đó:
+
+```bash
+sudo bash Start-App.sh
+sudo bash Stop-App.sh
+```
+
+`Start-App.sh` kiểm tra Docker và `.env`, build image (có cache), chạy nền và chỉ báo thành công khi container healthy. `Stop-App.sh` chỉ dừng service app của dự án, cho phép tối đa 420 giây để các request đang xử lý kết thúc, giữ nguyên volume và tài khoản. Khởi động lại bằng Stop rồi Start. Không cần chmod khi gọi qua bash; file `.sh` dùng LF để chuyển từ Windows sang Linux.
+
+Hai script dùng đường dẫn thư mục chứa script, nên có thể gọi bằng đường dẫn tuyệt đối từ thư mục khác. Giữ nguyên thư mục/tên Compose project giữa các lần chạy để tiếp tục dùng đúng volume.
+
+**Lần đầu:** việc chép cả folder, kể cả `data/app.sqlite3`, không tự nhập DB đó vào named volume Docker. Nếu muốn giữ tài khoản cũ, thực hiện phần chuyển DB bên dưới trước khi Start. Nếu cài mới, đặt `BOOTSTRAP_ADMIN_PASSWORD` tối thiểu 14 ký tự trong `.env`. Không chép `data/initial-accounts.json` lên server.
+
 ## Cấu hình
 
 Compose chạy một process uvicorn, bind container 8088 nhưng chỉ publish vào loopback của host. Nginx/Caddy trên host làm HTTPS; mẫu Nginx ở `deploy/nginx.conf.example`. Đặt `APP_ORIGINS` đúng origin gồm scheme + hostname + port nếu có, phân cách dấu phẩy nếu cần nhiều origin. Chặn Host/Origin khác, cookie Secure/HttpOnly/SameSite trong production. Không dùng wildcard.
@@ -9,8 +24,7 @@ Uvicorn hiện không tin proxy headers; IP trong phiên là IP proxy và login 
 ```sh
 cp .env.example .env
 # Chỉnh .env: key, models, APP_ORIGINS, bootstrap password
-docker compose build
-docker compose up -d
+sudo bash Start-App.sh
 docker compose ps
 docker compose logs --tail=100 app
 curl http://127.0.0.1:8088/api/health

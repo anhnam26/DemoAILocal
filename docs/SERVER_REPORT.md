@@ -59,3 +59,7 @@ Gói nguồn triển khai được tạo ngoài dự án tại `D:\CyberAnt-Serv
 `Start-App.ps1` chạy nền; `Stop-App.ps1` dừng ứng dụng bằng lệnh, không cần Ctrl+C. Ghi nhận PID và thời điểm tạo tiến trình để tránh dừng nhầm PID tái sử dụng; không dừng hàng loạt Python. Đã kiểm tra start, start lặp không tạo thêm tiến trình, health/đăng nhập admin cũ, stop và stop lặp. Sau kiểm tra, ứng dụng được để ở trạng thái đã tắt.
 
 Ba tài khoản `sales`, `kythuat`, `admin` còn hoạt động; cả ba mật khẩu trong file tham khảo đều đã được đối chiếu với hash hiện có. Không đặt lại mật khẩu hoặc thay đổi vai trò của các tài khoản.
+
+## Cập nhật lệnh Linux
+
+Thêm `Start-App.sh` và `Stop-App.sh`, gọi bằng `sudo bash Start-App.sh` / `sudo bash Stop-App.sh`. Start dùng Compose chạy nền, build và đợi health; Stop cho phép request đang chạy kết thúc trong tối đa 420 giây và giữ nguyên volume. Đã kiểm cú pháp Bash và nhánh báo thiếu Docker; chưa chạy container Linux vì máy phát triển chưa cài Docker. Cấu hình `.env`, HTTPS và chuyển DB lần đầu vẫn theo `DEPLOYMENT.md`.

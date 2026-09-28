@@ -1,12 +1,18 @@
 SERVER (Docker Compose, Linux)
 1. Doc docs/DEPLOYMENT.md.
 2. Tao .env tu .env.example, dien API key, 4 model, APP_ORIGINS HTTPS va mat khau admin khoi tao.
-3. docker compose up -d --build
+3. sudo bash Start-App.sh
 4. docker compose logs --tail=100 app
 5. Cau hinh Nginx/TLS theo deploy/nginx.conf.example.
 
-Dung: docker compose stop
-Khoi dong lai: docker compose restart app
+CHAY: sudo bash Start-App.sh
+DUNG: sudo bash Stop-App.sh
+Khoi dong lai: chay Stop-App.sh roi Start-App.sh.
+Chay trong thu muc du an. Khong can chmod khi dung bash nhu tren.
+Start tu build image, chay nen va cho health check; Stop giu nguyen volume du lieu.
+Lan dau can cai Docker Engine + Compose plugin, cau hinh .env/domain/HTTPS.
+Neu giu tai khoan cu: nhap snapshot DB vao volume truoc lan Start dau tien theo docs/DEPLOYMENT.md.
+Chi copy data/app.sqlite3 vao thu muc source KHONG tu nhap DB vao Docker volume.
 Khong dung docker compose down -v: lenh nay xoa volume du lieu.
 
 CHAY TREN MAY WINDOWS HIEN TAI (OpenRouter API)

@@ -5,7 +5,7 @@ Một ứng dụng dùng OpenRouter, kho lý thuyết chung, tài khoản và l�
 ## Chạy bằng Docker
 
 1. Sao chép `.env.example` thành `.env` trên server. Điền key, bốn model, `APP_ORIGINS=https://<tên-miền>` và mật khẩu admin ban đầu ít nhất 14 ký tự. Không ghi đè `.env` đang có nếu chưa lưu lại key/model.
-2. Chạy `docker compose up -d --build`.
+2. Trên Linux, chạy `sudo bash Start-App.sh`. Dừng bằng `sudo bash Stop-App.sh`.
 3. Cấu hình reverse proxy HTTPS theo `deploy/nginx.conf.example`, thay tên miền và certificate. App chỉ được publish ở `127.0.0.1:8088` của server.
 4. Đăng nhập admin. Sau khi DB đã có tài khoản, bỏ `BOOTSTRAP_ADMIN_PASSWORD` khỏi cấu hình và tạo lại container để loại secret khỏi môi trường tiến trình.
 
