@@ -4,6 +4,7 @@ from fastapi import APIRouter,HTTPException,Request
 from pydantic import BaseModel,Field
 import system_runtime as runtime
 import runtime_limits as limits
+import model_provider, sync_knowledge, rag
 class Settings(BaseModel):
     parallel:int=Field(default=2,ge=1,le=limits.MAX_PARALLEL)
     context:int=Field(ge=limits.MIN_CONTEXT,le=limits.MAX_CONTEXT)
@@ -12,6 +13,7 @@ class Settings(BaseModel):
     temperature:float=Field(ge=0,le=1)
     max_tokens:int=Field(ge=256,le=limits.MAX_OUTPUT)
 class Action(BaseModel):action:str
+class ProviderMode(BaseModel):mode:str
 TASKS=set()
 
 def install(app,connect,user,audit,generation_lock,docs_for):
@@ -28,7 +30,32 @@ def install(app,connect,user,audit,generation_lock,docs_for):
         with connect() as c:
             counts={table:c.execute('SELECT COUNT(*) FROM '+table).fetchone()[0] for table in ('users','docs','chats','audit','feedback','conversations')}
             online=c.execute('SELECT COUNT(DISTINCT user_id) FROM sessions WHERE last_seen>? AND created>?',(time.time()-75,time.time()-43200)).fetchone()[0]
-        return {**data,'database':counts,'online':online,'generation_busy':generation_lock.locked(),'generation':generation_lock.status(),'retrieval':'TF-IDF float32, tối đa 3 chỉ mục cache; kho chung, lọc trạng thái và hiệu lực trước truy xuất','connections_fixed':dict(web='http://127.0.0.1:8088',model='http://127.0.0.1:1234',cloud_fallback=False)}
+        provider=model_provider.public_settings()
+        return {**data,'provider':provider,'database':counts,'online':online,'generation_busy':generation_lock.locked(),'generation':generation_lock.status(),'retrieval':'Phân nhóm + TF-IDF + ngân sách đầu vào','connections_fixed':dict(web='http://127.0.0.1:8088',model='OpenRouter API' if provider['mode']=='openrouter' else 'http://127.0.0.1:1234',cloud_fallback=False)}
+    @router.put('/api/admin/system/provider')
+    def provider(data:ProviderMode,req:Request):
+        u=admin(req)
+        if data.mode not in ('local','openrouter'):raise HTTPException(400,'Chọn local hoặc openrouter.')
+        if generation_lock.locked():raise HTTPException(409,'Chờ các lượt trả lời hoàn tất trước khi đổi mode.')
+        import os,re
+        if 'LLM_MODE' in os.environ:raise HTTPException(409,'LLM_MODE đang do môi trường tiến trình quản lý; đổi biến đó rồi khởi động lại ứng dụng.')
+        path=runtime.ROOT/'.env';text=path.read_text(encoding='utf-8-sig') if path.exists() else ''
+        text=re.sub(r'^\s*LLM_MODE\s*=.*(?:\n|$)','',text,flags=re.M).rstrip()+'\nLLM_MODE='+data.mode+'\n'
+        temp=path.with_suffix('.tmp');temp.write_text(text,encoding='utf8');temp.replace(path)
+        audit('provider',u['role'],data.mode)
+        return model_provider.public_settings()
+    @router.post('/api/admin/knowledge/sync')
+    async def sync(req:Request):
+        u=admin(req)
+        if generation_lock.locked():raise HTTPException(409,'Chờ các lượt trả lời hoàn tất trước khi đồng bộ.')
+        await generation_lock.acquire()
+        try:
+            report=await asyncio.to_thread(sync_knowledge.build)
+            docs=json.loads((runtime.ROOT/'data'/'knowledge_documents.json').read_text(encoding='utf8'))
+            sync_knowledge.synchronize(connect,docs);rag.index.cache_clear()
+            audit('knowledge_sync',u['role'],str(report['documents']))
+            return report
+        finally:generation_lock.release()
     @router.put('/api/admin/system/config')
     def configure(data:Settings,req:Request):
         u=admin(req)
@@ -40,6 +67,7 @@ def install(app,connect,user,audit,generation_lock,docs_for):
     @router.post('/api/admin/system/model')
     async def control(data:Action,req:Request):
         u=admin(req)
+        if model_provider.settings()['mode']!='local':raise HTTPException(400,'Điều khiển GPU chỉ dùng trong mode local.')
         if data.action not in ('start','stop','restart'):raise HTTPException(400,'Thao tác không hợp lệ.')
         if generation_lock.locked():raise HTTPException(409,'Model đang trả lời hoặc đổi trạng thái; chưa thể thực hiện.')
         await generation_lock.acquire()

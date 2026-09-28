@@ -5,7 +5,7 @@ from fastapi import APIRouter,HTTPException,Request,Response
 from pydantic import BaseModel,Field
 ROOT=Path(__file__).parent
 BOOTSTRAP=ROOT/'data'/'initial-accounts.json'
-ROLES={'sale':'Sales','technical':'Kỹ thuật','admin':'Quản trị'}
+ROLES={'member':'Thành viên','admin':'Quản trị'}
 
 def hash_password(password):
     salt=secrets.token_bytes(16)
@@ -33,15 +33,16 @@ def init(connect):
         if c.execute('SELECT COUNT(*) FROM users').fetchone()[0]:return
         if BOOTSTRAP.exists():seeds=json.loads(BOOTSTRAP.read_text(encoding='utf8'))['accounts']
         else:
-            seeds=[dict(username=name,password=secrets.token_urlsafe(15),role=role,name=label,customers=customers) for name,role,label,customers in [('sales','sale','Minh Anh',list('ACEGI')),('kythuat','technical','Hoàng Nam',list('BDFHJ')),('admin','admin','Quản trị hệ thống',['*'])]]
+            seeds=[dict(username=name,password=secrets.token_urlsafe(15),role=role,name=label,customers=customers) for name,role,label,customers in [('member','member','Thành viên',[]),('admin','admin','Quản trị hệ thống',[])]]
             BOOTSTRAP.parent.mkdir(exist_ok=True)
             BOOTSTRAP.write_text(json.dumps(dict(note='Mật khẩu khởi tạo local. Không đưa vào kho tri thức/Git; đổi mật khẩu trong ứng dụng. Reset sau này không cập nhật file này.',accounts=seeds),ensure_ascii=False,indent=2),encoding='utf8')
         for s in seeds:
+            s['role']='admin' if s['role']=='admin' else 'member';s['customers']=[]
             c.execute('INSERT INTO users VALUES(?,?,?,?,?,?,1,?,?)',(secrets.token_hex(12),s['username'],s['name'],s['role'],json.dumps(s['customers']),hash_password(s['password']),time.time(),time.time()))
 
 def public(row):
     customers=json.loads(row['customers'])
-    return dict(id=row['id'],username=row['username'],name=row['name'],role=row['role'],customers=customers,customer='*' if row['role']=='admin' else (customers[0] if customers else ''),title=ROLES[row['role']]+' • '+('Toàn hệ thống' if row['role']=='admin' else str(len(customers))+' khách hàng'),active=bool(row['active']))
+    return dict(id=row['id'],username=row['username'],name=row['name'],role=row['role'],customers=customers,customer='*' if row['role']=='admin' else (customers[0] if customers else ''),title=ROLES[row['role']]+' • Kho tri thức chung',active=bool(row['active']))
 
 def current(req,connect):
     token=token_hash(req.cookies.get('cyberant_session',''))
@@ -73,9 +74,8 @@ def install(app,connect,user,audit):
         if u['role']!='admin':raise HTTPException(403,'Chỉ Quản trị được quản lý tài khoản và phiên đăng nhập.')
         return u
     def validate(data):
-        if data.role not in ROLES:raise HTTPException(400,'Vai trò phải là sales, kỹ thuật hoặc quản trị.')
-        if any(x not in list('ABCDEFGHIJ') for x in data.customers):raise HTTPException(400,'Mã khách hàng hợp lệ: A–J.')
-        return ['*'] if data.role=='admin' else sorted(set(data.customers))
+        if data.role not in ROLES:raise HTTPException(400,'Vai trò phải là thành viên hoặc quản trị.')
+        return []
     @router.post('/api/login')
     def login(data:Login,req:Request,res:Response):
         identity=(req.client.host if req.client else 'local')+'|'+data.username.strip().lower()

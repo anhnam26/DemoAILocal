@@ -6,6 +6,12 @@ $modelExe = Join-Path $demoRoot 'runtime\llama-server.exe'
 $modelFile = Join-Path $demoRoot 'models\Qwen3.5-9B-Q4_K_M.gguf'
 $pythonExe = Join-Path $demoRoot '.venv-runtime\Scripts\python.exe'
 $keyFile = Join-Path $demoRoot 'data\model-api-key.txt'
+$env:PYTHONUTF8 = '1'
+if (-not (Test-Path -LiteralPath $pythonExe)) { throw 'Missing .venv-runtime Python. See README.md.' }
+Push-Location $demoRoot
+try { $providerMode = (& $pythonExe -c "import model_provider; print(model_provider.settings()['mode'])").Trim() }
+finally { Pop-Location }
+if ($LASTEXITCODE -ne 0) { throw 'Invalid .env model settings.' }
 $runtimeSettings = @{ context=4096; gpu_layers=99; cache_ram=256; parallel=2 }
 $settingsFile = Join-Path $demoRoot 'data\runtime-config.json'
 if (Test-Path -LiteralPath $settingsFile) {
@@ -16,10 +22,10 @@ if (Test-Path -LiteralPath $settingsFile) {
     $runtimeSettings.cache_ram = [int]$savedSettings.cache_ram
     if ($runtimeSettings.parallel -lt 1 -or $runtimeSettings.parallel -gt 4 -or $runtimeSettings.context -lt 2048 -or $runtimeSettings.context -gt 65536 -or ($runtimeSettings.context * $runtimeSettings.parallel) -gt 65536 -or $runtimeSettings.gpu_layers -lt 0 -or $runtimeSettings.gpu_layers -gt 99 -or $runtimeSettings.cache_ram -lt 0 -or $runtimeSettings.cache_ram -gt 512) { throw 'Runtime settings outside supported demo limits.' }
 }
-foreach ($requiredFile in @($modelExe,$modelFile,$pythonExe)) {
+foreach ($requiredFile in $(if ($providerMode -eq 'local') { @($modelExe,$modelFile,$pythonExe) } else { @($pythonExe) })) {
     if (-not (Test-Path -LiteralPath $requiredFile)) { throw "Missing: $requiredFile. See README.md for setup." }
 }
-if (-not (Test-Path -LiteralPath $keyFile)) {
+if ($providerMode -eq 'local' -and -not (Test-Path -LiteralPath $keyFile)) {
     & $pythonExe -c "import secrets,pathlib,sys; pathlib.Path(sys.argv[1]).write_text(secrets.token_urlsafe(48),encoding='utf8')" $keyFile
     if ($LASTEXITCODE -ne 0) { throw 'Could not generate model API key. Run this script from its directory.' }
 }
@@ -28,7 +34,7 @@ function Test-DemoEndpoint($url) {
 }
 $records = @()
 $pidFile = Join-Path $logRoot 'processes.json'
-if (-not (Test-DemoEndpoint 'http://127.0.0.1:1234/health')) {
+if ($providerMode -eq 'local' -and -not (Test-DemoEndpoint 'http://127.0.0.1:1234/health')) {
     $listener = Get-NetTCPConnection -LocalPort 1234 -State Listen -ErrorAction SilentlyContinue
     if ($listener) { Write-Output 'Port 1234 is already starting or occupied. Existing process left unchanged.' }
     else {
@@ -46,4 +52,4 @@ if (-not (Test-DemoEndpoint 'http://127.0.0.1:8088/api/health')) {
 }
 ConvertTo-Json -InputObject $records -Depth 4 | Set-Content -LiteralPath $pidFile -Encoding UTF8
 Write-Output 'Demo: http://127.0.0.1:8088'
-Write-Output 'Model may need 1-3 minutes for initial load. Logs are in TestSystem\logs.'
+Write-Output ('Mode: '+$providerMode+'. Logs: TestSystem\logs.')

@@ -62,3 +62,6 @@ run.txt
 # Private internal deployment: sources, derived data, code and reports stay local.
 /DataReal/
 /.local-internal/
+/NewData/
+/data/sources/services.json
+.env.tmp
