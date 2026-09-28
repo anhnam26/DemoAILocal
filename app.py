@@ -48,6 +48,7 @@ def init():
     accounts.init(connect)
     conversations.init(connect)
     # A one-time privacy migration clears old knowledge and conversation payloads.
+    migrated=False
     with connect() as c:
         c.execute('CREATE TABLE IF NOT EXISTS migrations(name TEXT PRIMARY KEY)')
         if not c.execute("SELECT 1 FROM migrations WHERE name='theory_only_v1'").fetchone():
@@ -57,7 +58,9 @@ def init():
             c.execute("UPDATE users SET role='member',customers='[]' WHERE role IN ('sale','technical')")
             c.execute("UPDATE users SET customers='[]'")
             c.execute("INSERT INTO migrations VALUES('theory_only_v1')")
-    with connect() as c:c.execute('VACUUM')
+            migrated=True
+    if migrated:
+        with connect() as c:c.execute('VACUUM')
     sync_knowledge.synchronize(connect,json.loads((DATA/'knowledge_documents.json').read_text(encoding='utf8')))
 init()
 app=FastAPI(title='CyberAnt Knowledge',docs_url=None,redoc_url=None)

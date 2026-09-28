@@ -64,4 +64,6 @@ run.txt
 /.local-internal/
 /NewData/
 /data/sources/services.json
+/data/knowledge_documents.json
+/data/knowledge_manifest.json
 .env.tmp
