@@ -1,10 +1,11 @@
 """Local password accounts, revocable sessions and administrator user management."""
 import hashlib,hmac,json,re,secrets,time
+import config,model_provider,token_usage
 from pathlib import Path
 from fastapi import APIRouter,HTTPException,Request,Response
 from pydantic import BaseModel,Field
 ROOT=Path(__file__).parent
-BOOTSTRAP=ROOT/'data'/'initial-accounts.json'
+BOOTSTRAP=config.data_dir()/'initial-accounts.json'
 ROLES={'member':'Thành viên','admin':'Quản trị'}
 
 def hash_password(password):
@@ -33,16 +34,23 @@ def init(connect):
         if c.execute('SELECT COUNT(*) FROM users').fetchone()[0]:return
         if BOOTSTRAP.exists():seeds=json.loads(BOOTSTRAP.read_text(encoding='utf8'))['accounts']
         else:
-            seeds=[dict(username=name,password=secrets.token_urlsafe(15),role=role,name=label,customers=customers) for name,role,label,customers in [('member','member','Thành viên',[]),('admin','admin','Quản trị hệ thống',[])]]
+            values=config.env()
+            if config.security()['production']:
+                password=values.get('BOOTSTRAP_ADMIN_PASSWORD','')
+                if len(password)<14:raise RuntimeError('Set BOOTSTRAP_ADMIN_PASSWORD (>=14 characters) for first production startup')
+                seeds=[dict(username=values.get('BOOTSTRAP_ADMIN_USERNAME','admin'),password=password,role='admin',name='Quản trị hệ thống',customers=[])]
+            else:
+                seeds=[dict(username=name,password=secrets.token_urlsafe(15),role=role,name=label,customers=[]) for name,role,label in [('member','member','Thành viên'),('admin','admin','Quản trị hệ thống')]]
             BOOTSTRAP.parent.mkdir(exist_ok=True)
-            BOOTSTRAP.write_text(json.dumps(dict(note='Mật khẩu khởi tạo local. Không đưa vào kho tri thức/Git; đổi mật khẩu trong ứng dụng. Reset sau này không cập nhật file này.',accounts=seeds),ensure_ascii=False,indent=2),encoding='utf8')
+            if not config.security()['production']:
+                BOOTSTRAP.write_text(json.dumps(dict(note='Chỉ dùng lần cài mới trên máy phát triển.',accounts=seeds),ensure_ascii=False,indent=2),encoding='utf8')
         for s in seeds:
             s['role']='admin' if s['role']=='admin' else 'member';s['customers']=[]
-            c.execute('INSERT INTO users VALUES(?,?,?,?,?,?,1,?,?)',(secrets.token_hex(12),s['username'],s['name'],s['role'],json.dumps(s['customers']),hash_password(s['password']),time.time(),time.time()))
+            c.execute('INSERT INTO users(id,username,name,role,customers,password_hash,active,created,updated) VALUES(?,?,?,?,?,?,1,?,?)',(secrets.token_hex(12),s['username'],s['name'],s['role'],json.dumps(s['customers']),hash_password(s['password']),time.time(),time.time()))
 
 def public(row):
     customers=json.loads(row['customers'])
-    return dict(id=row['id'],username=row['username'],name=row['name'],role=row['role'],customers=customers,customer='*' if row['role']=='admin' else (customers[0] if customers else ''),title=ROLES[row['role']]+' • Kho tri thức chung',active=bool(row['active']))
+    return dict(id=row['id'],username=row['username'],name=row['name'],role=row['role'],customers=customers,customer='',title=ROLES[row['role']]+' • Kho tri thức chung',active=bool(row['active']),model=row['model'],monthly_token_limit=row['monthly_token_limit'])
 
 def current(req,connect):
     token=token_hash(req.cookies.get('cyberant_session',''))
@@ -63,6 +71,8 @@ class UserInput(BaseModel):
     customers:list[str]=Field(default_factory=list,max_length=10)
     password:str|None=Field(default=None,min_length=10,max_length=128)
     active:bool=True
+    model:str|None=Field(default=None,max_length=200)
+    monthly_token_limit:int=Field(default=1000000,ge=0,le=10000000000)
 class PasswordInput(BaseModel):
     old_password:str=Field(min_length=1,max_length=128)
     new_password:str=Field(min_length=10,max_length=128)
@@ -75,6 +85,9 @@ def install(app,connect,user,audit):
         return u
     def validate(data):
         if data.role not in ROLES:raise HTTPException(400,'Vai trò phải là thành viên hoặc quản trị.')
+        chosen=data.model or next(iter(model_provider.models()),'')
+        if not chosen or chosen not in model_provider.models():raise HTTPException(400,'Model phải thuộc danh sách .env.')
+        data.model=chosen
         return []
     @router.post('/api/login')
     def login(data:Login,req:Request,res:Response):
@@ -93,12 +106,12 @@ def install(app,connect,user,audit):
             raw=secrets.token_urlsafe(32);token=token_hash(raw)
             c.execute('DELETE FROM sessions WHERE token=?',(token_hash(req.cookies.get('cyberant_session','')),))
             c.execute('INSERT INTO sessions(token,profile,created,user_id,sid,last_seen,ip,agent) VALUES(?,?,?,?,?,?,?,?)',(token,u['role'],time.time(),u['id'],secrets.token_hex(12),time.time(),req.client.host if req.client else 'local',req.headers.get('user-agent','')[:160]))
-        res.set_cookie('cyberant_session',raw,httponly=True,samesite='strict',max_age=43200)
+        res.set_cookie('cyberant_session',raw,httponly=True,samesite='strict',secure=config.security()['secure_cookie'],max_age=43200)
         audit('login',u['role'],u['username']);return public(u)
     @router.post('/api/logout')
     def logout(req:Request,res:Response):
         with connect() as c:c.execute('DELETE FROM sessions WHERE token=?',(token_hash(req.cookies.get('cyberant_session','')),))
-        res.delete_cookie('cyberant_session');return {'ok':True}
+        res.delete_cookie('cyberant_session',secure=config.security()['secure_cookie'],httponly=True,samesite='strict');return {'ok':True}
     @router.post('/api/heartbeat')
     def heartbeat(req:Request):
         u=user(req)
@@ -119,15 +132,17 @@ def install(app,connect,user,audit):
             people=[public(r) for r in c.execute('SELECT * FROM users ORDER BY created')]
             sessions=[dict(r) for r in c.execute('SELECT s.sid,s.user_id,u.username,u.name,u.role,s.created,s.last_seen,s.ip,s.agent FROM sessions s JOIN users u ON s.user_id=u.id WHERE u.active=1 AND s.created>? ORDER BY s.last_seen DESC',(time.time()-43200,))]
         for s in sessions:s['online']=time.time()-(s['last_seen'] or 0)<75
-        for u in people:u['online']=any(s['user_id']==u['id'] and s['online'] for s in sessions)
-        return dict(users=people,sessions=sessions,online_count=sum(u['online'] for u in people),online_definition='Có heartbeat/hoạt động trong 75 giây gần nhất; không đồng nghĩa đang gõ phím.')
+        for u in people:
+            u['online']=any(s['user_id']==u['id'] and s['online'] for s in sessions)
+            u['usage']=token_usage.summary(connect,u['id'])
+        return dict(users=people,sessions=sessions,models=model_provider.models(),month=token_usage.month(),online_count=sum(u['online'] for u in people),online_definition='Có hoạt động trong 75 giây gần nhất.')
     @router.post('/api/admin/users')
     def create(data:UserInput,req:Request):
         a=admin(req);customers=validate(data);password=data.password or secrets.token_urlsafe(15);id=secrets.token_hex(12)
         with connect() as c:
             c.execute('BEGIN IMMEDIATE')
             if c.execute('SELECT 1 FROM users WHERE username=? COLLATE NOCASE',(data.username,)).fetchone():raise HTTPException(409,'Tên đăng nhập đã tồn tại.')
-            c.execute('INSERT INTO users VALUES(?,?,?,?,?,?,?,?,?)',(id,data.username.lower(),data.name,data.role,json.dumps(customers),hash_password(password),int(data.active),time.time(),time.time()))
+            c.execute('INSERT INTO users(id,username,name,role,customers,password_hash,active,created,updated,model,monthly_token_limit) VALUES(?,?,?,?,?,?,?,?,?,?,?)',(id,data.username.lower(),data.name,data.role,json.dumps(customers),hash_password(password),int(data.active),time.time(),time.time(),data.model,data.monthly_token_limit))
         audit('user_create',a['role'],data.username);return dict(id=id,username=data.username.lower(),temporary_password=password)
     @router.put('/api/admin/users/{id}')
     def update(id:str,data:UserInput,req:Request):
@@ -138,9 +153,10 @@ def install(app,connect,user,audit):
             if not row:raise HTTPException(404,'Không có tài khoản.')
             if row['role']=='admin' and row['active'] and (not data.active or data.role!='admin') and c.execute("SELECT COUNT(*) FROM users WHERE role='admin' AND active=1").fetchone()[0]<=1:raise HTTPException(400,'Phải giữ ít nhất một tài khoản quản trị hoạt động.')
             if c.execute('SELECT 1 FROM users WHERE username=? COLLATE NOCASE AND id<>?',(data.username,id)).fetchone():raise HTTPException(409,'Tên đăng nhập đã tồn tại.')
-            c.execute('UPDATE users SET username=?,name=?,role=?,customers=?,active=?,password_hash=?,updated=? WHERE id=?',(data.username.lower(),data.name,data.role,json.dumps(customers),int(data.active),hash_password(data.password) if data.password else row['password_hash'],time.time(),id))
-            c.execute('DELETE FROM sessions WHERE user_id=?',(id,))
-        audit('user_update',a['role'],data.username+'; thu hồi toàn bộ phiên');return dict(ok=True)
+            c.execute('UPDATE users SET username=?,name=?,role=?,customers=?,active=?,password_hash=?,updated=?,model=?,monthly_token_limit=? WHERE id=?',(data.username.lower(),data.name,data.role,json.dumps(customers),int(data.active),hash_password(data.password) if data.password else row['password_hash'],time.time(),data.model,data.monthly_token_limit,id))
+            if data.password or data.role!=row['role'] or not data.active or data.username.lower()!=row['username']:
+                c.execute('DELETE FROM sessions WHERE user_id=?',(id,))
+        audit('user_update',a['role'],json.dumps(dict(id=id,model=data.model,monthly_token_limit=data.monthly_token_limit)));return dict(ok=True)
     @router.post('/api/admin/users/{id}/reset-password')
     def reset(id:str,req:Request):
         a=admin(req);password=secrets.token_urlsafe(15)

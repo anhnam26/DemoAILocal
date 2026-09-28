@@ -9,8 +9,7 @@ from pydantic import BaseModel,Field
 from pypdf import PdfReader
 import io
 import accounts
-import system_runtime
-import runtime_limits
+import config,token_usage
 import conversations
 from generation import GenerationGate
 import admin_system
@@ -18,17 +17,18 @@ import rag, model_provider, sync_knowledge
 
 
 ROOT=Path(__file__).parent
-DATA=ROOT/'data'; DATA.mkdir(exist_ok=True)
-DB=DATA/'demo.sqlite3'
+DATA=config.data_dir(); DATA.mkdir(parents=True,exist_ok=True)
+DB=DATA/'app.sqlite3'
 LOCK=GenerationGate()
 ACTIVE_CONVERSATIONS=set()
 def connect():
-    c=sqlite3.connect(DB); c.row_factory=sqlite3.Row; return c
+    c=sqlite3.connect(DB,timeout=30); c.row_factory=sqlite3.Row; c.execute('PRAGMA busy_timeout=30000'); return c
 def now(): return datetime.now(timezone.utc).isoformat()
 def audit(action,role,detail):
     with connect() as c: c.execute('INSERT INTO audit(ts,action,role,detail) VALUES(?,?,?,?)',(now(),action,role,detail))
 def init():
-    if not (DATA/'knowledge_documents.json').exists():sync_knowledge.build()
+    config.security()
+    with connect() as c:c.execute('PRAGMA journal_mode=WAL')
     with connect() as c:
         c.executescript('''CREATE TABLE IF NOT EXISTS docs(id TEXT PRIMARY KEY,payload TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS sessions(token TEXT PRIMARY KEY,profile TEXT,created REAL);
@@ -40,37 +40,31 @@ def init():
         if 'user_id' not in {r[1] for r in c.execute('PRAGMA table_info(chats)')}:
             c.execute('ALTER TABLE chats ADD COLUMN user_id TEXT')
     accounts.init(connect)
+    token_usage.init(connect)
     conversations.init(connect)
-    # A one-time privacy migration clears old knowledge and conversation payloads.
-    migrated=False
-    with connect() as c:
-        c.execute('CREATE TABLE IF NOT EXISTS migrations(name TEXT PRIMARY KEY)')
-        if not c.execute("SELECT 1 FROM migrations WHERE name='theory_only_v1'").fetchone():
-            c.execute('PRAGMA secure_delete=ON')
-            for table in ('docs','chats','feedback','audit','conversations','sessions'):
-                c.execute('DELETE FROM '+table)
-            c.execute("UPDATE users SET role='member',customers='[]' WHERE role IN ('sale','technical')")
-            c.execute("UPDATE users SET customers='[]'")
-            c.execute("INSERT INTO migrations VALUES('theory_only_v1')")
-            migrated=True
-    if migrated:
-        with connect() as c:c.execute('VACUUM')
-    sync_knowledge.synchronize(connect,json.loads((DATA/'knowledge_documents.json').read_text(encoding='utf8')))
+    sync_knowledge.synchronize(connect,sync_knowledge.load())
 init()
-app=FastAPI(title='CyberAnt Knowledge',docs_url=None,redoc_url=None)
+token_usage.recover(connect)
+app=FastAPI(title='CyberAnt Knowledge',docs_url=None,redoc_url=None,openapi_url=None)
 app.mount('/static',StaticFiles(directory=ROOT/'static'),name='static')
 
 @app.middleware('http')
 async def local_guard(request,call_next):
-    host=request.headers.get('host','').split(':')[0]
-    if host not in ('127.0.0.1','localhost','testserver'): return Response('Local access only',403)
+    from urllib.parse import urlsplit
+    security=config.security()
+    host=urlsplit('//'+request.headers.get('host','')).hostname
+    if host not in security['hosts']:return Response('Host denied',400)
     origin=request.headers.get('origin')
-    if origin and origin not in ('http://127.0.0.1:8088','http://localhost:8088','http://testserver'):
-        return Response('Origin denied',403)
+    if origin and origin.rstrip('/') not in security['origins']:return Response('Origin denied',403)
+    if request.method not in ('GET','HEAD','OPTIONS') and request.headers.get('sec-fetch-site')=='cross-site':return Response('Cross-site denied',403)
+    length=request.headers.get('content-length')
+    if length and (not length.isdigit() or int(length)>2100000):return Response('Request too large',413)
     res=await call_next(request)
     res.headers['X-Content-Type-Options']='nosniff'
     res.headers['Content-Security-Policy']="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'"
     res.headers['Cache-Control']='no-store'
+    res.headers['Referrer-Policy']='same-origin'
+    if security['production']:res.headers['Strict-Transport-Security']='max-age=31536000'
     return res
 
 def user(req):
@@ -99,21 +93,16 @@ def index():return FileResponse(ROOT/'static'/'index.html')
 @app.get('/api/me')
 def me(req:Request):u=user(req);return {k:v for k,v in u.items() if k not in ('token','context_after','sid')}
 @app.get('/api/health')
-async def health():
-    settings=model_provider.public_settings();ready=settings['configured']
-    observed=None
-    if settings['mode']=='local':
-        observed=system_runtime.observed_config()
-        try:
-            cfg=model_provider.settings()
-            async with httpx.AsyncClient(timeout=2,trust_env=False) as c:
-                r=await c.get(cfg['url']+'/models',headers=model_provider.headers(cfg))
-                ready=r.status_code==200 and any(m.get('id')==cfg['model'] for m in r.json().get('data',[]))
-        except (httpx.HTTPError,ValueError):ready=False
-    return dict(**settings,ready=ready,readiness='configured' if settings['mode']=='openrouter' else 'probed',
-                backend='OpenRouter API' if settings['mode']=='openrouter' else 'llama.cpp · local',
-                context=observed.get('context') if observed else settings['input_budget'],
-                generation=LOCK.status(),retrieval='Phân nhóm cục bộ + TF-IDF từ/ký tự + chọn đoạn đa dạng',demo=False)
+def health():
+    return {'status':'ok','provider':'openrouter'}
+
+@app.get('/api/account/usage')
+def my_usage(req:Request):return token_usage.summary(connect,user(req)['id'])
+
+@app.get('/api/model')
+def my_model(req:Request):
+    u=user(req)
+    return dict(model=u['model'],mode='openrouter',configured=u['model'] in model_provider.models() and bool(model_provider.settings()['api_key']),generation=LOCK.status())
 
 @app.get('/api/documents')
 def documents(req:Request):return [source(d) for d in docs_for(user(req),shared=True)]
@@ -142,7 +131,9 @@ async def answer_chat(data,req,u,conversation_id):
         prior=json.loads(previous['result']);ids={d['id'] for d in allowed}
         if all(d['id'] in ids for d in prior.get('sources',[])):
             effective=rag.followup(q,prior.get('effective_query',previous['question']))
-    cfg=model_provider.settings();usage={};estimated=0;calls=0;found=[];used=[];review=True
+    try:cfg=model_provider.settings(u['model'])
+    except ValueError as e:raise HTTPException(400,str(e))
+    usage={};estimated=0;calls=0;found=[];used=[];review=True
     # No record lookup or invented customer identity; this costs zero API calls.
     if re.search(r'\b(crm-|contract-|quote-|ticket-|cong no|ho so khach|ten khach hang|khach hang thuc|dien thoai khach)',rag.norm(effective)):
         answer='Kho này chỉ giữ tài liệu lý thuyết và biểu mẫu trống; không lưu hồ sơ, liên hệ, hợp đồng hay công nợ khách hàng.'
@@ -154,20 +145,24 @@ async def answer_chat(data,req,u,conversation_id):
             answer='Kho tri thức chưa có đủ căn cứ. Hãy nêu rõ dịch vụ, thiết bị hoặc nội dung cần tìm.';mode='Thiếu căn cứ'
         else:
             budget=cfg['input_budget'];output=cfg['output_budget'];parallel=cfg['parallel']
-            if cfg['mode']=='local':
-                runtime=system_runtime.config();observed=system_runtime.observed_config() or {}
-                context=observed.get('context') or runtime['context']
-                output=min(output,runtime_limits.output_limit(context,runtime['max_tokens']))
-                budget=min(budget,context-output-128);parallel=observed.get('parallel') or 1
             try:messages,found,estimated=rag.pack(effective,found,budget)
             except ValueError as e:raise HTTPException(400,str(e))
             if not found:
                 answer='Ngân sách đầu vào chưa đủ để chứa đoạn nguồn. Hãy rút gọn câu hỏi hoặc tăng RAG_INPUT_TOKENS.';mode='Thiếu ngân sách'
             else:
+                # Validate config before reserving; all accounting uses the database owner/model.
+                try:model_provider.headers(cfg)
+                except ValueError as e:raise HTTPException(503,str(e))
                 await LOCK.enter(parallel)
+                reservation=None
                 try:
+                    fresh=user(req)
+                    reservation,output=token_usage.reserve(connect,fresh['id'],cfg['model'],estimated,output)
+                    token_usage.mark_sent(connect,reservation)
                     calls=1
                     answer,usage,finish=await model_provider.complete(messages,cfg,output)
+                    token_usage.settle(connect,reservation,usage)
+
                     answer=re.sub(r'<think>.*?</think>','',answer,flags=re.S).strip()
                     ids={d['id'] for d in found};cited=set(re.findall(r'\[([A-Za-z0-9_-]+)\]',answer))
                     used=[d['id'] for d in found if d['id'] in cited];used=list(dict.fromkeys(used))
@@ -176,27 +171,34 @@ async def answer_chat(data,req,u,conversation_id):
                     if not cited or not cited.issubset(ids):
                         answer='Bản tổng hợp chưa đạt kiểm tra mã nguồn. Các trích đoạn để đối chiếu:\n\n'+'\n\n'.join(d['body']+' ['+d['id']+']' for d in found[:2])
                         used=[d['id'] for d in found[:2]];review=True;mode='Trích đoạn tài liệu'
+                except model_provider.InvalidCompletion as e:
+                    token_usage.settle(connect,reservation,e.usage)
+                    raise HTTPException(503,'Model không trả nội dung; usage đã được ghi nhận nếu nhà cung cấp trả về.')
                 except httpx.HTTPStatusError as e:
                     status=e.response.status_code
+                    token_usage.settle(connect,reservation,rejected=status in (400,401,402,403,404,422,429))
                     audit('model_error',u['role'],str(status))
                     detail={401:'API key không hợp lệ.',402:'Tài khoản OpenRouter không đủ số dư.',429:'Nhà cung cấp đang giới hạn lượt gọi.'}.get(status,'Model từ chối yêu cầu; kiểm tra model và cấu hình ngân sách.')
                     raise HTTPException(503,detail)
                 except (httpx.HTTPError,ValueError,KeyError,TypeError,IndexError):
                     audit('model_error',u['role'],'provider_failure')
-                    raise HTTPException(503,'Không nhận được phản hồi hợp lệ. Kiểm tra .env/kết nối hoặc model local. Hệ thống không tự gọi lại.')
-                finally:LOCK.leave()
+                    raise HTTPException(503,'Không nhận được phản hồi hợp lệ. Kiểm tra cấu hình model hoặc kết nối OpenRouter. Hệ thống không tự gọi lại.')
+                finally:
+                    if reservation:token_usage.settle(connect,reservation)
+                    LOCK.leave()
     fresh=user(req);fresh_docs={d['id']:d for d in docs_for(fresh)}
     if any(d['id'] not in fresh_docs or source(d)['source_digest']!=source(fresh_docs[d['id']])['source_digest'] for d in found if d['id'] in used):
         raise HTTPException(409,'Nguồn đã thay đổi trong lúc xử lý; hãy hỏi lại.')
     source_docs={d['id']:d for d in found if d['id'] in used}
     out=dict(answer=answer,sources=[source(d) for d in source_docs.values()],needs_review=review,mode=mode,
              elapsed=round(time.monotonic()-start,2),demo=False,citations_verified=bool(used),effective_query=effective,
-             usage=usage,api_calls=calls if cfg['mode']=='openrouter' else 0,
+             usage=usage,model=cfg['model'],api_calls=calls if cfg['mode']=='openrouter' else 0,
              retrieval={**routing,'selected_chunks':len(found),'estimated_input_tokens':estimated,'token_estimator':'UTF-8 byte upper estimate'})
     with connect() as c:
         cur=c.execute('INSERT INTO chats(session,question,result,ts,user_id,conversation_id) VALUES(?,?,?,?,?,?)',(u['token'],q,json.dumps(out,ensure_ascii=False),now(),u['id'],conversation_id));out['chat_id']=cur.lastrowid
         c.execute("UPDATE conversations SET title=CASE WHEN title='Cuộc trò chuyện mới' THEN ? ELSE title END,updated=? WHERE id=?",(q[:100],now(),conversation_id))
     out['conversation_id']=conversation_id
+    out['account_usage']=token_usage.summary(connect,u['id'])
     audit('chat',u['role'],f"{mode}; sources={','.join(used)}; calls={out['api_calls']}")
     return out
 
