@@ -1,6 +1,7 @@
 """Run the complete web application with the active Python/Conda environment."""
 import argparse
 import os
+import socket
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -39,8 +40,16 @@ def main(argv=None):
         proxy_headers=False, timeout_graceful_shutdown=400,
     )
     # Bind before importing app: a duplicate start must not run DB crash recovery.
-    listener = settings.bind_socket()
     try:
+        listener = socket.create_server(
+            (args.host, args.port),
+            family=socket.AF_INET6 if ':' in args.host else socket.AF_INET,
+            backlog=settings.backlog,
+        )
+    except OSError as exc:
+        parser.exit(1, f'Cannot listen on {args.host}:{args.port}: {exc}\n')
+    try:
+        print(f'Starting CyberAnt at http://{args.host}:{args.port}', flush=True)
         server = uvicorn.Server(settings)
         server.run(sockets=[listener])
         if not server.started:
