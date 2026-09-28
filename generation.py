@@ -8,11 +8,11 @@ class GenerationGate:
     def locked(self):return self.active>0 or self.waiting>0 or self.maintenance
     async def acquire(self):
         # Maintenance never interrupts accepted requests.
-        if self.locked():raise HTTPException(409,'Có câu hỏi đang xử lý hoặc chờ; hãy đợi trước khi điều khiển model.')
+        if self.locked():raise HTTPException(409,'Có câu hỏi đang xử lý hoặc chờ; hãy đợi trước khi đồng bộ dữ liệu.')
         self.maintenance=True
     def release(self):self.maintenance=False
     async def enter(self,capacity):
-        if self.maintenance:raise HTTPException(503,'Model đang được quản trị khởi động lại. Vui lòng thử lại sau.')
+        if self.maintenance:raise HTTPException(503,'Kho tri thức đang được đồng bộ. Vui lòng thử lại sau.')
         if self.waiting>=16:raise HTTPException(429,'Hàng chờ đã đầy (16 yêu cầu). Vui lòng thử lại sau.')
         self.waiting+=1
         try:

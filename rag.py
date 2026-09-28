@@ -1,5 +1,5 @@
 """Local category routing, hybrid lexical retrieval, diversity and bounded prompts."""
-import hashlib,json,re,unicodedata
+import hashlib,json,re,unicodedata,threading
 from functools import lru_cache
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -39,13 +39,24 @@ def chunks(doc):
     digest=hashlib.sha256(text.encode()).hexdigest()
     return [{**doc,'body':body,'chunk':i+1,'source_digest':digest} for i,body in enumerate(parts)]
 
-@lru_cache(maxsize=2)
-def index(encoded):
+_INDEX_LOCK=threading.RLock()
+
+@lru_cache(maxsize=1)
+def _index(encoded):
     docs=[chunk for d in json.loads(encoded) for chunk in chunks(d)]
     texts=[norm(d['title']+' '+d['title']+' '+d.get('service','')+' '+d['body']) for d in docs]
     v=TfidfVectorizer(analyzer='char_wb',ngram_range=(3,5),dtype=np.float32,max_features=50000)
     w=TfidfVectorizer(ngram_range=(1,2),dtype=np.float32,max_features=40000)
     return docs,v,v.fit_transform(texts),w,w.fit_transform(texts)
+
+def index(encoded):
+    # Concurrent first questions must not build several copies of the full index.
+    with _INDEX_LOCK:return _index(encoded)
+
+def clear_index():
+    with _INDEX_LOCK:_index.cache_clear()
+
+index.cache_clear=clear_index
 
 ALIASES={'hai van phong':'site to site vpn ipsec','mang khach':'guest vlan segmentation',
          'chuyen doi':'configuration_migration migration','quan tri van hanh':'managed_service',

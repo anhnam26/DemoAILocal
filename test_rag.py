@@ -3,6 +3,15 @@ from pathlib import Path
 import httpx,pytest
 import rag,model_provider,sync_knowledge
 
+def test_concurrent_first_queries_share_one_index():
+    from concurrent.futures import ThreadPoolExecutor
+    encoded=json.dumps([sync_knowledge.document('A','DNS basics','DNS resolves domain names and IP addresses.','A')])
+    rag.index.cache_clear()
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        results=list(pool.map(lambda _:rag.index(encoded),range(4)))
+    assert all(result is results[0] for result in results)
+    rag.index.cache_clear()
+
 def test_budget_and_diverse_chunks():
     docs=json.loads(Path('knowledge/documents.json').read_text(encoding='utf8'))
     found,route=rag.retrieve('RMA là gì và các bước thực hiện ra sao?',docs)
