@@ -67,6 +67,13 @@ def retrieve(question, documents, top_k=6):
         if re.search(r'(?<!\w)'+re.escape(norm(d['id']))+r'(?!\w)',q):scores[i]+=1
         if d.get('group') in boosts:scores[i]*=1.15
         if 'tong' in q and 'migration_summary'==d.get('data_type'):scores[i]+=0.20
+        title=norm(d['title'])
+        for entity in ('rma','dhcp','ssl vpn','managed service','rental','waf','ransomware'):
+            if entity in q and entity in title.replace('_',' '):scores[i]+=.18
+        if 'fortinet' in q and 'forti' in title:scores[i]+=.12
+        if ('workflow' in q or 'quy trinh' in q) and d.get('data_type')=='workflow':scores[i]+=.22
+        if 'chuyen doi' in q and 'chuyen doi' in title and d.get('data_type')=='workflow':scores[i]+=.12
+        if 'rma' in q and ('cac buoc' in q or 'thuc hien' in q) and d.get('data_type')=='workflow' and 'rma' in title:scores[i]+=.12
     # Soft routing keeps cross-category recall; never send whole categories.
     threshold=max(.10,float(scores.max())*.28)
     candidates=[int(i) for i in np.argsort(scores)[::-1][:60] if scores[i]>=threshold]
@@ -74,7 +81,7 @@ def retrieve(question, documents, top_k=6):
     while candidates and len(selected)<top_k:
         def rank(i):
             similarity=max((float((words[i]@words[j].T).toarray()[0,0]) for j in selected),default=0)
-            return float(scores[i])-.20*similarity-.08*counts.get(docs[i]['id'],0)
+            return float(scores[i])-.12*similarity-.06*counts.get(docs[i]['id'],0)
         i=max(candidates,key=rank);candidates.remove(i)
         if counts.get(docs[i]['id'],0)>=2:continue
         selected.append(i);counts[docs[i]['id']]=counts.get(docs[i]['id'],0)+1

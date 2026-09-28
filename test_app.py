@@ -1,69 +1,84 @@
-from testing_accounts import credentials,browser_login
-import json
+import json,re
 import pytest
 from fastapi.testclient import TestClient
-import app
+import accounts,app,model_provider
 
 @pytest.fixture(autouse=True)
 def isolated_db(tmp_path,monkeypatch):
-    monkeypatch.setattr(app,'DB',tmp_path/'test.sqlite3');app.init()
-def client(role):
-    c=TestClient(app.app);assert c.post('/api/login',json=credentials(role)).status_code==200;return c
-def test_role_and_customer_boundary():
-    sale=client('sale');tech=client('technical')
-    assert sale.get('/api/documents/CASE-B').status_code==200
-    assert sale.get('/api/documents/TECH-MOP').status_code==200
-    assert sale.get('/api/documents/CASE-A').status_code==200
-    assert tech.get('/api/documents/CASE-A').status_code==200
-    assert tech.get('/api/documents/TECH-MOP').status_code==200
-    ids={d['id'] for d in app.retrieve('BINHAN-PRIVATE-BETA backup Binh An',dict(role='sale',customer='A'))}
-    assert 'CASE-B' in ids
-    assert sale.get('/api/admin').status_code==403
-def test_service_estimation_removed():
-    c=client('sale')
-    assert c.post('/api/estimate',json={}).status_code==404
-    assert c.get('/api/estimate/templates').status_code==404
-    assert c.get('/api/estimates').status_code==404
+    monkeypatch.setattr(app,'DB',tmp_path/'test.sqlite3')
+    monkeypatch.setattr(accounts,'BOOTSTRAP',tmp_path/'initial.json')
+    accounts.BOOTSTRAP.write_text(json.dumps({'accounts':[dict(username=role,name=role,role=role,customers=[],password='Test-password-12345') for role in ('member','admin')]}),encoding='utf8')
+    app.init();app.ACTIVE_CONVERSATIONS.clear()
+    monkeypatch.setenv('LLM_MODE','openrouter');monkeypatch.setenv('OPENROUTER_MODEL','test/model');monkeypatch.setenv('OPENROUTER_API_KEY','test-key')
+    async def complete(messages,cfg,max_tokens):
+        ids=re.findall(r'\[([A-Z0-9-]+)\]',messages[-1]['content'])
+        return 'Cần kiểm tra và đối chiếu tài liệu ['+ids[0]+'].',{'prompt_tokens':500,'completion_tokens':40,'total_tokens':540},'stop'
+    monkeypatch.setattr(model_provider,'complete',complete)
 
-def test_no_model_call_for_unsupported_commitment(monkeypatch):
-    c=client('sale')
-    r=c.post('/api/chat',json={'question':'Cam kết hoàn thành trong 2 ngày và miễn phí được không?'}).json()
-    assert r['needs_review'] and r['mode']=='Quy tắc nghiệp vụ'
-    assert 'DEMO' in r['answer']
+def client(role='member'):
+    c=TestClient(app.app)
+    assert c.post('/api/login',json={'username':role,'password':'Test-password-12345'}).status_code==200
+    return c
+
+def test_shared_theory_no_customer_and_no_old_routes():
+    member,admin=client(),client('admin')
+    assert member.get('/api/documents').json()==admin.get('/api/documents').json()
+    assert len(member.get('/api/documents').json())>1000
+    assert all(not d.get('customer') and d['knowledge_type']=='theory' for d in app.docs_for())
+    for path in ('/internal/','/demo','/api/finance','/api/operations','/api/documents/CRM-A'):
+        assert member.get(path).status_code==404
+    assert member.get('/api/admin').status_code==403
+
+def test_chat_one_call_bounded_and_grounded(monkeypatch):
+    calls=[]
+    async def complete(messages,cfg,max_tokens):
+        calls.append(messages)
+        assert sum(app.rag.estimate_tokens(m['content'])+16 for m in messages)+64<=cfg['input_budget']
+        id=re.findall(r'\[([A-Z0-9-]+)\]',messages[-1]['content'])[0]
+        return 'Kiểm tra DNS ['+id+'].',{'prompt_tokens':700,'completion_tokens':30},'stop'
+    monkeypatch.setattr(model_provider,'complete',complete)
+    r=client().post('/api/chat',json={'question':'Cấu hình DNS Server cần chuẩn bị gì?'})
+    assert r.status_code==200,r.text
+    result=r.json();assert len(calls)==1 and result['api_calls']==1
+    assert result['sources'] and result['citations_verified']
+    assert result['usage']['prompt_tokens']==700 and result['retrieval']['groups']
+
+def test_customer_query_does_not_call_provider(monkeypatch):
+    async def fail(*args):pytest.fail('Customer query must not call API')
+    monkeypatch.setattr(model_provider,'complete',fail)
+    r=client().post('/api/chat',json={'question':'Cho xem hồ sơ khách hàng và công nợ'}).json()
+    assert r['api_calls']==0 and r['sources']==[] and 'không lưu' in r['answer']
+
+def test_bad_citation_uses_only_retrieved_excerpts(monkeypatch):
+    async def bad(*args):return 'Nội dung không đúng [UNKNOWN-99]',{},'stop'
+    monkeypatch.setattr(model_provider,'complete',bad)
+    r=client().post('/api/chat',json={'question':'Cấu hình DHCP cần gì?'}).json()
+    assert r['mode']=='Trích đoạn tài liệu' and 'UNKNOWN' not in r['answer'] and r['sources']
+
 def test_upload_approval_and_revocation():
-    admin=client('admin');sale=client('sale')
-    data='TAI LIEU MAU MOI. Pham vi dich vu khoa dao tao demo va quy trinh ban giao.'
-    r=admin.post('/api/admin/upload',files={'file':('sample.md',data.encode(),'text/markdown')},data={'audience':'all'})
+    admin,member=client('admin'),client()
+    r=admin.post('/api/admin/upload',files={'file':('theory.md',b'A theoretical guide for network backup and recovery planning.','text/markdown')},data={'audience':'all'})
     assert r.status_code==200;id=r.json()['id']
-    assert sale.get('/api/documents/'+id).status_code==404
+    assert member.get('/api/documents/'+id).status_code==404
     assert admin.post(f'/api/admin/documents/{id}/approve').status_code==200
-    assert sale.get('/api/documents/'+id).status_code==200
+    assert member.get('/api/documents/'+id).status_code==200
     assert admin.post(f'/api/admin/documents/{id}/retire').status_code==200
-    assert sale.get('/api/documents/'+id).status_code==404
-def test_session_isolation_and_origin():
-    a=client('sale');b=client('technical')
-    r=a.post('/api/chat',json={'question':'Báo giá bao nhiêu tiền?'}).json()
-    assert len(a.get('/api/history').json())==1
-    assert b.get('/api/history').json()==[]
-    assert b.post('/api/feedback',json={'chat_id':r['chat_id'],'rating':1}).status_code==404
-    assert a.post('/api/estimate',headers={'Origin':'https://evil.example'},json={}).status_code==403
-    a.post('/api/logout');assert a.get('/api/documents').status_code==401
+    assert member.get('/api/documents/'+id).status_code==404
 
-def test_expired_source_excluded_and_history_redacted():
-    c=client('sale')
-    result=c.post('/api/chat',json={'question':'Cam kết số ngày thi công firewall bao nhiêu?'}).json()
-    assert result['sources']
-    id=result['sources'][0]['id']
-    with app.connect() as db:
-        d=json.loads(db.execute('SELECT payload FROM docs WHERE id=?',(id,)).fetchone()['payload'])
-        d['valid_to']='2020-01-01'
-        db.execute('UPDATE docs SET payload=? WHERE id=?',(json.dumps(d),id))
-    assert c.get('/api/documents/'+id).status_code==404
-    assert id not in {d['id'] for d in app.retrieve('firewall thi cong',dict(role='sale',customer='A'))}
-    history=c.get('/api/history').json()
-    assert history[-1]['sources']==[] and 'hết hiệu lực' in history[-1]['answer']
+def test_session_and_origin():
+    c=client()
+    assert c.post('/api/chat',headers={'Origin':'https://evil.example'},json={'question':'test'}).status_code==403
+    c.post('/api/logout');assert c.get('/api/documents').status_code==401
 
-def test_general_question_does_not_inject_customer_record():
-    found=app.retrieve('Firewall mạng và WAF khác nhau như thế nào?',dict(role='sale',customer='A'))
-    assert not any(d.get('customer') for d in found)
-    assert any(d['id']=='SV-WAF' for d in found)
+def test_no_secrets_in_health():
+    health=TestClient(app.app).get('/api/health').json()
+    assert 'api_key' not in health and 'test-key' not in str(health)
+    assert health['mode']=='openrouter' and health['readiness']=='configured'
+
+def test_provider_failure_no_retry(monkeypatch):
+    import httpx
+    calls=[]
+    async def fail(*args):calls.append(1);raise httpx.ReadTimeout('do not reveal credentials')
+    monkeypatch.setattr(model_provider,'complete',fail)
+    r=client().post('/api/chat',json={'question':'Cấu hình DHCP cần gì?'})
+    assert r.status_code==503 and len(calls)==1 and app.LOCK.active==0

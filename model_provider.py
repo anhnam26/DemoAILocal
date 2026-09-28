@@ -45,6 +45,8 @@ async def complete(messages, s, max_tokens):
     payload=dict(model=s['model'], messages=messages, temperature=0.1, max_tokens=max_tokens)
     if s['mode']=='local':
         payload['chat_template_kwargs']={'enable_thinking':False}
+    else:
+        payload['reasoning']={'enabled':False}
     # Plain text works across providers; validate source references locally.
     # No automatic retries: a transport timeout must not silently double bill.
     async with httpx.AsyncClient(timeout=httpx.Timeout(180,connect=15),trust_env=False) as c:
@@ -56,4 +58,4 @@ async def complete(messages, s, max_tokens):
     if not isinstance(answer,str) or not answer.strip():
         raise ValueError('Model không trả nội dung')
     usage=data.get('usage') or {}
-    return answer, {k:usage[k] for k in ('prompt_tokens','completion_tokens','total_tokens','cost','prompt_tokens_details') if k in usage}, choice.get('finish_reason')
+    return answer, {k:usage[k] for k in ('prompt_tokens','completion_tokens','total_tokens','cost','prompt_tokens_details','completion_tokens_details') if k in usage}, choice.get('finish_reason')

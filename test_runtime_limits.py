@@ -2,7 +2,7 @@ import system_runtime,runtime_limits as limits
 from test_app import isolated_db,client
 
 def test_budget_and_config_limits(tmp_path,monkeypatch):
-    a=client('admin');s=client('sale');monkeypatch.setattr(system_runtime,'CONFIG',tmp_path/'config.json')
+    a=client('admin');s=client('member');monkeypatch.setattr(system_runtime,'CONFIG',tmp_path/'config.json')
     config={**system_runtime.DEFAULT,'parallel':4,'context':8192,'max_tokens':8192}
     assert s.put('/api/admin/system/config',json=config).status_code==403
     assert a.put('/api/admin/system/config',json=config).status_code==200
