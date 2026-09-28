@@ -99,11 +99,12 @@ def install(app,connect,user,audit,generation_lock,docs_for):
         audit('backup',u['role'],path.name);return dict(ok=True,path=str(path))
     @router.get('/api/admin/conversations')
     def conversations(req:Request):
-        u=admin(req);allowed={d['id'] for d in docs_for(u)}
+        import hashlib
+        u=admin(req);allowed={d['id']:hashlib.sha256(d['body'].encode()).hexdigest() for d in docs_for(u)}
         with connect() as c:rows=c.execute('SELECT ch.id,ch.question,ch.result,ch.ts,u.username FROM chats ch LEFT JOIN sessions s ON s.token=ch.session LEFT JOIN users u ON u.id=COALESCE(ch.user_id,s.user_id) ORDER BY ch.id DESC LIMIT 100').fetchall()
         result=[]
         for r in rows:
-            a=json.loads(r['result']);valid=all(s['id'] in allowed for s in a.get('sources',[]))
+            a=json.loads(r['result']);valid=all(s['id'] in allowed and s.get('source_digest',allowed.get(s['id']))==allowed.get(s['id']) for s in a.get('sources',[]))
             result.append(dict(id=r['id'],question=r['question'],answer=a['answer'] if valid else 'Nguồn hết hiệu lực/thu hồi; nội dung cũ không hiển thị.',ts=r['ts'],username=r['username'] or 'Phiên cũ/đã thu hồi',mode=a.get('mode')))
         return result
     app.include_router(router)

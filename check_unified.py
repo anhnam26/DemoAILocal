@@ -37,6 +37,7 @@ with sync_playwright() as p:
     if page.locator('#sidebar-toggle').get_attribute('aria-expanded')=='true':page.locator('#sidebar-toggle').click()
     page.screenshot(path=str(ROOT/'artifacts/unified-mobile.png'),full_page=True)
     report['browser_errors']=errors;report['browser_ok']=not errors
+    if page.locator('#sidebar-toggle').get_attribute('aria-expanded')=='false':page.locator('#sidebar-toggle').click()
     page.locator('#logout').click();browser.close()
 (ROOT/'artifacts/unified_smoke.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
 print(json.dumps(report,ensure_ascii=False,indent=2))
