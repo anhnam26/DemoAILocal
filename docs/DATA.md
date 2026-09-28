@@ -1,49 +1,24 @@
-# Dữ liệu demo, upload và quyền đọc
+# Nguồn dữ liệu duy nhất
 
-[Về README](../README.md) · [Cài mới](SETUP.md)
+Nguồn hoạt động gồm `data/sources/theory.json` (75 tài liệu lý thuyết/ATTT cũ), `data/sources/services.json` (11 đoạn dịch vụ trích từ Word DataReal) và `NewData/data/processed/company_knowledge.jsonl` (1.115 mục mới). Các file Word/Excel/PDF gốc còn để đối chiếu, không được nạp lần hai hay phục vụ qua static.
 
-## Bộ dữ liệu chuẩn
+`sync_knowledge.py` tạo `data/knowledge_documents.json` và manifest, loại trùng nội dung, chuẩn hóa metadata. Startup đồng bộ bản chuẩn vào SQLite; nút **Hệ thống → Đồng bộ kho tri thức** rebuild và áp dụng ngay. Nguồn sửa được cập nhật, nguồn xóa biến mất khỏi DB, tài liệu bị quản trị thu hồi không tự được duyệt lại. Bản upload thủ công giữ riêng trong DB.
 
-| Bộ | Script | Số tài liệu |
+Đây là đồng bộ các nguồn chuẩn JSON/JSONL. Thay đổi Excel/Word gốc cần cập nhật bản trích chuẩn trước khi đồng bộ; chưa có bộ biên soạn tự động mọi workbook. `services.json` giữ snapshot đã trích và hash để đối chiếu DataReal.
+
+| Nhóm | Nội dung | Số tài liệu |
 |---|---|---:|
-| Công ty, dịch vụ và vận hành | `company_data.py` | 251 |
-| Kiến thức ATTT và bài tập | `security_data.py` | 48 |
-| Gói, SLA và tài chính | `finance_data.py` | 154 |
-| Định mức và đầu vào tham khảo | `workflow_data.py` | 28 |
-| Tổng | | **481** |
+| A | Khái niệm, thuật ngữ | 578 |
+| B | Cấu hình, xử lý sự cố | 274 |
+| C | Khảo sát, phạm vi dịch vụ | 212 |
+| D | Quy trình, SOW, triển khai | 68 |
+| E | An toàn thông tin | 48 |
+| F | Chất lượng dữ liệu, quy tắc | 14 |
 
-Có 10 khách, 10 hợp đồng, 20 dự án, 20 báo giá, 40 ticket, 16 mã kho và 18 nhân sự giả lập. Dữ liệu công ty/tài chính là snapshot ngày 05/09/2026; không phải khách hoặc sổ kế toán thật. Giá, thuế VAT 10%, SLA và lịch là số mô phỏng để trình diễn phép tính. Nguồn ATTT có liên kết NIST/CISA/OWASP/MITRE và ngày kiểm nguồn trong metadata, không tự cập nhật feed/CVE realtime.
+Tổng 1.194 sau loại 7 bản trùng. Có 1.100 tài liệu giữ nhãn `draft_engineer_review`, 8 quy trình chép từ nguồn và 86 tài liệu tham khảo. `approved` nghĩa được phép tra cứu, không đồng nghĩa kỹ sư đã phê duyệt nội dung dự thảo. Mốc 2099 chỉ phục vụ khả dụng của tri thức tham khảo, không xác nhận hiệu lực chính sách thương mại.
 
-## Cài mới và cập nhật mẫu
+Đã xóa CRM, hợp đồng, dự án, ticket, chứng từ, bảng giá/tồn kho giả lập và các script sinh lại chúng. Xóa lịch sử/audit cũ, backup, chỉ mục Chroma cũ và sheet/file khách hàng ví dụ; giữ biểu mẫu trống và kiến thức tổng quát. `.local-internal` cùng database/phiếu của phiên bản đó đã được xóa sau khi lấy phần dịch vụ lý thuyết.
 
-Trên lần cài mới, chạy đúng thứ tự bốn script ở [SETUP](SETUP.md), sau đó import app để tạo bảng ứng dụng/user. `company_data.py` tạo bảng docs trước; các bộ sau bổ sung nguồn và liên kết. Không chạy riêng workflow_data trước khi có nền dữ liệu.
+Git history có thể vẫn chứa dữ liệu demo của commit cũ; lần thay đổi này không rewrite lịch sử Git hoặc xóa bản sao ngoài workspace.
 
-Repo có thể kèm JSON/Markdown tổng hợp; SQLite local không được commit. Ứng dụng dùng **bản trong SQLite**, không đọc Markdown xuất ra làm dữ liệu đang hoạt động. Sửa một file JSON có sẵn không tự thay bản ghi SQLite vì startup dùng insert-if-missing.
-
-Khi cập nhật dữ liệu mẫu, backup trước, đọc quy tắc phiên bản trong từng `install()`, chạy các script phụ thuộc theo thứ tự rồi restart backend. Các script cố giữ trạng thái thu hồi/bản upload theo quy tắc hiện tại nhưng không thay cho đối chiếu dữ liệu thực. Không sửa một tổng tiền mà bỏ qua chứng từ/offer/định mức liên quan.
-
-## Hiệu lực tài liệu
-
-Mỗi nguồn có ID, body, category, version, owner, status, valid_from/valid_to; có thể có customer/roles, references, fields hoặc requires. Chỉ approved và trong thời hạn mới được dùng. Nguồn dẫn xuất thiếu bất kỳ requires hợp lệ cũng bị loại.
-
-Số **481 trong DB** không luôn bằng số nhìn thấy trên web: khi ngày máy vượt hiệu lực hoặc nguồn bị thu hồi, số khả dụng giảm. Muốn dùng demo trong tương lai cần biên tập lại ngày phù hợp, không tắt kiểm hiệu lực để che nguyên nhân. Dashboard snapshot không tự đổi thành ngày hiện tại.
-
-## Quyền đọc chung
-
-Cả ba vai trò đọc và hỏi AI từ mọi tài liệu đã duyệt/còn hiệu lực, kể cả kỹ thuật, hồ sơ khách và giá vốn. Metadata role/customer cũ còn để quản lý nhưng không hạn chế đọc ở kho chung. Dashboard vẫn có bộ lọc khách phân công; đó không phải hàng rào giữ bí mật đối với nguồn đã chia sẻ.
-
-Chỉ quản trị thêm/duyệt/thu hồi. Không tải secret hoặc nội dung không muốn toàn bộ tài khoản đọc vào kho chung.
-
-## Tải tài liệu mới bằng web
-
-1. Đăng nhập admin → Quản trị tri thức.
-2. Chọn TXT/MD UTF-8 hoặc PDF có text. Tối đa 2 MB, 12.000 ký tự; PDF đọc tối đa 30 trang. Chưa OCR cho ảnh/PDF scan và chưa có antivirus sandbox.
-3. Tải lên: tài liệu ở trạng thái pending, chưa dùng cho RAG.
-4. Đọc trước, kiểm nội dung và quyền chia sẻ rồi Duyệt.
-5. Vào Kho tri thức, tìm mã/tên mới và thử một câu hỏi liên quan.
-
-Muốn ngừng dùng nguồn: Thu hồi trong admin. Khi mở lịch sử có nguồn hết hiệu lực/thu hồi, nội dung cũ có thể bị che để hỏi lại từ nguồn hiện tại. Bản sao đã tải về hoặc screenshot không thể thu hồi từ máy người dùng.
-
-## Có fine-tuning không?
-
-Không. Đây là RAG: TF-IDF tìm đoạn liên quan rồi đưa vào prompt model. Thêm tài liệu làm đổi dữ liệu truy xuất; không thay trọng số GGUF. Feedback không tự trở thành dữ liệu huấn luyện. Model không tự học nội dung user vừa nhập để đưa vào kho chung.
+Upload chỉ nhận TXT/Markdown/PDF có text, tối đa 2 MB và 12.000 ký tự, chờ admin duyệt. Chỉ tải nội dung lý thuyết được phép chia sẻ; không tải hồ sơ khách hàng hoặc secret. Chưa có bộ phát hiện PII tự động đủ tin cậy để thay bước duyệt.

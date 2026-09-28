@@ -1,77 +1,37 @@
-# CyberAnt AI — demo trợ lý nội bộ chạy local
+# CyberAnt — kho tri thức dùng chung
 
-Ứng dụng hỏi đáp tiếng Việt cho Sales, Kỹ thuật và Quản trị, chạy bằng **Qwen3.5-9B trên GPU local**. Người dùng tìm tài liệu, hỏi về dịch vụ/ATTT, xem hồ sơ và tài chính demo, quản lý lịch sử trò chuyện. Quản trị quản lý tài khoản, tài liệu và thông số model ngay trên web.
+Một ứng dụng tại http://127.0.0.1:8088, một cơ sở dữ liệu, hai chế độ sinh câu trả lời: **OpenRouter API** hoặc **local llama.cpp**. Không còn trang chọn Demo/Internal hoặc phân chia Sale/Kỹ thuật. Thành viên đọc cùng kho tri thức; quản trị quản lý tài liệu, tài khoản và model.
 
-**Người mới bắt đầu tại [Cài đặt từng bước](docs/SETUP.md).** Hướng dẫn dành cho người vừa clone hoặc tải repository từ GitHub, chưa có Python, runtime, trọng số hay tài khoản của hệ thống.
+## Chạy trên máy hiện tại
 
-## Môi trường đã kiểm thử
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\Start-Demo.ps1
+```
 
-| Thành phần | Cấu hình tham chiếu |
-|---|---|
-| Hệ điều hành | Windows 11 x64 |
-| GPU | NVIDIA RTX 4060 Laptop, VRAM 8 GB, hỗ trợ Vulkan |
-| RAM | 16 GB; cần còn bộ nhớ khả dụng khi chạy |
-| Python | CPython 3.14.0 x64, bản thông thường |
-| Runtime | llama.cpp b10816, Windows x64 Vulkan |
-| Model | Qwen3.5-9B-Q4_K_M.gguf, khoảng 5,63 GB |
-| Mặc định | 2 lượt đồng thời × 4.096 context, trần đầu ra 800 token/lượt |
+API key và model được đọc từ `.env`: hỗ trợ `API_KEY`/`MODEL` đang có hoặc `OPENROUTER_API_KEY`/`OPENROUTER_MODEL`. Key không được gửi tới trình duyệt. Model dùng ID gốc của OpenRouter, ví dụ `nvidia/nemotron-3-super-120b-a12b:free`, không thêm tiền tố adapter `openrouter/`.
 
-Đây là cấu hình đã thử, không phải cam kết mọi máy 8 GB VRAM đều chạy tốt. Cách chạy Windows hiện dùng `Vulkan0`. Máy khác cần kiểm tra GPU tại bước cài runtime. Linux/macOS, CPU-only, CUDA và LM Studio server chưa có quy trình cài tương đương được kiểm thử trong repo này.
+Chọn **Hệ thống → Chế độ trả lời** hoặc đặt `LLM_MODE=openrouter` / `LLM_MODE=local` trong `.env`. Chế độ API khởi động được khi không có GPU, GGUF hay llama-server. Chọn local khi model chưa chạy thì bấm Khởi động model. Không tự chuyển sang nhà cung cấp khác khi gặp lỗi.
 
-## Cài mới gồm những bước nào?
+Tài khoản hiện có được giữ mật khẩu, chuyển vai trò Sale/Kỹ thuật thành Thành viên. Tên đăng nhập cũ vẫn sử dụng được. Khi cài mới, tạo member/admin với mật khẩu ngẫu nhiên trong `data/initial-accounts.json`.
 
-1. Tải repo và mở PowerShell tại thư mục có `app.py`.
-2. Cài Python 3.14 x64, tạo `.venv-runtime`, cài `requirements-lock.txt`.
-3. Sinh dữ liệu demo bằng bốn script theo đúng thứ tự.
-4. Tải trọng số Qwen và runtime llama.cpp Vulkan.
-5. Khởi tạo tài khoản local, chạy `Start-Demo.ps1` và kiểm tra `ready: true`.
-6. Mở **http://127.0.0.1:8088** và đăng nhập.
+## Dữ liệu và RAG
 
-Các lệnh đầy đủ và kết quả mong đợi nằm trong [SETUP.md](docs/SETUP.md). Không cần file `cyberant-ai-source.zip`, tài khoản OpenAI hoặc API key dịch vụ trả phí. Không cần cài giao diện LM Studio; demo dùng GGUF bằng llama.cpp độc lập.
+Kho hiện có 1.194 tài liệu sau loại trùng: thuật ngữ, cấu hình, khảo sát, quy trình/SOW, ATTT và quy tắc chất lượng dữ liệu. Không có CRM, hợp đồng khách, công nợ, ticket hay hồ sơ khách hàng ví dụ. Hướng dẫn bổ sung chưa được kỹ sư duyệt vẫn mang nhãn `draft_engineer_review`, không trở thành cam kết thực tế.
 
-## Những gì được tạo riêng trên máy cài đặt
+Luồng: câu hỏi → tìm kiếm từ/ký tự và ưu tiên nhóm trên CPU → chọn tối đa 6 đoạn đa dạng, bỏ phần lặp → giới hạn prompt → một lượt gọi model → kiểm tra mã trích dẫn → lưu lịch sử theo tài khoản. Câu hỏi hồ sơ khách hàng hoặc không tìm thấy nguồn có thể trả lời mà không gọi model.
 
-Repo có code, tài liệu và dữ liệu mẫu tổng hợp; **không chứa môi trường Python, model, runtime, database đang sử dụng, mật khẩu hoặc API key local**. Cài mới sẽ tạo lại chúng.
+Không gọi thêm API phân loại cho mọi câu hỏi. Không gửi nguyên nhóm tài liệu. Ngân sách mặc định: `RAG_INPUT_TOKENS=6000`, `RAG_OUTPUT_TOKENS=1000`, `RAG_TOP_K=6`, `API_PARALLEL=2`. Đếm đầu vào theo byte UTF-8 bảo thủ, không phải tokenizer chính xác của mọi model; token thực tế và chi phí lấy từ `usage` của API. Xem [ngân sách](docs/TOKEN_LIMITS.md).
 
-| File local | Công dụng |
-|---|---|
-| `data/initial-accounts.json` | Mật khẩu khởi tạo ngẫu nhiên cho `sales`, `kythuat`, `admin` |
-| `data/model-api-key.txt` | Khóa backend gọi model; Start-Demo tạo nếu chưa có |
-| `data/demo.sqlite3` | Tài liệu, user, phiên, lịch sử và audit |
-| `data/runtime-config.json` | Cấu hình quản trị đã lưu; thiếu file thì dùng mặc định |
+## Tài liệu và kiểm tra
 
-Mật khẩu không giống giữa các máy. File khởi tạo không cập nhật theo lần đổi mật khẩu sau đó. Không đưa các file riêng này lên GitHub hoặc vào kho tri thức.
+- [Cài đặt](docs/SETUP.md), [sử dụng](docs/USER_GUIDE.md), [dữ liệu](docs/DATA.md).
+- [Kiến trúc](docs/ARCHITECTURE.md), [vận hành](docs/OPERATIONS.md), [xử lý lỗi](docs/TROUBLESHOOTING.md).
+- [Báo cáo thay đổi và giới hạn](docs/CHANGE_REPORT.md).
 
-## Các chức năng hiện có
-
-- Kho tri thức chung cho cả ba vai trò, chỉ dùng nguồn đã duyệt/còn hiệu lực.
-- Chat có dẫn nguồn, tiêu đề/danh sách/bảng, cỡ chữ, sao chép và tải Markdown.
-- Lịch sử theo tài khoản: tìm, xem lại, hỏi tiếp, xóa từng cuộc trò chuyện.
-- Hồ sơ công ty và tài chính tổng hợp: dịch vụ, hợp đồng, ticket, SLA, công nợ.
-- Quản trị user/phiên online; upload, duyệt và thu hồi tài liệu.
-- Thông số CPU/RAM/VRAM; chọn 1–4 lượt đồng thời, xem context/trần trả lời từng lượt; bật/tắt/restart model và backup.
-- Giao diện responsive, hover/focus và nút ☰ mở/đóng thanh bên.
-
-Module **Dự toán dịch vụ đã được gỡ**; dữ liệu định mức vẫn dùng để tra cứu, tab Tài chính demo vẫn có chức năng riêng. AI không tự gửi báo giá, mở ticket, đặt lịch hay thực thi lệnh.
-
-## Đọc tài liệu theo nhu cầu
-
-| Tài liệu | Đọc khi |
-|---|---|
-| [SETUP](docs/SETUP.md) | Cài lần đầu từ repo mới |
-| [USER_GUIDE](docs/USER_GUIDE.md) | Đã đăng nhập và muốn thử các chức năng |
-| [OPERATIONS](docs/OPERATIONS.md) | Khởi động/dừng, cập nhật repo, backup/khôi phục |
-| [TROUBLESHOOTING](docs/TROUBLESHOOTING.md) | Cài hoặc chạy gặp lỗi |
-| [TOKEN_LIMITS](docs/TOKEN_LIMITS.md) | Điều chỉnh context, trần đầu ra và số lượt |
-| [DATA](docs/DATA.md) | Hiểu/tái tạo/bổ sung dữ liệu |
-| [ARCHITECTURE](docs/ARCHITECTURE.md) | Hiểu code, API và luồng xử lý |
-| [CONTRIBUTING](CONTRIBUTING.md) | Phát triển và kiểm thử |
-| [PUBLIC_RELEASE](docs/PUBLIC_RELEASE.md) | Quản lý source trên GitHub |
-| [SECURITY](SECURITY.md) | Hiểu quyền truy cập và giới hạn bảo mật |
-| [LUONG_HOAT_DONG.txt](LUONG_HOAT_DONG.txt) | Đọc giải thích bằng ngôn ngữ thông thường |
-
-## Giới hạn và phạm vi demo
-
-Giá, VAT mô phỏng, SLA, lịch, khách hàng, hợp đồng và chứng từ đều là dữ liệu giả lập, không phải chính sách hay cam kết thương mại của CyberAnt. Tri thức ATTT có nguồn tham khảo; AI vẫn có thể tổng hợp sai.
-
-Hiện chạy localhost với một backend process, chưa triển khai HTTPS/SSO/MFA, HA, OCR, semantic embeddings/reranker, connector CRM hoặc kiểm thử phục vụ toàn công ty. Không đổi thành nhiều uvicorn worker: bộ điều phối lượt đang nằm trong bộ nhớ một tiến trình. Các thành phần model/runtime/thư viện có giấy phép riêng; repository chưa tự cấp một giấy phép mã nguồn mới thay chủ dự án.
+```powershell
+.venv-runtime\Scripts\python.exe -X utf8 -m pytest -q
+.venv-runtime\Scripts\python.exe -X utf8 evaluate_rag.py
+.venv-runtime\Scripts\python.exe -X utf8 check_unified.py
+# Có gọi OpenRouter thật; có thể tính phí tùy model:
+.venv-runtime\Scripts\python.exe -X utf8 check_unified.py --live
+```
