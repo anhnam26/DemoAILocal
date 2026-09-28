@@ -12,7 +12,15 @@ Khong dung docker compose down -v: lenh nay xoa volume du lieu.
 CHAY TREN MAY WINDOWS HIEN TAI (OpenRouter API)
 cd D:\TestSystem
 powershell -NoProfile -ExecutionPolicy Bypass -File .\Start-App.ps1 -Python D:\CyberAnt-Server-Tools\.venv\Scripts\python.exe
-Mo http://127.0.0.1:8088. Ctrl+C de dung.
+App chay nen. Mo http://127.0.0.1:8088.
+
+TAT UNG DUNG WINDOWS
+cd D:\TestSystem
+powershell -NoProfile -ExecutionPolicy Bypass -File .\Stop-App.ps1
+
+Khoi dong lai: chay lenh Stop-App.ps1, sau do chay lenh Start-App.ps1 o tren.
+Nen cho cau tra loi dang xu ly hoan tat truoc khi dung.
+Log Windows: data\logs. Tai khoan cu: data\initial-accounts.json (chi giu tren may ca nhan).
 
 Ban local GPU cu: D:\CyberAnt-Local-Archive-20260928
 Xem docs/SERVER_REPORT.md de biet ket qua kiem thu va viec can lam truoc khi deploy.
