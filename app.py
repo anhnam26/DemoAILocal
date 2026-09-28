@@ -49,7 +49,7 @@ app=FastAPI(title='CyberAnt Knowledge',docs_url=None,redoc_url=None,openapi_url=
 app.mount('/static',StaticFiles(directory=ROOT/'static'),name='static')
 
 @app.middleware('http')
-async def local_guard(request,call_next):
+async def request_guard(request,call_next):
     from urllib.parse import urlsplit
     security=config.security()
     host=urlsplit('//'+request.headers.get('host','')).hostname
@@ -140,7 +140,7 @@ async def answer_chat(data,req,u,conversation_id):
         routing={'groups':[],'routing':'local','candidates':0};mode='Không có dữ liệu khách hàng'
     else:
         found,routing=await asyncio.to_thread(rag.retrieve,effective,allowed,cfg['top_k'])
-        mode=('OpenRouter' if cfg['mode']=='openrouter' else 'Local')+' + RAG'
+        mode='OpenRouter + RAG'
         if not found:
             answer='Kho tri thức chưa có đủ căn cứ. Hãy nêu rõ dịch vụ, thiết bị hoặc nội dung cần tìm.';mode='Thiếu căn cứ'
         else:
@@ -191,8 +191,8 @@ async def answer_chat(data,req,u,conversation_id):
         raise HTTPException(409,'Nguồn đã thay đổi trong lúc xử lý; hãy hỏi lại.')
     source_docs={d['id']:d for d in found if d['id'] in used}
     out=dict(answer=answer,sources=[source(d) for d in source_docs.values()],needs_review=review,mode=mode,
-             elapsed=round(time.monotonic()-start,2),demo=False,citations_verified=bool(used),effective_query=effective,
-             usage=usage,model=cfg['model'],api_calls=calls if cfg['mode']=='openrouter' else 0,
+             elapsed=round(time.monotonic()-start,2),citations_verified=bool(used),effective_query=effective,
+             usage=usage,model=cfg['model'],api_calls=calls,
              retrieval={**routing,'selected_chunks':len(found),'estimated_input_tokens':estimated,'token_estimator':'UTF-8 byte upper estimate'})
     with connect() as c:
         cur=c.execute('INSERT INTO chats(session,question,result,ts,user_id,conversation_id) VALUES(?,?,?,?,?,?)',(u['token'],q,json.dumps(out,ensure_ascii=False),now(),u['id'],conversation_id));out['chat_id']=cur.lastrowid
@@ -225,14 +225,14 @@ async def upload(req:Request,file:UploadFile=File(...),audience:str=Form('all'))
     if u['role']!='admin':raise HTTPException(403,'Cần vai trò quản trị')
     if audience != 'all':raise HTTPException(400,'Phạm vi không hợp lệ')
     raw=await file.read(2_000_001)
-    if len(raw)>2_000_000:raise HTTPException(400,'Giới hạn 2MB cho demo')
+    if len(raw)>2_000_000:raise HTTPException(400,'Giới hạn tải lên 2MB')
     name=Path(file.filename or 'document').name
-    if Path(name).suffix.lower() not in ('.txt','.md','.pdf'):raise HTTPException(400,'Demo nhận TXT, Markdown hoặc PDF có text')
+    if Path(name).suffix.lower() not in ('.txt','.md','.pdf'):raise HTTPException(400,'Chỉ nhận TXT, Markdown hoặc PDF có text')
     try:
         body='\n'.join((p.extract_text() or '') for p in PdfReader(io.BytesIO(raw)).pages[:30]) if name.lower().endswith('.pdf') else raw.decode('utf8')
     except Exception:raise HTTPException(400,'Không trích xuất được; cần file UTF-8 hoặc PDF có text')
-    if len(body.strip())<30:raise HTTPException(400,'Không đủ nội dung. PDF scan cần OCR ngoài demo.')
-    if len(body)>12000:raise HTTPException(400,'Chia tài liệu thành các mục dưới 12.000 ký tự cho demo')
+    if len(body.strip())<30:raise HTTPException(400,'Không đủ nội dung. PDF scan cần được OCR trước khi tải lên.')
+    if len(body)>12000:raise HTTPException(400,'Chia tài liệu thành các mục dưới 12.000 ký tự')
     d=dict(id='UP-'+secrets.token_hex(4).upper(),title=name,category='Tải lên',body=body,roles=['member','admin'],customer=None,version='upload-1',status='pending',valid_from=date.today().isoformat(),valid_to='2027-12-31',owner='Quản trị',group='F',knowledge_type='theory',review_status='manual_review')
     with connect() as c:c.execute('INSERT INTO docs VALUES(?,?)',(d['id'],json.dumps(d,ensure_ascii=False)))
     audit('upload',u['role'],d['id']+' đang chờ duyệt');return {'id':d['id'],'status':'pending'}

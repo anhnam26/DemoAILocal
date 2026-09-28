@@ -1,0 +1,19 @@
+SERVER (Docker Compose, Linux)
+1. Doc docs/DEPLOYMENT.md.
+2. Tao .env tu .env.example, dien API key, 4 model, APP_ORIGINS HTTPS va mat khau admin khoi tao.
+3. docker compose up -d --build
+4. docker compose logs --tail=100 app
+5. Cau hinh Nginx/TLS theo deploy/nginx.conf.example.
+
+Dung: docker compose stop
+Khoi dong lai: docker compose restart app
+Khong dung docker compose down -v: lenh nay xoa volume du lieu.
+
+CHAY TREN MAY WINDOWS HIEN TAI (OpenRouter API)
+cd D:\TestSystem
+powershell -NoProfile -ExecutionPolicy Bypass -File .\Start-App.ps1 -Python D:\CyberAnt-Server-Tools\.venv\Scripts\python.exe
+Mo http://127.0.0.1:8088. Ctrl+C de dung.
+
+Ban local GPU cu: D:\CyberAnt-Local-Archive-20260928
+Xem docs/SERVER_REPORT.md de biet ket qua kiem thu va viec can lam truoc khi deploy.
+

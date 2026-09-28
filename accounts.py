@@ -124,7 +124,7 @@ def install(app,connect,user,audit):
             if not verify(data.old_password,row['password_hash']):raise HTTPException(400,'Mật khẩu hiện tại không đúng.')
             c.execute('UPDATE users SET password_hash=?,updated=? WHERE id=?',(hash_password(data.new_password),time.time(),u['id']))
             c.execute('DELETE FROM sessions WHERE user_id=?',(u['id'],))
-        res.delete_cookie('cyberant_session');audit('password_changed',u['role'],u['username']);return dict(ok=True,message='Đã đổi mật khẩu và đăng xuất tất cả phiên của tài khoản.')
+        res.delete_cookie('cyberant_session',secure=config.security()['secure_cookie'],httponly=True,samesite='strict');audit('password_changed',u['role'],u['username']);return dict(ok=True,message='Đã đổi mật khẩu và đăng xuất tất cả phiên của tài khoản.')
     @router.get('/api/admin/users')
     def users(req:Request):
         admin(req)
