@@ -5,7 +5,7 @@
 - Tách bản local cũ, model, llama.cpp, môi trường Python cũ, dữ liệu gốc và tài liệu cũ sang `D:\CyberAnt-Local-Archive-20260928`. Bản archive được đặt lại `LLM_MODE=local`; chưa chạy lại GPU sau khi di chuyển. Không cần archive để chạy bản server.
 - Dự án server chỉ dùng OpenRouter. Bỏ mã tải/chạy/điều khiển model local, cấu hình GPU và các script demo cũ. Bỏ nhãn **DEMO** ở góc trên bên phải.
 - Giữ nguyên API key và bốn model trong `.env`. Admin chọn model riêng cho từng tài khoản từ danh sách server cho phép; người dùng không tự đổi model bằng request chat.
-- Giữ tài khoản, mật khẩu đã hash, hội thoại và dữ liệu đang có trong `data/app.sqlite3`. File mật khẩu khởi tạo dạng rõ không còn trong dự án server. Bản cũ nằm trong archive riêng.
+- Giữ tài khoản, mật khẩu đã hash, hội thoại và dữ liệu đang có trong `data/app.sqlite3`. Theo yêu cầu tiếp theo, thông tin đăng nhập cũ đã được khôi phục vào `data/initial-accounts.json` để tham khảo riêng trên máy phát triển; không có trong Git, Docker image hoặc gói triển khai.
 - Kho chuẩn duy nhất `knowledge/documents.json`, gồm **1.194 tài liệu lý thuyết**; không cần thư mục dữ liệu gốc để khởi động. Đồng bộ có kiểm tra nguồn, cập nhật thêm/sửa/xóa và giữ tài liệu đã thu hồi. Kho chung cho member/admin, không phân sale/kỹ thuật.
 - Admin tạo tài khoản, nhập mật khẩu mới hoặc cấp ngẫu nhiên, khóa tài khoản/thu hồi phiên, gán model, đặt hạn mức tháng và xem lượng token của mọi tài khoản. Người dùng xem hạn mức của chính mình.
 
@@ -53,3 +53,9 @@ Một lượt thử thật “DNS là gì?”: **1 API call**, **1.464 input + 5
 6. Nếu cần tối ưu tiếp: tokenizer đúng từng model, cache câu trả lời có gắn phiên bản nguồn, đối soát generation tự động khi có ID, lưu lịch sử thay đổi hạn mức và cảnh báo chi phí theo USD. Chi phí/token khác nhau giữa model nên quota token chưa phải quota tiền.
 
 Gói nguồn triển khai được tạo ngoài dự án tại `D:\CyberAnt-Server-Release-20260928.zip`; chỉ chứa mã runtime, dữ liệu lý thuyết và hướng dẫn/cấu hình mẫu, không chứa secret hoặc tài khoản. SQLite snapshot chuyển server được lưu riêng trong `D:\CyberAnt-Server-Tools\migration`.
+
+## Cập nhật lệnh Windows theo yêu cầu
+
+`Start-App.ps1` chạy nền; `Stop-App.ps1` dừng ứng dụng bằng lệnh, không cần Ctrl+C. Ghi nhận PID và thời điểm tạo tiến trình để tránh dừng nhầm PID tái sử dụng; không dừng hàng loạt Python. Đã kiểm tra start, start lặp không tạo thêm tiến trình, health/đăng nhập admin cũ, stop và stop lặp. Sau kiểm tra, ứng dụng được để ở trạng thái đã tắt.
+
+Ba tài khoản `sales`, `kythuat`, `admin` còn hoạt động; cả ba mật khẩu trong file tham khảo đều đã được đối chiếu với hash hiện có. Không đặt lại mật khẩu hoặc thay đổi vai trò của các tài khoản.

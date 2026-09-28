@@ -47,6 +47,9 @@ python -m venv .venv
 .venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .venv\Scripts\python.exe -m pytest -q
 powershell -File Start-App.ps1 -Python .venv\Scripts\python.exe
+powershell -File Stop-App.ps1
 ```
+
+Trên Windows, `Start-App.ps1` chạy nền và trả lại terminal; `Stop-App.ps1` dừng đúng tiến trình đã ghi nhận của dự án. Chờ câu trả lời đang xử lý hoàn tất trước khi dừng. Log nằm ở `data/logs`. Thông tin đăng nhập cũ đã được khôi phục theo yêu cầu vào `data/initial-accounts.json` trên máy phát triển, không đưa vào Git hoặc image Docker.
 
 Phần local cũ nằm riêng tại `D:\CyberAnt-Local-Archive-20260928` trên máy phát triển, không phải dependency của bản server.
