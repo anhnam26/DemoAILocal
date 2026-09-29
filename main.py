@@ -59,4 +59,8 @@ def main(argv=None):
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        # Uvicorn re-raises SIGINT after finishing its graceful shutdown.
+        print('\nCyberAnt stopped.')

@@ -1,5 +1,22 @@
 # Triển khai server
 
+## Mạng Wi-Fi nội bộ: server 192.168.1.203
+
+Để chạy Python trực tiếp và truy cập từ các thiết bị cùng LAN, đặt trong `.env` trên server:
+
+```dotenv
+APP_HOST=0.0.0.0
+APP_PORT=8088
+APP_ENV=development
+APP_ORIGINS=http://192.168.1.203:8088,http://127.0.0.1:8088,http://localhost:8088
+```
+
+Chạy `conda activate cyberant`, rồi `python main.py`. Thiết bị khác mở `http://192.168.1.203:8088` khi tiến trình đang hoạt động. Đây là HTTP nội bộ, không mã hóa mật khẩu. Khi chuyển sang HTTPS, dùng cấu hình production ở phần dưới.
+
+Biến môi trường terminal/Conda ghi đè `.env`. Nếu dùng mẫu systemd, dòng `Environment=APP_ENV=production` cũng ghi đè `.env`; đổi dòng đó thành `Environment=APP_ENV=development` cho trường hợp LAN HTTP này, sau đó daemon-reload/restart service. Không chạy đồng thời service và Python thủ công.
+
+Nếu UFW đang chặn và mạng LAN thực tế là `192.168.1.0/24`, cho phép bằng `sudo ufw allow from 192.168.1.0/24 to any port 8088 proto tcp`. Không cần port forwarding. IP server cần được giữ cố định hoặc đặt DHCP reservation trên router.
+
 ## Linux có Miniconda3: chạy bằng main.py
 
 Ví dụ dưới đây dùng thư mục `/opt/cyberant`; thay bằng vị trí folder thực tế và chạy bằng tài khoản Linux có quyền đọc code/.env, ghi thư mục `data`.
