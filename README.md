@@ -60,11 +60,7 @@ Trần mặc định: đầu vào **18.000 byte UTF-8** (tên cấu hình cũ `R
 
 Không gọi thêm model phân loại/kiểm tra, không tự retry, không gửi cả kho/lịch sử. Kiểm mã nguồn chỉ xác nhận ID hợp lệ, **không xác minh nhận định được nguồn chứng minh**. Trích dẫn sai không còn bị thay bằng hai đoạn nguồn không liên quan. Chưa có embeddings/reranker, tokenizer riêng từng model hoặc cache câu trả lời. Nhãn dự thảo vẫn được giữ.
 
-Đánh giá offline, không mở database ứng dụng hoặc gọi AI:
-```powershell
-python -B D:\TestSystem\knowledge_quality.py --output D:\TestSystem\docs\knowledge-after.json
-```
-Xem `D:\TestSystem\docs\KNOWLEDGE_QUALITY.md` về phạm vi đã sửa, kết quả và phần còn cần rà soát. Bộ 108 câu là smoke test truy xuất, không phải chứng nhận chất lượng trả lời.
+Bộ test, công cụ biên soạn/đánh giá offline và dữ liệu benchmark đã được loại khỏi source theo yêu cầu. Kho tri thức đã biên soạn vẫn giữ nguyên trong `knowledge/documents.json`; `sync_knowledge.py` vẫn được web sử dụng để đồng bộ. Các báo cáo trong `docs` ghi nhận kết quả lịch sử trước khi dọn, không phải bộ kiểm thử có thể chạy lại từ source hiện tại.
 
 ## Triển khai và dữ liệu
 
@@ -75,16 +71,13 @@ Xem `D:\TestSystem\docs\KNOWLEDGE_QUALITY.md` về phạm vi đã sửa, kết q
 - API key, DB, mật khẩu khởi tạo, log, test và model local không được đưa vào Docker image.
 - Một worker / một instance SQLite. Chưa hỗ trợ nhiều replica dùng chung hạn mức và hàng chờ; mở rộng cần thiết kế lại điều phối.
 
-## Kiểm thử và chạy Python
+## Chạy Python trên Windows
 
-Python 3.14. `requirements-lock.txt` chứa dependency runtime; công cụ kiểm thử nằm riêng ở `requirements-dev.txt`.
+Python 3.14. `requirements-lock.txt` chứa dependency runtime. Source hiện chỉ giữ mã ứng dụng và công cụ triển khai/vận hành, không kèm bộ kiểm thử tự động.
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\python.exe -m pip install -r requirements-lock.txt
-.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
-.venv\Scripts\python.exe -m playwright install chromium
-.venv\Scripts\python.exe -m pytest -q
 powershell -File Start-App.ps1 -Python .venv\Scripts\python.exe
 powershell -File Stop-App.ps1
 ```

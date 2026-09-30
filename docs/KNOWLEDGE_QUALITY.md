@@ -1,5 +1,7 @@
 # Rà soát kho tri thức và RAG — 30/09/2026
 
+> Báo cáo lịch sử trước đợt dọn source. Bộ test, script đánh giá/biên soạn và các file JSON benchmark/báo cáo được nhắc bên dưới đã được loại theo yêu cầu; không còn là tài nguyên của bản hiện tại. Kho `knowledge/documents.json` và đồng bộ runtime được giữ nguyên.
+
 ## Phạm vi thực sự hoàn tất
 
 Đây là đợt triển khai nền tảng và bổ sung kiến thức đầu tiên, **không phải chứng nhận đã rà soát kỹ thuật toàn bộ kho**.
@@ -58,4 +60,4 @@ Trước áp dụng: tạo SQLite backup nhất quán bằng chức năng snapsh
 4. Tokenizer/model calibration, kiểm tra context limit chính thức và benchmark AI thật từng model theo ngân sách được duyệt. Không tự thêm model đánh giá cho mọi request.
 5. Nếu benchmark độc lập cho thấy còn thiếu recall, thử semantic retrieval/reranker riêng, đo lợi ích trước khi thêm dependency vào runtime.
 
-Chạy lại: `python -B D:\TestSystem\knowledge_quality.py --output D:\TestSystem\docs\knowledge-after.json`. Script không import app, không mở SQLite, không gọi provider.
+Công cụ đánh giá offline đã được loại khỏi source; không còn lệnh chạy lại benchmark trong bản bàn giao hiện tại.

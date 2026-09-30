@@ -22,9 +22,11 @@ Before updating: stop intake, allow requests to finish, take a SQLite API backup
 
 Cleanup removes the obsolete root `Run.txt` after merging its useful instructions into README/DEPLOYMENT, and removes regenerable root Python/pytest caches after testing. Windows launcher scripts remain because they are still used on the development machine. No secrets, databases or backups are deleted.
 
-Production transfer should exclude `.git`, `.vscode`, Python/test caches, Windows PID/log files, virtual environments and `data/initial-accounts.json`. Transfer a SQLite snapshot separately, not the live WAL database. Keep tests, lockfiles and operational tools in the repository for future updates; they are not unrelated junk.
+Production transfer should exclude `.git`, `.vscode`, Python/test caches, Windows PID/log files, virtual environments and `data/initial-accounts.json`. Transfer a SQLite snapshot separately, not the live WAL database. Following the subsequent cleanup request, tests and offline evaluation/curation tools have been removed. Runtime lockfiles, knowledge synchronization and operational tools remain.
 
-## Validation results
+## Historical validation results (before test removal)
+
+The automated test suite and offline evaluation assets were subsequently removed at the owner's request. The results below describe the earlier release validation, not a suite still present or rerun after cleanup.
 
 - Final complete suite: **101 passed**, including Chromium and backup/restore (200.27 seconds, exit 0). Log: `D:\Temp\anhna\cline\proceed-while-running-1790754958498-m4rnfp7.log`.
 - Follow-up LAN/launcher suite: 20 passed, including the additional backup/restore business-record regression and LF requirement (41.74 seconds).

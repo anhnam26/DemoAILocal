@@ -130,7 +130,7 @@ Có thể tạo volume bằng `docker compose create`, rồi dùng container cô
 
 Để dữ liệu độc lập với source cho cài mới, có thể đặt `APP_DATA_DIR` là thư mục tuyệt đối do tài khoản service sở hữu. Với hệ thống đang chạy, chuyển snapshot có kiểm soát trước khi đổi đường dẫn; đường dẫn sai có thể khởi tạo DB mới thay vì tìm tài khoản cũ.
 
-Gói chuyển server không cần `.git`, `.vscode`, `__pycache__`, `.pytest_cache`, môi trường Python Windows, PID/log Windows hoặc `data/initial-accounts.json`. Chuyển snapshot DB riêng. Giữ test, lockfile, công cụ đồng bộ và tài liệu vận hành trong repo để dễ cập nhật. `Run.txt` cũ được hợp nhất vào README và tài liệu này.
+Gói chuyển server không cần `.git`, `.vscode`, `__pycache__`, `.pytest_cache`, môi trường Python Windows, PID/log Windows hoặc `data/initial-accounts.json`. Chuyển snapshot DB riêng. Source hiện không kèm test hay công cụ đánh giá offline theo yêu cầu. Giữ lockfile, công cụ đồng bộ runtime và tài liệu vận hành để cập nhật. `Run.txt` cũ được hợp nhất vào README và tài liệu này.
 
 ## Backup / cập nhật / restore
 

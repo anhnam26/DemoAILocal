@@ -1,5 +1,7 @@
 # Quality release — 2026-09-30
 
+> Historical release report. The automated tests and offline evaluation tools were subsequently removed at the owner's request. Test counts below are historical results, not post-cleanup validation.
+
 ## Behavior and compatibility
 
 - Citation failure never replaces a generated answer with source excerpts. No automatic retry or model substitution. Citation IDs are validated, not factual entailment.
