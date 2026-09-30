@@ -180,6 +180,97 @@ class WorkspaceUI(unittest.TestCase):
         with self.module.connect() as c:
             c.execute("UPDATE users SET password_hash=? WHERE username='member'", (accounts.hash_password(PASSWORD),))
 
+    def test_06_login_aurora(self):
+        try:
+            from playwright.sync_api import sync_playwright, expect
+        except ImportError:
+            self.skipTest('Optional Playwright not installed')
+        with sync_playwright() as p:
+            browser = self.browser(p)
+            context = browser.new_context(viewport={'width': 1440, 'height': 960}, color_scheme='light')
+            page = context.new_page()
+            errors = []
+            page.on('pageerror', lambda error: errors.append(str(error)))
+            page.add_init_script("""window.auroraFrames=0;window.cspErrors=[];
+                const raf=window.requestAnimationFrame.bind(window);
+                window.requestAnimationFrame=callback=>raf(time=>{window.auroraFrames++;callback(time)});
+                document.addEventListener('securitypolicyviolation',e=>cspErrors.push(e.violatedDirective));""")
+            page.goto(self.base)
+            expect(page.locator('.login-message h1')).to_have_text('TRA CỨUNỘI BỘ.')
+            expect(page.locator('.login-message p')).to_have_count(0)
+            expect(page.locator('.login-aurora')).to_have_attribute('aria-hidden', 'true')
+            expect(page.locator('.login-aurora')).to_have_css('pointer-events', 'none')
+            self.assertFalse(page.evaluate("performance.getEntriesByType('resource').some(r=>r.name.endsWith('/ocean.js'))"))
+            form_box = page.locator('.login-form').bounding_box()
+            title_box = page.locator('.login-message h1').bounding_box()
+            palettes = []
+            for theme in ('light', 'dark'):
+                if theme == 'dark':
+                    page.locator('.login-theme').click()
+                expect(page.locator('html')).to_have_attribute('data-theme', theme)
+                palettes.append(page.locator('.aurora-glow').evaluate('(el)=>getComputedStyle(el).backgroundImage'))
+                page.mouse.move(140, 220)
+                page.wait_for_timeout(1100)
+                before = page.locator('.aurora-glow').evaluate('(el)=>el.style.transform')
+                page.mouse.move(680, 720)
+                page.wait_for_function("before=>document.querySelector('.aurora-glow').style.transform!==before", arg=before)
+                page.wait_for_timeout(1100)
+                frames = page.evaluate('auroraFrames')
+                page.wait_for_timeout(250)
+                self.assertEqual(page.evaluate('auroraFrames'), frames, 'Animation must stop when settled')
+                self.assertEqual(page.locator('.login-form').bounding_box(), form_box)
+                self.assertEqual(page.locator('.login-message h1').bounding_box(), title_box)
+                self.assert_theme_top_right(page, '.login-theme')
+                page.screenshot(path=str(self.artifacts / f'login-aurora-{theme}.png'))
+            self.assertNotEqual(*palettes)
+            page.locator('#login').dispatch_event('pointerleave')
+            page.wait_for_function("()=>document.querySelector('.aurora-glow').style.transform==='translate3d(0px, 0px, 0px)'")
+            page.mouse.move(120, 120)
+            page.emulate_media(reduced_motion='reduce')
+            expect(page.locator('.aurora-glow')).to_have_css('transform', 'none')
+            frames = page.evaluate('auroraFrames')
+            page.mouse.move(620, 800)
+            page.wait_for_timeout(250)
+            self.assertEqual(page.evaluate('auroraFrames'), frames)
+            page.emulate_media(reduced_motion='no-preference')
+            # Media-query change events are delivered asynchronously on a render frame.
+            page.evaluate('()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))')
+            page.mouse.move(300, 400)
+            page.wait_for_function("()=>document.querySelector('.aurora-glow').style.transform!==''")
+            # Exercise the hidden-tab lifecycle without relying on headless window focus.
+            page.evaluate("Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'))")
+            self.assertEqual(page.locator('.aurora-glow').evaluate('(el)=>el.style.transform'), '')
+            frames = page.evaluate('auroraFrames')
+            page.mouse.move(500, 600)
+            page.wait_for_timeout(250)
+            self.assertEqual(page.evaluate('auroraFrames'), frames)
+            page.evaluate("delete document.hidden;document.dispatchEvent(new Event('visibilitychange'))")
+            page.locator('#login-username').fill('member')
+            page.locator('#login-password').fill(PASSWORD)
+            page.locator('#login-submit').click()
+            expect(page.locator('#workspace')).to_be_visible()
+            page.wait_for_function("()=>document.querySelector('.aurora-glow').style.transform===''")
+            frames = page.evaluate('auroraFrames')
+            page.mouse.move(400, 400)
+            page.wait_for_timeout(250)
+            self.assertEqual(page.evaluate('auroraFrames'), frames)
+            self.assertEqual(page.evaluate('cspErrors'), [])
+            self.assertEqual(errors, [])
+            mobile = browser.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True,
+                                         has_touch=True, reduced_motion='no-preference', color_scheme='light')
+            phone = mobile.new_page()
+            phone.goto(self.base)
+            for theme in ('light', 'dark'):
+                if theme == 'dark':
+                    phone.locator('.login-theme').tap()
+                expect(phone.locator('html')).to_have_attribute('data-theme', theme)
+                phone.locator('#login').dispatch_event('pointermove', {'pointerType': 'touch', 'clientX': 100, 'clientY': 200})
+                expect(phone.locator('.aurora-glow')).to_have_css('transform', 'none')
+                self.assertEqual(phone.locator('.aurora-glow').evaluate('(el)=>el.style.transform'), '')
+                self.assertFalse(phone.evaluate('document.documentElement.scrollWidth > innerWidth'))
+                phone.screenshot(path=str(self.artifacts / f'login-aurora-mobile-{theme}.png'))
+            browser.close()
+
     def browser(self, playwright):
         try:
             return playwright.chromium.launch(headless=True)
