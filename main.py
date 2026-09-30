@@ -26,16 +26,26 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description='CyberAnt web UI and OpenRouter API server')
     parser.add_argument('--host', default=values.get('APP_HOST', '127.0.0.1'))
     parser.add_argument('--port', type=port_number, default=values.get('APP_PORT', '8088'))
+    parser.add_argument('--share', action='store_true', help='Linux: temporary public HTTPS URL; existing private DB required')
+    parser.add_argument('--cloudflared', default='cloudflared', help='Path to the installed cloudflared executable')
+    parser.add_argument('--share-protocol', choices=('auto', 'http2', 'quic'), default='auto')
     args = parser.parse_args(argv)
+    binary = None
     try:
-        security=config.security()
+        if args.share:
+            import public_share
+            binary = public_share.preflight(ROOT, config.data_dir(), args.cloudflared)
+            args.host = '127.0.0.1'
+            os.umask(0o077)
+        else:
+            security=config.security()
         # Fail before importing app (startup has database side effects).
         import importlib
         for dependency in ('uvicorn','fastapi','httpx','numpy','sklearn','pypdf','python_multipart'):
             importlib.import_module(dependency)
         import model_provider,uvicorn
         model_provider.settings()
-        if security['mode']=='lan':print('LAN HTTP: traffic is not encrypted. Restrict access with the server firewall.',flush=True)
+        if not args.share and security['mode']=='lan':print('LAN HTTP: traffic is not encrypted. Restrict access with the server firewall.',flush=True)
     except ImportError as exc:
         parser.exit(1, f'Missing dependency: {exc.name}. Run: python -m pip install -r requirements-lock.txt\n')
     except ValueError as exc:
@@ -54,14 +64,25 @@ def main(argv=None):
         )
     except OSError as exc:
         parser.exit(1, f'Cannot listen on {args.host}:{args.port}: {exc}\n')
+    instance = None
     try:
-        print(f'Starting CyberAnt at http://{args.host}:{args.port}', flush=True)
+        import runtime_lock
+        instance = runtime_lock.acquire(config.data_dir())
         server = uvicorn.Server(settings)
-        server.run(sockets=[listener])
+        if args.share:
+            public_share.validate_database(config.data_dir())
+            public_share.serve(server, listener, binary, args.port, args.share_protocol)
+        else:
+            print(f'Starting CyberAnt at http://{args.host}:{args.port}', flush=True)
+            server.run(sockets=[listener])
         if not server.started:
             raise SystemExit(1)
+    except (OSError, RuntimeError, ValueError) as exc:
+        parser.exit(1, f'Cannot start CyberAnt: {exc}\n')
     finally:
         listener.close()
+        if instance is not None:
+            instance.close()
 
 
 if __name__ == '__main__':

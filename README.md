@@ -23,6 +23,18 @@ Mỗi lần sau chỉ cần `bash /duong/dan/TestSystem/start.sh`: tự activate
 
 DB mặc định của bản Conda là `data/app.sqlite3` ngay trong dự án. Để giữ tài khoản cũ, chuyển snapshot SQLite nhất quán vào đó trước lần khởi động đầu tiên. Nếu cài mới, đặt `BOOTSTRAP_ADMIN_PASSWORD` ít nhất 14 ký tự. Không mang file mật khẩu tham khảo `data/initial-accounts.json` lên server.
 
+## Link Internet ngẫu nhiên, không cần mua tên miền (Linux)
+
+Sau khi đã có DB/tài khoản và cài `cloudflared` chính thức, dừng phiên LAN/service cũ rồi chạy:
+
+```bash
+bash /opt/cyberant/start.sh --share
+```
+
+Thay `/opt/cyberant` bằng đường dẫn source thực tế. Terminal in URL HTTPS ngẫu nhiên của Cloudflare; người dùng vẫn phải đăng nhập. Ctrl+C đóng phiên chia sẻ. Không đổi `.env`, không mở cổng 8088 inbound, không dùng root; yêu cầu quyền riêng tư cho `.env`/DB và không có file mật khẩu plaintext trên server. Khởi động lại được cấp URL ngẫu nhiên, dữ liệu không đổi.
+
+**Chỉ chia sẻ tạm thời, không SLA; request AI dài có thể timeout.** Không tự gửi lại câu hỏi khi lỗi. Đọc [chuẩn bị, bảo mật và giới hạn](docs/PUBLIC_SHARE.md) trước khi chạy. Chưa cần đổi giao diện sang Gradio.
+
 ## Chạy bằng Docker (tùy chọn)
 
 1. Sao chép `.env.example` thành `.env` trên server. Điền key, bốn model, `APP_ORIGINS=https://<tên-miền>` và mật khẩu admin ban đầu ít nhất 14 ký tự. Không ghi đè `.env` đang có nếu chưa lưu lại key/model.

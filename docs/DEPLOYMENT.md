@@ -1,5 +1,7 @@
 # Triển khai server
 
+**Chia sẻ Internet tạm thời, URL ngẫu nhiên không cần mua tên miền:** xem [PUBLIC_SHARE](PUBLIC_SHARE.md). Linux đã chuẩn bị có thể chạy `bash /opt/cyberant/start.sh --share`; phải dừng instance LAN/service dùng cùng DB trước. Đây không phải phương án production có SLA.
+
 ## Mạng LAN: server 192.168.1.50
 
 Để chạy Python trực tiếp và truy cập từ các thiết bị cùng LAN, đặt trong `.env` trên server:

@@ -5,6 +5,8 @@
 !admin_system.py
 !app.py
 !main.py
+!runtime_lock.py
+!public_share.py
 !config.py
 !conversations.py
 !generation.py

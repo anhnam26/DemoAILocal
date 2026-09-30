@@ -24,6 +24,12 @@ Cleanup removes the obsolete root `Run.txt` after merging its useful instruction
 
 Production transfer should exclude `.git`, `.vscode`, Python/test caches, Windows PID/log files, virtual environments and `data/initial-accounts.json`. Transfer a SQLite snapshot separately, not the live WAL database. Following the subsequent cleanup request, tests and offline evaluation/curation tools have been removed. Runtime lockfiles, knowledge synchronization and operational tools remain.
 
+## Post-cleanup verification
+
+Removed 24 files: 15 test modules, conftest, development requirements, 3 offline curation/evaluation scripts, evaluation cases and 3 generated JSON reports. Kept all 12 runtime Python modules and the unchanged 1,200-document corpus. Updated active instructions to remove commands for deleted tools.
+
+After deletion, Python syntax/import-reference checks, JavaScript/Bash syntax and diff checks passed. A real server on an isolated temporary database passed startup, UI/assets, login/logout, knowledge, model/usage/admin, local zero-provider-call chat, history, feedback, deletion and backup checks. The first run passed functional checks and backup integrity but hit a Windows temporary-file cleanup lock. The temporary directory was removed and a second run completed successfully, including process shutdown and directory removal. No test script was saved in the source tree, and no live database/configuration or service was changed. This smoke check is not a rerun of the deleted full test suite.
+
 ## Historical validation results (before test removal)
 
 The automated test suite and offline evaluation assets were subsequently removed at the owner's request. The results below describe the earlier release validation, not a suite still present or rerun after cleanup.

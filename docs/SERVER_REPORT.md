@@ -1,5 +1,7 @@
 # Báo cáo hoàn thiện bản server — 28/09/2026
 
+> Báo cáo lịch sử của các đợt triển khai trước. Bộ test và công cụ đánh giá offline sau đó đã được xóa theo yêu cầu; số liệu kiểm thử dưới đây không phải kết quả kiểm tra sau khi dọn source. Hướng dẫn vận hành hiện tại nằm trong README và DEPLOYMENT.md.
+
 ## Phạm vi đã hoàn tất
 
 - Tách bản local cũ, model, llama.cpp, môi trường Python cũ, dữ liệu gốc và tài liệu cũ sang `D:\CyberAnt-Local-Archive-20260928`. Bản archive được đặt lại `LLM_MODE=local`; chưa chạy lại GPU sau khi di chuyển. Không cần archive để chạy bản server.

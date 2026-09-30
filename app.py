@@ -9,7 +9,7 @@ from pydantic import BaseModel,Field
 from pypdf import PdfReader
 import io
 import accounts
-import config,token_usage
+import config,token_usage,runtime_lock
 import conversations,quality_feedback
 APP_VERSION='2026.09.30-linux-1'
 PROMPT_VERSION='scope-2'
@@ -19,7 +19,8 @@ import rag, model_provider, sync_knowledge
 
 
 ROOT=Path(__file__).parent
-DATA=config.data_dir(); DATA.mkdir(parents=True,exist_ok=True)
+DATA=config.data_dir()
+INSTANCE_LOCK=runtime_lock.acquire(DATA)
 DB=DATA/'app.sqlite3'
 LOCK=GenerationGate()
 ACTIVE_CONVERSATIONS=set()

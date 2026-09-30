@@ -8,6 +8,8 @@ fail() { printf 'CyberAnt: %s\n' "$*" >&2; exit 1; }
 if [[ "${1:-}" == '--help' ]]; then
     printf '%s\n' 'Usage: bash /absolute/path/start.sh [--host HOST] [--port PORT]' \
         'Defaults: 0.0.0.0:8088, Conda environment cyberant.' \
+        'Add --share for a temporary public HTTPS URL (Linux, cloudflared required).' \
+        'Share mode always binds 127.0.0.1 and requires an existing private database.' \
         'Set CONDA_EXE to your conda executable if it is not on PATH.' \
         'Requires an existing .env; never installs dependencies or overwrites data.'
     exit 0
