@@ -28,8 +28,14 @@ def main(argv=None):
     parser.add_argument('--port', type=port_number, default=values.get('APP_PORT', '8088'))
     args = parser.parse_args(argv)
     try:
-        config.security()
-        import uvicorn
+        security=config.security()
+        # Fail before importing app (startup has database side effects).
+        import importlib
+        for dependency in ('uvicorn','fastapi','httpx','numpy','sklearn','pypdf','python_multipart'):
+            importlib.import_module(dependency)
+        import model_provider,uvicorn
+        model_provider.settings()
+        if security['mode']=='lan':print('LAN HTTP: traffic is not encrypted. Restrict access with the server firewall.',flush=True)
     except ImportError as exc:
         parser.exit(1, f'Missing dependency: {exc.name}. Run: python -m pip install -r requirements-lock.txt\n')
     except ValueError as exc:

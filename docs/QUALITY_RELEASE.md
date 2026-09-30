@@ -28,3 +28,7 @@ No paid model evaluation is included in offline tests. A passing suite is not an
 Offline retrieval re-evaluation on the existing 108 cases: 104/104 scored cases retrieve and retain the expected source IDs; 4 unscored negatives remain excluded. This is a known test set, not a fresh holdout or live-answer accuracy result. The canonical corpus contains 1,200 documents; curation reruns preserve its hash.
 
 The SQLite connection context now closes its handle after commit/rollback; this fixes Windows temporary-database cleanup locks rather than hiding cleanup errors.
+
+Final validation: **74 passed**, 2 warnings, exit code 0 (136.50 seconds), including Chromium and the no-auto-grant regression. Python AST parsing, all JavaScript syntax checks and `git diff --check` passed. No live AI requests were made. Final test log: `D:\Temp\anhna\cline\proceed-while-running-1790753198248-rhw437r.log`.
+
+Deployment completed locally on port 8088. Health returned app `2026.09.30-quality-1`, prompt `scope-2`. Pre-deployment backup: `D:\TestSystem\data\backups\deploy-quality-20260930-142634.sqlite3` (integrity `ok`). Post-start SQLite integrity is `ok`: 1,200 documents, 3 users, 8 chats, 2 original feedback rows, 25 completed usage records, 1 migrated quality report. Users, chats, original feedback and usage compare exactly to the pre-deployment snapshot; retired-source states are preserved. No Cloudflare process/service was found during inspection; the public tunnel target is not verified.

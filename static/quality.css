@@ -1,4 +1,5 @@
 /* Local-only decoration, no external font/network dependency. */
+.clipboard-helper{position:fixed;left:-10000px;top:0;width:1px;height:1px;opacity:0}
 .login-art{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(135deg,#102c3d,#245c64 55%,#744d41);background-size:200% 200%;animation:login-gradient 16s ease-in-out infinite alternate}
 .login-art:before{content:"";position:absolute;inset:-12%;z-index:-1;opacity:.3;background-image:radial-gradient(circle,#c8f0ed 2px,transparent 3px),linear-gradient(30deg,transparent 49.7%,#8dc4c750 50%,transparent 50.3%);background-size:72px 72px,144px 144px;animation:network-drift 24s ease-in-out infinite alternate;pointer-events:none}
 @keyframes login-gradient{to{background-position:100% 100%}}@keyframes network-drift{to{transform:translate(24px,-24px)}}

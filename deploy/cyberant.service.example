@@ -9,7 +9,8 @@ Type=simple
 User=YOUR_LINUX_USER
 WorkingDirectory=/opt/cyberant
 ExecStart=/home/YOUR_LINUX_USER/miniconda3/envs/cyberant/bin/python /opt/cyberant/main.py
-Environment=APP_ENV=production
+# APP_ENV / APP_HOST / APP_PORT / APP_ORIGINS are read from the project's .env.
+# Do not override APP_ENV here: LAN HTTP uses lan; HTTPS uses production.
 Environment=PYTHONUNBUFFERED=1
 Environment=PYTHONDONTWRITEBYTECODE=1
 Restart=on-failure

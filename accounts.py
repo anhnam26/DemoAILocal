@@ -32,17 +32,20 @@ def init(connect):
         for name,kind in [('user_id','TEXT'),('sid','TEXT'),('last_seen','REAL'),('ip','TEXT'),('agent','TEXT')]:
             if name not in cols:c.execute(f'ALTER TABLE sessions ADD COLUMN {name} {kind}')
         if c.execute('SELECT COUNT(*) FROM users').fetchone()[0]:return
-        if BOOTSTRAP.exists():seeds=json.loads(BOOTSTRAP.read_text(encoding='utf8'))['accounts']
+        server=config.security()['server']
+        if BOOTSTRAP.exists() and not server:seeds=json.loads(BOOTSTRAP.read_text(encoding='utf8'))['accounts']
         else:
             values=config.env()
-            if config.security()['production']:
+            if server:
                 password=values.get('BOOTSTRAP_ADMIN_PASSWORD','')
-                if len(password)<14:raise RuntimeError('Set BOOTSTRAP_ADMIN_PASSWORD (>=14 characters) for first production startup')
-                seeds=[dict(username=values.get('BOOTSTRAP_ADMIN_USERNAME','admin'),password=password,role='admin',name='Quản trị hệ thống',customers=[])]
+                if not 14<=len(password)<=128:raise RuntimeError('Set BOOTSTRAP_ADMIN_PASSWORD (14-128 characters) for first server startup')
+                username=values.get('BOOTSTRAP_ADMIN_USERNAME','admin')
+                if not re.fullmatch(r'[a-zA-Z0-9_.-]{3,40}',username):raise RuntimeError('Invalid BOOTSTRAP_ADMIN_USERNAME (3-40 letters, digits, _, . or -)')
+                seeds=[dict(username=username.lower(),password=password,role='admin',name='Quản trị hệ thống',customers=[])]
             else:
                 seeds=[dict(username=name,password=secrets.token_urlsafe(15),role=role,name=label,customers=[]) for name,role,label in [('member','member','Thành viên'),('admin','admin','Quản trị hệ thống')]]
             BOOTSTRAP.parent.mkdir(exist_ok=True)
-            if not config.security()['production']:
+            if not server:
                 BOOTSTRAP.write_text(json.dumps(dict(note='Chỉ dùng lần cài mới trên máy phát triển.',accounts=seeds),ensure_ascii=False,indent=2),encoding='utf8')
         for s in seeds:
             s['role']='admin' if s['role']=='admin' else 'member';s['customers']=[]

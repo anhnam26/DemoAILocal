@@ -9,10 +9,15 @@ conda create -n cyberant python=3.14 pip -y
 conda activate cyberant
 cd /duong/dan/TestSystem
 python -m pip install -r requirements-lock.txt
-python main.py
+# Sau khi cấu hình .env theo hướng dẫn dưới đây:
+bash /duong/dan/TestSystem/start.sh
 ```
 
-Điền `.env` trước khi chạy: API key, bốn model, `APP_ENV=production` và `APP_ORIGINS` đúng tên miền HTTPS. `main.py` chạy toàn bộ giao diện/API/SQLite/RAG trong một process, mặc định `127.0.0.1:8088`; đọc `.env` trong thư mục dự án. Có thể đổi `APP_HOST`/`APP_PORT` hoặc dùng `--host`/`--port`.
+Mỗi lần sau chỉ cần `bash /duong/dan/TestSystem/start.sh`: tự activate Conda `cyberant`, chạy UI/API/SQLite/RAG tại `0.0.0.0:8088`. Script không tự cài dependency hoặc sửa dữ liệu.
+
+**Server LAN 192.168.1.50:** giữ API key/model trong `.env`, đặt `APP_ENV=lan`, `APP_HOST=0.0.0.0`, `APP_PORT=8088`, `APP_ORIGINS=http://192.168.1.50:8088,http://127.0.0.1:8088,http://localhost:8088`. Truy cập **http://192.168.1.50:8088/**. HTTP không mã hóa; giới hạn bằng firewall LAN. Cài mới cần mật khẩu admin bootstrap 14–128 ký tự; tài khoản cũ trong DB không đổi.
+
+**HTTPS:** dùng `APP_ENV=production`, origin HTTPS và reverse proxy. `python main.py` đọc host/port từ `.env` (mặc định loopback); script LAN mặc định bind mọi interface. Xem [hướng dẫn đầy đủ](docs/DEPLOYMENT.md).
 
 Để chạy nền và tắt bằng lệnh, cài service theo [hướng dẫn Miniconda/systemd](docs/DEPLOYMENT.md), rồi dùng `sudo systemctl start cyberant` / `sudo systemctl stop cyberant`. Chạy trực tiếp `python main.py` chiếm terminal. Không chạy đồng thời service, Python trực tiếp và Docker với cùng DB.
 
@@ -47,7 +52,7 @@ Timeout/mất mạng/khởi động lại lúc gọi có thể đã bị provide
 
 ## Kho tri thức và chi phí
 
-`knowledge/documents.json` là nguồn chuẩn duy nhất gồm 1.199 tài liệu (bao gồm bản nháp kỹ thuật cần rà soát). Startup hoặc **Hệ thống → Đồng bộ kho tri thức** cập nhật thêm/sửa/xóa vào DB, giữ trạng thái thu hồi. Không cần NewData/Word/Excel gốc để chạy server. Upload TXT/MD/PDF có text chờ admin duyệt; chỉ nhập lý thuyết được phép chia sẻ.
+`knowledge/documents.json` là nguồn chuẩn duy nhất gồm 1.200 tài liệu (bao gồm bản nháp kỹ thuật cần rà soát). Startup hoặc **Hệ thống → Đồng bộ kho tri thức** cập nhật thêm/sửa/xóa vào DB, giữ trạng thái thu hồi. Không cần NewData/Word/Excel gốc để chạy server. Upload TXT/MD/PDF có text chờ admin duyệt; chỉ nhập lý thuyết được phép chia sẻ.
 
 RAG tìm từ/ký tự, bí danh Việt/Anh và ưu tiên theo mục đích câu hỏi trên CPU, tối đa 6 đoạn. Tách định nghĩa khỏi hướng dẫn vận hành trong glossary cũ; giữ nguyên từng đoạn, không cắt mất kiểm chứng/rollback hoặc xóa dòng lặp bên trong nguồn. Đoạn quá lớn không vừa ngân sách sẽ bị bỏ và ghi số lượng; upload dài nên chia thành các bài độc lập có đủ ngữ cảnh.
 

@@ -110,7 +110,7 @@ DB `data/app.sqlite3` hiện giữ tài khoản/mật khẩu đã hash, hội th
 1. Dừng nhận yêu cầu mới/chờ các lượt hoàn tất. Dùng nút **Hệ thống → Sao lưu cơ sở dữ liệu** để tạo SQLite snapshot nhất quán trong `data/backups`.
 2. Chuyển snapshot qua kênh bảo mật tới server, đặt tên `app.sqlite3` vào named volume `/app/data` **trước lần khởi động đầu tiên**.
 3. Bảo đảm UID 10001 có quyền đọc/ghi volume. Không ghi đè DB của deployment đang hoạt động. Sao lưu file .env riêng; không đặt vào image.
-4. Khởi động và kiểm đăng nhập, danh sách 1.194 tài liệu, model/hạn mức và báo cáo usage.
+4. Khởi động và kiểm đăng nhập, danh sách tài liệu đã duyệt (corpus chuẩn 1.200 bản ghi, số hiển thị phụ thuộc thu hồi/hiệu lực), model/hạn mức và báo cáo usage.
 
 Có thể tạo volume bằng `docker compose create`, rồi dùng container công cụ để chép snapshot vào volume trước `docker compose start`. Tên volume thực tế xem qua `docker volume ls`, không đoán tên nếu đã đổi project name. Nếu đã khởi động với DB rỗng, dừng app và xử lý DB mới rõ ràng trước khi restore; không ghép hai DB.
 

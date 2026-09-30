@@ -12,6 +12,7 @@
 !rag.py
 !sync_knowledge.py
 !token_usage.py
+!quality_feedback.py
 !static/
 !static/**
 !knowledge/

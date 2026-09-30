@@ -11,7 +11,7 @@ import io
 import accounts
 import config,token_usage
 import conversations,quality_feedback
-APP_VERSION='2026.09.30-quality-1'
+APP_VERSION='2026.09.30-linux-1'
 PROMPT_VERSION='scope-2'
 from generation import GenerationGate
 import admin_system
