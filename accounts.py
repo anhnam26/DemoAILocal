@@ -143,7 +143,7 @@ def install(app,connect,user,audit):
         for u in people:
             u['online']=any(s['user_id']==u['id'] and s['online'] for s in sessions)
             u['usage']=token_usage.summary(connect,u['id'])
-        return dict(users=people,sessions=sessions,models=model_provider.models(),month=token_usage.month(),online_count=sum(u['online'] for u in people),online_definition='Có hoạt động trong 75 giây gần nhất.')
+        return dict(users=people,sessions=sessions,models=model_provider.models(),catalog=model_provider.catalog(),month=token_usage.month(),online_count=sum(u['online'] for u in people),online_definition='Có hoạt động trong 75 giây gần nhất.')
     @router.post('/api/admin/users')
     def create(data:UserInput,req:Request):
         a=admin(req);customers=validate(data);password=data.password or secrets.token_urlsafe(15);id=secrets.token_hex(12)

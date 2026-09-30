@@ -40,6 +40,8 @@ Dùng cùng top-k 6 và ngân sách đóng gói 12.000 byte để so sánh offli
 - Sau thay đổi: 102/104 tìm và giữ được nguồn kỳ vọng.
 - Hai miss còn lại là câu đổi DNS vẫn nhận địa chỉ cũ (có dấu/không dấu). Nguồn DNS chung có xuất hiện nhưng bài chẩn đoán kỳ vọng chưa lọt top-k.
 
+Kiểm thử cuối: **60 passed** (toàn bộ pytest, gồm Chromium), kiểm cú pháp Python/JavaScript và `git diff --check` đạt. Script curation chạy lại không đổi hash corpus. Đọc SQLite thật ở chế độ read-only xác nhận còn 1.194 tài liệu và 9 dòng usage, chưa đồng bộ đợt thay đổi này.
+
 Không coi 98,1% là độ chính xác trả lời AI. Biến thể bỏ dấu tương quan cao; trường `holdout` chỉ dành phân tách về sau, đã quan sát kết quả nên không còn là đánh giá mù độc lập. Mẫu 4 negative không tính thành pass giả. Cần tập holdout mới do người khác biên soạn trước nghiệm thu.
 
 ## Triển khai và an toàn dữ liệu

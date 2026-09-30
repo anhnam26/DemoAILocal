@@ -27,13 +27,30 @@ def init_permissions(connect):
         for row in c.execute('SELECT id,model FROM users WHERE allowed_models IS NULL').fetchall():
             c.execute('UPDATE users SET allowed_models=? WHERE id=?',(json.dumps([row['model']] if row['model'] else []),row['id']))
 
-def models():
-    values=config.env();result=[]
-    primary=values.get('OPENROUTER_MODEL') or values.get('MODEL','')
-    for value in [primary]+[v for k,v in sorted(values.items()) if re.fullmatch(r'(?:OPENROUTER_)?MODEL_?\d+',k)]:
-        value=value.strip()
-        if value and value not in result:result.append(value)
-    return result
+def catalog():
+    """Numeric slots; conflicting aliases are excluded, never silently substituted."""
+    slots={};warnings=[];items=[];by_id={}
+    for key,value in config.env().items():
+        match=re.fullmatch(r'(?:OPENROUTER_)?MODEL_?(\d*)',key)
+        if not match or not value.strip():continue
+        slot=int(match[1]) if match[1] else -1
+        slots.setdefault(slot,[]).append((key,value.strip()))
+    for slot,entries in sorted(slots.items()):
+        entries.sort();ids={value for _,value in entries}
+        label='MODEL' if slot==-1 else 'MODEL'+str(slot)
+        if len(ids)>1:
+            warnings.append(dict(slot=label,variables=[key for key,_ in entries],reason='conflicting_aliases'))
+            continue
+        model=entries[0][1]
+        if model in by_id:
+            by_id[model]['slots'].append(label)
+            by_id[model]['variables'].extend(key for key,_ in entries)
+        else:
+            item=dict(id=model,label=label+' · '+model,slots=[label],variables=[key for key,_ in entries])
+            items.append(item);by_id[model]=item
+    return dict(items=items,warnings=warnings)
+
+def models():return [item['id'] for item in catalog()['items']]
 
 def settings(model=None):
     values=config.env();available=models()
@@ -46,7 +63,7 @@ def settings(model=None):
 
 def public_settings():
     s=settings()
-    return {k:v for k,v in s.items() if k not in ('api_key','url')}|{'models':models(),'configured':bool(s['api_key'] and s['model'])}
+    return {k:v for k,v in s.items() if k not in ('api_key','url')}|{'models':models(),'catalog':catalog(),'configured':bool(s['api_key'] and s['model'])}
 
 def headers(s):
     if not s['api_key'] or not s['model']:raise ValueError('Thiếu API_KEY hoặc MODEL trong .env')

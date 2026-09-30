@@ -10,7 +10,9 @@ from pypdf import PdfReader
 import io
 import accounts
 import config,token_usage
-import conversations
+import conversations,quality_feedback
+APP_VERSION='2026.09.30-quality-1'
+PROMPT_VERSION='scope-2'
 from generation import GenerationGate
 import admin_system
 import rag, model_provider, sync_knowledge
@@ -42,6 +44,7 @@ def init():
     accounts.init(connect)
     token_usage.init(connect)
     conversations.init(connect)
+    quality_feedback.init(connect)
     sync_knowledge.synchronize(connect,sync_knowledge.load())
 init()
 token_usage.recover(connect)
@@ -97,7 +100,7 @@ def index():return FileResponse(ROOT/'static'/'index.html')
 def me(req:Request):u=user(req);return {k:v for k,v in u.items() if k not in ('token','context_after','sid')}
 @app.get('/api/health')
 def health():
-    return {'status':'ok','provider':'openrouter'}
+    return {'status':'ok','provider':'openrouter','app_version':APP_VERSION,'prompt_version':PROMPT_VERSION}
 
 @app.get('/api/account/usage')
 def my_usage(req:Request):return token_usage.summary(connect,user(req)['id'])
@@ -106,7 +109,7 @@ def my_usage(req:Request):return token_usage.summary(connect,user(req)['id'])
 def my_model(req:Request):
     u=user(req)
     available=[m for m in u['allowed_models'] if m in model_provider.models()]
-    return dict(model=u['model'],allowed_models=available,mode='openrouter',configured=u['model'] in available and bool(model_provider.settings()['api_key']),generation=LOCK.status())
+    return dict(model=u['model'],allowed_models=available,mode='openrouter',configured=u['model'] in available and bool(model_provider.settings()['api_key']),generation=LOCK.status(),catalog=[item for item in model_provider.catalog()['items'] if item['id'] in available])
 
 @app.put('/api/model')
 def select_model(data:ModelInput,req:Request):
