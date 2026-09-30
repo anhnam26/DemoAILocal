@@ -29,6 +29,8 @@ Chưa có tên miền thì chuẩn bị cấu hình trước; production không 
 
 ## Quản trị tài khoản và token
 
+“Tra cứu nội bộ” mô tả nguồn tài liệu và phạm vi tài khoản, không có nghĩa xử lý AI hoàn toàn nội bộ: câu hỏi/ngữ cảnh liên quan vẫn được gửi tới nhà cung cấp AI qua OpenRouter.
+
 **Người dùng → Tạo/Sửa tài khoản**: chọn vai trò, tick một hoặc nhiều model trong `.env`, hạn mức tháng, mật khẩu và trạng thái. Để trống mật khẩu khi tạo: cấp ngẫu nhiên; khi sửa: giữ mật khẩu cũ. Admin có thể nhập mật khẩu mới cho mọi tài khoản hoặc cấp lại ngẫu nhiên. Đổi mật khẩu/khóa/đổi vai trò thu hồi phiên. Model và hạn mức cập nhật ngay, không cần đăng xuất.
 
 **Chọn model:** cả thành viên và admin chọn model được cấp tại thanh công cụ Trợ lý AI. Lựa chọn lưu theo tài khoản, áp dụng cho câu hỏi tiếp theo; đổi model không xóa hội thoại hoặc reset token. Backend kiểm tra quyền khi nhận câu hỏi, giữ token và trước khi gửi API. Khi model bị thu hồi/không còn cấu hình, chọn lại thủ công; không tự chuyển model. Lượt đã gửi tới provider không thể thu hồi, usage vẫn được ghi nhận. Khi nâng cấp, tài khoản cũ chỉ được cấp model cũ; migration không tự mở rộng quyền. Nên sao lưu SQLite trước nâng cấp.
@@ -65,6 +67,7 @@ Python 3.14. `requirements-lock.txt` chứa dependency runtime; công cụ kiể
 python -m venv .venv
 .venv\Scripts\python.exe -m pip install -r requirements-lock.txt
 .venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.venv\Scripts\python.exe -m playwright install chromium
 .venv\Scripts\python.exe -m pytest -q
 powershell -File Start-App.ps1 -Python .venv\Scripts\python.exe
 powershell -File Stop-App.ps1

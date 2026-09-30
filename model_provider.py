@@ -1,6 +1,8 @@
 """OpenRouter only; the model allowlist is server-owned configuration."""
 import json,re
+import httpx
 from fastapi import HTTPException
+import config
 
 def allowed_models(value):
     """Decode persisted permissions; malformed data must never grant access."""
@@ -24,9 +26,6 @@ def init_permissions(connect):
         if 'allowed_models' not in cols:c.execute('ALTER TABLE users ADD COLUMN allowed_models TEXT')
         for row in c.execute('SELECT id,model FROM users WHERE allowed_models IS NULL').fetchall():
             c.execute('UPDATE users SET allowed_models=? WHERE id=?',(json.dumps([row['model']] if row['model'] else []),row['id']))
-
-import httpx
-import config
 
 def models():
     values=config.env();result=[]

@@ -24,7 +24,7 @@ $('#chat-model').onchange=async()=>{
   const model=$('#chat-model').value;if(!model||busy||modelSaving)return;
   modelSaving=true;modelVersion++;updateChatControls();
   try{renderModel(await api('/model',{method:'PUT',body:JSON.stringify({model})}));toast('Đã chọn model cho các câu hỏi tiếp theo.');await refreshAccountUsage()}
-  catch(e){toast(e.message)}finally{modelSaving=false;updateChatControls();await checkHealth()}
+  catch(e){health.configured=false;$('#chat-model').value='';toast(e.message)}finally{modelSaving=false;updateChatControls();await checkHealth()}
 };
 async function refreshAccountUsage(){if(!currentUser)return;const u=await api('/account/usage');$('#account-usage').textContent=`Tháng ${u.month} (UTC): ${u.used_tokens.toLocaleString('vi-VN')} / ${u.monthly_token_limit.toLocaleString('vi-VN')} token · Còn ${u.remaining_tokens.toLocaleString('vi-VN')} · Model ${u.model}`;}
 const suggestions=[['QUY TRÌNH','RMA là gì và các bước thực hiện ra sao?'],['CẤU HÌNH','Cấu hình DHCP Server và Relay cần chuẩn bị gì?'],['KHẢO SÁT','Cần thu thập gì cho dịch vụ Managed Service?'],['AN TOÀN THÔNG TIN','Checklist ứng cứu khi nghi nhiễm ransomware gồm những gì?']];
