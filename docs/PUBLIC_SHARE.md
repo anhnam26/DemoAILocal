@@ -68,4 +68,10 @@ Không có MFA, WAF hoặc rate limit IP thật mới trong tính năng này. Pr
 - Dừng tunnel đột ngột: app dừng. Ctrl+C: tunnel hết phục vụ. Thử chạy hai cổng cùng DB: tiến trình thứ hai phải thất bại trước migration/recovery.
 - Xác nhận `.env` không đổi, dữ liệu vẫn có sau restart, backup/restore thành công ở môi trường riêng.
 
+## Kiểm chứng tại máy phát triển
+
+Đã kiểm cú pháp Python/Bash, 10 ca kiểm thử launcher/URL/preflight/lock/cleanup bằng tunnel giả, và 33 kiểm tra ứng dụng trên DB tạm với dữ liệu giả (đăng nhập/logout, cookie, phân quyền, Host/Origin, file nhạy cảm, rate limit và chống chạy trùng). Đã chạy thêm Uvicorn thật trên cổng loopback tạm, chỉ giả lập tunnel: kiểm tra origin production, HSTS, xác thực, chặn file và shutdown đều đạt. Không gọi AI, không mở tunnel thật, không chạy migration trên DB đang dùng. Script xác minh nằm ngoài source theo quy ước dự án.
+
+Máy kiểm chứng là Windows/Python 3.13, dependency có sẵn (không phải môi trường Linux/Python 3.14 đúng toàn bộ lockfile). WSL hiện không hoạt động. Nhánh `fcntl`/quyền Linux, signal Linux thực tế, cài cloudflared, DNS/HTTPS public và request AI dài/concurrent qua Cloudflare **chưa nghiệm thu**; cần thực hiện checklist trên server Linux trước khi dùng dữ liệu thực. Không có khẳng định rằng tunnel thật đã hoạt động từ mạng công ty.
+
 Nguồn: https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/do-more-with-tunnels/trycloudflare/ và https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-524/ .

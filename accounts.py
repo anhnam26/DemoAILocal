@@ -130,6 +130,7 @@ def install(app,connect,user,audit):
     @router.post('/api/account/password')
     def change_password(data:PasswordInput,req:Request,res:Response):
         u=user(req)
+        if u['role']!='admin':raise HTTPException(403,'Nhân viên không được tự đổi mật khẩu. Vui lòng liên hệ quản trị để đặt lại mật khẩu.')
         with connect() as c:
             row=c.execute('SELECT * FROM users WHERE id=?',(u['id'],)).fetchone()
             if not verify(data.old_password,row['password_hash']):raise HTTPException(400,'Mật khẩu hiện tại không đúng.')

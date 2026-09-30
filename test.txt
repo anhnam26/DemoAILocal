@@ -1,0 +1,28 @@
+stat -c '%U %a %n' \
+  /home/cba/ChatBot/TestSystem/data \
+  /home/cba/ChatBot/TestSystem/data/app.sqlite3
+
+chmod 700 /home/cba/ChatBot/TestSystem/data
+chmod 600 /home/cba/ChatBot/TestSystem/data/app.sqlite3
+
+for file in \
+  /home/cba/ChatBot/TestSystem/data/app.sqlite3-wal \
+  /home/cba/ChatBot/TestSystem/data/app.sqlite3-shm
+do
+  if [ -e "$file" ]; then
+    stat -c '%U %a %n' "$file"
+    if [ -O "$file" ]; then
+      chmod 600 "$file"
+    else
+      printf 'DỪNG: file không thuộc người dùng hiện tại: %s\n' "$file"
+    fi
+  fi
+done
+
+
+stat -c '%U %a %n' \
+  /home/cba/ChatBot/TestSystem/.env \
+  /home/cba/ChatBot/TestSystem/data \
+  /home/cba/ChatBot/TestSystem/data/app.sqlite3
+
+bash /home/cba/ChatBot/TestSystem/start.sh --share

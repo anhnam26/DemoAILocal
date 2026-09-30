@@ -48,7 +48,7 @@ def main(argv=None):
         if not args.share and security['mode']=='lan':print('LAN HTTP: traffic is not encrypted. Restrict access with the server firewall.',flush=True)
     except ImportError as exc:
         parser.exit(1, f'Missing dependency: {exc.name}. Run: python -m pip install -r requirements-lock.txt\n')
-    except ValueError as exc:
+    except (OSError, ValueError) as exc:
         parser.exit(1, f'Invalid application configuration: {exc}\n')
 
     settings = uvicorn.Config(
