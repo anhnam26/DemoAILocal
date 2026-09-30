@@ -151,6 +151,7 @@ async def answer_chat(data,req,u,conversation_id):
     try:cfg=model_provider.settings(data.model)
     except ValueError as e:raise HTTPException(400,str(e))
     usage={};estimated=0;calls=0;found=[];used=[];review=True
+    finish=None;output=0;retrieved_count=0;citation_status='not_checked'
     # No record lookup or invented customer identity; this costs zero API calls.
     if re.search(r'\b(crm-|contract-|quote-|ticket-|cong no|ho so khach|ten khach hang|khach hang thuc|dien thoai khach)',rag.norm(effective)):
         answer='Kho này chỉ giữ tài liệu lý thuyết và biểu mẫu trống; không lưu hồ sơ, liên hệ, hợp đồng hay công nợ khách hàng.'
@@ -161,7 +162,8 @@ async def answer_chat(data,req,u,conversation_id):
         if not found:
             answer='Kho tri thức chưa có đủ căn cứ. Hãy nêu rõ dịch vụ, thiết bị hoặc nội dung cần tìm.';mode='Thiếu căn cứ'
         else:
-            budget=cfg['input_budget'];output=cfg['output_budget'];parallel=cfg['parallel']
+            retrieved_count=len(found)
+            budget,output=rag.budgets(effective,cfg['input_budget'],cfg['output_budget']);parallel=cfg['parallel']
             try:messages,found,estimated=rag.pack(effective,found,budget)
             except ValueError as e:raise HTTPException(400,str(e))
             if not found:
@@ -174,7 +176,7 @@ async def answer_chat(data,req,u,conversation_id):
                 reservation=None
                 try:
                     fresh=user(req)
-                    reservation,output=token_usage.reserve(connect,fresh['id'],cfg['model'],estimated,output)
+                    reservation,output=token_usage.reserve(connect,fresh['id'],cfg['model'],estimated,output,min_output_tokens=output)
                     token_usage.mark_sent(connect,reservation)
                     calls=1
                     answer,usage,finish=await model_provider.complete(messages,cfg,output)
@@ -185,9 +187,15 @@ async def answer_chat(data,req,u,conversation_id):
                     used=[d['id'] for d in found if d['id'] in cited];used=list(dict.fromkeys(used))
                     review=finish=='length' or any(d.get('review_status')=='draft_engineer_review' for d in found)
                     review=review or any(t in rag.norm(q) for t in ('cau hinh','sla','gia','rollback','lenh'))
-                    if not cited or not cited.issubset(ids):
-                        answer='Bản tổng hợp chưa đạt kiểm tra mã nguồn. Các trích đoạn để đối chiếu:\n\n'+'\n\n'.join(d['body']+' ['+d['id']+']' for d in found[:2])
-                        used=[d['id'] for d in found[:2]];review=True;mode='Trích đoạn tài liệu'
+                    abstention='Kho tri thức chưa có đủ căn cứ để trả lời câu hỏi này.'
+                    if answer.strip()==abstention:
+                        used=[];review=True;mode='Thiếu căn cứ';citation_status='abstained'
+                    elif not cited or not cited.issubset(ids):
+                        answer='Chưa xác thực được mã trích dẫn của câu trả lời. Hệ thống không hiển thị nội dung chưa đạt kiểm tra và không tự gọi lại. Bạn có thể nêu rõ phạm vi hoặc bổ sung tài liệu liên quan.'
+                        used=[];review=True;mode='Chưa xác thực trích dẫn';citation_status='invalid'
+                    else:citation_status='ids_valid_not_entailment_checked'
+                    if finish=='length':
+                        answer+='\n\nLưu ý: phản hồi đã chạm giới hạn đầu ra; nội dung có thể chưa đầy đủ.'
                 except model_provider.InvalidCompletion as e:
                     token_usage.settle(connect,reservation,e.usage)
                     raise HTTPException(503,'Model không trả nội dung; usage đã được ghi nhận nếu nhà cung cấp trả về.')
@@ -209,8 +217,10 @@ async def answer_chat(data,req,u,conversation_id):
     source_docs={d['id']:d for d in found if d['id'] in used}
     out=dict(answer=answer,sources=[source(d) for d in source_docs.values()],needs_review=review,mode=mode,
              elapsed=round(time.monotonic()-start,2),citations_verified=bool(used),effective_query=effective,
-             usage=usage,model=cfg['model'],api_calls=calls,
-             retrieval={**routing,'selected_chunks':len(found),'estimated_input_tokens':estimated,'token_estimator':'UTF-8 byte upper estimate'})
+             usage=usage,model=cfg['model'],api_calls=calls,finish_reason=finish,output_token_limit=output,
+             citation_status=citation_status,grounding_verified=False,
+             retrieval={**routing,'intent':rag.intent(effective),'retrieved_chunks':retrieved_count,'selected_chunks':len(found),
+                        'omitted_chunks':retrieved_count-len(found),'estimated_input_tokens':estimated,'token_estimator':'UTF-8 byte proxy; not a tokenizer'})
     with connect() as c:
         cur=c.execute('INSERT INTO chats(session,question,result,ts,user_id,conversation_id) VALUES(?,?,?,?,?,?)',(u['token'],q,json.dumps(out,ensure_ascii=False),now(),u['id'],conversation_id));out['chat_id']=cur.lastrowid
         c.execute("UPDATE conversations SET title=CASE WHEN title='Cuộc trò chuyện mới' THEN ? ELSE title END,updated=? WHERE id=?",(q[:100],now(),conversation_id))

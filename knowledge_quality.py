@@ -28,10 +28,10 @@ def evaluate(documents,cases):
         required=case.get('required',[])
         hit=all(any(id in ids for id in alternatives) for alternatives in required)
         retained=all(any(id in packed for id in alternatives) for alternatives in required)
-        rows.append(dict(id=case['id'],kind=case['kind'],question=case['question'],hit=hit,packed_hit=retained,
+        rows.append(dict(id=case['id'],kind=case['kind'],split=case.get('split','unassigned'),question=case['question'],hit=hit if required else None,packed_hit=retained if required else None,
                          retrieved=[d['id'] for d in found],packed=[d['id'] for d in selected],estimated_bytes=estimated))
     scored=[r for r,c in zip(rows,cases) if c.get('required')]
-    return dict(cases=len(rows),scored=len(scored),retrieval_pass=sum(r['hit'] for r in scored),
+    return dict(cases=len(rows),scored=len(scored),packing_budget_bytes=12000,negative_cases_not_scored=len(rows)-len(scored),retrieval_pass=sum(r['hit'] for r in scored),
                 packed_pass=sum(r['packed_hit'] for r in scored),results=rows,
                 limitation='Source-ID coverage only; not an assessment of generated answers or semantic entailment.')
 

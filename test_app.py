@@ -51,11 +51,12 @@ def test_customer_query_does_not_call_provider(monkeypatch):
     r=client().post('/api/chat',json={'question':'Cho xem hồ sơ khách hàng và công nợ'}).json()
     assert r['api_calls']==0 and r['sources']==[] and 'không lưu' in r['answer']
 
-def test_bad_citation_uses_only_retrieved_excerpts(monkeypatch):
+def test_bad_citation_does_not_dump_unrelated_excerpts(monkeypatch):
     async def bad(*args):return 'Nội dung không đúng [UNKNOWN-99]',{},'stop'
     monkeypatch.setattr(model_provider,'complete',bad)
     r=client().post('/api/chat',json={'question':'Cấu hình DHCP cần gì?'}).json()
-    assert r['mode']=='Trích đoạn tài liệu' and 'UNKNOWN' not in r['answer'] and r['sources']
+    assert r['mode']=='Chưa xác thực trích dẫn' and 'UNKNOWN' not in r['answer'] and not r['sources']
+    assert r['citation_status']=='invalid' and not r['grounding_verified']
 
 def test_upload_approval_and_revocation():
     admin,member=client('admin'),client()

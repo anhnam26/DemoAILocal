@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-30",
+  "changes": [
+    {
+      "id": "CMP-FW-WAF",
+      "action": "remove_demo_commercial_line"
+    },
+    {
+      "id": "KB-NET-LAYERS",
+      "action": "reference_article"
+    },
+    {
+      "id": "ND-A9A43D59581C2EE5D4C3",
+      "action": "reference_article"
+    },
+    {
+      "id": "KB-NET-DNS",
+      "action": "reference_article"
+    },
+    {
+      "id": "KB-NET-DNS-TROUBLE",
+      "action": "reference_article"
+    },
+    {
+      "id": "KB-NET-UDP",
+      "action": "reference_article"
+    },
+    {
+      "id": "KB-NET-DHCP",
+      "action": "reference_article"
+    }
+  ],
+  "limitation": "Other drafts remain drafts; audit queue is not completed human review."
+}

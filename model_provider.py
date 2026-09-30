@@ -40,8 +40,8 @@ def settings(model=None):
     selected=model or (available[0] if available else '')
     if selected and selected not in available:raise ValueError('Model tài khoản không còn trong danh sách .env; liên hệ quản trị.')
     return dict(mode='openrouter',api_key=values.get('OPENROUTER_API_KEY') or values.get('API_KEY',''),model=selected,
-                url='https://openrouter.ai/api/v1',input_budget=config.integer('RAG_INPUT_TOKENS',6000,2048,32000),
-                output_budget=config.integer('RAG_OUTPUT_TOKENS',1000,64,8192),top_k=config.integer('RAG_TOP_K',6,2,12),
+                url='https://openrouter.ai/api/v1',input_budget=config.integer('RAG_INPUT_TOKENS',18000,2048,32000),
+                output_budget=config.integer('RAG_OUTPUT_TOKENS',2400,64,8192),top_k=config.integer('RAG_TOP_K',6,2,12),
                 parallel=config.integer('API_PARALLEL',4,1,16))
 
 def public_settings():

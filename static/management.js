@@ -46,7 +46,7 @@ $('#reconcile-form').onsubmit=async e=>{e.preventDefault();try{await api('/admin
 async function loadSystem(){
   if(systemLoading||currentUser?.role!=='admin')return;systemLoading=true;
   try{const d=await api('/admin/system');$('#metrics-time').textContent='Uptime '+Math.floor(d.uptime/60)+' phút · '+d.generation.active+' lượt đang chạy · '+d.generation.waiting+' đang chờ';
-    $('#system-info').innerHTML=`<div class="card"><h3>OpenRouter API</h3><p>${d.provider.configured?'Đã cấu hình key/model':'Thiếu key hoặc model'}</p></div><div class="card"><h3>Ngân sách mỗi lượt</h3><p>Đầu vào ước lượng ${fmt(d.provider.input_budget)} · Đầu ra tối đa ${fmt(d.provider.output_budget)}</p></div>`;
+    $('#system-info').innerHTML=`<div class="card"><h3>OpenRouter API</h3><p>${d.provider.configured?'Đã cấu hình key/model':'Thiếu key hoặc model'}</p></div><div class="card"><h3>Ngân sách mỗi lượt</h3><p>Trần đầu vào ${fmt(d.provider.input_budget)} byte UTF-8 (không phải tokenizer) · Đầu ra tối đa ${fmt(d.provider.output_budget)} token; điều chỉnh theo câu hỏi</p></div>`;
     $('#provider-summary').innerHTML='<h2>Model cấu hình trong .env</h2>'+d.provider.models.map(m=>'<p>'+esc(m)+'</p>').join('')+'<p>Chọn model và hạn mức từng tài khoản trong mục Người dùng.</p>';
     $('#system-counts').innerHTML=Object.entries(d.database).map(([k,v])=>'<p>'+esc(k)+': '+fmt(v)+'</p>').join('');
   }finally{systemLoading=false}

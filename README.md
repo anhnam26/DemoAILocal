@@ -47,9 +47,19 @@ Timeout/mất mạng/khởi động lại lúc gọi có thể đã bị provide
 
 ## Kho tri thức và chi phí
 
-`knowledge/documents.json` là nguồn chuẩn duy nhất gồm 1.194 tài liệu. Startup hoặc **Hệ thống → Đồng bộ kho tri thức** cập nhật thêm/sửa/xóa vào DB, giữ trạng thái thu hồi. Không cần NewData/Word/Excel gốc để chạy server. Upload TXT/MD/PDF có text chờ admin duyệt; chỉ nhập lý thuyết được phép chia sẻ.
+`knowledge/documents.json` là nguồn chuẩn duy nhất gồm 1.199 tài liệu (bao gồm bản nháp kỹ thuật cần rà soát). Startup hoặc **Hệ thống → Đồng bộ kho tri thức** cập nhật thêm/sửa/xóa vào DB, giữ trạng thái thu hồi. Không cần NewData/Word/Excel gốc để chạy server. Upload TXT/MD/PDF có text chờ admin duyệt; chỉ nhập lý thuyết được phép chia sẻ.
 
-RAG tìm từ/ký tự và ưu tiên nhóm A–F trên CPU, chọn tối đa 6 đoạn đa dạng, bỏ phần lặp và giới hạn prompt. Thường một API call cho câu có nguồn. Không gửi cả kho hoặc toàn lịch sử. Ngân sách đầu vào 6.000 là ước lượng byte UTF-8 bảo thủ, không phải tokenizer chính xác; số thực lấy từ API. Chưa có embeddings/reranker hoặc cache câu trả lời. Nhãn dự thảo kỹ thuật vẫn được giữ.
+RAG tìm từ/ký tự, bí danh Việt/Anh và ưu tiên theo mục đích câu hỏi trên CPU, tối đa 6 đoạn. Tách định nghĩa khỏi hướng dẫn vận hành trong glossary cũ; giữ nguyên từng đoạn, không cắt mất kiểm chứng/rollback hoặc xóa dòng lặp bên trong nguồn. Đoạn quá lớn không vừa ngân sách sẽ bị bỏ và ghi số lượng; upload dài nên chia thành các bài độc lập có đủ ngữ cảnh.
+
+Trần mặc định: đầu vào **18.000 byte UTF-8** (tên cấu hình cũ `RAG_INPUT_TOKENS`, không phải tokenizer), đầu ra **2.400 token**. Theo câu hỏi, giới hạn mục tiêu lần lượt là 8.000/1.000 cho khái niệm, 14.000/1.800 cho so sánh/khảo sát, 18.000/2.400 cho quy trình/chẩn đoán; luôn tôn trọng trần `.env`. Byte chỉ là proxy, không bảo đảm chặn tuyệt đối token provider; usage thực là căn cứ tính hạn mức. Không hạ đầu ra âm thầm khi quota thiếu: chặn trước API và đề nghị thu hẹp câu hỏi. Lưu `finish_reason`, số đoạn bỏ và giới hạn đầu ra để đo chất lượng/chi phí.
+
+Không gọi thêm model phân loại/kiểm tra, không tự retry, không gửi cả kho/lịch sử. Kiểm mã nguồn chỉ xác nhận ID hợp lệ, **không xác minh nhận định được nguồn chứng minh**. Trích dẫn sai không còn bị thay bằng hai đoạn nguồn không liên quan. Chưa có embeddings/reranker, tokenizer riêng từng model hoặc cache câu trả lời. Nhãn dự thảo vẫn được giữ.
+
+Đánh giá offline, không mở database ứng dụng hoặc gọi AI:
+```powershell
+python -B D:\TestSystem\knowledge_quality.py --output D:\TestSystem\docs\knowledge-after.json
+```
+Xem `D:\TestSystem\docs\KNOWLEDGE_QUALITY.md` về phạm vi đã sửa, kết quả và phần còn cần rà soát. Bộ 108 câu là smoke test truy xuất, không phải chứng nhận chất lượng trả lời.
 
 ## Triển khai và dữ liệu
 

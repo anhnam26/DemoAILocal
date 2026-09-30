@@ -66,7 +66,7 @@ def test_limit_blocks_before_api_and_cannot_override_model(monkeypatch):
 
 def test_model_assignment_and_password_change(monkeypatch):
     monkeypatch.setenv('MODEL1','vendor/second');a=client('admin');c,u=setup_user()
-    payload=dict(username='member',name='Member',role='member',model='vendor/second',monthly_token_limit=5000)
+    payload=dict(username='member',name='Member',role='member',model='vendor/second',monthly_token_limit=20000)
     assert c.put('/api/admin/users/'+u['id'],json=payload).status_code==403
     assert a.put('/api/admin/users/'+u['id'],json={**payload,'model':'unknown'}).status_code==400
     assert a.put('/api/admin/users/'+u['id'],json=payload).status_code==200

@@ -65,7 +65,7 @@ def summary(connect,user_id,period=None):
     return dict(**result,month=period,timezone='UTC',monthly_token_limit=user[0],model=user[1],
                 remaining_tokens=max(0,user[0]-result['used_tokens']-result['reserved_tokens']-result['uncertain_tokens']))
 
-def reserve(connect,user_id,model,input_tokens,output_tokens):
+def reserve(connect,user_id,model,input_tokens,output_tokens,min_output_tokens=64):
     period=month();id=secrets.token_hex(16);stamp=time.time()
     with connect() as c:
         c.execute('BEGIN IMMEDIATE')
@@ -75,7 +75,7 @@ def reserve(connect,user_id,model,input_tokens,output_tokens):
         usage=totals(c,user_id,period)
         remaining=user[2]-usage['used_tokens']-usage['reserved_tokens']-usage['uncertain_tokens']
         output=min(output_tokens,remaining-input_tokens)
-        if output<64:raise HTTPException(429,'Không đủ hạn mức token tháng cho lượt này. Liên hệ quản trị để tăng hạn mức.')
+        if output<max(64,min_output_tokens):raise HTTPException(429,'Không đủ hạn mức token tháng để trả lời đầy đủ. Hãy rút gọn phạm vi câu hỏi hoặc liên hệ quản trị để tăng hạn mức.')
         c.execute('INSERT INTO token_usage(id,user_id,month,model,status,reserved_tokens,created,updated) VALUES(?,?,?,?,?,?,?,?)',
                   (id,user_id,period,model,'reserved',input_tokens+output,stamp,stamp))
     return id,output
