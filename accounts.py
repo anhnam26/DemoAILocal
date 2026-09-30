@@ -84,11 +84,18 @@ def install(app,connect,user,audit):
         u=user(req)
         if u['role']!='admin':raise HTTPException(403,'Chỉ Quản trị được quản lý tài khoản và phiên đăng nhập.')
         return u
-    def validate(data):
+    def validate(data,row=None):
         if data.role not in ROLES:raise HTTPException(400,'Vai trò phải là thành viên hoặc quản trị.')
-        chosen=data.model or next(iter(model_provider.models()),'')
-        if not chosen or chosen not in model_provider.models():raise HTTPException(400,'Model phải thuộc danh sách .env.')
-        data.model=chosen
+        available=model_provider.models()
+        if data.allowed_models is None:
+            data.allowed_models=([data.model] if data.model else model_provider.allowed_models(row['allowed_models']) if row else available[:1])
+        data.allowed_models=list(dict.fromkeys(data.allowed_models))
+        if not data.allowed_models or any(m not in available for m in data.allowed_models):
+            raise HTTPException(400,'Chọn ít nhất một model thuộc danh sách cấu hình máy chủ.')
+        if data.model is not None and data.model not in data.allowed_models:
+            raise HTTPException(400,'Model mặc định phải thuộc danh sách được cấp.')
+        if data.model is None:
+            data.model=row['model'] if row and row['model'] in data.allowed_models else '' if row else data.allowed_models[0]
         return []
     @router.post('/api/login')
     def login(data:Login,req:Request,res:Response):

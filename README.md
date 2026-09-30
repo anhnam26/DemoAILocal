@@ -29,9 +29,13 @@ Chưa có tên miền thì chuẩn bị cấu hình trước; production không 
 
 ## Quản trị tài khoản và token
 
-**Người dùng → Tạo/Sửa tài khoản**: chọn vai trò, model trong `.env`, hạn mức tháng, mật khẩu và trạng thái. Để trống mật khẩu khi tạo: cấp ngẫu nhiên; khi sửa: giữ mật khẩu cũ. Admin có thể nhập mật khẩu mới cho mọi tài khoản hoặc cấp lại ngẫu nhiên. Đổi mật khẩu/khóa/đổi vai trò thu hồi phiên. Model và hạn mức cập nhật ngay, không cần đăng xuất.
+**Người dùng → Tạo/Sửa tài khoản**: chọn vai trò, tick một hoặc nhiều model trong `.env`, hạn mức tháng, mật khẩu và trạng thái. Để trống mật khẩu khi tạo: cấp ngẫu nhiên; khi sửa: giữ mật khẩu cũ. Admin có thể nhập mật khẩu mới cho mọi tài khoản hoặc cấp lại ngẫu nhiên. Đổi mật khẩu/khóa/đổi vai trò thu hồi phiên. Model và hạn mức cập nhật ngay, không cần đăng xuất.
 
-**Hạn mức = token đầu vào + đầu ra**, bao gồm reasoning nếu nhà cung cấp tính trong usage. Tháng tính theo **UTC**, tự chuyển kỳ bằng khóa `YYYY-MM`, không cần cron và không xóa lịch sử sử dụng. Mặc định tài khoản cũ/mới: **1.000.000 token/tháng**; admin cũng chịu hạn mức. `0` chặn gọi AI, vẫn đăng nhập/đọc tài liệu được.
+**Chọn model:** cả thành viên và admin chọn model được cấp tại thanh công cụ Trợ lý AI. Lựa chọn lưu theo tài khoản, áp dụng cho câu hỏi tiếp theo; đổi model không xóa hội thoại hoặc reset token. Backend kiểm tra quyền khi nhận câu hỏi, giữ token và trước khi gửi API. Khi model bị thu hồi/không còn cấu hình, chọn lại thủ công; không tự chuyển model. Lượt đã gửi tới provider không thể thu hồi, usage vẫn được ghi nhận. Khi nâng cấp, tài khoản cũ chỉ được cấp model cũ; migration không tự mở rộng quyền. Nên sao lưu SQLite trước nâng cấp.
+
+**Giao diện:** cỡ chữ trả lời cố định 18px, không dùng thiết lập cỡ chữ cũ của trình duyệt. Trang đăng nhập dùng nội dung “Tra cứu nội bộ”, có nút hiện/ẩn mật khẩu; bỏ nhãn OpenRouter API không thay đổi nhà cung cấp xử lý phía backend.
+
+**Hạn mức = token đầu vào + đầu ra**, dùng chung cho mọi model được cấp, bao gồm reasoning nếu nhà cung cấp tính trong usage. Tháng tính theo **UTC**, tự chuyển kỳ bằng khóa `YYYY-MM`, không cần cron và không xóa lịch sử sử dụng. Mặc định tài khoản cũ/mới: **1.000.000 token/tháng**; admin cũng chịu hạn mức. `0` chặn gọi AI, vẫn đăng nhập/đọc tài liệu được.
 
 Trước gọi API, SQLite giữ trước ngân sách đầu vào ước lượng + trần đầu ra bằng transaction. Lượt chạy song song dùng chung hạn mức; không cho cùng chi phần còn lại. Sau phản hồi cập nhật theo `usage` thực và trả phần thừa. Mô hình/tokenizer khác nhau có thể vượt ước lượng: số thực vẫn được ghi đầy đủ và chặn lượt sau; đây không phải hạn mức cứng do OpenRouter thực thi.
 

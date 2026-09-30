@@ -60,7 +60,8 @@ def test_limit_blocks_before_api_and_cannot_override_model(monkeypatch):
     c,u=setup_user(0)
     async def fail(*args):pytest.fail('Provider must not be called')
     monkeypatch.setattr(model_provider,'complete',fail)
-    assert c.post('/api/chat',json={'question':'DNS là gì?','model':'unauthorized/model'}).status_code==429
+    assert c.post('/api/chat',json={'question':'DNS là gì?','model':'unauthorized/model'}).status_code==403
+    assert c.post('/api/chat',json={'question':'DNS là gì?'}).status_code==429
     assert token_usage.summary(app.connect,u['id'])['requests']==0
 
 def test_model_assignment_and_password_change(monkeypatch):
@@ -75,7 +76,8 @@ def test_model_assignment_and_password_change(monkeypatch):
         id=re.findall(r'\[([A-Z0-9-]+)\]',messages[-1]['content'])[0]
         return 'Nguồn ['+id+']',{'prompt_tokens':100,'completion_tokens':30},'stop'
     monkeypatch.setattr(model_provider,'complete',complete)
-    r=c.post('/api/chat',json={'question':'DNS là gì?','model':'test/model'});assert r.status_code==200,r.text
+    assert c.post('/api/chat',json={'question':'DNS là gì?','model':'test/model'}).status_code==403
+    r=c.post('/api/chat',json={'question':'DNS là gì?','model':'vendor/second'});assert r.status_code==200,r.text
     assert r.json()['model']=='vendor/second'
     id=r.json()['conversation_id'];c.delete('/api/conversations/'+id)
     assert c.get('/api/account/usage').json()['used_tokens']==130
@@ -85,7 +87,7 @@ def test_model_assignment_and_password_change(monkeypatch):
 
 def test_model_changed_while_waiting_cancels_reservation():
     _,u=setup_user();id,_=token_usage.reserve(app.connect,u['id'],u['model'],600,200)
-    with app.connect() as c:c.execute("UPDATE users SET model='new/model' WHERE id=?",(u['id'],))
+    with app.connect() as c:c.execute('UPDATE users SET allowed_models=? WHERE id=?',(json.dumps(['new/model']),u['id']))
     with pytest.raises(HTTPException):token_usage.mark_sent(app.connect,id)
     token_usage.settle(app.connect,id)
     assert token_usage.summary(app.connect,u['id'])['reserved_tokens']==0
