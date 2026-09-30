@@ -50,7 +50,7 @@ def init(connect):
 
 def public(row):
     customers=json.loads(row['customers'])
-    return dict(id=row['id'],username=row['username'],name=row['name'],role=row['role'],customers=customers,customer='',title=ROLES[row['role']]+' • Kho tri thức chung',active=bool(row['active']),model=row['model'],monthly_token_limit=row['monthly_token_limit'])
+    return dict(id=row['id'],username=row['username'],name=row['name'],role=row['role'],customers=customers,customer='',title=ROLES[row['role']]+' • Kho tri thức chung',active=bool(row['active']),model=row['model'],allowed_models=model_provider.allowed_models(row['allowed_models']),monthly_token_limit=row['monthly_token_limit'])
 
 def current(req,connect):
     token=token_hash(req.cookies.get('cyberant_session',''))
@@ -72,6 +72,7 @@ class UserInput(BaseModel):
     password:str|None=Field(default=None,min_length=10,max_length=128)
     active:bool=True
     model:str|None=Field(default=None,max_length=200)
+    allowed_models:list[str]|None=Field(default=None,max_length=200)
     monthly_token_limit:int=Field(default=1000000,ge=0,le=10000000000)
 class PasswordInput(BaseModel):
     old_password:str=Field(min_length=1,max_length=128)
@@ -142,21 +143,22 @@ def install(app,connect,user,audit):
         with connect() as c:
             c.execute('BEGIN IMMEDIATE')
             if c.execute('SELECT 1 FROM users WHERE username=? COLLATE NOCASE',(data.username,)).fetchone():raise HTTPException(409,'Tên đăng nhập đã tồn tại.')
-            c.execute('INSERT INTO users(id,username,name,role,customers,password_hash,active,created,updated,model,monthly_token_limit) VALUES(?,?,?,?,?,?,?,?,?,?,?)',(id,data.username.lower(),data.name,data.role,json.dumps(customers),hash_password(password),int(data.active),time.time(),time.time(),data.model,data.monthly_token_limit))
+            c.execute('INSERT INTO users(id,username,name,role,customers,password_hash,active,created,updated,model,monthly_token_limit,allowed_models) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',(id,data.username.lower(),data.name,data.role,json.dumps(customers),hash_password(password),int(data.active),time.time(),time.time(),data.model,data.monthly_token_limit,json.dumps(data.allowed_models)))
         audit('user_create',a['role'],data.username);return dict(id=id,username=data.username.lower(),temporary_password=password)
     @router.put('/api/admin/users/{id}')
     def update(id:str,data:UserInput,req:Request):
-        a=admin(req);customers=validate(data)
+        a=admin(req)
         with connect() as c:
             c.execute('BEGIN IMMEDIATE')
             row=c.execute('SELECT * FROM users WHERE id=?',(id,)).fetchone()
             if not row:raise HTTPException(404,'Không có tài khoản.')
+            customers=validate(data,row)
             if row['role']=='admin' and row['active'] and (not data.active or data.role!='admin') and c.execute("SELECT COUNT(*) FROM users WHERE role='admin' AND active=1").fetchone()[0]<=1:raise HTTPException(400,'Phải giữ ít nhất một tài khoản quản trị hoạt động.')
             if c.execute('SELECT 1 FROM users WHERE username=? COLLATE NOCASE AND id<>?',(data.username,id)).fetchone():raise HTTPException(409,'Tên đăng nhập đã tồn tại.')
-            c.execute('UPDATE users SET username=?,name=?,role=?,customers=?,active=?,password_hash=?,updated=?,model=?,monthly_token_limit=? WHERE id=?',(data.username.lower(),data.name,data.role,json.dumps(customers),int(data.active),hash_password(data.password) if data.password else row['password_hash'],time.time(),data.model,data.monthly_token_limit,id))
+            c.execute('UPDATE users SET username=?,name=?,role=?,customers=?,active=?,password_hash=?,updated=?,model=?,monthly_token_limit=?,allowed_models=? WHERE id=?',(data.username.lower(),data.name,data.role,json.dumps(customers),int(data.active),hash_password(data.password) if data.password else row['password_hash'],time.time(),data.model,data.monthly_token_limit,json.dumps(data.allowed_models),id))
             if data.password or data.role!=row['role'] or not data.active or data.username.lower()!=row['username']:
                 c.execute('DELETE FROM sessions WHERE user_id=?',(id,))
-        audit('user_update',a['role'],json.dumps(dict(id=id,model=data.model,monthly_token_limit=data.monthly_token_limit)));return dict(ok=True)
+        audit('user_update',a['role'],json.dumps(dict(id=id,model=data.model,allowed_models=data.allowed_models,monthly_token_limit=data.monthly_token_limit)));return dict(ok=True)
     @router.post('/api/admin/users/{id}/reset-password')
     def reset(id:str,req:Request):
         a=admin(req);password=secrets.token_urlsafe(15)

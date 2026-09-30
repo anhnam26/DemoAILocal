@@ -17,7 +17,8 @@ def init(connect):
         cols={r[1] for r in c.execute('PRAGMA table_info(users)')}
         if 'model' not in cols:c.execute("ALTER TABLE users ADD COLUMN model TEXT NOT NULL DEFAULT ''")
         if 'monthly_token_limit' not in cols:c.execute(f'ALTER TABLE users ADD COLUMN monthly_token_limit INTEGER NOT NULL DEFAULT {default_limit}')
-        c.execute("UPDATE users SET model=? WHERE model=''",(default_model,))
+        if 'allowed_models' not in cols:
+            c.execute("UPDATE users SET model=? WHERE model=''",(default_model,))
         c.executescript('''CREATE TABLE IF NOT EXISTS token_usage(
             id TEXT PRIMARY KEY,user_id TEXT NOT NULL,month TEXT NOT NULL,model TEXT NOT NULL,
             status TEXT NOT NULL,reserved_tokens INTEGER NOT NULL,prompt_tokens INTEGER,
@@ -38,6 +39,8 @@ def init(connect):
                     c.execute('''INSERT OR IGNORE INTO token_usage(id,user_id,month,model,status,reserved_tokens,prompt_tokens,completion_tokens,total_tokens,cost,created,updated,note)
                        VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)''',('legacy-'+str(row[0]),row[1],stamp.strftime('%Y-%m'),result.get('model') or default_model,'completed',counts[2],*counts,stamp.timestamp(),time.time(),'Usage từ hội thoại trước nâng cấp'))
             c.execute("INSERT INTO usage_migrations VALUES('import_existing_usage')")
+
+    model_provider.init_permissions(connect)
 
 def recover(connect):
     # Called once at single-worker startup; never release potentially sent calls.
@@ -66,9 +69,9 @@ def reserve(connect,user_id,model,input_tokens,output_tokens):
     period=month();id=secrets.token_hex(16);stamp=time.time()
     with connect() as c:
         c.execute('BEGIN IMMEDIATE')
-        user=c.execute('SELECT active,model,monthly_token_limit FROM users WHERE id=?',(user_id,)).fetchone()
+        user=c.execute('SELECT active,allowed_models,monthly_token_limit FROM users WHERE id=?',(user_id,)).fetchone()
         if not user or not user[0]:raise HTTPException(403,'Tài khoản đã bị khóa.')
-        if user[1]!=model:raise HTTPException(409,'Model tài khoản vừa thay đổi; hãy gửi lại câu hỏi.')
+        model_provider.require_allowed(model,user[1])
         usage=totals(c,user_id,period)
         remaining=user[2]-usage['used_tokens']-usage['reserved_tokens']-usage['uncertain_tokens']
         output=min(output_tokens,remaining-input_tokens)
@@ -80,9 +83,10 @@ def reserve(connect,user_id,model,input_tokens,output_tokens):
 def mark_sent(connect,id):
     with connect() as c:
         c.execute('BEGIN IMMEDIATE')
-        row=c.execute('''SELECT u.active,u.model,t.model,u.monthly_token_limit,t.user_id,t.month FROM token_usage t
+        row=c.execute('''SELECT u.active,u.allowed_models,t.model,u.monthly_token_limit,t.user_id,t.month FROM token_usage t
                          JOIN users u ON u.id=t.user_id WHERE t.id=? AND t.status='reserved' ''',(id,)).fetchone()
-        if not row or not row[0] or row[1]!=row[2]:raise HTTPException(409,'Tài khoản hoặc model đã thay đổi.')
+        if not row or not row[0]:raise HTTPException(409,'Tài khoản đã thay đổi.')
+        model_provider.require_allowed(row[2],row[1])
         used=totals(c,row[4],row[5])
         if used['used_tokens']+used['reserved_tokens']+used['uncertain_tokens']>row[3]:raise HTTPException(429,'Hạn mức vừa thay đổi; không gửi lượt này.')
         c.execute("UPDATE token_usage SET status='in_flight',updated=? WHERE id=?",(time.time(),id))

@@ -87,6 +87,9 @@ def source(d):return {**{k:d[k] for k in ('id','title','category','version','own
 class Chat(BaseModel):
     question:str=Field(min_length=2,max_length=1500)
     conversation_id:str|None=Field(default=None,max_length=64)
+    model:str|None=Field(default=None,min_length=1,max_length=200)
+class ModelInput(BaseModel):
+    model:str=Field(min_length=1,max_length=200)
 class Feedback(BaseModel): chat_id:int; rating:int=Field(ge=-1,le=1)
 @app.get('/')
 def index():return FileResponse(ROOT/'static'/'index.html')
@@ -102,7 +105,19 @@ def my_usage(req:Request):return token_usage.summary(connect,user(req)['id'])
 @app.get('/api/model')
 def my_model(req:Request):
     u=user(req)
-    return dict(model=u['model'],mode='openrouter',configured=u['model'] in model_provider.models() and bool(model_provider.settings()['api_key']),generation=LOCK.status())
+    available=[m for m in u['allowed_models'] if m in model_provider.models()]
+    return dict(model=u['model'],allowed_models=available,mode='openrouter',configured=u['model'] in available and bool(model_provider.settings()['api_key']),generation=LOCK.status())
+
+@app.put('/api/model')
+def select_model(data:ModelInput,req:Request):
+    u=user(req)
+    with connect() as c:
+        c.execute('BEGIN IMMEDIATE')
+        row=c.execute('SELECT active,allowed_models FROM users WHERE id=?',(u['id'],)).fetchone()
+        if not row or not row['active']:raise HTTPException(403,'Tài khoản đã bị khóa.')
+        model_provider.require_allowed(data.model,row['allowed_models'])
+        c.execute('UPDATE users SET model=?,updated=? WHERE id=?',(data.model,time.time(),u['id']))
+    return my_model(req)
 
 @app.get('/api/documents')
 def documents(req:Request):return [source(d) for d in docs_for(user(req),shared=True)]
@@ -117,7 +132,9 @@ def reset_chat(req:Request):
 
 @app.post('/api/chat')
 async def chat(data:Chat,req:Request):
-    u=user(req);id=conversations.resolve(connect,u,data.conversation_id,now)
+    u=user(req)
+    data.model=model_provider.require_allowed(data.model if data.model is not None else u['model'],u['allowed_models'])
+    id=conversations.resolve(connect,u,data.conversation_id,now)
     if id in ACTIVE_CONVERSATIONS:raise HTTPException(409,'Cuộc trò chuyện này đang trả lời. Hãy chờ hoặc mở cuộc trò chuyện mới.')
     ACTIVE_CONVERSATIONS.add(id)
     try:return await answer_chat(data,req,u,id)
@@ -131,7 +148,7 @@ async def answer_chat(data,req,u,conversation_id):
         prior=json.loads(previous['result']);ids={d['id'] for d in allowed}
         if all(d['id'] in ids for d in prior.get('sources',[])):
             effective=rag.followup(q,prior.get('effective_query',previous['question']))
-    try:cfg=model_provider.settings(u['model'])
+    try:cfg=model_provider.settings(data.model)
     except ValueError as e:raise HTTPException(400,str(e))
     usage={};estimated=0;calls=0;found=[];used=[];review=True
     # No record lookup or invented customer identity; this costs zero API calls.

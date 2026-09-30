@@ -1,5 +1,30 @@
 """OpenRouter only; the model allowlist is server-owned configuration."""
-import re
+import json,re
+from fastapi import HTTPException
+
+def allowed_models(value):
+    """Decode persisted permissions; malformed data must never grant access."""
+    if isinstance(value,str):
+        try:value=json.loads(value)
+        except (ValueError,TypeError):return []
+    if not isinstance(value,list):return []
+    return list(dict.fromkeys(m for m in value if isinstance(m,str) and m))
+
+def require_allowed(model,allowed):
+    if not model or model not in allowed_models(allowed):
+        raise HTTPException(403,'Model chưa được cấp hoặc đã bị thu hồi. Hãy chọn lại model được phép.')
+    if model not in models():
+        raise HTTPException(409,'Model không còn trong cấu hình. Hãy chọn lại model hoặc liên hệ quản trị.')
+    return model
+
+
+def init_permissions(connect):
+    with connect() as c:
+        cols={r[1] for r in c.execute('PRAGMA table_info(users)')}
+        if 'allowed_models' not in cols:c.execute('ALTER TABLE users ADD COLUMN allowed_models TEXT')
+        for row in c.execute('SELECT id,model FROM users WHERE allowed_models IS NULL').fetchall():
+            c.execute('UPDATE users SET allowed_models=? WHERE id=?',(json.dumps([row['model']] if row['model'] else []),row['id']))
+
 import httpx
 import config
 
