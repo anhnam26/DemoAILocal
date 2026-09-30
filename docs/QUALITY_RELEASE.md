@@ -24,3 +24,7 @@ Use the same Python environment as the current server. Tests set `APP_DATA_DIR` 
 Before deploying, quiesce requests and take a SQLite backup using the SQLite backup API (not just copy the main file while WAL is active). Verify the process identity/project root before stopping it. Startup synchronizes the canonical corpus while preserving retired states; saved historical answers are not rewritten. Verify `/api/health` reports `2026.09.30-quality-1` / `scope-2` after restart. Check the public tunnel target separately; a local process match does not prove the tunnel serves this process.
 
 No paid model evaluation is included in offline tests. A passing suite is not an answer-accuracy certification.
+
+Offline retrieval re-evaluation on the existing 108 cases: 104/104 scored cases retrieve and retain the expected source IDs; 4 unscored negatives remain excluded. This is a known test set, not a fresh holdout or live-answer accuracy result. The canonical corpus contains 1,200 documents; curation reruns preserve its hash.
+
+The SQLite connection context now closes its handle after commit/rollback; this fixes Windows temporary-database cleanup locks rather than hiding cleanup errors.

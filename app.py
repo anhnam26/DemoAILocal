@@ -169,7 +169,7 @@ async def answer_chat(data,req,u,conversation_id):
         found,routing=await asyncio.to_thread(rag.retrieve,effective,allowed,cfg['top_k'])
         mode='OpenRouter + RAG'
         if not found:
-            answer='Kho tri thức chưa có đủ căn cứ. Hãy nêu rõ dịch vụ, thiết bị hoặc nội dung cần tìm.';mode='Thiếu căn cứ'
+            answer='Kho tri thức chưa có đủ căn cứ. Hãy nêu rõ dịch vụ, thiết bị hoặc nội dung cần tìm.';mode='Thiếu căn cứ';citation_status='no_evidence'
         else:
             retrieved_count=len(found)
             retrieved_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found]

@@ -127,6 +127,9 @@ def retrieve(question, documents, top_k=6):
         if scope(question)=='generic' and re.search(VENDORS,norm(d['title']+' '+d.get('service',''))):scores[i]*=.25
         if re.search(r'\bvlan\b',q) and scope(question)=='generic':
             if 'vlan' not in title_terms:scores[i]*=.25
+            # Specialized deployment contexts are not evidence for a generic VLAN question.
+            for context in (r'\b(?:ap|ssid|wi-fi|wifi|wireless)\b',r'\b(?:san|iscsi|fc|zoning)\b'):
+                if re.search(context,title) and not re.search(context,q):scores[i]*=.2
             if d.get('scope')=='generic' and 'vlan' in title_terms:scores[i]+=.4
         for entity in ('rma','dhcp','ssl vpn','managed service','rental','waf','ransomware'):
             if entity in q and entity in title.replace('_',' '):scores[i]+=.18

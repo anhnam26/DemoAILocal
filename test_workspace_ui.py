@@ -136,4 +136,3 @@ def test_feedback_admin_navigation_hidden_for_member(browser_page):
     expect(page.locator('#feedback-nav')).to_be_hidden()
     page.evaluate("switchView('feedback')")
     expect(page.locator('#view-feedback')).to_be_hidden()
-

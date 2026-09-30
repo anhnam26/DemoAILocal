@@ -8,7 +8,7 @@ def test_generic_vlan_keeps_foundation_not_incidental_vendor(question):
     _,selected,_=rag.pack(question,found,rag.budgets(question,18000,2400)[0])
     assert found[0]['id']=='KB-NET-VLAN'
     assert 'KB-NET-VLAN' in [d['id'] for d in selected]
-    assert not any(re.search(r'fortinac|wi-fi',d['title'],re.I) for d in selected)
+    assert not any(re.search(r'fortinac|wi-fi|\bssid\b|\bsan\b',d['title'],re.I) for d in selected)
     assert rag.scope(question)=='generic'
 
 

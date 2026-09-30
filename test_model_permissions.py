@@ -110,3 +110,15 @@ def test_legacy_migration_preserves_account_and_usage(tmp_path,monkeypatch):
         db.execute("UPDATE users SET allowed_models='[]',model=''")
     token_usage.init(connect)
     with connect() as db:assert tuple(db.execute('SELECT allowed_models,model FROM users').fetchone())==('[]','')
+
+
+def test_discovery_does_not_grant_or_change_selection(multi,monkeypatch):
+    member,admin,user,payload=multi
+    before=member.get('/api/me').json()
+    monkeypatch.setattr(model_provider,'models',lambda:['test/model','vendor/second','vendor/new'])
+    state=member.get('/api/model').json()
+    assert state['allowed_models']==payload['allowed_models'] and state['model']==before['model']
+    assert member.put('/api/model',json={'model':'vendor/new'}).status_code==403
+    after=member.get('/api/me').json()
+    assert after['allowed_models']==before['allowed_models']
+    assert after['monthly_token_limit']==before['monthly_token_limit']
