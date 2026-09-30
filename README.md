@@ -69,6 +69,7 @@ Xem `D:\TestSystem\docs\KNOWLEDGE_QUALITY.md` về phạm vi đã sửa, kết q
 ## Triển khai và dữ liệu
 
 - [Hướng dẫn triển khai, chuyển DB và backup](docs/DEPLOYMENT.md)
+- [Thay đổi Linux/LAN và giới hạn kiểm chứng](docs/LINUX_RELEASE.md)
 - [Báo cáo thay đổi và kiểm thử](docs/SERVER_REPORT.md)
 - `data/app.sqlite3`: DB hiện có trên máy; Docker mới dùng named volume riêng, **không tự chép tài khoản cũ vào image**.
 - API key, DB, mật khẩu khởi tạo, log, test và model local không được đưa vào Docker image.

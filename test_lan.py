@@ -1,4 +1,4 @@
-import json
+import json,sqlite3
 import pytest
 from fastapi.testclient import TestClient
 import accounts,app,config
@@ -56,6 +56,26 @@ def test_password_change_revokes_other_sessions():
     assert a.post('/api/account/password',json={'old_password':'Test-password-12345','new_password':'New-password-12345'}).status_code==200
     assert b.get('/api/me').status_code==401
     assert a.post('/api/login',json={'username':'member','password':'New-password-12345'}).status_code==200
+
+
+def test_backup_restore_preserves_business_records(tmp_path,monkeypatch):
+    m,a=client(),client('admin')
+    chat=m.post('/api/chat',json={'question':'DNS là gì?'}).json()
+    m.post('/api/feedback',json={'chat_id':chat['chat_id'],'rating':-1,'reason':'incomplete'})
+    monkeypatch.setenv('APP_DATA_DIR',str(tmp_path))
+    response=a.post('/api/admin/system/backup');assert response.status_code==200
+    snapshot=tmp_path/'backups'/response.json()['path'].split('/')[-1]
+    tables=('users','chats','conversations','token_usage','quality_reports')
+    with app.connect() as db:before={t:[tuple(r) for r in db.execute('SELECT * FROM '+t+' ORDER BY id')] for t in tables}
+    with sqlite3.connect(snapshot) as db:
+        assert db.execute('PRAGMA integrity_check').fetchone()[0]=='ok'
+        for t in tables:assert db.execute('SELECT * FROM '+t+' ORDER BY id').fetchall()==before[t]
+    monkeypatch.setattr(app,'DB',snapshot);app.init()
+    with app.connect() as db:
+        for t in tables:assert [tuple(r) for r in db.execute('SELECT * FROM '+t+' ORDER BY id')]==before[t]
+    restored=client()
+    assert restored.get('/api/conversations/'+chat['conversation_id']).json()['messages'][0]['answer']==chat['answer']
+    assert restored.get('/api/account/usage').json()['used_tokens']==540
 
 
 def test_expired_session_denied():

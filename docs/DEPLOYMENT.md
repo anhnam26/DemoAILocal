@@ -1,19 +1,25 @@
 # Triển khai server
 
-## Mạng Wi-Fi nội bộ: server 192.168.1.203
+## Mạng LAN: server 192.168.1.50
 
 Để chạy Python trực tiếp và truy cập từ các thiết bị cùng LAN, đặt trong `.env` trên server:
 
 ```dotenv
 APP_HOST=0.0.0.0
 APP_PORT=8088
-APP_ENV=development
-APP_ORIGINS=http://192.168.1.203:8088,http://127.0.0.1:8088,http://localhost:8088
+APP_ENV=lan
+APP_ORIGINS=http://192.168.1.50:8088,http://127.0.0.1:8088,http://localhost:8088
 ```
 
-Chạy `conda activate cyberant`, rồi `python main.py`. Thiết bị khác mở `http://192.168.1.203:8088` khi tiến trình đang hoạt động. Đây là HTTP nội bộ, không mã hóa mật khẩu. Khi chuyển sang HTTPS, dùng cấu hình production ở phần dưới.
+Sau khi đã cài môi trường `cyberant` và dependency (phần dưới), mỗi lần chỉ cần **`bash /opt/cyberant/start.sh`**, thay `/opt/cyberant` bằng thư mục source thực tế. Script tự activate Conda và chạy `python main.py --host 0.0.0.0 --port 8088`; gọi từ thư mục nào cũng được. Không cần chmod khi gọi qua Bash. Nếu Conda không được tìm thấy, dùng `CONDA_EXE=/duong/dan/miniconda3/bin/conda bash /opt/cyberant/start.sh`.
 
-Biến môi trường terminal/Conda ghi đè `.env`. Nếu dùng mẫu systemd, dòng `Environment=APP_ENV=production` cũng ghi đè `.env`; đổi dòng đó thành `Environment=APP_ENV=development` cho trường hợp LAN HTTP này, sau đó daemon-reload/restart service. Không chạy đồng thời service và Python thủ công.
+Script không tự cài package hoặc sửa `.env`. Cần tạo `.env` từ mẫu chỉ khi chưa có; giữ key/model cũ. Cài mới DB rỗng cần `BOOTSTRAP_ADMIN_USERNAME=admin` và `BOOTSTRAP_ADMIN_PASSWORD` từ 14–128 ký tự. Chế độ LAN/production bỏ qua file mật khẩu development và không sinh `initial-accounts.json`. DB đã có tài khoản không cần bootstrap; xóa secret khỏi cấu hình sau lần tạo admin.
+
+Thiết bị khác mở **http://192.168.1.50:8088/** khi tiến trình hoạt động. Không mở `0.0.0.0`: đó là địa chỉ bind. HTTP LAN không mã hóa mật khẩu/cookie; chỉ dùng mạng tin cậy, không port-forward ra Internet. HTTPS phải dùng cấu hình production ở phần dưới.
+
+Chạy trực tiếp chiếm terminal, dừng bằng Ctrl+C và chờ hoàn tất; không bảo đảm tiếp tục khi đóng SSH. Muốn chạy nền/tự khởi động thì dùng systemd. Có thể thêm `--host 127.0.0.1 --port 8090` sau lệnh script để ghi đè mặc định; phải chỉnh origin tương ứng.
+
+Biến môi trường terminal/Conda ghi đè `.env`. Service mẫu mới để app đọc `.env`; nếu dùng service cũ có `Environment=APP_ENV=production`, bỏ dòng đó khi chuyển sang LAN rồi daemon-reload/restart. Không chạy đồng thời service và Python thủ công, kể cả ở hai cổng khác nhau nếu cùng DB.
 
 Nếu UFW đang chặn và mạng LAN thực tế là `192.168.1.0/24`, cho phép bằng `sudo ufw allow from 192.168.1.0/24 to any port 8088 proto tcp`. Không cần port forwarding. IP server cần được giữ cố định hoặc đặt DHCP reservation trên router.
 
@@ -28,7 +34,7 @@ cd /opt/cyberant
 python -m pip install -r requirements-lock.txt
 ```
 
-Không cần Docker cho cách chạy này. Giữ nguyên `.env` đã có key/model và chỉnh các biến sau trên server:
+Không cần Docker cho cách chạy này. Với LAN giữ cấu hình `APP_ENV=lan` ở đầu tài liệu. **Chỉ khi dùng reverse proxy HTTPS**, giữ key/model và chuyển sang cấu hình sau:
 
 ```dotenv
 APP_ENV=production
@@ -113,6 +119,18 @@ DB `data/app.sqlite3` hiện giữ tài khoản/mật khẩu đã hash, hội th
 4. Khởi động và kiểm đăng nhập, danh sách tài liệu đã duyệt (corpus chuẩn 1.200 bản ghi, số hiển thị phụ thuộc thu hồi/hiệu lực), model/hạn mức và báo cáo usage.
 
 Có thể tạo volume bằng `docker compose create`, rồi dùng container công cụ để chép snapshot vào volume trước `docker compose start`. Tên volume thực tế xem qua `docker volume ls`, không đoán tên nếu đã đổi project name. Nếu đã khởi động với DB rỗng, dừng app và xử lý DB mới rõ ràng trước khi restore; không ghép hai DB.
+
+## Cập nhật source Linux và dọn gói triển khai
+
+1. Chờ các lượt đang xử lý hoàn tất, sao lưu SQLite bằng nút admin và lưu `.env` ở nơi riêng có quyền hạn chế.
+2. Dừng bằng Ctrl+C hoặc `sudo systemctl stop cyberant`. Không cập nhật file trong lúc tiến trình cũ vẫn phục vụ.
+3. Giữ bản code/lockfile cũ để rollback. Cập nhật source và chỉ cài lại dependency khi cần bằng Python trong env `cyberant`. **Không ghi đè `.env` hoặc xóa `data`; không dùng `rsync --delete` trên thư mục chứa dữ liệu.**
+4. Chạy `bash /opt/cyberant/start.sh` hoặc khởi động service. Kiểm health, đăng nhập, lịch sử, model/quota, phản hồi và backup.
+5. Nếu cần rollback, dừng app, khôi phục code và snapshot tương ứng. Usage phát sinh sau snapshot có thể cần đối soát; không giả định restore DB hoàn lại chi phí provider.
+
+Để dữ liệu độc lập với source cho cài mới, có thể đặt `APP_DATA_DIR` là thư mục tuyệt đối do tài khoản service sở hữu. Với hệ thống đang chạy, chuyển snapshot có kiểm soát trước khi đổi đường dẫn; đường dẫn sai có thể khởi tạo DB mới thay vì tìm tài khoản cũ.
+
+Gói chuyển server không cần `.git`, `.vscode`, `__pycache__`, `.pytest_cache`, môi trường Python Windows, PID/log Windows hoặc `data/initial-accounts.json`. Chuyển snapshot DB riêng. Giữ test, lockfile, công cụ đồng bộ và tài liệu vận hành trong repo để dễ cập nhật. `Run.txt` cũ được hợp nhất vào README và tài liệu này.
 
 ## Backup / cập nhật / restore
 

@@ -30,6 +30,35 @@ def browser_page(monkeypatch):
         browser.close()
         assert errors==[]
 
+def test_http_clipboard_fallback_and_ime(browser_page):
+    page,_,_,_=browser_page;login(page)
+    page.locator('#question').fill('DNS là gì?')
+    page.locator('#question').dispatch_event('keydown',{'key':'Enter','isComposing':True})
+    expect(page.locator('.message.assistant')).to_have_count(0)
+    page.locator('#send').click();expect(page.locator('.message.assistant')).to_have_count(1)
+    page.evaluate("Object.defineProperty(navigator,'clipboard',{value:undefined,configurable:true});document.execCommand=()=>false")
+    page.locator('[data-copy-answer]').click()
+    expect(page.locator('#toast')).to_contain_text('Ctrl+C')
+    assert page.evaluate('window.getSelection().toString().length')>0
+    assert page.locator('.clipboard-helper').count()==0
+    page.evaluate('document.execCommand=()=>true')
+    page.locator('[data-copy-answer]').click()
+    expect(page.locator('#toast')).to_contain_text('Đã sao chép')
+
+
+def test_non_json_login_and_logout_network_errors(browser_page):
+    page,_,_,_=browser_page
+    page.route('**/api/login',lambda r:r.fulfill(status=403,content_type='text/plain',body='Origin denied'))
+    page.locator('#login-username').fill('member');page.locator('#login-password').fill('Test-password-12345');page.locator('#login-submit').click()
+    expect(page.locator('#login-error')).to_contain_text('APP_ORIGINS')
+    expect(page.locator('#login-submit')).to_be_enabled()
+    page.unroute('**/api/login');login(page)
+    page.route('**/api/logout',lambda r:r.abort())
+    page.locator('#logout').click()
+    expect(page.locator('#toast')).to_contain_text('Mất kết nối')
+    expect(page.locator('#workspace')).to_be_visible()
+
+
 def login(page,role='member'):
     page.locator('#login-username').fill(role)
     page.locator('#login-password').fill('Test-password-12345')

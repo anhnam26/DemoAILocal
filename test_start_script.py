@@ -36,6 +36,7 @@ exit "${FAKE_EXIT:-0}"
     return project,env
 
 def test_syntax_and_help():
+    assert b'\r\n' not in (ROOT/'start.sh').read_bytes(),'Linux launcher must use LF, not CRLF'
     r=subprocess.run([BASH,'-n',shell_path(ROOT/'start.sh')],capture_output=True,timeout=20);assert r.returncode==0
     assert run(ROOT/'start.sh',os.environ,'--help').returncode==0
 
