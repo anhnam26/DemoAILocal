@@ -23,8 +23,13 @@ DATA=config.data_dir(); DATA.mkdir(parents=True,exist_ok=True)
 DB=DATA/'app.sqlite3'
 LOCK=GenerationGate()
 ACTIVE_CONVERSATIONS=set()
+class Connection(sqlite3.Connection):
+    def __exit__(self,*args):
+        try:return super().__exit__(*args)
+        finally:self.close()
+
 def connect():
-    c=sqlite3.connect(DB,timeout=30); c.row_factory=sqlite3.Row; c.execute('PRAGMA busy_timeout=30000'); return c
+    c=sqlite3.connect(DB,timeout=30,factory=Connection); c.row_factory=sqlite3.Row; c.execute('PRAGMA busy_timeout=30000'); return c
 def now(): return datetime.now(timezone.utc).isoformat()
 def audit(action,role,detail):
     with connect() as c: c.execute('INSERT INTO audit(ts,action,role,detail) VALUES(?,?,?,?)',(now(),action,role,detail))
@@ -93,7 +98,7 @@ class Chat(BaseModel):
     model:str|None=Field(default=None,min_length=1,max_length=200)
 class ModelInput(BaseModel):
     model:str=Field(min_length=1,max_length=200)
-class Feedback(BaseModel): chat_id:int; rating:int=Field(ge=-1,le=1)
+Feedback=quality_feedback.Feedback
 @app.get('/')
 def index():return FileResponse(ROOT/'static'/'index.html')
 @app.get('/api/me')
@@ -154,7 +159,8 @@ async def answer_chat(data,req,u,conversation_id):
     try:cfg=model_provider.settings(data.model)
     except ValueError as e:raise HTTPException(400,str(e))
     usage={};estimated=0;calls=0;found=[];used=[];review=True
-    finish=None;output=0;retrieved_count=0;citation_status='not_checked'
+    finish=None;output=0;budget=0;reservation=None;retrieved_count=0;citation_status='not_checked'
+    retrieved_sources=[];citation_errors=[]
     # No record lookup or invented customer identity; this costs zero API calls.
     if re.search(r'\b(crm-|contract-|quote-|ticket-|cong no|ho so khach|ten khach hang|khach hang thuc|dien thoai khach)',rag.norm(effective)):
         answer='Kho này chỉ giữ tài liệu lý thuyết và biểu mẫu trống; không lưu hồ sơ, liên hệ, hợp đồng hay công nợ khách hàng.'
@@ -166,6 +172,7 @@ async def answer_chat(data,req,u,conversation_id):
             answer='Kho tri thức chưa có đủ căn cứ. Hãy nêu rõ dịch vụ, thiết bị hoặc nội dung cần tìm.';mode='Thiếu căn cứ'
         else:
             retrieved_count=len(found)
+            retrieved_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found]
             budget,output=rag.budgets(effective,cfg['input_budget'],cfg['output_budget']);parallel=cfg['parallel']
             try:messages,found,estimated=rag.pack(effective,found,budget)
             except ValueError as e:raise HTTPException(400,str(e))
@@ -185,7 +192,7 @@ async def answer_chat(data,req,u,conversation_id):
                     answer,usage,finish=await model_provider.complete(messages,cfg,output)
                     token_usage.settle(connect,reservation,usage)
 
-                    answer=re.sub(r'<think>.*?</think>','',answer,flags=re.S).strip()
+                    answer=re.sub(r'<think\b[^>]*>.*?(?:</think>|$)','',answer,flags=re.S|re.I).strip()
                     ids={d['id'] for d in found};cited=set(re.findall(r'\[([A-Za-z0-9_-]+)\]',answer))
                     used=[d['id'] for d in found if d['id'] in cited];used=list(dict.fromkeys(used))
                     review=finish=='length' or any(d.get('review_status')=='draft_engineer_review' for d in found)
@@ -194,6 +201,7 @@ async def answer_chat(data,req,u,conversation_id):
                     if answer.strip()==abstention:
                         used=[];review=True;mode='Thiếu căn cứ';citation_status='abstained'
                     elif not cited or not cited.issubset(ids):
+                        citation_errors=['missing_citations'] if not cited else ['unknown_source_ids']
                         answer='Chưa xác thực được mã trích dẫn của câu trả lời. Hệ thống không hiển thị nội dung chưa đạt kiểm tra và không tự gọi lại. Bạn có thể nêu rõ phạm vi hoặc bổ sung tài liệu liên quan.'
                         used=[];review=True;mode='Chưa xác thực trích dẫn';citation_status='invalid'
                     else:citation_status='ids_valid_not_entailment_checked'
@@ -222,6 +230,12 @@ async def answer_chat(data,req,u,conversation_id):
              elapsed=round(time.monotonic()-start,2),citations_verified=bool(used),effective_query=effective,
              usage=usage,model=cfg['model'],api_calls=calls,finish_reason=finish,output_token_limit=output,
              citation_status=citation_status,grounding_verified=False,
+             diagnostics=dict(app_version=APP_VERSION,prompt_version=PROMPT_VERSION,
+                 prompt_hash=hashlib.sha256(rag.SYSTEM.encode()).hexdigest(),effective_query=effective,
+                 retrieved_sources=retrieved_sources,sent_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found],
+                 input_budget=budget,estimated_input=estimated,output_budget=output,usage_record_id=reservation,
+                 usage=usage,finish_reason=finish,citation_errors=citation_errors,
+                 scope=rag.scope(effective),device_details_required=rag.intent(effective)=='procedure' and rag.scope(effective)=='generic'),
              retrieval={**routing,'intent':rag.intent(effective),'retrieved_chunks':retrieved_count,'selected_chunks':len(found),
                         'omitted_chunks':retrieved_count-len(found),'estimated_input_tokens':estimated,'token_estimator':'UTF-8 byte proxy; not a tokenizer'})
     with connect() as c:
@@ -238,11 +252,7 @@ def history(req:Request):
     return conversations.messages(connect,u,id,docs_for)['messages']
 @app.post('/api/feedback')
 def feedback(data:Feedback,req:Request):
-    u=user(req)
-    with connect() as c:
-        if not c.execute('SELECT id FROM chats WHERE id=? AND user_id=?',(data.chat_id,u['id'])).fetchone():raise HTTPException(404,'Không tìm thấy lượt hỏi')
-        c.execute('INSERT INTO feedback(chat_id,session,rating,ts) VALUES(?,?,?,?)',(data.chat_id,u['token'],data.rating,now()))
-    return {'ok':True}
+    return quality_feedback.submit(connect,user(req),data,now,docs_for)
 @app.get('/api/admin')
 def admin(req:Request):
     u=user(req)
@@ -281,4 +291,5 @@ def approve(id:str,action:str,req:Request):
 accounts.install(app,connect,user,audit)
 conversations.install(app,connect,user,docs_for,now,ACTIVE_CONVERSATIONS,audit)
 admin_system.install(app,connect,user,audit,LOCK,docs_for)
+quality_feedback.install(app,connect,user,docs_for,now,audit)
 

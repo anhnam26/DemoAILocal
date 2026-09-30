@@ -71,6 +71,7 @@ def install(app,connect,user,docs_for,now,active_conversations,audit):
         with connect() as c:
             c.execute('BEGIN IMMEDIATE')
             if not c.execute('SELECT 1 FROM conversations WHERE id=? AND user_id=?',(id,u['id'])).fetchone():raise HTTPException(404,'Cuộc trò chuyện không còn tồn tại.')
+            c.execute('DELETE FROM quality_reports WHERE chat_id IN (SELECT id FROM chats WHERE conversation_id=?)',(id,))
             c.execute('DELETE FROM feedback WHERE chat_id IN (SELECT id FROM chats WHERE conversation_id=?)',(id,))
             c.execute('DELETE FROM chats WHERE conversation_id=?',(id,))
             c.execute('UPDATE sessions SET conversation_id=NULL WHERE conversation_id=?',(id,))

@@ -45,6 +45,17 @@ Lease giới hạn thời gian sử dụng địa chỉ; client cần gia hạn.
 Relay chuyển tiếp thông điệp khi client và server khác subnet; không cần đặt một DHCP server trên mọi VLAN. Cấu hình phải biết subnet, đường đi, server và relay cụ thể.
 Khi không nhận được IP, kiểm link/VLAN, pool còn địa chỉ, server, relay và policy theo luồng thực tế; cần log trước khi kết luận. Nhận được IP chưa chứng minh DNS, gateway hoặc Internet hoạt động.''')])
 
+ARTICLES.append(('KB-NET-VLAN','VLAN: miền quảng bá, phân đoạn và các bước triển khai chung','A',
+ ['VLAN','virtual LAN','phân đoạn mạng','access','trunk'],
+ [ref('RFC 5517 — Introduction: VLAN broadcast domains (informational)','https://www.rfc-editor.org/rfc/rfc5517.txt')],'''VLAN (Virtual LAN) phân chia mạng Ethernet thành các miền quảng bá logic ở Layer 2. Các host cùng VLAN có thể liên lạc Layer 2 khi đường chuyển tiếp cho phép; khác VLAN cần chức năng Layer 3 để liên lạc IP. VLAN không phải mã hóa và không thay thế firewall hoặc chính sách kiểm soát truy cập.
+VLAN và IP subnet là hai khái niệm khác nhau: VLAN thuộc Layer 2, subnet thuộc Layer 3. Thiết kế thông thường ánh xạ mỗi VLAN với một subnet riêng; không suy ra VLAN tự cấp địa chỉ, tự định tuyến hoặc tự bảo vệ mọi luồng.
+Bước 1 — Thu thập sơ đồ, mục tiêu phân đoạn, danh sách cổng/thiết bị, VLAN ID, subnet/gateway và luồng được phép. Xác nhận hãng, model, firmware và quyền thay đổi trước khi viết lệnh; sao lưu cấu hình và chuẩn bị đường quản trị dự phòng.
+Bước 2 — Lập bảng VLAN và cổng. Cổng access thường phục vụ thiết bị đầu cuối trong một VLAN; đường trunk thường mang nhiều VLAN bằng gắn thẻ 802.1Q. Hành vi native/untagged/PVID và loại cổng phụ thuộc thiết bị; phải đối chiếu hai đầu, không sao chép mặc định giữa các hãng.
+Bước 3 — Tạo VLAN, gán cổng theo kế hoạch và chỉ cho các VLAN cần thiết đi qua uplink. Nếu cần liên lạc giữa VLAN, cấu hình gateway/định tuyến và policy được duyệt; nếu cần DHCP, xác định server, pool và relay theo subnet. Không tự mở toàn bộ inter-VLAN traffic.
+Bước 4 — Kiểm tra VLAN membership, đường uplink, IP/mask/gateway, DHCP và DNS; thử cả luồng cần cho phép lẫn luồng phải chặn. Ping thành công không chứng minh toàn bộ policy đúng.
+Bước 5 — Ghi nhận kết quả, lưu cấu hình theo quy trình và theo dõi. Nếu mất quản trị hoặc phân đoạn sai, dùng đường dự phòng và khôi phục cấu hình/cổng theo bản sao đã kiểm tra; không tiếp tục đổi hàng loạt khi chưa có rollback.
+Đây là bước chung, không có lệnh theo hãng. Cần bổ sung model switch/router/firewall, firmware, sơ đồ và VLAN/subnet mong muốn để đưa hướng dẫn cụ thể. Không cần FortiNAC hoặc Wi-Fi cho định nghĩa VLAN cơ bản. RFC 5517 là tài liệu informational về private VLAN; chỉ dùng phần mở đầu cho khái niệm miền quảng bá, không coi private VLAN là hành vi mặc định của mọi VLAN.'''))
+
 def main():
     path=ROOT/'knowledge/documents.json';docs=json.loads(path.read_text(encoding='utf8'));by_id={d['id']:d for d in docs};changes=[]
     for d in docs:
@@ -60,6 +71,9 @@ def main():
             content_kind='troubleshooting' if group=='B' else 'concept',data_type='reference_article',
             provenance={'source':'referenced_editorial','review_note':'Biên soạn đối chiếu nguồn; không chứng nhận cấu hình theo hãng/phiên bản.'})
         doc['version']='knowledge-2'
+        if id=='KB-NET-VLAN':
+            doc.update(scope='generic',review_status='draft_engineer_review')
+            doc['provenance']['review_note']='Định nghĩa đối chiếu RFC 5517; checklist biên soạn cần kỹ sư rà soát trước áp dụng, chưa chứng nhận hãng/phiên bản.'
         if old and old['status']=='retired':doc['status']='retired'
         if old:docs[docs.index(old)]=doc
         else:docs.append(doc)

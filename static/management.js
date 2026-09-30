@@ -1,9 +1,9 @@
-let managedUsers=[],availableModels=[],systemLoading=false,usageOffset=0;
+let managedUsers=[],availableModels=[],modelLabels={},systemLoading=false,usageOffset=0;
 function selectedModels(){return $$('#user-models input:checked').map(input=>input.value)}
 function updateModelCount(){const count=selectedModels().length;$('#user-model-count').textContent=count?'Đã chọn '+count+' model':'Chọn ít nhất một model';}
 function renderModelChecks(selected=[]){
   const all=[...new Set([...availableModels,...selected])];
-  $('#user-models').innerHTML=all.map(m=>`<label class="model-option"><input type="checkbox" value="${esc(m)}" ${selected.includes(m)?'checked':''}><span>${esc(m)}${availableModels.includes(m)?'':' <small class="form-error">Không còn cấu hình — bỏ chọn để lưu</small>'}</span></label>`).join('')||'<p class="form-error">Chưa cấu hình model trên máy chủ.</p>';
+  $('#user-models').innerHTML=all.map(m=>`<label class="model-option"><input type="checkbox" value="${esc(m)}" ${selected.includes(m)?'checked':''}><span>${esc(modelLabels[m]||m)}${availableModels.includes(m)?'':' <small class="form-error">Không còn cấu hình — bỏ chọn để lưu</small>'}</span></label>`).join('')||'<p class="form-error">Chưa cấu hình model trên máy chủ.</p>';
   updateModelCount();
 }
 $('#user-models').onchange=updateModelCount;
@@ -16,7 +16,7 @@ function dataTable(headers,rows){return '<div class="table-scroll"><table class=
 $('#login-form').onsubmit=async e=>{e.preventDefault();$('#login-submit').disabled=true;$('#login-error').textContent='';try{const u=await api('/login',{method:'POST',body:JSON.stringify({username:$('#login-username').value.trim(),password:$('#login-password').value})});$('#login-password').value='';hideLoginPassword();await enter(u)}catch(err){$('#login-error').textContent=err.message}finally{$('#login-submit').disabled=false}};
 $('#password-form').onsubmit=async e=>{e.preventDefault();try{await api('/account/password',{method:'POST',body:JSON.stringify({old_password:$('#old-password').value,new_password:$('#new-password').value})});location.reload()}catch(err){toast(err.message)}};
 async function loadUsers(){
-  const d=await api('/admin/users');managedUsers=d.users;
+  const d=await api('/admin/users');managedUsers=d.users;modelLabels=Object.fromEntries((d.catalog?.items||[]).map(item=>[item.id,item.label]));
   $('#online-summary').textContent=d.online_count+' người online / '+d.users.length+' tài khoản';
   const selectedModelsBefore=selectedModels(),loaded=availableModels.length>0;availableModels=d.models;renderModelChecks(loaded?selectedModelsBefore:d.models.slice(0,1));
   $('#users-table').innerHTML=dataTable(['Tài khoản','Vai trò / model','Tháng '+d.month+' (UTC)','Trạng thái','Thao tác'],d.users.map(u=>[
@@ -47,7 +47,7 @@ async function loadSystem(){
   if(systemLoading||currentUser?.role!=='admin')return;systemLoading=true;
   try{const d=await api('/admin/system');$('#metrics-time').textContent='Uptime '+Math.floor(d.uptime/60)+' phút · '+d.generation.active+' lượt đang chạy · '+d.generation.waiting+' đang chờ';
     $('#system-info').innerHTML=`<div class="card"><h3>OpenRouter API</h3><p>${d.provider.configured?'Đã cấu hình key/model':'Thiếu key hoặc model'}</p></div><div class="card"><h3>Ngân sách mỗi lượt</h3><p>Trần đầu vào ${fmt(d.provider.input_budget)} byte UTF-8 (không phải tokenizer) · Đầu ra tối đa ${fmt(d.provider.output_budget)} token; điều chỉnh theo câu hỏi</p></div>`;
-    $('#provider-summary').innerHTML='<h2>Model cấu hình trong .env</h2>'+d.provider.models.map(m=>'<p>'+esc(m)+'</p>').join('')+'<p>Chọn model và hạn mức từng tài khoản trong mục Người dùng.</p>';
+    $('#provider-summary').innerHTML='<h2>Model cấu hình trong .env</h2>'+d.provider.models.map(m=>'<p>'+esc(d.provider.catalog?.items.find(item=>item.id===m)?.label||m)+'</p>').join('')+(d.provider.catalog?.warnings||[]).map(w=>'<p class="form-error">'+esc(w.slot+': '+w.reason+' ('+w.variables.join(', ')+')')+'</p>').join('')+'<p>Chọn model và hạn mức từng tài khoản trong mục Người dùng.</p>';
     $('#system-counts').innerHTML=Object.entries(d.database).map(([k,v])=>'<p>'+esc(k)+': '+fmt(v)+'</p>').join('');
   }finally{systemLoading=false}
 }

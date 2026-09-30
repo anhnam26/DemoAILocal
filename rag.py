@@ -14,6 +14,7 @@ Không có hồ sơ khách hàng trong kho này. Không suy đoán tên, liên h
 Trả lời đúng mục đích: định nghĩa, giải thích cơ chế, các bước, chẩn đoán, lựa chọn hoặc so sánh; không ép mọi câu thành bảng so sánh.
 Chỉ trả lời phần có căn cứ; không dùng nguồn chỉ trùng từ khóa làm bằng chứng. Ô CHƯA CÓ/CHƯA XÁC NHẬN là dữ liệu chưa thu thập, không phải sự thật. Giá DEMO không phải báo giá.
 Không bỏ điều kiện, kiểm chứng, rủi ro và rollback khi trình bày thao tác. Thiếu hãng/phiên bản thì hỏi rõ trước khi cho lệnh cụ thể.
+Câu hỏi chung phải trả lời nguyên lý và bước chung có nguồn trước; không chuyển sang FortiNAC, Wi-Fi hoặc hãng cụ thể chỉ vì nguồn nhắc cùng từ khóa. Không có hãng/thiết bị/firmware: hỏi bổ sung, không tự chọn hãng.
 Nếu hoàn toàn thiếu căn cứ, chỉ trả lời đúng câu: Kho tri thức chưa có đủ căn cứ để trả lời câu hỏi này. Không gắn mã nguồn không liên quan.
 Trả lời trực tiếp, không xuất JSON hay suy luận nội bộ. Không tự bổ sung kiến thức ngoài NGUỒN.'''
 
@@ -94,6 +95,9 @@ def budgets(question,input_cap,output_cap):
         'survey':(14000,1800),'procedure':(18000,2400),'troubleshooting':(18000,2400)}[kind]
     return min(input_cap,input_target),min(output_cap,output_target)
 
+VENDORS=r'\b(?:forti\w*|cisco|juniper|aruba|mikrotik|huawei|ubiquiti|palo alto|meraki|ios|nx-os|junos|routeros)\b'
+def scope(question):return 'device_specific' if re.search(VENDORS,norm(question)) else 'generic'
+
 def retrieve(question, documents, top_k=6):
     if not documents:return [], {'groups':[], 'candidates':0, 'routing':'local'}
     encoded=json.dumps(documents,ensure_ascii=False,sort_keys=True)
@@ -120,6 +124,10 @@ def retrieve(question, documents, top_k=6):
         if d.get('data_type')=='glossary' and d.get('content_kind')=='procedure':scores[i]*=.55
         if d.get('content_kind')==kind:scores[i]*=1.15
         if d.get('data_type')=='reference_article' and overlap:scores[i]*=1.15
+        if scope(question)=='generic' and re.search(VENDORS,norm(d['title']+' '+d.get('service',''))):scores[i]*=.25
+        if re.search(r'\bvlan\b',q) and scope(question)=='generic':
+            if 'vlan' not in title_terms:scores[i]*=.25
+            if d.get('scope')=='generic' and 'vlan' in title_terms:scores[i]+=.4
         for entity in ('rma','dhcp','ssl vpn','managed service','rental','waf','ransomware'):
             if entity in q and entity in title.replace('_',' '):scores[i]+=.18
         if 'fortinet' in q and 'forti' in title:scores[i]+=.12

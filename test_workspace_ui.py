@@ -103,3 +103,37 @@ def test_disabled_during_request_and_revocation(browser_page):
     page.evaluate('checkHealth()')
     expect(page.locator('#chat-model')).to_be_disabled();expect(page.locator('#send')).to_be_disabled()
     expect(page.locator('#model-status')).to_contain_text('Chưa có model khả dụng')
+
+
+def test_feedback_dashboard_and_safe_rendering(browser_page):
+    page,_,_,_=browser_page
+    login(page,'admin')
+    page.locator('#question').fill('DNS là gì?');page.locator('#send').click()
+    page.locator('[data-feedback="-1"]').click()
+    expect(page.locator('#feedback-modal')).to_be_visible()
+    page.locator('#report-reason').select_option('off_topic')
+    page.locator('#report-comment').fill('<img src=x onerror=alert(1)>')
+    page.locator('#report-submit').click()
+    expect(page.locator('#feedback-modal')).to_be_hidden()
+    page.locator('#feedback-nav').click()
+    expect(page.locator('#feedback-list')).to_contain_text('DNS là gì?')
+    page.locator('[data-report]').click()
+    expect(page.locator('#feedback-detail')).to_contain_text('<img src=x onerror=alert(1)>')
+    assert page.locator('#feedback-detail img').count()==0
+    page.locator('#review-status').select_option('resolved')
+    page.locator('#review-note').fill('Đã rà soát')
+    page.locator('#feedback-review .primary').click()
+    expect(page.locator('#feedback-list')).to_contain_text('Đã xử lý')
+    page.emulate_media(reduced_motion='reduce')
+    assert page.locator('.login-art').evaluate('(e)=>getComputedStyle(e).animationName')=='none'
+    for width in (768,390,320):
+        page.set_viewport_size({'width':width,'height':900})
+        assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+
+
+def test_feedback_admin_navigation_hidden_for_member(browser_page):
+    page,_,_,_=browser_page;login(page)
+    expect(page.locator('#feedback-nav')).to_be_hidden()
+    page.evaluate("switchView('feedback')")
+    expect(page.locator('#view-feedback')).to_be_hidden()
+

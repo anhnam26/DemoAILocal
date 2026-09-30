@@ -28,7 +28,7 @@ def init_permissions(connect):
             c.execute('UPDATE users SET allowed_models=? WHERE id=?',(json.dumps([row['model']] if row['model'] else []),row['id']))
 
 def catalog():
-    """Numeric slots; conflicting aliases are excluded, never silently substituted."""
+    """Numeric slots; numbered conflicts fail closed; primary keeps legacy precedence."""
     slots={};warnings=[];items=[];by_id={}
     for key,value in config.env().items():
         match=re.fullmatch(r'(?:OPENROUTER_)?MODEL_?(\d*)',key)
@@ -39,9 +39,9 @@ def catalog():
         entries.sort();ids={value for _,value in entries}
         label='MODEL' if slot==-1 else 'MODEL'+str(slot)
         if len(ids)>1:
-            warnings.append(dict(slot=label,variables=[key for key,_ in entries],reason='conflicting_aliases'))
-            continue
-        model=entries[0][1]
+            warnings.append(dict(slot=label,variables=[key for key,_ in entries],reason='primary_override' if slot==-1 else 'conflicting_aliases'))
+            if slot!=-1:continue
+        model=dict(entries).get('OPENROUTER_MODEL',entries[0][1]) if slot==-1 else entries[0][1]
         if model in by_id:
             by_id[model]['slots'].append(label)
             by_id[model]['variables'].extend(key for key,_ in entries)

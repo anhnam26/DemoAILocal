@@ -28,6 +28,10 @@
     {
       "id": "KB-NET-DHCP",
       "action": "reference_article"
+    },
+    {
+      "id": "KB-NET-VLAN",
+      "action": "reference_article"
     }
   ],
   "limitation": "Other drafts remain drafts; audit queue is not completed human review."
