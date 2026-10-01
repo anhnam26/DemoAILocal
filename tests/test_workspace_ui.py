@@ -203,18 +203,49 @@ class WorkspaceUI(unittest.TestCase):
             self.assertFalse(page.evaluate("performance.getEntriesByType('resource').some(r=>r.name.endsWith('/ocean.js'))"))
             form_box = page.locator('.login-form').bounding_box()
             title_box = page.locator('.login-message h1').bounding_box()
+            glow_box = page.locator('.aurora-glow').bounding_box()
+            sheen_box = page.locator('.aurora-sheen').bounding_box()
+            cell_state = """()=>Array.from(document.querySelectorAll('.aurora-cell'),el=>{
+                const box=el.getBoundingClientRect();
+                return {x:box.x,y:box.y,width:box.width,height:box.height,opacity:Number(getComputedStyle(el).opacity)};
+            })"""
+            no_colour = "()=>Array.from(document.querySelectorAll('.aurora-cell')).every(el=>Number(getComputedStyle(el).opacity)===0)"
             palettes = []
             for theme in ('light', 'dark'):
                 if theme == 'dark':
                     page.locator('.login-theme').click()
                 expect(page.locator('html')).to_have_attribute('data-theme', theme)
                 palettes.append(page.locator('.aurora-glow').evaluate('(el)=>getComputedStyle(el).backgroundImage'))
-                page.mouse.move(140, 220)
+                page.locator('#login').dispatch_event('pointerleave')
+                page.wait_for_function(no_colour)
+                clip = {'x': 60, 'y': 760, 'width': 220, 'height': 160}
+                before_image = page.screenshot(clip=clip)
+                page.mouse.move(140, 840)
                 page.wait_for_timeout(1100)
-                before = page.locator('.aurora-glow').evaluate('(el)=>el.style.transform')
+                before = page.evaluate(cell_state)
+                self.assertTrue(any(cell['opacity'] > .2 for cell in before))
+                self.assertNotEqual(page.screenshot(clip=clip), before_image, 'Hovered background must visibly change colour')
+                for cell in before:
+                    distance = ((cell['x'] + cell['width']/2 - 140)**2 + (cell['y'] + cell['height']/2 - 840)**2)**.5
+                    if distance >= 180:
+                        self.assertEqual(cell['opacity'], 0, 'Distant background must stay unchanged')
+                page.screenshot(path=str(self.artifacts / f'login-local-colour-{theme}.png'))
                 page.mouse.move(680, 720)
-                page.wait_for_function("before=>document.querySelector('.aurora-glow').style.transform!==before", arg=before)
-                page.wait_for_timeout(1100)
+                after = page.evaluate(cell_state)
+                self.assertTrue(any(old['opacity'] > .2 and new['opacity'] > 0 for old, new in zip(before, after)),
+                                'Previous colour must fade at its original position, not move with the pointer')
+                page.wait_for_timeout(2600)
+                after = page.evaluate(cell_state)
+                self.assertEqual([{k: v for k, v in cell.items() if k != 'opacity'} for cell in before],
+                                 [{k: v for k, v in cell.items() if k != 'opacity'} for cell in after])
+                for old, new in zip(before, after):
+                    if old['opacity'] > 0:
+                        self.assertEqual(new['opacity'], 0, 'Old colour must fade back to the original background')
+                self.assertTrue(any(cell['opacity'] > .2 for cell in after))
+                self.assertEqual(page.locator('.aurora-glow').bounding_box(), glow_box)
+                self.assertEqual(page.locator('.aurora-sheen').bounding_box(), sheen_box)
+                expect(page.locator('.aurora-glow')).to_have_css('transform', 'none')
+                expect(page.locator('.aurora-sheen')).to_have_css('transform', 'none')
                 frames = page.evaluate('auroraFrames')
                 page.wait_for_timeout(250)
                 self.assertEqual(page.evaluate('auroraFrames'), frames, 'Animation must stop when settled')
@@ -224,22 +255,24 @@ class WorkspaceUI(unittest.TestCase):
                 page.screenshot(path=str(self.artifacts / f'login-aurora-{theme}.png'))
             self.assertNotEqual(*palettes)
             page.locator('#login').dispatch_event('pointerleave')
-            page.wait_for_function("()=>document.querySelector('.aurora-glow').style.transform==='translate3d(0px, 0px, 0px)'")
+            page.wait_for_function(no_colour)
             page.mouse.move(120, 120)
             page.emulate_media(reduced_motion='reduce')
             expect(page.locator('.aurora-glow')).to_have_css('transform', 'none')
+            expect(page.locator('.aurora-cell')).to_have_count(0)
             frames = page.evaluate('auroraFrames')
             page.mouse.move(620, 800)
             page.wait_for_timeout(250)
+            expect(page.locator('.aurora-cell')).to_have_count(0)
             self.assertEqual(page.evaluate('auroraFrames'), frames)
             page.emulate_media(reduced_motion='no-preference')
             # Media-query change events are delivered asynchronously on a render frame.
             page.evaluate('()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))')
             page.mouse.move(300, 400)
-            page.wait_for_function("()=>document.querySelector('.aurora-glow').style.transform!==''")
+            page.wait_for_function("()=>Array.from(document.querySelectorAll('.aurora-cell')).some(el=>Number(el.style.opacity)>.1)")
             # Exercise the hidden-tab lifecycle without relying on headless window focus.
             page.evaluate("Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'))")
-            self.assertEqual(page.locator('.aurora-glow').evaluate('(el)=>el.style.transform'), '')
+            expect(page.locator('.aurora-cell')).to_have_count(0)
             frames = page.evaluate('auroraFrames')
             page.mouse.move(500, 600)
             page.wait_for_timeout(250)
@@ -249,7 +282,7 @@ class WorkspaceUI(unittest.TestCase):
             page.locator('#login-password').fill(PASSWORD)
             page.locator('#login-submit').click()
             expect(page.locator('#workspace')).to_be_visible()
-            page.wait_for_function("()=>document.querySelector('.aurora-glow').style.transform===''")
+            expect(page.locator('.aurora-cell')).to_have_count(0)
             frames = page.evaluate('auroraFrames')
             page.mouse.move(400, 400)
             page.wait_for_timeout(250)
@@ -267,6 +300,7 @@ class WorkspaceUI(unittest.TestCase):
                 phone.locator('#login').dispatch_event('pointermove', {'pointerType': 'touch', 'clientX': 100, 'clientY': 200})
                 expect(phone.locator('.aurora-glow')).to_have_css('transform', 'none')
                 self.assertEqual(phone.locator('.aurora-glow').evaluate('(el)=>el.style.transform'), '')
+                expect(phone.locator('.aurora-cell')).to_have_count(0)
                 self.assertFalse(phone.evaluate('document.documentElement.scrollWidth > innerWidth'))
                 phone.screenshot(path=str(self.artifacts / f'login-aurora-mobile-{theme}.png'))
             browser.close()

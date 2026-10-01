@@ -8,13 +8,16 @@ button{color:var(--ink)}button:not(:disabled):hover{filter:none;box-shadow:none}
 .theme-toggle:hover,.icon-button:hover{background:var(--hover);color:var(--ink)}
 .brand-logo{display:block;object-fit:contain;height:auto;max-width:100%}
 .login{position:relative;isolation:isolate;display:grid;grid-template-columns:1fr 1fr;gap:7vw;align-items:center;min-height:100dvh;padding:72px max(5vw,24px);background:var(--login-bg);overflow:hidden}
-/* Decorative gradients stay behind the content; only these layers follow the pointer. */
+/* All colour patches stay fixed behind the content; hover changes only local opacity. */
 .login-aurora{--aurora-cyan:#24b8b83b;--aurora-blue:#4c91df30;--aurora-warm:#f5b17124;position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
 :root[data-theme=dark] .login-aurora{--aurora-cyan:#26d9d42e;--aurora-blue:#398bf542;--aurora-warm:#64b9fa18}
-.aurora-glow,.aurora-sheen{position:absolute;inset:-25%;transform:translate3d(0,0,0)}
+.aurora-glow,.aurora-sheen{position:absolute;inset:-25%}
 .aurora-glow{background:radial-gradient(ellipse 32% 38% at 42% 48%,var(--aurora-cyan),transparent 75%),radial-gradient(ellipse 28% 36% at 57% 62%,var(--aurora-blue),transparent 76%)}
 .aurora-sheen{background:radial-gradient(ellipse 46% 24% at 25% 26%,var(--aurora-blue),transparent 75%),radial-gradient(ellipse 32% 40% at 73% 72%,var(--aurora-warm),transparent 75%)}
-@media(prefers-reduced-motion:reduce),(hover:none),(pointer:coarse){.aurora-glow,.aurora-sheen{transform:none!important}}
+.aurora-cell{position:absolute;opacity:0;background:radial-gradient(ellipse at center,var(--aurora-cyan),transparent 70%)}
+.aurora-cell:nth-child(3n){background:radial-gradient(ellipse at center,var(--aurora-blue),transparent 70%)}
+.aurora-cell:nth-child(3n + 1){background:radial-gradient(ellipse at center,var(--aurora-warm),transparent 70%)}
+@media(prefers-reduced-motion:reduce),(hover:none),(pointer:coarse){.aurora-cell{display:none}}
 .login-theme{position:absolute;right:24px;top:20px;border:1px solid var(--border);background:var(--surface)}
 .login-art{display:flex;padding:0;background:none;animation:none;overflow:visible;color:var(--ink)}.login-art:before{display:none}
 .login-art .brand-logo{width:190px}.login-art .brand{padding:0}.login-message{padding:32px 0 24px}.login-message h1{font-size:clamp(44px,5vw,72px);margin:18px 0;line-height:1.12;letter-spacing:-2px}.login-message em{color:var(--accent)}

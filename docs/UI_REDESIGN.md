@@ -7,8 +7,8 @@
 - Model chuyển lên thanh trên; composer cố định dưới vùng cuộn hội thoại. Bỏ cột nguồn riêng; giữ mã trích dẫn, nút đọc tài liệu, sao chép, tải Markdown và phản hồi.
 - Lịch sử có phân trang, trạng thái đang chọn, xác nhận xóa, trạng thái lỗi mạng và chặn chuyển/xóa khi đang xử lý. Giữ API và kiểm tra quyền sở hữu hiện có.
 - Theme mặc định theo hệ điều hành, lưu lựa chọn trong localStorage; vẫn hoạt động khi storage bị chặn. Nút theme nằm góc trên bên phải ở login và workspace, hiển thị cả trên mobile và khi sidebar thu gọn.
-- Login có nền Aurora bằng CSS gradient: xanh ngọc/lam và cam nhạt ở theme sáng, cyan/lam ở theme tối. Hai lớp nền theo chuột với độ trễ và tốc độ khác nhau; form và chữ đứng yên. Tiêu đề viết hoa “TRA CỨU / NỘI BỘ.”, bỏ đoạn mô tả bên dưới.
-- Script `D:\TestSystem\static\login-aurora.js` chỉ dùng requestAnimationFrame khi cần, dừng khi đã ổn định, tab ẩn hoặc login ẩn; chuột rời trang đưa nền về vị trí nghỉ. Thiết bị cảm ứng và prefers-reduced-motion dùng nền tĩnh. Không có canvas, không tải script sóng/vòng elip nước cũ, không thêm thư viện runtime hoặc tài nguyên bên ngoài và không nới CSP.
+- Login có nền Aurora bằng CSS gradient: xanh ngọc/lam và cam nhạt ở theme sáng, cyan/lam ở theme tối. Nền đứng yên; các vùng màu mềm, chồng lấn ở vị trí cố định chỉ đổi opacity khi chuột đi qua. Màu cũ mờ dần tại chỗ, không kéo một quầng màu theo con trỏ; form và chữ đứng yên. Tiêu đề viết hoa “TRA CỨU / NỘI BỘ.”, bỏ đoạn mô tả bên dưới.
+- Script `D:\TestSystem\static\login-aurora.js` tạo tối đa 320 vùng màu khi dùng chuột, chỉ dùng requestAnimationFrame khi cần, dừng khi đã ổn định, tab ẩn hoặc login ẩn; chuột rời trang làm màu tương tác mờ dần về nền gốc. Thiết bị cảm ứng và prefers-reduced-motion dùng nền tĩnh. Không có canvas, không tải script sóng/vòng elip nước cũ, không thêm thư viện runtime hoặc tài nguyên bên ngoài và không nới CSP.
 
 ## Kiểm thử
 
@@ -28,7 +28,7 @@ Suite hiện gồm **6 ca tích hợp**, bao gồm:
 4. Hội thoại 105 lượt: tải 100 + 5 lượt cũ, lỗi tải lịch sử và thử lại, tìm kiếm rỗng, localStorage bị chặn, vòng focus bàn phím trên drawer.
 5. Quyền mật khẩu: chưa đăng nhập nhận 401, thành viên nhận 403 và không mất phiên; admin đặt lại mật khẩu nhân viên, tự đổi mật khẩu, thu hồi mọi phiên cũ và đăng nhập bằng mật khẩu mới.
 
-6. Aurora login: tiêu đề và mô tả, di chuyển chuột ở hai theme, màu riêng theo theme, form/chữ không dịch chuyển, dừng frame khi ổn định/ẩn tab/đã đăng nhập, về vị trí nghỉ khi chuột rời trang, giảm chuyển động và nền tĩnh trên mobile ở cả hai theme.
+6. Aurora login: tiêu đề và mô tả, đổi màu cục bộ ở hai theme (so sánh ảnh vùng nền), vùng xa không đổi, màu cũ mờ tại chỗ, vị trí mọi vùng màu/nền/form/chữ không dịch chuyển, dừng frame khi ổn định/ẩn tab/đã đăng nhập, về màu nền gốc khi chuột rời trang, giảm chuyển động và nền tĩnh trên mobile ở cả hai theme.
 
 Đã kiểm cú pháp tất cả JavaScript bằng `node --check`, `git diff --check`, kiểm ID HTML không trùng và xem ảnh chụp desktop/mobile. Ảnh kiểm tra lưu tại `artifacts/ui-review/` (Git bỏ qua), sử dụng dữ liệu giả lập.
 
