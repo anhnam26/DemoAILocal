@@ -1,0 +1,34 @@
+{
+  "id": "ND-A6C92B5E4CE365365082",
+  "title": "Kiểm tra sau cấu hình, đối chiếu/chỉnh sửa",
+  "body": "Kiểm tra sau cấu hình, đối chiếu/chỉnh sửa\nƯớc tính trong nguồn: 1 giờ × 1 kỹ sư = 1 man-hour. Không phải downtime hoặc giá.\nKiểm tra, so sánh cấu hình cũ và mới, chỉnh sửa nếu có sai lệch…\nCách làm bổ sung:\n1. Tạo address/service objects đúng subnet và port.\n2. Tạo luật từ cụ thể đến tổng quát theo cơ chế hãng; chọn đúng ingress/egress, action và lịch.\n3. Gắn profile bảo mật và NAT chỉ khi thiết kế yêu cầu; bật log cần thiết.\n4. Thử luồng được phép và luồng phải chặn; xem hit count/log để tìm luật che khuất.\n5. Kiểm tra next-hop nằm trên mạng có thể tới được.\n6. Tạo route cho từng prefix và default route theo thiết kế; đặt ưu tiên dự phòng rõ ràng.\n7. Kiểm tra routing table và đường hồi đáp; tránh route chồng hoặc vòng lặp.\n8. Thử ping/traceroute với địa chỉ nguồn đúng mạng, thử ứng dụng thực.\nNghiệm thu: Chỉ các luồng đã duyệt được thông; kiểm thử deny đạt; log truy vết đúng policy.\nRoute được cài đúng next-hop; hai chiều thông; đường dự phòng hoạt động khi được thử.\nRollback: Disable luật mới và phục hồi thứ tự luật/object cũ; không mở any-any để xử lý tạm.\nGỡ route vừa thêm, phục hồi metric và next-hop cũ.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "migration_sow",
+  "provenance": {
+    "category": "migration_sow",
+    "document_type": "migration_sow",
+    "title": "Kiểm tra sau cấu hình, đối chiếu/chỉnh sửa",
+    "provenance": "source_estimate_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_row": 15,
+    "source_cell": "row:15",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

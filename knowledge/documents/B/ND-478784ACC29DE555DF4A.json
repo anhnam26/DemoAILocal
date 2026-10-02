@@ -1,0 +1,36 @@
+{
+  "id": "ND-478784ACC29DE555DF4A",
+  "title": "Server — Cấu hình BIOS/UEFI cơ bản (Boot Order, Virtualization Enable)",
+  "body": "Server — Cấu hình BIOS/UEFI cơ bản (Boot Order, Virtualization Enable)\nHạng mục gốc: Cấu hình BIOS/UEFI cơ bản (Boot Order, Virtualization Enable); gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Firmware nền của server thiết lập khởi động và tính năng phần cứng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nModel, boot mode OS, yêu cầu virtualization, lịch reboot.\nQuy trình bổ sung:\n1. Ghi lại thiết lập hiện tại, kiểm tra khả năng truy cập console.\n2. Vào BIOS/UEFI, đặt boot order đúng ổ, chế độ boot theo OS.\n3. Bật CPU virtualization/IOMMU nếu hypervisor yêu cầu và phần cứng hỗ trợ.\n4. Lưu/reboot, kiểm tra OS khởi động và hypervisor nhận tính năng.\nNghiệm thu: OS boot bình thường; đúng boot device; tính năng virtualization hiện đúng.\nRollback: Phục hồi giá trị BIOS trước; không đổi boot mode của OS đang chạy tùy tiện.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Server — Cấu hình BIOS/UEFI cơ bản (Boot Order, Virtualization Enable)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_row": 14,
+    "source_cell": "C14",
+    "service": "it_configuration",
+    "item_id": "IT-Server-014",
+    "device_family": "Server"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

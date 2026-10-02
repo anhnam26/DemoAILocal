@@ -1,0 +1,35 @@
+{
+  "id": "ND-A94D670D7570240C9DA2",
+  "title": "Network Access Policy",
+  "body": "Network Access Policy\nĐịnh nghĩa: Áp quyền mạng bằng VLAN/role/ACL động theo danh tính hoặc trạng thái thiết bị.\nĐầu vào: Tích hợp switch/firewall/NAC, VLAN cách ly, RADIUS CoA/API và policy.\nCách thực hiện:\n1. Kiểm tra tích hợp, quyền API/AAA và VLAN đích tồn tại.\n2. Tạo mapping nhóm/posture sang role/VLAN/ACL.\n3. Bật trên cổng pilot; test thay đổi trạng thái và CoA/re-auth.\n4. Kiểm tra thu hồi quyền, đổi IP và hoạt động DHCP sau chuyển VLAN.\nKiểm tra: Thiết bị bị cách ly/phục hồi đúng; không bị mở quyền khi connector lỗi.\nRollback: Tắt enforcement mới và trả port/VLAN/role đã ghi trước.\nXuất hiện: FortiNAC!C18",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Network Access Policy",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiNAC",
+    "source_cell": "C18",
+    "service": "it_configuration",
+    "term": "Network Access Policy",
+    "recipe_id": "enforcement"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "ND-6F423A0401B5B5CA614F",
+  "title": "SOW đề xuất consulting: Đặc tả & định lượng",
+  "body": "SOW đề xuất consulting: Đặc tả & định lượng\nĐầu ra đề xuất: LLD/IP plan/BOM/SOW theo đầu ra đã được chọn\nCác bước:\n1. Lập HLD gồm thành phần/luồng/dự phòng và ranh giới trách nhiệm.\n2. Viết LLD với IP/VLAN/interface/routing/policy và license cụ thể.\n3. Đối chiếu BOM/SOW, compatibility và test plan; ghi lựa chọn/giả định.\n4. Review với owner kỹ thuật và lưu bản được phê duyệt trước triển khai.\n5. Chuyển từng yêu cầu thành dòng hạng mục có mã và source reference.\n6. Tách phần cứng/license/công cấu hình, ghi đơn vị và số lượng có căn cứ.\n7. Đánh dấu optional/TBD với yêu cầu chưa xác nhận; để giá null khi chưa có bảng giá.\n8. Đối chiếu tổng số lượng và phạm vi SOW rồi duyệt báo giá.\n9. Chia công việc theo giai đoạn và gán owner/output/test.\n10. Ghi thời lượng và số kỹ sư riêng; tính man-hour từng dòng, không coi tổng man-hour là downtime.\n11. Liệt kê giả định, ngoài phạm vi và cơ chế change request.\n12. Review với khách hàng, chỉ lập lịch thực thi sau xác nhận.\nNghiệm thu: Thiết kế truy được về yêu cầu; đủ thông số triển khai; có version/approval.\nKhông tính trùng; không bịa giá/SKU; từng dòng truy được về nhu cầu.\nTổng công tính đúng; phạm vi/đầu ra có tiêu chí; downtime được xác định riêng.\nRollback: Quay bản thiết kế được duyệt trước và đánh giá tác động các tài liệu liên quan.\nTạo revision BOM sửa, giữ lịch sử và hủy giá trị dự thảo chưa duyệt.\nCập nhật revision và tác động tiến độ/chi phí trước khi đổi scope.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất consulting: Đặc tả & định lượng",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "consulting-SOW-03",
+    "service": "consulting"
+  },
+  "service": "consulting",
+  "content_kind": "reference"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-45F04A422B6A2B75AFD9",
+  "title": "consulting: SOW",
+  "body": "consulting: SOW\nCâu hỏi/mô tả gốc: Khách hàng có yêu cầu SOW và kế hoạch triển khai cho giai đoạn tiếp theo không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Khách hàng có yêu cầu SOW và kế hoạch triển khai cho giai đoạn tiếp theo không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: SOW mô tả phạm vi, đầu ra, trách nhiệm và nghiệm thu; man-hour = giờ công việc × số kỹ sư.\nCách xử lý bổ sung:\n1. Chia công việc theo giai đoạn và gán owner/output/test.\n2. Ghi thời lượng và số kỹ sư riêng; tính man-hour từng dòng, không coi tổng man-hour là downtime.\n3. Liệt kê giả định, ngoài phạm vi và cơ chế change request.\n4. Review với khách hàng, chỉ lập lịch thực thi sau xác nhận.\nTiêu chí: Tổng công tính đúng; phạm vi/đầu ra có tiêu chí; downtime được xác định riêng.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: SOW",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 34,
+    "source_cell": "row:34",
+    "service": "consulting",
+    "requirement_id": "89a1efef6405b6d612f7"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

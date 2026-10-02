@@ -1,0 +1,34 @@
+{
+  "id": "ND-94154164F98B2E2E4FCA",
+  "title": "Tổng ước tính SOW chuyển đổi cấu hình FortiGate",
+  "body": "Tổng ước tính SOW chuyển đổi cấu hình FortiGate\nTính lại bằng số liệu từng dòng (không thực thi công thức Excel): 27.5 man-hour; tổng cột thời lượng là 25.75 giờ công việc. Đây không phải thời gian dự án thực tế hay downtime. Dòng chuyển cáp là 0.25 giờ × 2 kỹ sư = 0.5 man-hour; không suy ra cam kết downtime 15 phút. Khảo sát khác ghi 2 FortiGate 500E HA sang 2 FortiGate 401G Onsite nhưng chưa có tên khách hàng, firmware, downtime và test case. Chưa đủ khóa dự án để khẳng định bảng giờ áp dụng cho khảo sát này.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "migration_summary",
+  "provenance": {
+    "category": "migration_summary",
+    "document_type": "migration_summary",
+    "title": "Tổng ước tính SOW chuyển đổi cấu hình FortiGate",
+    "provenance": "derived_from_source",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_row": 28,
+    "source_cell": "F28",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

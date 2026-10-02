@@ -1,0 +1,35 @@
+{
+  "id": "ND-6E8B4668ADF82A7CC50A",
+  "title": "SSID",
+  "body": "SSID\nĐịnh nghĩa: SSID là tên mạng Wi-Fi; chế độ bảo mật quy định cách xác thực/mã hóa.\nĐầu vào: Tên SSID, band, VLAN, PSK hoặc RADIUS, client tương thích.\nCách thực hiện:\n1. Tạo SSID và chọn bảo mật theo yêu cầu; Open chỉ dùng mạng khách có cách ly và chấp thuận.\n2. Đặt PSK mạnh trong kho bí mật hoặc RADIUS cho Enterprise.\n3. Gán VLAN/tunnel/bridge và AP profile; kiểm tra uplink DHCP/policy.\n4. Test kết nối, roaming cơ bản và cách ly khách.\nKiểm tra: Client hợp lệ kết nối; VLAN đúng; không lộ mạng nội bộ.\nRollback: Disable SSID mới, phục hồi profile/PSK trước theo quy trình bí mật.\nXuất hiện: Thông tin lên Bom!C63",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SSID",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C63",
+    "service": "fortigate_configuration",
+    "term": "SSID",
+    "recipe_id": "ssid"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-217F0EAD5A5F2E11A0C1",
+  "title": "Application Control",
+  "body": "Application Control\nĐịnh nghĩa: Nhận dạng ứng dụng để cho phép, giám sát hoặc chặn, không chỉ theo port.\nĐầu vào: Danh sách app/category, nhóm user, ngoại lệ, mức inspection.\nCách thực hiện:\n1. Cập nhật cơ sở nhận dạng, tạo profile theo ứng dụng mục tiêu.\n2. Đặt action và ngoại lệ; gắn vào policy liên quan.\n3. Thử ứng dụng bằng client đại diện, kiểm tra log app và kết nối qua HTTPS.\n4. Đánh giá false positive/hiệu năng và điều chỉnh có ghi nhận.\nKiểm tra: Ứng dụng mục tiêu bị xử lý đúng; không chặn nhầm nghiệp vụ.\nRollback: Phục hồi profile/action trước thay đổi.\nXuất hiện: FortiGate!C39; FortiAP!C25; Firewall!C27",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Application Control",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C39",
+    "service": "it_configuration",
+    "term": "Application Control",
+    "recipe_id": "appcontrol"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

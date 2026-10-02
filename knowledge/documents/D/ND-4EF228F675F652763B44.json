@@ -1,0 +1,32 @@
+{
+  "id": "ND-4EF228F675F652763B44",
+  "title": "SOW đề xuất configuration_migration: Chuyển đổi & test lab",
+  "body": "SOW đề xuất configuration_migration: Chuyển đổi & test lab\nĐầu ra đề xuất: Diff object/policy/NAT/route/VPN, cụm HA mới đã test\nCác bước:\n1. Chốt change plan và điểm go/no-go, backup cả hai phía.\n2. Chuẩn bị thiết bị mới/lab, đối chiếu policy/NAT/route/VPN/license.\n3. Trong cửa sổ đã duyệt, chuyển cáp/route theo từng bước có timestamp.\n4. Chạy test nghiệp vụ và HA; nếu quá ngưỡng hoặc test trọng yếu lỗi, rollback cáp/config theo bản trước và kiểm tra lại.\n5. Đọc ma trận HA đúng sản phẩm; không ghép hai model FortiGate khác nhau vào cùng FGCP cluster.\n6. Sao lưu từng node; cấu hình cluster/group, heartbeat, priority và interface được giám sát.\n7. Kết nối heartbeat theo thiết kế; chờ đồng bộ và đối chiếu trạng thái/config checksum.\n8. Kiểm thử mất link/node trong cửa sổ bảo trì; đo gián đoạn ứng dụng và kiểm tra split-brain.\nNghiệm thu: Bộ test có pass/fail/bằng chứng; thời gian gián đoạn được đo; khách hàng xác nhận.\nĐủ node, sync healthy; failover/failback đạt ngưỡng đã duyệt; không trùng IP/split-brain.\nRollback: Trả cáp/route/config về thiết bị cũ, xác nhận ứng dụng phục hồi; ghi lỗi và lập kế hoạch thử lại.\nCô lập node lỗi khỏi production, đưa primary đã xác nhận về phục vụ theo kế hoạch rollback.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất configuration_migration: Chuyển đổi & test lab",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "configuration_migration-SOW-04",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

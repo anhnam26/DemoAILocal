@@ -1,0 +1,32 @@
+{
+  "id": "ND-38B1BC8D5D2E817C02F4",
+  "title": "SOW đề xuất managed_service: Quản lý thay đổi & sao lưu",
+  "body": "SOW đề xuất managed_service: Quản lý thay đổi & sao lưu\nĐầu ra đề xuất: Lịch bảo trì, approval, revision, backup/restore test\nCác bước:\n1. Tạo change record với phạm vi, rủi ro, dependency và backup.\n2. Đặt người lập/người duyệt tách vai trò; cấu hình approval matrix nếu nền tảng hỗ trợ.\n3. Gửi duyệt, sửa khi bị từ chối; chỉ triển khai bản đã duyệt.\n4. Ghi thời điểm, kết quả test, rollback nếu vượt ngưỡng và đóng change.\n5. Tạo revision baseline có mô tả trước khi đổi cấu hình.\n6. Thiết lập backup theo lịch/sự kiện và phân quyền nơi lưu.\n7. Thực hiện một thay đổi lab, tạo revision và xem diff.\n8. Thử khôi phục lab/kiểm tra export; ghi chính xác version phụ thuộc.\nNghiệm thu: Có audit trail; không bỏ qua approval; bản thực thi trùng bản được duyệt.\nCó revision đủ thiết bị đúng lịch; diff rõ; phục hồi được kiểm chứng.\nRollback: Thực hiện rollback của change và mở lại đánh giá; không xóa dấu vết.\nPhục hồi revision đã xác nhận qua quy trình triển khai, không ghi đè tự động toàn hệ thống.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất managed_service: Quản lý thay đổi & sao lưu",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "managed_service-SOW-05",
+    "service": "managed_service"
+  },
+  "service": "managed_service",
+  "content_kind": "reference"
+}

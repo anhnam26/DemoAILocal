@@ -1,0 +1,35 @@
+{
+  "id": "ND-D973AEA2419AB2706C85",
+  "title": "STP",
+  "body": "STP\nĐịnh nghĩa: Giao thức lớp 2 chặn đường dư để tránh loop; biến thể phải tương thích.\nĐầu vào: Root chính/phụ, VLAN-instance, vùng MST, port edge/uplink.\nCách thực hiện:\n1. Ghi topology và trạng thái STP trước.\n2. Chọn mode phù hợp toàn miền; đặt root priority và mapping MST đồng nhất nếu dùng.\n3. Đặt edge/BPDU guard chỉ trên cổng đầu cuối đúng mục đích.\n4. Kiểm tra root/port role; thử rút link dự phòng và theo dõi broadcast.\nKiểm tra: Root đúng thiết kế; không loop; hội tụ khi mất link.\nRollback: Phục hồi priority/mode/mapping; cô lập link gây loop trước.\nXuất hiện: FortiSwitch!C26; Switch!C21; Switch!C29",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "STP",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "term": "STP",
+    "recipe_id": "stp"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

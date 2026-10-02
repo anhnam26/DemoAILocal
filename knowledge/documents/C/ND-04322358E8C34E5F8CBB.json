@@ -1,0 +1,35 @@
+{
+  "id": "ND-04322358E8C34E5F8CBB",
+  "title": "fortigate_configuration: Cấu hình DHCP Server / DHCP Relay",
+  "body": "fortigate_configuration: Cấu hình DHCP Server / DHCP Relay\nCâu hỏi/mô tả gốc: DHCP Mode?\nServer mode: Danh sách IP Pool cần cấu hình?\nRelay mode: Địa chỉ IP của DHCP Server?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: DHCP Mode?\nServer mode: Danh sách IP Pool cần cấu hình?\nRelay mode: Địa chỉ IP của DHCP Server?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: DHCP cấp tham số mạng; relay chuyển yêu cầu tới server ở subnet khác.\nERP quản trị doanh nghiệp; POS bán hàng; NVR ghi hình; ISP cung cấp Internet; bridge chuyển tiếp lớp 2, PPPoE xác thực đường truy nhập.\nCách xử lý bổ sung:\n1. Xác nhận mỗi subnet chỉ có DHCP có chủ đích; loại trừ IP tĩnh.\n2. Chọn server hoặc relay theo thiết kế; tạo scope và option đúng subnet.\n3. Với relay, đặt server đích và kiểm tra route/policy hai chiều.\n4. Renew lease trên máy thử; đối chiếu IP, mask, gateway, DNS và bản ghi lease.\n5. Liệt kê từng dịch vụ và mức ảnh hưởng khi gián đoạn.\n6. Thu số lượng thiết bị/user riêng, tránh cộng lẫn người dùng và endpoint.\n7. Xác nhận ISP/IP public/PPPoE và khả năng bridge với nhà mạng trước đổi modem.\n8. Tạo test nghiệp vụ thực cho từng ERP/POS/NVR và ghi pass/fail sau thay đổi.\nTiêu chí: Không cấp trùng IP; client nhận đúng option; relay đến đúng server.\nInventory rõ đơn vị; ứng dụng có owner và test case; đường truyền được xác nhận.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Cấu hình DHCP Server / DHCP Relay",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 16,
+    "source_cell": "row:16",
+    "service": "fortigate_configuration",
+    "requirement_id": "12383ff6bd0fab17fb7c"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

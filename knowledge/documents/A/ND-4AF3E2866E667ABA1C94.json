@@ -1,0 +1,35 @@
+{
+  "id": "ND-4AF3E2866E667ABA1C94",
+  "title": "HSRP",
+  "body": "HSRP\nĐịnh nghĩa: Dự phòng gateway ảo giữa các thiết bị lớp 3, phụ thuộc hỗ trợ của hãng.\nĐầu vào: VIP, group ID, priority, preempt/tracking, VLAN.\nCách thực hiện:\n1. Xác nhận VIP không trùng và các node cùng subnet.\n2. Cấu hình group/VIP và priority trên từng node; đặt tracking và preempt có chủ đích.\n3. Client dùng VIP làm gateway.\n4. Test mất active/uplink và kiểm tra ARP/role khi phục hồi.\nKiểm tra: Một active đúng thiết kế; client không phải đổi gateway khi failover.\nRollback: Trả client/gateway về node cũ, gỡ group mới có kiểm soát.\nXuất hiện: Switch!C31",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "HSRP",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_cell": "C31",
+    "service": "it_configuration",
+    "term": "HSRP",
+    "recipe_id": "vrrp"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

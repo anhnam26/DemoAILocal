@@ -1,0 +1,35 @@
+{
+  "id": "ND-BB1BD66742415411FB9C",
+  "title": "802.1X",
+  "body": "802.1X\nĐịnh nghĩa: RADIUS cung cấp AAA; 802.1X kiểm soát truy cập cổng/Wi-Fi dựa trên danh tính.\nĐầu vào: RADIUS/CA, shared secret, EAP method, supplicant, nhóm và VLAN trả về.\nCách thực hiện:\n1. Đăng ký NAS client trên RADIUS, cấu hình IP/secret tương ứng phía thiết bị.\n2. Tạo policy EAP/certificate và mapping user/device sang VLAN/role.\n3. Bật 802.1X trên port/SSID thử, xác định hành vi khi server không đáp ứng.\n4. Test user đúng/sai, chứng chỉ hết hạn và endpoint không hỗ trợ.\nKiểm tra: Danh tính đúng vào VLAN đúng; truy cập sai bị từ chối; log AAA đủ.\nRollback: Trả port/SSID về policy trước; thu hồi client/secret thử.\nXuất hiện: FortiSwitch!C27; FortiNAC!C17; Switch!C34; AP!C20",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "802.1X",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "C27",
+    "service": "it_configuration",
+    "term": "802.1X",
+    "recipe_id": "radius"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

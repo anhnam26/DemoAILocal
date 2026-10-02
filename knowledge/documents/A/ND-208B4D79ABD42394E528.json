@@ -1,0 +1,35 @@
+{
+  "id": "ND-208B4D79ABD42394E528",
+  "title": "DNS",
+  "body": "DNS\nĐịnh nghĩa: Hệ thống phân giải tên thành địa chỉ; forwarder chuyển truy vấn tới máy chủ DNS khác.\nĐầu vào: IP DNS nội bộ/ngoài, domain nội bộ, interface nguồn.\nCách thực hiện:\n1. Kiểm tra đường đi từ thiết bị tới DNS.\n2. Khai báo DNS chính/phụ, domain tìm kiếm và forwarder theo thiết kế.\n3. Cho phép luồng DNS cần thiết trong policy; không mở resolver ra Internet.\n4. Thử phân giải tên nội bộ, ngoài và trường hợp DNS chính không hoạt động.\nKiểm tra: Truy vấn đúng bản ghi; máy chủ dự phòng trả lời; không rò tên nội bộ tới DNS công cộng ngoài thiết kế.\nRollback: Trả DNS/forwarder về giá trị đã sao lưu.\nXuất hiện: FortiGate!C15; Server!C24; Firewall!C14",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "DNS",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C15",
+    "service": "it_configuration",
+    "term": "DNS",
+    "recipe_id": "dns"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

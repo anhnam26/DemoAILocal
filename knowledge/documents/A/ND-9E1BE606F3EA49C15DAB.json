@@ -1,0 +1,35 @@
+{
+  "id": "ND-9E1BE606F3EA49C15DAB",
+  "title": "Quota",
+  "body": "Quota\nĐịnh nghĩa: Giới hạn dung lượng theo user/share/volume và cảnh báo trước đầy.\nĐầu vào: Dung lượng thực, soft/hard limits, chủ dữ liệu và ngưỡng.\nCách thực hiện:\n1. Đo sử dụng hiện tại theo đối tượng.\n2. Đặt quota lớn hơn nhu cầu đã duyệt, phân biệt soft warning và hard block.\n3. Cấu hình cảnh báo tới owner.\n4. Test user thử vượt ngưỡng và việc giải phóng dữ liệu.\nKiểm tra: Alert đúng trước khi đầy; hard quota chỉ chặn đúng đối tượng.\nRollback: Khôi phục quota trước hoặc tăng tạm theo phê duyệt; không xóa dữ liệu tự động.\nXuất hiện: NAS!C27",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Quota",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_cell": "C27",
+    "service": "it_configuration",
+    "term": "Quota",
+    "recipe_id": "quota"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

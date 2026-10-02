@@ -1,0 +1,35 @@
+{
+  "id": "ND-156F456BB76484B80C73",
+  "title": "Zero Touch Provisioning",
+  "body": "Zero Touch Provisioning\nĐịnh nghĩa: Thiết bị mới tự nhận cấu hình theo danh tính/serial và chính sách.\nĐầu vào: Serial allowlist, bootstrap network, image/template, enrollment trust.\nCách thực hiện:\n1. Gán serial đúng site/template và biến riêng.\n2. Chuẩn bị DHCP/DNS/bootstrap endpoint được bảo vệ.\n3. Reset chỉ thiết bị lab/thiết bị mới đã được cho phép, quan sát enrollment.\n4. Xác minh cấu hình nhận, khóa credential bootstrap và thử serial không hợp lệ.\nKiểm tra: Chỉ thiết bị đã đăng ký được nhận đúng cấu hình; có audit enrollment.\nRollback: Tắt assignment/bootstrap mới, phục hồi cấu hình thiết bị từ backup.\nXuất hiện: Manager!C22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Zero Touch Provisioning",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Manager",
+    "source_cell": "C22",
+    "service": "it_configuration",
+    "term": "Zero Touch Provisioning",
+    "recipe_id": "ztp"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

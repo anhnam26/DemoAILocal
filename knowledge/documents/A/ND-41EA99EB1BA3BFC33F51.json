@@ -1,0 +1,35 @@
+{
+  "id": "ND-41EA99EB1BA3BFC33F51",
+  "title": "Shutdown",
+  "body": "Shutdown\nĐịnh nghĩa: Vô hiệu cổng không dùng để giảm kết nối ngoài kiểm soát.\nĐầu vào: Port map đã xác nhận, cổng dự phòng/HA/uplink cần giữ.\nCách thực hiện:\n1. Kiểm tra link, MAC, LLDP và chủ sở hữu từng port.\n2. Đánh dấu port không dùng, ghi description và administratively disable.\n3. Lưu cấu hình.\n4. Xác nhận không ảnh hưởng uplink/heartbeat/dự phòng và thử kết nối port đã khóa.\nKiểm tra: Chỉ port đã duyệt bị tắt; mạng và HA bình thường.\nRollback: Enable lại đúng cổng vừa tắt, kiểm tra VLAN/PoE.\nXuất hiện: FortiSwitch!C20; Switch!C22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Shutdown",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "C20",
+    "service": "it_configuration",
+    "term": "Shutdown",
+    "recipe_id": "shutdown"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

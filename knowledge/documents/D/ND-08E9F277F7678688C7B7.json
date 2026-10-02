@@ -1,0 +1,32 @@
+{
+  "id": "ND-08E9F277F7678688C7B7",
+  "title": "SOW đề xuất remote_support: Báo cáo & review",
+  "body": "SOW đề xuất remote_support: Báo cáo & review\nĐầu ra đề xuất: Giờ sử dụng, ticket, nguyên nhân, tồn đọng và đề xuất\nCác bước:\n1. Kiểm tra dữ liệu nguồn và cách tính từng chỉ số.\n2. Tạo dashboard/report với bộ lọc site/device/time và quyền truy cập.\n3. Nếu định kỳ, đặt lịch/định dạng/người nhận theo thỏa thuận.\n4. Đối chiếu một kỳ mẫu với log thô; kiểm tra dữ liệu thiếu và gửi thử.\nNghiệm thu: Số liệu đối chiếu được; đúng phạm vi/thời gian/người nhận.\nRollback: Tắt lịch mới, phục hồi filter/template cũ và gửi bản sửa nếu có sai số.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất remote_support: Báo cáo & review",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "remote_support-SOW-07",
+    "service": "remote_support"
+  },
+  "service": "remote_support",
+  "content_kind": "reference"
+}

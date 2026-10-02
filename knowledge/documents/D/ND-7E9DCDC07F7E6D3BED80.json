@@ -1,0 +1,34 @@
+{
+  "id": "ND-7E9DCDC07F7E6D3BED80",
+  "title": "Review & đánh giá cấu hình hiện tại",
+  "body": "Review & đánh giá cấu hình hiện tại\nƯớc tính trong nguồn: 2 giờ × 1 kỹ sư = 2 man-hour. Không phải downtime hoặc giá.\nKiểm tra config, license, issues, tính tương thích\nCách làm bổ sung:\n1. Ghi mục tiêu, site, người dùng và dịch vụ quan trọng.\n2. Thu inventory, config đã che bí mật, IP/VLAN/route và license; đối chiếu thông tin tại chỗ khi cần.\n3. Ghi thiếu/mâu thuẫn kèm người xác nhận, không tự điền như dữ liệu thật.\n4. Lập báo cáo hiện trạng, nhu cầu và giả định để khách hàng xác nhận.\nNghiệm thu: Mỗi yêu cầu có nguồn; thiếu dữ liệu được liệt kê; phạm vi được xác nhận.\nRollback: Sửa phiên bản khảo sát và cập nhật tài liệu phụ thuộc khi có thông tin mới.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "migration_sow",
+  "provenance": {
+    "category": "migration_sow",
+    "document_type": "migration_sow",
+    "title": "Review & đánh giá cấu hình hiện tại",
+    "provenance": "source_estimate_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_row": 6,
+    "source_cell": "row:6",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

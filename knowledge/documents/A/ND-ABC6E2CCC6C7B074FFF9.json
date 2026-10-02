@@ -1,0 +1,35 @@
+{
+  "id": "ND-ABC6E2CCC6C7B074FFF9",
+  "title": "Link Aggregation",
+  "body": "Link Aggregation\nĐịnh nghĩa: Gộp nhiều liên kết thành giao diện logic có thương lượng.\nĐầu vào: Port member, tốc độ, LACP mode, VLAN/MTU, topology một hoặc nhiều chassis.\nCách thực hiện:\n1. Kiểm tra hai đầu cùng khả năng và tốc độ.\n2. Tạo aggregate, thêm port và cấu hình LACP mode phù hợp cả hai đầu.\n3. Đưa VLAN/IP/policy lên aggregate theo hướng dẫn nền tảng.\n4. Kiểm tra member bundled và thử mất một member; đo phân phối nhiều luồng.\nKiểm tra: Aggregate up, thành viên đúng; mất một link không cắt toàn bộ dịch vụ.\nRollback: Trả port/cáp về topology cũ; tránh để song song link không chống loop.\nXuất hiện: FortiSwitch!B22; FortiSwitch!C22; FortiSwitch!C24; Switch!B26; Switch!C26",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Link Aggregation",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "B22",
+    "service": "it_configuration",
+    "term": "Link Aggregation",
+    "recipe_id": "lacp"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

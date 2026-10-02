@@ -1,0 +1,26 @@
+{
+  "id": "R-D13469E657-EA7513F2",
+  "title": "Dịch vụ tư vấn CNTT.docx",
+  "body": "Tài liệu thiết kế đầy đủ, chuẩn hóa và sẵn sàng cho việc triển khai.\n\nĐồng hành cùng khách hàng từ giai đoạn khảo sát, thiết kế đến triển khai và vận hành hệ thống.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 26; Khối 27",
+    "sha256": "d13469e6573d7d8a8cc99477bc5f8ae1c58fe7666f6dadcb88032731fcb0454d"
+  },
+  "service": "Dịch vụ tư vấn CNTT.docx",
+  "content_kind": "reference"
+}

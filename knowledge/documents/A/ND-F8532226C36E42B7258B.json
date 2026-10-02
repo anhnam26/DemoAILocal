@@ -1,0 +1,35 @@
+{
+  "id": "ND-F8532226C36E42B7258B",
+  "title": "Full VPN",
+  "body": "Full VPN\nĐịnh nghĩa: Chế độ đưa toàn bộ hoặc phạm vi default route được chỉ định của client qua VPN; phải xác nhận IPv4/IPv6 và DNS.\nĐầu vào: OS/FortiClient/version FortiOS, nhóm user, MFA, pool không trùng, DNS, mạng được vào.\nCách thực hiện:\n1. Kiểm tra ma trận tương thích trước khi chọn IPsec/SSL.\n2. Tạo remote-access IPsec/dial-up và nhóm xác thực; định nghĩa IP pool, split/full tunnel và DNS.\n3. Tạo policy từ pool/user group vào đúng tài nguyên; triển khai profile FortiClient thử nghiệm.\n4. Thử từ Internet bằng user hợp lệ, sai quyền và MFA; kiểm tra DNS, route và log.\nKiểm tra: User đúng nhóm vào đúng tài nguyên; user sai bị từ chối; MFA và timeout đúng yêu cầu.\nRollback: Thu hồi profile mới; phục hồi VPN cũ đã kiểm chứng; không để tài khoản thử tồn tại.\nXuất hiện: Thông tin lên Bom!C29",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Full VPN",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C29",
+    "service": "fortigate_configuration",
+    "term": "Full VPN",
+    "recipe_id": "extra_Full VPN"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

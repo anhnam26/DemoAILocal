@@ -1,0 +1,35 @@
+{
+  "id": "ND-ED87E6D463230756158A",
+  "title": "equipment_rental: Giấy phép phần mềm",
+  "body": "equipment_rental: Giấy phép phần mềm\nCâu hỏi/mô tả gốc: Có yêu cầu thiết bị phải có đầy đủ license các tính năng không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Có yêu cầu thiết bị phải có đầy đủ license các tính năng không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: License cấp quyền tính năng/dịch vụ; serial nhận dạng tài sản và entitlement.\nCách xử lý bổ sung:\n1. Đối chiếu serial trên thiết bị, nhãn và hồ sơ mua.\n2. Kiểm tra quyền đăng ký/chuyển chủ với khách hàng.\n3. Đăng ký/kích hoạt qua cổng hãng theo entitlement, đồng bộ trên thiết bị.\n4. Lưu trạng thái và ngày hết hạn, không lưu mã bí mật; test dịch vụ subscription.\nTiêu chí: Serial đúng chủ; entitlement/tính năng hiện đúng; có cảnh báo gia hạn.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "equipment_rental: Giấy phép phần mềm",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ cho thuê - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_row": 10,
+    "source_cell": "row:10",
+    "service": "equipment_rental",
+    "requirement_id": "7d90d2ac0d2a4c71de69"
+  },
+  "service": "equipment_rental",
+  "content_kind": "survey"
+}

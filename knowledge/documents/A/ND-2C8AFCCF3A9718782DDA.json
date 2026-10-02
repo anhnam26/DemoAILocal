@@ -1,0 +1,35 @@
+{
+  "id": "ND-2C8AFCCF3A9718782DDA",
+  "title": "RADIUS",
+  "body": "RADIUS\nĐịnh nghĩa: RADIUS cung cấp AAA; 802.1X kiểm soát truy cập cổng/Wi-Fi dựa trên danh tính.\nĐầu vào: RADIUS/CA, shared secret, EAP method, supplicant, nhóm và VLAN trả về.\nCách thực hiện:\n1. Đăng ký NAS client trên RADIUS, cấu hình IP/secret tương ứng phía thiết bị.\n2. Tạo policy EAP/certificate và mapping user/device sang VLAN/role.\n3. Bật 802.1X trên port/SSID thử, xác định hành vi khi server không đáp ứng.\n4. Test user đúng/sai, chứng chỉ hết hạn và endpoint không hỗ trợ.\nKiểm tra: Danh tính đúng vào VLAN đúng; truy cập sai bị từ chối; log AAA đủ.\nRollback: Trả port/SSID về policy trước; thu hồi client/secret thử.\nXuất hiện: Thông tin lên Bom!C31",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "RADIUS",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C31",
+    "service": "fortigate_configuration",
+    "term": "RADIUS",
+    "recipe_id": "radius"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

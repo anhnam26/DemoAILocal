@@ -1,0 +1,35 @@
+{
+  "id": "ND-0315B2196E0F77780DF6",
+  "title": "Port",
+  "body": "Port\nĐịnh nghĩa: Cổng access đưa lưu lượng đầu cuối không gắn thẻ vào một VLAN.\nĐầu vào: Port map, access VLAN, voice VLAN nếu có, loại endpoint.\nCách thực hiện:\n1. Đối chiếu cổng với nhãn thiết bị.\n2. Đặt access/untagged VLAN và PVID phù hợp; đặt description.\n3. Cấu hình voice VLAN/edge protection nếu thiết kế hỗ trợ.\n4. Kết nối máy thử, kiểm tra MAC table, DHCP và truy cập đúng subnet.\nKiểm tra: MAC học trên đúng port/VLAN; client không truy cập VLAN khác trái phép.\nRollback: Trả VLAN/PVID/description về cấu hình trước.\nXuất hiện: Thông tin lên Bom!C19",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Port",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C19",
+    "service": "fortigate_configuration",
+    "term": "Port",
+    "recipe_id": "access"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

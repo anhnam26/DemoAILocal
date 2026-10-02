@@ -1,0 +1,35 @@
+{
+  "id": "ND-A3EA1CF566BA65FC06BA",
+  "title": "Access Control",
+  "body": "Access Control\nĐịnh nghĩa: Luật quyết định luồng mạng được phép/từ chối theo nguồn, đích, dịch vụ và ngữ cảnh.\nĐầu vào: Ma trận luồng nguồn/đích/port, zone, user, lịch, yêu cầu log.\nCách thực hiện:\n1. Tạo address/service objects đúng subnet và port.\n2. Tạo luật từ cụ thể đến tổng quát theo cơ chế hãng; chọn đúng ingress/egress, action và lịch.\n3. Gắn profile bảo mật và NAT chỉ khi thiết kế yêu cầu; bật log cần thiết.\n4. Thử luồng được phép và luồng phải chặn; xem hit count/log để tìm luật che khuất.\nKiểm tra: Chỉ các luồng đã duyệt được thông; kiểm thử deny đạt; log truy vết đúng policy.\nRollback: Disable luật mới và phục hồi thứ tự luật/object cũ; không mở any-any để xử lý tạm.\nXuất hiện: 2. Checklist khảo sát!C23",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Access Control",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_cell": "C23",
+    "service": "consulting",
+    "term": "Access Control",
+    "recipe_id": "policy"
+  },
+  "service": "consulting",
+  "content_kind": "concept"
+}

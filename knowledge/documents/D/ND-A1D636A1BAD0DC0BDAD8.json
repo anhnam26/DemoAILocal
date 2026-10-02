@@ -1,0 +1,32 @@
+{
+  "id": "ND-A1D636A1BAD0DC0BDAD8",
+  "title": "SOW đề xuất equipment_rental: Cấu hình/lắp đặt theo scope",
+  "body": "SOW đề xuất equipment_rental: Cấu hình/lắp đặt theo scope\nĐầu ra đề xuất: Thiết bị đúng vị trí và cấu hình đã chọn; migration nếu có là phạm vi riêng\nCác bước:\n1. Kiểm tra tải trọng, airflow, nguồn và an toàn điện tại site.\n2. Lắp rail/thiết bị đúng hướng dẫn với đủ nhân lực.\n3. Đấu nguồn theo sơ đồ A/B/PDU/UPS đã duyệt, dán nhãn cáp/cổng.\n4. Kiểm tra cả nguồn và trạng thái thiết bị, lưu as-built.\n5. Đối chiếu nhãn cáp và cổng; giữ console khi đổi IP quản lý.\n6. Tạo zone nếu thiết kế yêu cầu; gán interface, địa chỉ và role WAN/LAN/DMZ.\n7. Chỉ bật giao thức quản trị trên mạng quản trị; kiểm tra link và MTU với đầu đối diện.\n8. Kiểm tra ARP, ping gateway và route; lưu sơ đồ cổng sau thay đổi.\nNghiệm thu: Thiết bị chắc chắn; airflow thông; nguồn và nhãn đúng; không vượt tải.\nKhông trùng IP; link up; đúng zone và subnet; truy cập quản trị đúng nguồn.\nRollback: Ngắt nguồn theo quy trình, trả cáp/vị trí cũ; không thao tác điện ngoài chuyên môn.\nTrả IP/zone/cáp về sơ đồ ban đầu qua console.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất equipment_rental: Cấu hình/lắp đặt theo scope",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "equipment_rental-SOW-04",
+    "service": "equipment_rental"
+  },
+  "service": "equipment_rental",
+  "content_kind": "reference"
+}

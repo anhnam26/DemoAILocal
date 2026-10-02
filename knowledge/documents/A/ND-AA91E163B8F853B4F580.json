@@ -1,0 +1,35 @@
+{
+  "id": "ND-AA91E163B8F853B4F580",
+  "title": "Disaster Recovery",
+  "body": "Disaster Recovery\nĐịnh nghĩa: Khôi phục dịch vụ ở địa điểm khác theo RPO/RTO, gồm người, dữ liệu, mạng và kiểm thử.\nĐầu vào: Site dự phòng, dependency, RPO/RTO, replication, DNS/route và kế hoạch failback.\nCách thực hiện:\n1. Xác định thứ tự phục hồi ứng dụng và dữ liệu.\n2. Chuẩn bị storage/compute/network dự phòng và replication.\n3. Viết runbook failover/failback, điểm quyết định và người phê duyệt.\n4. Diễn tập cách ly, đo mất dữ liệu/thời gian, xác nhận dữ liệu nhất quán trước quay lại.\nKiểm tra: Phục hồi dịch vụ đạt mục tiêu đã đo; failback kiểm chứng; có biên bản diễn tập.\nRollback: Dừng ghi phía sai để tránh phân kỳ, quay về site chính theo runbook và đồng bộ có kiểm soát.\nXuất hiện: 2. Checklist khảo sát!B22; 2. Checklist khảo sát!C22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Disaster Recovery",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_cell": "B22",
+    "service": "consulting",
+    "term": "Disaster Recovery",
+    "recipe_id": "dr"
+  },
+  "service": "consulting",
+  "content_kind": "concept"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "KB-NET-VLAN",
+  "title": "VLAN: miền quảng bá, phân đoạn và các bước triển khai chung",
+  "body": "VLAN (Virtual LAN) phân chia mạng Ethernet thành các miền quảng bá logic ở Layer 2. Các host cùng VLAN có thể liên lạc Layer 2 khi đường chuyển tiếp cho phép; khác VLAN cần chức năng Layer 3 để liên lạc IP. VLAN không phải mã hóa và không thay thế firewall hoặc chính sách kiểm soát truy cập.\nVLAN và IP subnet là hai khái niệm khác nhau: VLAN thuộc Layer 2, subnet thuộc Layer 3. Thiết kế thông thường ánh xạ mỗi VLAN với một subnet riêng; không suy ra VLAN tự cấp địa chỉ, tự định tuyến hoặc tự bảo vệ mọi luồng.\nBước 1 — Thu thập sơ đồ, mục tiêu phân đoạn, danh sách cổng/thiết bị, VLAN ID, subnet/gateway và luồng được phép. Xác nhận hãng, model, firmware và quyền thay đổi trước khi viết lệnh; sao lưu cấu hình và chuẩn bị đường quản trị dự phòng.\nBước 2 — Lập bảng VLAN và cổng. Cổng access thường phục vụ thiết bị đầu cuối trong một VLAN; đường trunk thường mang nhiều VLAN bằng gắn thẻ 802.1Q. Hành vi native/untagged/PVID và loại cổng phụ thuộc thiết bị; phải đối chiếu hai đầu, không sao chép mặc định giữa các hãng.\nBước 3 — Tạo VLAN, gán cổng theo kế hoạch và chỉ cho các VLAN cần thiết đi qua uplink. Nếu cần liên lạc giữa VLAN, cấu hình gateway/định tuyến và policy được duyệt; nếu cần DHCP, xác định server, pool và relay theo subnet. Không tự mở toàn bộ inter-VLAN traffic.\nBước 4 — Kiểm tra VLAN membership, đường uplink, IP/mask/gateway, DHCP và DNS; thử cả luồng cần cho phép lẫn luồng phải chặn. Ping thành công không chứng minh toàn bộ policy đúng.\nBước 5 — Ghi nhận kết quả, lưu cấu hình theo quy trình và theo dõi. Nếu mất quản trị hoặc phân đoạn sai, dùng đường dự phòng và khôi phục cấu hình/cổng theo bản sao đã kiểm tra; không tiếp tục đổi hàng loạt khi chưa có rollback.\nĐây là bước chung, không có lệnh theo hãng. Cần bổ sung model switch/router/firewall, firmware, sơ đồ và VLAN/subnet mong muốn để đưa hướng dẫn cụ thể. Không cần FortiNAC hoặc Wi-Fi cho định nghĩa VLAN cơ bản. RFC 5517 là tài liệu informational về private VLAN; chỉ dùng phần mở đầu cho khái niệm miền quảng bá, không coi private VLAN là hành vi mặc định của mọi VLAN.",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-2",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "aliases": [
+    "VLAN",
+    "virtual LAN",
+    "phân đoạn mạng",
+    "access",
+    "trunk"
+  ],
+  "references": [
+    {
+      "title": "RFC 5517 — Introduction: VLAN broadcast domains (informational)",
+      "url": "https://www.rfc-editor.org/rfc/rfc5517.txt",
+      "checked_at": "2026-09-30"
+    }
+  ],
+  "content_kind": "concept",
+  "data_type": "reference_article",
+  "provenance": {
+    "source": "referenced_editorial",
+    "review_note": "Định nghĩa đối chiếu RFC 5517; checklist biên soạn cần kỹ sư rà soát trước áp dụng, chưa chứng nhận hãng/phiên bản."
+  },
+  "scope": "generic"
+}

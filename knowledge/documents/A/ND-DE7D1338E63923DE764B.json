@@ -1,0 +1,35 @@
+{
+  "id": "ND-DE7D1338E63923DE764B",
+  "title": "ADOM",
+  "body": "ADOM\nĐịnh nghĩa: Miền quản trị trên FortiManager/FortiAnalyzer tách thiết bị và quyền, không tự đồng nghĩa với một công ty/site.\nĐầu vào: Sơ đồ phân miền, phiên bản ADOM, device assignment, admin roles.\nCách thực hiện:\n1. Xác định tiêu chí chia ADOM được duyệt và tương thích version.\n2. Tạo ADOM, gán thiết bị đúng phạm vi.\n3. Phân quyền user/role chỉ truy cập ADOM được giao.\n4. Test truy cập chéo bị chặn, import/log/policy đúng miền.\nKiểm tra: Thiết bị và dữ liệu nằm đúng ADOM; không lộ chéo miền.\nRollback: Đưa thiết bị về ADOM cũ sau backup; phục hồi quyền.\nXuất hiện: FortiManager!B16; FortiManager!C16; FortiManager!C25; FortiAnalyzer!B16; FortiAnalyzer!C16",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "ADOM",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiManager",
+    "source_cell": "B16",
+    "service": "it_configuration",
+    "term": "ADOM",
+    "recipe_id": "adom"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "RUN-PAM",
+  "title": "Triển khai PAM khởi đầu — runbook kỹ sư",
+  "body": "Checklist DEMO Triển khai PAM khởi đầu. Trước triển khai: xác minh model/firmware/license và scope 10 quản trị viên, 20 tài sản; sao lưu; kiểm tài khoản dự phòng; lab và phê duyệt change. Thao tác theo thứ tự: Khảo sát quyền; thiết kế vault/session; tích hợp danh tính; pilot; nghiệm thu. Xác nhận thành công bằng: Ma trận quyền; workflow; biên bản kiểm truy vết. Dừng nếu mất truy cập quản trị hoặc ứng dụng trọng yếu không đạt UAT; quay lui theo bản sao đã kiểm. Thu log có mốc giờ; che bí mật; không chạy lệnh không đúng phiên bản. Owner: trưởng nhóm kỹ thuật.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

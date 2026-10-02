@@ -1,0 +1,32 @@
+{
+  "id": "ND-C2A9F9A6119B3BD16AB6",
+  "title": "SOW đề xuất equipment_rental: Báo giá & hợp đồng",
+  "body": "SOW đề xuất equipment_rental: Báo giá & hợp đồng\nĐầu ra đề xuất: Phương án thuê, hỗ trợ, gia hạn/mua lại và điều kiện thu hồi được duyệt\nCác bước:\n1. Chuyển từng yêu cầu thành dòng hạng mục có mã và source reference.\n2. Tách phần cứng/license/công cấu hình, ghi đơn vị và số lượng có căn cứ.\n3. Đánh dấu optional/TBD với yêu cầu chưa xác nhận; để giá null khi chưa có bảng giá.\n4. Đối chiếu tổng số lượng và phạm vi SOW rồi duyệt báo giá.\n5. Thu trường định danh từ người có thẩm quyền, giữ SI và EU thành vai trò riêng.\n6. Đối chiếu mã báo giá/PO, phạm vi SOW và BBNT.\n7. Chuyển bộ phận kinh doanh/kế toán xác nhận giá, thuế và hóa đơn.\n8. Ghi ô chưa có là null/chờ xác nhận; không tự sinh MST/giá/điều khoản như sự thật.\nNghiệm thu: Không tính trùng; không bịa giá/SKU; từng dòng truy được về nhu cầu.\nPháp nhân/đầu mối có nguồn; tài liệu thương mại nhất quán; không nhầm SI/EU.\nRollback: Tạo revision BOM sửa, giữ lịch sử và hủy giá trị dự thảo chưa duyệt.\nSửa bản nháp có lưu revision; chứng từ đã phát hành chuyển bộ phận phụ trách xử lý.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất equipment_rental: Báo giá & hợp đồng",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "equipment_rental-SOW-02",
+    "service": "equipment_rental"
+  },
+  "service": "equipment_rental",
+  "content_kind": "reference"
+}

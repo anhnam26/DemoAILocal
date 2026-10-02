@@ -1,0 +1,36 @@
+{
+  "id": "ND-BEAED2ADB6F185C43EEF",
+  "title": "Server — Cấu hình Virtualization Host (Hyper-V/VMware ESXi/Proxmox)",
+  "body": "Server — Cấu hình Virtualization Host (Hyper-V/VMware ESXi/Proxmox)\nHạng mục gốc: Cấu hình Virtualization Host (Hyper-V/VMware ESXi/Proxmox); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Lớp ảo hóa chạy nhiều máy ảo và chia tài nguyên host.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nHCL, license, CPU/RAM, boot/network/storage design.\nQuy trình bổ sung:\n1. Kiểm tra phần cứng/firmware hỗ trợ và virtualization trong BIOS.\n2. Cài hypervisor lên boot disk đã chỉ định.\n3. Tạo management/vSwitch/bridge/VLAN và datastore với đúng quyền.\n4. Tạo VM thử, kiểm tra network/storage, backup và reboot host trong lab.\nNghiệm thu: VM hoạt động, tài nguyên/network cách ly đúng; quản trị và backup sẵn sàng.\nRollback: Di chuyển/tắt VM theo kế hoạch, phục hồi cấu hình host và datastore mapping cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Server — Cấu hình Virtualization Host (Hyper-V/VMware ESXi/Proxmox)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_row": 22,
+    "source_cell": "C22",
+    "service": "it_configuration",
+    "item_id": "IT-Server-022",
+    "device_family": "Server"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

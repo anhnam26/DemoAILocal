@@ -1,0 +1,35 @@
+{
+  "id": "ND-5286F799E3FA867D6863",
+  "title": "fortigate_configuration: Có yêu cầu cấu hình quản lý các thiết bị FortiSwitch không?",
+  "body": "fortigate_configuration: Có yêu cầu cấu hình quản lý các thiết bị FortiSwitch không?\nCâu hỏi/mô tả gốc: Vui lòng cho biết số lượng FortiSwitch, VLAN cần cấu hình\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Vui lòng cho biết số lượng FortiSwitch, VLAN cần cấu hình. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Phân đoạn mạng lớp 2 theo VLAN ID; 802.1Q gắn thẻ VLAN trên liên kết dùng chung.\nCách xử lý bổ sung:\n1. Tạo VLAN trên thiết bị và sub-interface trên gateway nếu gateway đặt tại đó.\n2. Gán VLAN ID, tên, IP/mask cho sub-interface theo IP plan.\n3. Đồng bộ allowed VLAN và native VLAN giữa hai đầu uplink; tránh nhầm tagged/untagged.\n4. Cấu hình DHCP/policy liên quan và thử client của từng VLAN.\nTiêu chí: Client vào đúng VLAN, lấy đúng IP; VLAN bị tách theo policy; uplink truyền đúng tag.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Có yêu cầu cấu hình quản lý các thiết bị FortiSwitch không?",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 65,
+    "source_cell": "row:65",
+    "service": "fortigate_configuration",
+    "requirement_id": "c96309251b5ab979a8ec"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

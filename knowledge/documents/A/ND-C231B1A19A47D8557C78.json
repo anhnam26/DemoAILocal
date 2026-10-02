@@ -1,0 +1,35 @@
+{
+  "id": "ND-C231B1A19A47D8557C78",
+  "title": "LUN Masking",
+  "body": "LUN Masking\nĐịnh nghĩa: LUN là đơn vị lưu trữ khối; masking chỉ cho host được chỉ định nhìn thấy.\nĐầu vào: Pool, dung lượng, host IQN/WWPN, LUN ID và cluster usage.\nCách thực hiện:\n1. Tạo LUN trên pool đúng tier/RAID.\n2. Đăng ký host/host group, map LUN với ID nhất quán theo yêu cầu OS.\n3. Chỉ cấp cho các host cần thiết; kiểm tra multipath/rescan.\n4. Test LUN mới trước khi đưa dữ liệu; tránh nhiều host ghi filesystem không hỗ trợ cluster.\nKiểm tra: Đúng host thấy đúng LUN một lần; không lộ cho host khác.\nRollback: Unmap LUN mới sau khi dừng I/O; không xóa LUN có dữ liệu.\nXuất hiện: SAN!C18",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "LUN Masking",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_cell": "C18",
+    "service": "it_configuration",
+    "term": "LUN Masking",
+    "recipe_id": "lun"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

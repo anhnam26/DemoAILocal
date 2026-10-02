@@ -1,0 +1,36 @@
+{
+  "id": "ND-E091917ECC35ACD3BE0E",
+  "title": "Log — Cấu hình High Availability/Clustering",
+  "body": "Log — Cấu hình High Availability/Clustering\nHạng mục gốc: Cấu hình High Availability/Clustering; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Cụm dự phòng giảm gián đoạn; cách đồng bộ, bầu primary và xử lý session phụ thuộc nền tảng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nModel/version tương thích, heartbeat, IP quản lý riêng, mode, quorum nếu có, test failover.\nQuy trình bổ sung:\n1. Đọc ma trận HA đúng sản phẩm; không ghép hai model FortiGate khác nhau vào cùng FGCP cluster.\n2. Sao lưu từng node; cấu hình cluster/group, heartbeat, priority và interface được giám sát.\n3. Kết nối heartbeat theo thiết kế; chờ đồng bộ và đối chiếu trạng thái/config checksum.\n4. Kiểm thử mất link/node trong cửa sổ bảo trì; đo gián đoạn ứng dụng và kiểm tra split-brain.\nNghiệm thu: Đủ node, sync healthy; failover/failback đạt ngưỡng đã duyệt; không trùng IP/split-brain.\nRollback: Cô lập node lỗi khỏi production, đưa primary đã xác nhận về phục vụ theo kế hoạch rollback.\nTham khảo bổ sung: https://docs.fortinet.com/document/fortigate/7.2.7/administration-guide/23145/sd-wan-with-fgcp-ha",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Log — Cấu hình High Availability/Clustering",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Log",
+    "source_row": 23,
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "item_id": "IT-Log-023",
+    "device_family": "Log"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

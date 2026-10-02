@@ -1,0 +1,35 @@
+{
+  "id": "ND-334347DCB98C414A1A85",
+  "title": "Azure",
+  "body": "Azure\nĐịnh nghĩa: Các nền tảng cloud/container/endpoint có API và mô hình quyền khác nhau, chỉ tích hợp trong phạm vi được cấp.\nĐầu vào: Tenant/account/cluster, API scope, connector hỗ trợ và danh mục object.\nCách thực hiện:\n1. Xác nhận hệ thống thật sự cần tích hợp và version/API tương thích.\n2. Tạo identity quyền tối thiểu, bảo quản credential riêng.\n3. Cấu hình connector và mapping object/tag; thử read-only trước.\n4. Kiểm tra refresh, lỗi quyền và phân tách tenant trước dùng object trong policy.\nKiểm tra: Đúng nguồn/tenant; không lấy dữ liệu ngoài scope; object được cập nhật.\nRollback: Tắt connector mới, thu hồi identity/token và phục hồi policy phụ thuộc.\nXuất hiện: Thông tin lên Bom!B56",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Azure",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B56",
+    "service": "fortigate_configuration",
+    "term": "Azure",
+    "recipe_id": "cloud"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

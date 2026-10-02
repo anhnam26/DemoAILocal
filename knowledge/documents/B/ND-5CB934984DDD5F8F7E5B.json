@@ -1,0 +1,36 @@
+{
+  "id": "ND-5CB934984DDD5F8F7E5B",
+  "title": "Log — Tích hợp Threat Intelligence Feed",
+  "body": "Log — Tích hợp Threat Intelligence Feed\nHạng mục gốc: Tích hợp Threat Intelligence Feed; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Thông tin chỉ dấu đe dọa dùng làm ngữ cảnh hoặc điều kiện lọc, có hạn sử dụng và false positive.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nNguồn feed/license, định dạng IOC, TTL, loại action.\nQuy trình bổ sung:\n1. Kiểm tra nguồn, quyền dùng và kết nối cập nhật.\n2. Map IP/domain/hash đúng loại object; đặt TTL và giới hạn kích thước.\n3. Áp giám sát trước để đo ảnh hưởng rồi chặn theo phê duyệt.\n4. Test IOC mẫu an toàn, cập nhật/xóa IOC hết hạn và cảnh báo feed lỗi.\nNghiệm thu: Feed cập nhật đúng; IOC hết hạn được xử lý; không chặn nhầm không kiểm soát.\nRollback: Gỡ feed khỏi policy chặn và phục hồi danh sách trước.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Log — Tích hợp Threat Intelligence Feed",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Log",
+    "source_row": 21,
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "item_id": "IT-Log-021",
+    "device_family": "Log"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

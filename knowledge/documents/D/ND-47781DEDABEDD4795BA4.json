@@ -1,0 +1,32 @@
+{
+  "id": "ND-47781DEDABEDD4795BA4",
+  "title": "Workflow Chuyển đổi cấu hình",
+  "body": "Workflow Chuyển đổi cấu hình\nTiếp nhận thông tin → [Tiếp tục] → Khảo sát & Thu thập thông tin\nKhảo sát & Thu thập thông tin → [Tiếp tục] → Đánh giá khả năng thực hiện (Tương thích, tính năng hỗ trợ...)\nĐánh giá khả năng thực hiện (Tương thích, tính năng hỗ trợ...) → [Tiếp tục] → Lập kế hoạch chuyển đổi/Cut-Over\nLập kế hoạch chuyển đổi/Cut-Over → [Tiếp tục] → Gửi khách hàng phê duyệt\nThực hiện chuyển đổi cấu hình → [Tiếp tục] → Cut-Over\nCut-Over → [Tiếp tục] → Kiểm thử\nNghiệm thu & Bàn giao → [Tiếp tục] → Đóng case\nGửi khách hàng phê duyệt → [Phê duyệt] → Thực hiện chuyển đổi cấu hình\nGửi khách hàng phê duyệt → [Không phê duyệt] → Cập nhật phương án\nCập nhật phương án → [Gửi duyệt lại] → Gửi khách hàng phê duyệt\nKiểm thử → [Đạt] → Nghiệm thu & Bàn giao\nKiểm thử → [Không đạt] → Rollback\nRollback → [Quay lại bước chuyển đổi theo mũi tên PDF] → Thực hiện chuyển đổi cấu hình",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "source_transcribed",
+  "data_type": "workflow",
+  "provenance": {
+    "category": "workflow",
+    "document_type": "workflow",
+    "title": "Workflow Chuyển đổi cấu hình",
+    "provenance": "source",
+    "review_status": "source_transcribed",
+    "source_file": "CBA Services Work Flow (1).pdf",
+    "source_page": 5,
+    "workflow_id": "WF-05"
+  },
+  "service": "",
+  "content_kind": "workflow"
+}

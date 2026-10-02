@@ -1,0 +1,32 @@
+{
+  "id": "ND-B58073D4EC572099741C",
+  "title": "SOW đề xuất rma: Giao/thay & phục hồi",
+  "body": "SOW đề xuất rma: Giao/thay & phục hồi\nĐầu ra đề xuất: Onsite hoặc gửi thiết bị theo gói; khôi phục cấu hình và test\nCác bước:\n1. Kiểm tra tải trọng, airflow, nguồn và an toàn điện tại site.\n2. Lắp rail/thiết bị đúng hướng dẫn với đủ nhân lực.\n3. Đấu nguồn theo sơ đồ A/B/PDU/UPS đã duyệt, dán nhãn cáp/cổng.\n4. Kiểm tra cả nguồn và trạng thái thiết bị, lưu as-built.\n5. Export backup cấu hình và ghi model/version/thời điểm/checksum.\n6. Mã hóa và lưu kho nội bộ; kiểm tra phục hồi trong lab hoặc kiểm tra tính toàn vẹn.\n7. Hoàn thiện as-built, IP plan, checklist kết quả, hướng dẫn vận hành/rollback và các tồn đọng.\n8. Hướng dẫn người nhận; ký BBNT đúng phạm vi và bàn giao bí mật qua kênh riêng.\nNghiệm thu: Thiết bị chắc chắn; airflow thông; nguồn và nhãn đúng; không vượt tải.\nBackup đọc được; hồ sơ đầy đủ; người nhận xác nhận; vấn đề chưa đạt có người chịu trách nhiệm.\nRollback: Ngắt nguồn theo quy trình, trả cáp/vị trí cũ; không thao tác điện ngoài chuyên môn.\nNếu hồ sơ/test chưa đủ thì chưa xác nhận hoàn tất; bổ sung tài liệu và kiểm thử.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất rma: Giao/thay & phục hồi",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "rma-SOW-05",
+    "service": "rma"
+  },
+  "service": "rma",
+  "content_kind": "reference"
+}

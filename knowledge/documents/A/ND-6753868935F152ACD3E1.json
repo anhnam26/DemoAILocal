@@ -1,0 +1,35 @@
+{
+  "id": "ND-6753868935F152ACD3E1",
+  "title": "RF",
+  "body": "RF\nĐịnh nghĩa: Điều chỉnh kênh/công suất và phân bố client để tối ưu môi trường Wi-Fi.\nĐầu vào: Khảo sát nhiễu, vùng phủ, mật độ client, băng tần và quy định địa phương.\nCách thực hiện:\n1. Đo RSSI/SNR và nhiễu tại vị trí thực tế.\n2. Đặt country, channel width, kênh/công suất hoặc profile RRM/ARM phù hợp.\n3. Bật band steering/load balancing từng bước, không ép client ngoài khả năng.\n4. Đo lại vùng phủ, roaming và tải giờ cao điểm; lưu trước/sau.\nKiểm tra: Không có vùng mất phủ mới; chất lượng và phân bố client đạt chỉ tiêu đã đo.\nRollback: Trả channel/power/steering về baseline trước thay đổi.\nXuất hiện: AP!B25; AP!C25",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "RF",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "AP",
+    "source_cell": "B25",
+    "service": "it_configuration",
+    "term": "RF",
+    "recipe_id": "rf"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

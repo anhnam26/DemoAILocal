@@ -1,0 +1,32 @@
+{
+  "id": "ND-763252A05B45721FB80D",
+  "title": "SOW đề xuất managed_service: Chốt chỉ tiêu dịch vụ",
+  "body": "SOW đề xuất managed_service: Chốt chỉ tiêu dịch vụ\nĐầu ra đề xuất: SLA từng severity, lịch trực, phạm vi/ngoại lệ và escalation được ký\nCác bước:\n1. Thống nhất định nghĩa chỉ số và nguồn timestamp.\n2. Cấu hình calendar, mức ưu tiên và ngưỡng theo hợp đồng, không lấy ví dụ làm cam kết.\n3. Tính availability = thời gian khả dụng / thời gian thuộc phạm vi sau ngoại lệ hợp lệ.\n4. Đối chiếu ticket/outage mẫu với báo cáo và phê duyệt.\nNghiệm thu: Mẫu tính có thể tái lập; tách response/resolution; maintenance xử lý đúng hợp đồng.\nRollback: Sửa định nghĩa và tính lại báo cáo có lưu phiên bản.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất managed_service: Chốt chỉ tiêu dịch vụ",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "managed_service-SOW-02",
+    "service": "managed_service"
+  },
+  "service": "managed_service",
+  "content_kind": "reference"
+}

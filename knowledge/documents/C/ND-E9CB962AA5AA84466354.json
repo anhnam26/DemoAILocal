@@ -1,0 +1,35 @@
+{
+  "id": "ND-E9CB962AA5AA84466354",
+  "title": "equipment_rental: Thuê theo dự án",
+  "body": "equipment_rental: Thuê theo dự án\nCâu hỏi/mô tả gốc: Thuê đúng thời gian dự án (ghi rõ thời gian)\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Thuê đúng thời gian dự án (ghi rõ thời gian). Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Cho thuê giao quyền sử dụng tài sản trong thời hạn; buy-out là mua lại theo điều kiện hợp đồng.\nCách xử lý bổ sung:\n1. Xác nhận nhu cầu và phương án giá được duyệt.\n2. Kiểm tra thiết bị/license/phụ kiện, cấu hình theo checklist được chốt.\n3. Bàn giao serial/tình trạng và hướng dẫn vận hành; theo dõi hỗ trợ và thời hạn.\n4. Trước hết hạn, xác nhận gia hạn/mua lại/trả; backup bàn giao và xử lý dữ liệu theo thỏa thuận trước tái sử dụng.\nTiêu chí: Biên bản giao/nhận đầy đủ; term/serial đúng; có xác nhận xử lý dữ liệu khi thu hồi.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "equipment_rental: Thuê theo dự án",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ cho thuê - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_row": 8,
+    "source_cell": "row:8",
+    "service": "equipment_rental",
+    "requirement_id": "93fb2ccc7b1ca5bb91be"
+  },
+  "service": "equipment_rental",
+  "content_kind": "survey"
+}

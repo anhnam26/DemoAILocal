@@ -1,0 +1,35 @@
+{
+  "id": "ND-6A091F6FA7534D2AF3CD",
+  "title": "fortigate_configuration: Nâng cấp Firmware thiết bị",
+  "body": "fortigate_configuration: Nâng cấp Firmware thiết bị\nCâu hỏi/mô tả gốc: Nâng cấp Firmware thiết bị\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Nâng cấp Firmware thiết bị. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Phần mềm điều khiển thiết bị; nâng/hạ phiên bản phải theo lộ trình và tính tương thích của hãng.\nCách xử lý bổ sung:\n1. Sao lưu cấu hình và image cần phục hồi; xác minh backup đọc được.\n2. Kiểm tra ma trận hỗ trợ tính năng/license và lộ trình nâng cấp đúng model; không tự chọn bản mới nhất.\n3. Tải image từ hãng, kiểm tra checksum; nâng cấp theo từng bước được hỗ trợ.\n4. Sau mỗi lần khởi động, kiểm tra interface, route, policy, VPN, HA và log; cập nhật driver tương thích nếu là server.\nTiêu chí: Đúng version; không lỗi chuyển đổi cấu hình; bộ test dịch vụ đạt; có biên bản downtime.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Nâng cấp Firmware thiết bị",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 13,
+    "source_cell": "row:13",
+    "service": "fortigate_configuration",
+    "requirement_id": "4c4df62e82ffb59517b5"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

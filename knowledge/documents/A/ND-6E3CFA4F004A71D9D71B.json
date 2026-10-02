@@ -1,0 +1,35 @@
+{
+  "id": "ND-6E3CFA4F004A71D9D71B",
+  "title": "Async",
+  "body": "Async\nĐịnh nghĩa: Sao chép dữ liệu sang hệ khác theo đồng bộ hoặc bất đồng bộ.\nĐầu vào: Nguồn/đích, RPO, băng thông/latency, retention và quyền truy cập.\nCách thực hiện:\n1. Kiểm tra tương thích, dung lượng và kết nối hai site.\n2. Tạo replication pair đúng chiều, bảo vệ đường truyền và lên lịch.\n3. Theo dõi initial sync rồi đo lag/RPO.\n4. Test failover clone/isolated và failback, xác nhận tránh hai phía ghi đồng thời.\nKiểm tra: Dữ liệu đích nhất quán theo chế độ; lag đáp ứng RPO đã duyệt.\nRollback: Pause replication lỗi, xác định bản dữ liệu đúng trước resync; không đảo chiều mù.\nXuất hiện: SAN!C21",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Async",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "term": "Async",
+    "recipe_id": "replication"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

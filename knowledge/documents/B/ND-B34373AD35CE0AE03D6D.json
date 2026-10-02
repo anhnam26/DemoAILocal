@@ -1,0 +1,36 @@
+{
+  "id": "ND-B34373AD35CE0AE03D6D",
+  "title": "Firewall — Cấu hình Site-to-Site VPN",
+  "body": "Firewall — Cấu hình Site-to-Site VPN\nHạng mục gốc: Cấu hình Site-to-Site VPN; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: IPsec bảo vệ lưu lượng giữa các đầu VPN; IKE thương lượng khóa và thông số tunnel.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPeer public IP/FQDN, subnet hai đầu, proposal, xác thực, NAT traversal, route.\nQuy trình bổ sung:\n1. Thống nhất tham số hai đầu và bảo quản PSK/chứng chỉ ngoài dataset.\n2. Tạo phase 1 với peer/interface/IKE phù hợp; tạo phase 2/selectors theo subnet cần trao đổi.\n3. Tạo route và firewall policy hai chiều; chỉ NAT nếu thiết kế yêu cầu.\n4. Kiểm tra SA, counter mã hóa/giải mã và ứng dụng hai chiều; thử khôi phục tunnel khi ngắt có kiểm soát.\nNghiệm thu: SA up; counter tăng hai chiều; chỉ mạng được duyệt thông; tunnel phục hồi.\nRollback: Disable tunnel/route/policy mới và phục hồi tham số peer đã sao lưu.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Firewall — Cấu hình Site-to-Site VPN",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Firewall",
+    "source_row": 23,
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "item_id": "IT-Firewall-023",
+    "device_family": "Firewall"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

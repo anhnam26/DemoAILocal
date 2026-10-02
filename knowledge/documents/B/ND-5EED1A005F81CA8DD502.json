@@ -1,0 +1,36 @@
+{
+  "id": "ND-5EED1A005F81CA8DD502",
+  "title": "Switch — Cấu hình Static Route/OSPF trên switch Layer 3",
+  "body": "Switch — Cấu hình Static Route/OSPF trên switch Layer 3\nHạng mục gốc: Cấu hình Static Route/OSPF trên switch Layer 3; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Định tuyến tĩnh chỉ định đường tới prefix; default route dùng khi không có route cụ thể hơn.\nGiao thức định tuyến nội bộ trao đổi trạng thái liên kết theo area.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPrefix, next-hop, interface, metric/distance, đường về.\nRouter ID, area, network/interface, authentication, cost, prefix được quảng bá.\nQuy trình bổ sung:\n1. Kiểm tra next-hop nằm trên mạng có thể tới được.\n2. Tạo route cho từng prefix và default route theo thiết kế; đặt ưu tiên dự phòng rõ ràng.\n3. Kiểm tra routing table và đường hồi đáp; tránh route chồng hoặc vòng lặp.\n4. Thử ping/traceroute với địa chỉ nguồn đúng mạng, thử ứng dụng thực.\n5. Kiểm tra subnet hai đầu và router ID không trùng.\n6. Khai báo area/interface, đặt passive cho mạng không tạo neighbor; cấu hình xác thực và cost theo thiết kế.\n7. Kiểm soát redistribution và default advertisement.\n8. Kiểm tra neighbor, database, routing table; thử failover và route không được phép.\nNghiệm thu: Route được cài đúng next-hop; hai chiều thông; đường dự phòng hoạt động khi được thử.\nAdjacency đúng trạng thái cho loại mạng; chỉ prefix cho phép được học/quảng bá; hội tụ đạt test.\nRollback: Gỡ route vừa thêm, phục hồi metric và next-hop cũ.\nTắt quảng bá/interface mới, phục hồi cost/filter và route dự phòng đã duyệt.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Switch — Cấu hình Static Route/OSPF trên switch Layer 3",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_row": 28,
+    "source_cell": "C28",
+    "service": "it_configuration",
+    "item_id": "IT-Switch-028",
+    "device_family": "Switch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-26B973CEAAA7CE2B76A5",
+  "title": "Shared Folder",
+  "body": "Shared Folder\nĐịnh nghĩa: NAS chia sẻ file; volume chứa filesystem, shared folder công bố đường dẫn có quyền.\nĐầu vào: Pool còn trống, filesystem, dung lượng, thư mục và ACL.\nCách thực hiện:\n1. Kiểm tra pool healthy và backup dữ liệu.\n2. Tạo volume theo dung lượng/thin-thick đã duyệt.\n3. Tạo shared folder, gán owner/group/ACL tối thiểu.\n4. Test đọc/ghi/xóa bằng user được phép và user bị cấm; đặt quota/snapshot khi yêu cầu.\nKiểm tra: Đúng dung lượng và quyền; không public nhầm dữ liệu.\nRollback: Gỡ quyền/chia sẻ mới; không xóa volume có dữ liệu khi rollback.\nXuất hiện: NAS!C16",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Shared Folder",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_cell": "C16",
+    "service": "it_configuration",
+    "term": "Shared Folder",
+    "recipe_id": "volume"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

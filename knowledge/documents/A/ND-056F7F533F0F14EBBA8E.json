@@ -1,0 +1,35 @@
+{
+  "id": "ND-056F7F533F0F14EBBA8E",
+  "title": "vSYS",
+  "body": "vSYS\nĐịnh nghĩa: Phân chia thiết bị thành miền cấu hình/chính sách riêng; liên kết miền cần route/policy rõ ràng.\nĐầu vào: License/giới hạn, danh sách miền, cổng/IP/tài nguyên từng miền, quyền admin.\nCách thực hiện:\n1. Kiểm tra hỗ trợ và tác động khi bật chế độ đa miền.\n2. Tạo miền, gán interface/tài nguyên và admin đúng phạm vi.\n3. Tạo link giữa miền khi có thiết kế; cấu hình IP, route và policy hai chiều.\n4. Test cách ly tenant, truy cập quản trị và giới hạn tài nguyên.\nKiểm tra: Miền độc lập; chỉ luồng liên miền đã duyệt thông.\nRollback: Phục hồi gán interface/route; chỉ xóa miền mới sau khi đã chuyển tài nguyên về an toàn.\nXuất hiện: Firewall!C30",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "vSYS",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Firewall",
+    "source_cell": "C30",
+    "service": "it_configuration",
+    "term": "vSYS",
+    "recipe_id": "vdom"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

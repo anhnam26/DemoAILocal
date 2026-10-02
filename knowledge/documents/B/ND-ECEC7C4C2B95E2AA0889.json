@@ -1,0 +1,36 @@
+{
+  "id": "ND-ECEC7C4C2B95E2AA0889",
+  "title": "FortiSwitch — Cấu hình PoE nâng cao (Power Scheduling, PoE per-port)",
+  "body": "FortiSwitch — Cấu hình PoE nâng cao (Power Scheduling, PoE per-port)\nHạng mục gốc: Cấu hình PoE nâng cao (Power Scheduling, PoE per-port); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Cấp nguồn qua Ethernet, có giới hạn công suất tổng và từng cổng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPower budget, công suất endpoint, lịch, port priority.\nQuy trình bổ sung:\n1. Đối chiếu chuẩn và công suất AP/phone/camera với switch.\n2. Cấu hình enable/priority/limit PoE theo cổng và lịch nếu cần.\n3. Kiểm tra tổng công suất khi tất cả thiết bị khởi động.\n4. Test lịch trên port thử, xem cảnh báo thiếu nguồn.\nNghiệm thu: Endpoint chạy ổn định; không vượt budget; lịch đúng timezone.\nRollback: Khôi phục lịch/limit cũ hoặc chuyển nguồn dự phòng cho endpoint.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiSwitch — Cấu hình PoE nâng cao (Power Scheduling, PoE per-port)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_row": 30,
+    "source_cell": "C30",
+    "service": "it_configuration",
+    "item_id": "IT-FortiSwitch-030",
+    "device_family": "FortiSwitch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

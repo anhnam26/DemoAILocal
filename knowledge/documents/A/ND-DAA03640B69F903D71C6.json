@@ -1,0 +1,35 @@
+{
+  "id": "ND-DAA03640B69F903D71C6",
+  "title": "WiFi",
+  "body": "WiFi\nĐịnh nghĩa: Mạng LAN không dây theo họ chuẩn IEEE 802.11; chất lượng phụ thuộc phổ tần, nhiễu và client.\nĐầu vào: Khảo sát nhiễu, vùng phủ, mật độ client, băng tần và quy định địa phương.\nCách thực hiện:\n1. Đo RSSI/SNR và nhiễu tại vị trí thực tế.\n2. Đặt country, channel width, kênh/công suất hoặc profile RRM/ARM phù hợp.\n3. Bật band steering/load balancing từng bước, không ép client ngoài khả năng.\n4. Đo lại vùng phủ, roaming và tải giờ cao điểm; lưu trước/sau.\nKiểm tra: Không có vùng mất phủ mới; chất lượng và phân bố client đạt chỉ tiêu đã đo.\nRollback: Trả channel/power/steering về baseline trước thay đổi.\nXuất hiện: Thông tin lên Bom!B63; Thông tin lên Bom!B66",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "WiFi",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B63",
+    "service": "fortigate_configuration",
+    "term": "WiFi",
+    "recipe_id": "extra_WiFi"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

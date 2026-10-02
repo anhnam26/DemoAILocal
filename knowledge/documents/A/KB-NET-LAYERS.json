@@ -1,0 +1,42 @@
+{
+  "id": "KB-NET-LAYERS",
+  "title": "Mô hình OSI và TCP/IP: phân lớp và ánh xạ",
+  "body": "OSI là mô hình tham chiếu khái niệm gồm 7 tầng, dùng mô tả chức năng truyền thông, thiết kế và khoanh vùng sự cố; không phải một giao thức truyền dữ liệu.\nTừ dưới lên: 1 Physical (Vật lý): tín hiệu và môi trường truyền; 2 Data Link (Liên kết dữ liệu): frame và liên kết cục bộ; 3 Network (Mạng): địa chỉ logic và định tuyến; 4 Transport (Giao vận): truyền dữ liệu đầu cuối; 5 Session (Phiên): quản lý hội thoại; 6 Presentation (Trình bày): biểu diễn/chuyển đổi dữ liệu; 7 Application (Ứng dụng): dịch vụ giao tiếp cho ứng dụng.\nTCP/IP là bộ giao thức Internet và kiến trúc thường mô tả bằng 4 lớp: Link, Internet, Transport, Application. RFC 1122 mô tả link, IP và transport; RFC 1123 xử lý application. Cách dạy 5 lớp tách Physical khỏi Data Link; phải nói rõ quy ước đang dùng.\nÁnh xạ gần đúng: OSI 1–2 vào Link; OSI 3 vào Internet; OSI 4 vào Transport; OSI 5–7 vào Application. Đây là ánh xạ chức năng, không phải mọi giao thức đều khớp tuyệt đối một tầng.\nVí dụ IP thuộc Internet; TCP và UDP thuộc Transport; DNS thuộc Application. TCP/IP không có lớp Session và Presentation riêng, nhưng các chức năng tương ứng vẫn có thể được ứng dụng/thư viện thực hiện.\nOSI hữu ích để học, mô tả và chia bước kiểm tra; TCP/IP sát bộ giao thức triển khai trên Internet. Không nên kết luận OSI chỉ có lý thuyết vô dụng hoặc TCP/IP không có kiến trúc.",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-2",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "aliases": [
+    "OSI",
+    "TCP/IP",
+    "phân lớp"
+  ],
+  "references": [
+    {
+      "title": "RFC 1122 — Internet layers",
+      "url": "https://www.rfc-editor.org/rfc/rfc1122",
+      "checked_at": "2026-09-30"
+    },
+    {
+      "title": "IBM — OSI model",
+      "url": "https://www.ibm.com/think/topics/osi-model",
+      "checked_at": "2026-09-30"
+    }
+  ],
+  "content_kind": "concept",
+  "data_type": "reference_article",
+  "provenance": {
+    "source": "referenced_editorial",
+    "review_note": "Biên soạn đối chiếu nguồn; không chứng nhận cấu hình theo hãng/phiên bản."
+  }
+}

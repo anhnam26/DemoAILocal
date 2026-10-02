@@ -1,0 +1,31 @@
+{
+  "id": "CMP-BACKUP-HA",
+  "title": "So sánh backup và HA",
+  "body": "| Tiêu chí | Backup | HA |\n| Mục đích | Khôi phục dữ liệu/trạng thái lịch sử | Duy trì dịch vụ khi một thành phần lỗi |\n| Ví dụ | Sao lưu máy ảo vào kho tách biệt | Cặp thiết bị active/passive |\n| Không giải quyết hết | Không chuyển đổi dịch vụ tức thì nếu chưa thiết kế | Có thể đồng bộ cả dữ liệu bị xóa/lỗi |\n| Đo lường | RPO, RTO qua restore test | Thời gian chuyển đổi qua failover test |\n| Kết luận | Cần kết hợp HA theo nhu cầu | Cần kết hợp backup và diễn tập |",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference",
+  "aliases": [
+    "backup",
+    "HA",
+    "sao lưu",
+    "tính sẵn sàng cao",
+    "high availability"
+  ]
+}

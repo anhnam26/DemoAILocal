@@ -1,0 +1,35 @@
+{
+  "id": "ND-7927875CB1D409965CE6",
+  "title": "remote_support: FortiAP",
+  "body": "remote_support: FortiAP\nCâu hỏi/mô tả gốc: Liệt kê Model / Số lượng thiết bị\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Liệt kê Model / Số lượng thiết bị. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: AP cung cấp Wi-Fi; controller quản lý profile, radio và SSID tập trung.\nCách xử lý bổ sung:\n1. Kiểm tra nguồn, DHCP/DNS và đường discovery tới controller.\n2. Kết nối AP và authorize theo serial; gán site/AP profile đúng model.\n3. Đồng bộ radio/SSID và VLAN uplink.\n4. Kiểm tra online, client association, DHCP và truy cập mạng.\nTiêu chí: Đúng AP online đúng profile; client nhận mạng và dịch vụ.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "remote_support: FortiAP",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vũ hỗ trợ kỹ thuật - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_row": 13,
+    "source_cell": "row:13",
+    "service": "remote_support",
+    "requirement_id": "09eedde1998a191b5b7e"
+  },
+  "service": "remote_support",
+  "content_kind": "survey"
+}

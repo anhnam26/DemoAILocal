@@ -1,0 +1,35 @@
+{
+  "id": "ND-101B901D34A1770268A5",
+  "title": "Rogue AP Detection",
+  "body": "Rogue AP Detection\nĐịnh nghĩa: Phát hiện AP không được phép; chế độ ngăn chặn sóng cần phạm vi và quyền rõ ràng.\nĐầu vào: Danh sách AP hợp lệ, sensor/radio, khu vực, quy trình xác minh.\nCách thực hiện:\n1. Đăng ký AP hợp lệ, bật scan/detection theo khả năng radio.\n2. Tạo rule và cảnh báo rogue; bắt đầu ở chế độ phát hiện.\n3. Xác minh AP test trong khu vực kiểm soát; phân biệt AP lân cận với rogue nối mạng nội bộ.\n4. Chỉ bật containment khi có thẩm quyền và đánh giá ảnh hưởng.\nKiểm tra: Cảnh báo đúng AP test; không nhận nhầm AP hợp lệ; có quy trình xử lý.\nRollback: Tắt containment/rule mới, giữ log và phục hồi lịch scan.\nXuất hiện: FortiAP!C23",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Rogue AP Detection",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAP",
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "term": "Rogue AP Detection",
+    "recipe_id": "wids"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

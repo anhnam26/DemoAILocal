@@ -1,0 +1,26 @@
+{
+  "id": "R-D13469E657-BB117972",
+  "title": "Dịch vụ tư vấn CNTT.docx",
+  "body": "Dịch vụ Tư vấn & Thiết kế Giải pháp CNTT\n\nCyberAnt cung cấp dịch vụ tư vấn, khảo sát và thiết kế các giải pháp CNTT phù hợp với nhu cầu vận hành và định hướng phát triển của doanh nghiệp. Với kinh nghiệm triển khai thực tế cùng đội ngũ chuyên gia giàu kinh nghiệm, chúng tôi giúp khách hàng lựa chọn giải pháp tối ưu về hiệu năng, tính sẵn sàng, bảo mật và chi phí đầu tư.\n\nĐội ngũ Kỹ sư Chuyên gia\n\nDịch vụ được thực hiện bởi đội ngũ kỹ sư và chuyên gia tư vấn có nhiều kinh nghiệm trong lĩnh vực hạ tầng CNTT và an toàn thông tin.\n\nSở hữu các chứng chỉ chuyên môn quốc tế từ các hãng công nghệ và bảo mật hàng đầu.\n\nTư vấn dựa trên Best Practices, đảm bảo tính thực tiễn và khả năng triển khai.\n\nPhạm vi Dịch vụ\n\nKhảo sát hiện trạng hạ tầng CNTT và thu thập yêu cầu của khách hàng.\n\nPhân tích nhu cầu nghiệp vụ, hiện trạng hệ thống và các yêu cầu kỹ thuật.\n\nĐánh giá hiệu năng, tính sẵn sàng, mức độ an toàn và khả năng mở rộng của hệ thống hiện hữu.\n\nTư vấn lựa chọn kiến trúc, giải pháp và công nghệ phù hợp với nhu cầu và ngân sách.\n\nThiết kế kiến trúc tổng thể (HLD) và thiết kế kỹ thuật chi tiết (LLD) theo yêu cầu.\n\nXây dựng tài liệu thiết kế, sơ đồ hệ thống, BOM, Scope of Work (SOW) và các tài liệu kỹ thuật liên quan.\n\nĐề xuất lộ trình nâng cấp, mở rộng và tối ưu hệ thống trong tương lai.\n\nHỗ trợ tư vấn kỹ thuật trong quá trình lựa chọn giải pháp và lập kế hoạch triển khai.\n\nKết quả Bàn giao\n\nBáo cáo khảo sát hiện trạng.\n\nTài liệu tư vấn và đề xuất giải pháp.\n\nTài liệu thiết kế HLD/LLD (theo phạm vi dự án).\n\nScope of Work (SOW) và kế hoạch triển khai.\n\nDanh mục thiết bị, phần mềm và bản quyền đề xuất (BOM).\n\nSơ đồ kiến trúc hệ thống và các tài liệu kỹ thuật liên quan.\n\nGiá trị CyberAnt mang lại\n\nGiải pháp được thiết kế phù hợp với nhu cầu thực tế và định hướng phát triển của doanh nghiệp.\n\nCân bằng giữa hiệu năng, khả năng mở rộng, an toàn thông tin và chi phí đầu tư.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 1; Khối 2; Khối 3; Khối 4; Khối 5; Khối 6; Khối 7; Khối 8; Khối 9; Khối 10; Khối 11; Khối 12; Khối 13; Khối 14; Khối 15; Khối 16; Khối 17; Khối 18; Khối 19; Khối 20; Khối 21; Khối 22; Khối 23; Khối 24; Khối 25",
+    "sha256": "d13469e6573d7d8a8cc99477bc5f8ae1c58fe7666f6dadcb88032731fcb0454d"
+  },
+  "service": "Dịch vụ tư vấn CNTT.docx",
+  "content_kind": "reference"
+}

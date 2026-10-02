@@ -1,0 +1,35 @@
+{
+  "id": "ND-EB7379493659F2FA9997",
+  "title": "DHCP Snooping",
+  "body": "DHCP Snooping\nĐịnh nghĩa: Kiểm soát server DHCP được tin cậy và tạo bảng binding client.\nĐầu vào: VLAN áp dụng, uplink tới DHCP hợp lệ, rate limit.\nCách thực hiện:\n1. Bật snooping cho VLAN thử nghiệm.\n2. Chỉ đánh dấu trusted cổng đi tới DHCP server/relay hợp lệ; cổng client untrusted.\n3. Đặt rate limit phù hợp và lưu binding nếu hỗ trợ.\n4. Test DHCP hợp lệ và server giả lập trong lab, kiểm tra binding/drop counter.\nKiểm tra: DHCP hợp lệ hoạt động; DHCP giả bị chặn; binding đúng MAC/IP/port.\nRollback: Tắt snooping trên VLAN gây lỗi và khôi phục trust port trước.\nXuất hiện: FortiSwitch!C19",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "DHCP Snooping",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "C19",
+    "service": "it_configuration",
+    "term": "DHCP Snooping",
+    "recipe_id": "snooping"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

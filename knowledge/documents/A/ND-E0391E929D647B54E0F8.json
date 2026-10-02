@@ -1,0 +1,35 @@
+{
+  "id": "ND-E0391E929D647B54E0F8",
+  "title": "FortiPresence",
+  "body": "FortiPresence\nĐịnh nghĩa: Phân tích hiện diện/định vị từ tín hiệu mạng; độ chính xác phụ thuộc thiết kế và thiết bị.\nĐầu vào: Mục đích, quyền xử lý dữ liệu, bản đồ/tọa độ AP, license, endpoint thu thập.\nCách thực hiện:\n1. Xác nhận phạm vi dữ liệu được phép thu.\n2. Cấu hình connector/đích gửi và map AP lên mặt bằng.\n3. Hiệu chỉnh bằng điểm đo được biết, đặt retention và quyền truy cập.\n4. Test báo cáo/tọa độ và độ sai lệch thực tế; không hứa độ chính xác chưa đo.\nKiểm tra: Dữ liệu lên đúng site; sai số được ghi; truy cập và thời gian lưu đúng yêu cầu.\nRollback: Tắt thu thập/gửi mới, phục hồi connector và xử lý dữ liệu thử theo chính sách.\nXuất hiện: FortiAP!C20",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "FortiPresence",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAP",
+    "source_cell": "C20",
+    "service": "it_configuration",
+    "term": "FortiPresence",
+    "recipe_id": "presence"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

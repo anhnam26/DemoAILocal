@@ -1,0 +1,35 @@
+{
+  "id": "ND-E70CB96F022DEC91A412",
+  "title": "Ngân sách",
+  "body": "Ngân sách\nĐịnh nghĩa: SI là đơn vị tích hợp; EU là khách hàng sử dụng cuối; MST mã số thuế; PO đơn đặt hàng; invoice hóa đơn.\nĐầu vào: Thông tin pháp nhân/đầu mối, vai trò SI/EU, phạm vi, giá/thuế được bộ phận phụ trách cung cấp.\nCách thực hiện:\n1. Thu trường định danh từ người có thẩm quyền, giữ SI và EU thành vai trò riêng.\n2. Đối chiếu mã báo giá/PO, phạm vi SOW và BBNT.\n3. Chuyển bộ phận kinh doanh/kế toán xác nhận giá, thuế và hóa đơn.\n4. Ghi ô chưa có là null/chờ xác nhận; không tự sinh MST/giá/điều khoản như sự thật.\nKiểm tra: Pháp nhân/đầu mối có nguồn; tài liệu thương mại nhất quán; không nhầm SI/EU.\nRollback: Sửa bản nháp có lưu revision; chứng từ đã phát hành chuyển bộ phận phụ trách xử lý.\nXuất hiện: 1. Thong tin KH!A19; 2. Checklist Yeu cau!A18; 2. Checklist Yeu cau!B21; 2. Checklist Yeu cau!C21",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Ngân sách",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ RMA - Khảo sát thông tin.xlsx",
+    "source_sheet": "1. Thong tin KH",
+    "source_cell": "A19",
+    "service": "rma",
+    "term": "Ngân sách",
+    "recipe_id": "commercial"
+  },
+  "service": "rma",
+  "content_kind": "concept"
+}

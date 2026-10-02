@@ -1,0 +1,36 @@
+{
+  "id": "ND-8E6B9B603371F7AF0F57",
+  "title": "Server — Cài đặt hệ điều hành (Windows Server/Linux)",
+  "body": "Server — Cài đặt hệ điều hành (Windows Server/Linux)\nHạng mục gốc: Cài đặt hệ điều hành (Windows Server/Linux); gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Hệ điều hành cung cấp nền tảng chạy dịch vụ trên server.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nBản quyền, image/checksum, boot disk, driver, IP plan và backup.\nQuy trình bổ sung:\n1. Xác nhận đúng boot disk và quyền ghi đè trước cài.\n2. Boot media đã kiểm tra, chọn partition theo thiết kế và cài OS/driver hỗ trợ.\n3. Cấu hình hostname/IP/time/DNS, cập nhật bản vá theo baseline.\n4. Kiểm tra reboot, event log, thiết bị phần cứng và truy cập quản trị.\nNghiệm thu: OS/license đúng; không thiếu driver; reboot ổn định; quản trị được bảo vệ.\nRollback: Phục hồi image/backup hệ thống cũ nếu triển khai không đạt.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Server — Cài đặt hệ điều hành (Windows Server/Linux)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_row": 16,
+    "source_cell": "C16",
+    "service": "it_configuration",
+    "item_id": "IT-Server-016",
+    "device_family": "Server"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

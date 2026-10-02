@@ -19,7 +19,7 @@ $logDir=Join-Path $appRoot 'data\logs'
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 $stdout=Join-Path $logDir "app-$Port.stdout.log"
 $stderr=Join-Path $logDir "app-$Port.stderr.log"
-$appArgs=@('-m','uvicorn','app:app','--app-dir',('"'+$appRoot+'"'),'--host','127.0.0.1','--port',"$Port",'--workers','1','--no-proxy-headers')
+$appArgs=@('-m','uvicorn','cyberant.app:app','--app-dir',('"'+$appRoot+'"'),'--host','127.0.0.1','--port',"$Port",'--workers','1','--no-proxy-headers')
 $launcher=Start-Process -FilePath $pythonExe -ArgumentList $appArgs -WorkingDirectory $appRoot -WindowStyle Hidden -RedirectStandardOutput $stdout -RedirectStandardError $stderr -PassThru
 for ($attempt=0;$attempt -lt 120;$attempt++) {
     Start-Sleep -Milliseconds 500

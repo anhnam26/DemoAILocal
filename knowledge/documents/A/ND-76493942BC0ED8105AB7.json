@@ -1,0 +1,35 @@
+{
+  "id": "ND-76493942BC0ED8105AB7",
+  "title": "FortiSwitch Stack",
+  "body": "FortiSwitch Stack\nĐịnh nghĩa: Các công nghệ phối hợp nhiều switch; stacking, VSX và FortiLink topology không đồng nghĩa.\nĐầu vào: Model/OS hỗ trợ, stack/peer ports, ID/priority, thiết kế quản trị.\nCách thực hiện:\n1. Xác định công nghệ thực sự hỗ trợ trên model; không áp CLI hãng khác.\n2. Sao lưu từng switch, đặt member ID/priority và nối stack/peer theo sơ đồ hãng.\n3. Kiểm tra trạng thái member, đồng bộ và khả năng quản trị.\n4. Test mất member/link có kiểm soát và lưu topology.\nKiểm tra: Đủ member; không split-brain; failover đúng thiết kế.\nRollback: Cô lập member lỗi và phục hồi cấu hình/đấu nối trước khi ghép.\nXuất hiện: FortiSwitch!C23",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "FortiSwitch Stack",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "term": "FortiSwitch Stack",
+    "recipe_id": "stack"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

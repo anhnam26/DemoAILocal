@@ -1,0 +1,35 @@
+{
+  "id": "ND-79ED424248066F168516",
+  "title": "consulting: Compliance",
+  "body": "consulting: Compliance\nCâu hỏi/mô tả gốc: Dự án có phải đáp ứng tiêu chuẩn, quy định hoặc yêu cầu compliance cụ thể nào không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Dự án có phải đáp ứng tiêu chuẩn, quy định hoặc yêu cầu compliance cụ thể nào không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Đánh giá trạng thái endpoint so với yêu cầu bảo mật trước/sau truy cập.\nCách xử lý bổ sung:\n1. Định nghĩa từng tiêu chí đo được và nhóm áp dụng.\n2. Cấu hình agent/scan phù hợp; chạy monitor trên nhóm thử.\n3. Tạo trạng thái compliant/noncompliant và hướng dẫn khắc phục.\n4. Test endpoint đạt/không đạt; chỉ bật chặn sau khi xác minh.\nTiêu chí: Đánh giá đúng và có lý do; endpoint khắc phục được đánh giá lại.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: Compliance",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 26,
+    "source_cell": "row:26",
+    "service": "consulting",
+    "requirement_id": "9b424972b0f7e74da2ee"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

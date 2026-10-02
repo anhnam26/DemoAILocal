@@ -1,0 +1,35 @@
+{
+  "id": "ND-DF513EEE6281109B0DD6",
+  "title": "License",
+  "body": "License\nĐịnh nghĩa: License cấp quyền tính năng/dịch vụ; serial nhận dạng tài sản và entitlement.\nĐầu vào: Serial/model, chủ tài khoản hãng, hợp đồng/mã kích hoạt và ngày hết hạn.\nCách thực hiện:\n1. Đối chiếu serial trên thiết bị, nhãn và hồ sơ mua.\n2. Kiểm tra quyền đăng ký/chuyển chủ với khách hàng.\n3. Đăng ký/kích hoạt qua cổng hãng theo entitlement, đồng bộ trên thiết bị.\n4. Lưu trạng thái và ngày hết hạn, không lưu mã bí mật; test dịch vụ subscription.\nKiểm tra: Serial đúng chủ; entitlement/tính năng hiện đúng; có cảnh báo gia hạn.\nRollback: Nếu sai chủ/serial, dừng và mở yêu cầu hãng; không tự chuyển tài sản.\nXuất hiện: 2. Checklist Yeu cau!C10",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "License",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ cho thuê - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_cell": "C10",
+    "service": "equipment_rental",
+    "term": "License",
+    "recipe_id": "license"
+  },
+  "service": "equipment_rental",
+  "content_kind": "concept"
+}

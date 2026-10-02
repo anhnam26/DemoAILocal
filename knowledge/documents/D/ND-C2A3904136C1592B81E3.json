@@ -1,0 +1,32 @@
+{
+  "id": "ND-C2A3904136C1592B81E3",
+  "title": "SOW đề xuất equipment_rental: Bàn giao & hướng dẫn",
+  "body": "SOW đề xuất equipment_rental: Bàn giao & hướng dẫn\nĐầu ra đề xuất: Biên bản serial/phụ kiện/tình trạng, tài liệu và hướng dẫn\nCác bước:\n1. Export backup cấu hình và ghi model/version/thời điểm/checksum.\n2. Mã hóa và lưu kho nội bộ; kiểm tra phục hồi trong lab hoặc kiểm tra tính toàn vẹn.\n3. Hoàn thiện as-built, IP plan, checklist kết quả, hướng dẫn vận hành/rollback và các tồn đọng.\n4. Hướng dẫn người nhận; ký BBNT đúng phạm vi và bàn giao bí mật qua kênh riêng.\nNghiệm thu: Backup đọc được; hồ sơ đầy đủ; người nhận xác nhận; vấn đề chưa đạt có người chịu trách nhiệm.\nRollback: Nếu hồ sơ/test chưa đủ thì chưa xác nhận hoàn tất; bổ sung tài liệu và kiểm thử.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất equipment_rental: Bàn giao & hướng dẫn",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "equipment_rental-SOW-05",
+    "service": "equipment_rental"
+  },
+  "service": "equipment_rental",
+  "content_kind": "reference"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-CCA95B06901BEAFDC3F6",
+  "title": "Server — Cấu hình kết nối SAN/Multipath nâng cao",
+  "body": "Server — Cấu hình kết nối SAN/Multipath nâng cao\nHạng mục gốc: Cấu hình kết nối SAN/Multipath nâng cao; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: SAN cung cấp lưu trữ khối; multipath tạo nhiều đường tới cùng LUN để dự phòng/cân bằng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nHost HCL, WWPN/IQN, paths, driver/DSM, chính sách path hãng khuyến nghị.\nQuy trình bổ sung:\n1. Đối chiếu zoning/LUN masking và network storage.\n2. Cài/bật multipath stack đúng OS và driver được hỗ trợ.\n3. Rescan, xác nhận nhiều đường cùng nhận một device ID, chọn path policy đúng hãng.\n4. Test mất từng đường trong bảo trì, theo dõi I/O và path recovery.\nNghiệm thu: Không hiện LUN trùng; I/O liên tục khi mất một path; path phục hồi.\nRollback: Trả path policy/driver theo kế hoạch, không tháo tất cả đường đang ghi.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Server — Cấu hình kết nối SAN/Multipath nâng cao",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_row": 23,
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "item_id": "IT-Server-023",
+    "device_family": "Server"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

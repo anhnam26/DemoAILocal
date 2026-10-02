@@ -1,0 +1,35 @@
+{
+  "id": "ND-D506FCAC7A35253D29D0",
+  "title": "Deep Packet Inspection",
+  "body": "Deep Packet Inspection\nĐịnh nghĩa: Kiểm tra lưu lượng mã hóa bằng chứng chỉ hoặc giải mã trung gian có kiểm soát.\nĐầu vào: Phạm vi kiểm tra, CA doanh nghiệp, endpoint tin cậy, ngoại lệ và quyền xử lý dữ liệu.\nCách thực hiện:\n1. Tách certificate inspection khỏi deep inspection.\n2. Tạo/import CA được quản lý và phân phối trust tới nhóm thử nghiệm qua kênh quản trị.\n3. Clone profile SSL, đặt ngoại lệ cho ứng dụng pinning/nhạy cảm đã duyệt, gắn policy thử.\n4. Kiểm tra chuỗi chứng chỉ, ứng dụng HTTPS, log và CPU; mở rộng từng nhóm.\nKiểm tra: Không lỗi certificate trên nhóm hợp lệ; có kiểm tra đúng phạm vi; ngoại lệ được ghi nhận.\nRollback: Tháo deep inspection khỏi policy, phục hồi profile trước và thu hồi CA thử nếu cần.\nXuất hiện: FortiGate!C41; Firewall!C28",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Deep Packet Inspection",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C41",
+    "service": "it_configuration",
+    "term": "Deep Packet Inspection",
+    "recipe_id": "sslinspect"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

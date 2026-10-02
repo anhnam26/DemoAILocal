@@ -1,0 +1,35 @@
+{
+  "id": "ND-3B3A4C32E52394A91499",
+  "title": "BGP",
+  "body": "BGP\nĐịnh nghĩa: Giao thức trao đổi tuyến giữa các hệ tự trị, điều khiển chọn đường bằng thuộc tính và chính sách.\nĐầu vào: ASN, peer IP/ASN, prefix list, route-map, max-prefix, xác thực và route tới peer.\nCách thực hiện:\n1. Tạo neighbor trên kết nối đã thông.\n2. Cấu hình ASN/router ID/peer và bảo vệ phiên theo khả năng nền tảng.\n3. Áp prefix-list/route-map chiều vào/ra trước khi bật quảng bá; giới hạn prefix.\n4. Kiểm tra established, routes received/advertised và best path; thử dự phòng.\nKiểm tra: Không rò tuyến; đúng prefix và next-hop; phiên ổn định.\nRollback: Shutdown neighbor hoặc rút quảng bá mới; phục hồi filter và đường cũ.\nXuất hiện: FortiGate!C37; Firewall!C31",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "BGP",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C37",
+    "service": "it_configuration",
+    "term": "BGP",
+    "recipe_id": "bgp"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

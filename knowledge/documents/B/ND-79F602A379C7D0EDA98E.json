@@ -1,0 +1,36 @@
+{
+  "id": "ND-79F602A379C7D0EDA98E",
+  "title": "Log — Giám sát hiệu năng thu thập log (Log Ingestion Monitoring)",
+  "body": "Log — Giám sát hiệu năng thu thập log (Log Ingestion Monitoring)\nHạng mục gốc: Giám sát hiệu năng thu thập log (Log Ingestion Monitoring); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Đo độ trễ, throughput, queue/drop và tài nguyên để phát hiện điểm nghẽn.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nBaseline, chỉ số/đơn vị, ngưỡng, kỳ lấy mẫu và nguồn dữ liệu.\nQuy trình bổ sung:\n1. Thu baseline giờ thường/cao điểm.\n2. Cấu hình dashboard throughput/latency/queue/capacity; với log thêm EPS, parse failures và lag.\n3. Tạo alert có thời gian duy trì.\n4. Test tải có kiểm soát và đối chiếu số liệu ở nguồn/đích.\nNghiệm thu: Phát hiện nghẽn trước mất dữ liệu; chỉ số đúng đơn vị; có lịch sử so sánh.\nRollback: Giảm sampling/tắt rule gây tải, phục hồi template trước.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Log — Giám sát hiệu năng thu thập log (Log Ingestion Monitoring)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Log",
+    "source_row": 27,
+    "source_cell": "C27",
+    "service": "it_configuration",
+    "item_id": "IT-Log-027",
+    "device_family": "Log"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

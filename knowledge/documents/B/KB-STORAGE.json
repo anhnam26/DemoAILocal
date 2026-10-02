@@ -1,0 +1,24 @@
+{
+  "id": "KB-STORAGE",
+  "title": "Dung lượng tăng đột biến — bài học ẩn danh",
+  "body": "Tình huống tổng hợp DEMO không gắn khách: Snapshot và retention có thể chiếm dung lượng chưa được tính. Kiểm tra: Phân tích volume, lịch snapshot, thời hạn giữ và tốc độ tăng. Bài học: Không xóa snapshot/backup khi chưa có chính sách và người duyệt. Nêu giả thuyết rõ, chỉ kết luận khi có log/test. Chuyển trưởng nhóm nếu ảnh hưởng nhiều site.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

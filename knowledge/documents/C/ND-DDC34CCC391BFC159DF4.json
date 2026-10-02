@@ -1,0 +1,35 @@
+{
+  "id": "ND-DDC34CCC391BFC159DF4",
+  "title": "consulting: Bảo mật",
+  "body": "consulting: Bảo mật\nCâu hỏi/mô tả gốc: Có yêu cầu đặc biệt về phân quyền, xác thực, segmentation, access control hoặc security monitoring không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Có yêu cầu đặc biệt về phân quyền, xác thực, segmentation, access control hoặc security monitoring không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Luật quyết định luồng mạng được phép/từ chối theo nguồn, đích, dịch vụ và ngữ cảnh.\nThu thập chỉ số trạng thái/hiệu năng qua agent hoặc giao thức quản trị.\nCách xử lý bổ sung:\n1. Tạo address/service objects đúng subnet và port.\n2. Tạo luật từ cụ thể đến tổng quát theo cơ chế hãng; chọn đúng ingress/egress, action và lịch.\n3. Gắn profile bảo mật và NAT chỉ khi thiết kế yêu cầu; bật log cần thiết.\n4. Thử luồng được phép và luồng phải chặn; xem hit count/log để tìm luật che khuất.\n5. Thêm host đúng site và interface giám sát.\n6. Ưu tiên SNMPv3 authPriv nếu hỗ trợ; nếu v2c bắt buộc thì community riêng và giới hạn nguồn.\n7. Cài agent/template đúng OS/model; chọn CPU/RAM/disk/network và khoảng lấy mẫu.\n8. So sánh dữ liệu với thiết bị, test cảnh báo và mất kết nối.\nTiêu chí: Chỉ các luồng đã duyệt được thông; kiểm thử deny đạt; log truy vết đúng policy.\nGiá trị đúng đơn vị; không có lỗ hổng thu thập; chỉ server giám sát truy cập được.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: Bảo mật",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 23,
+    "source_cell": "row:23",
+    "service": "consulting",
+    "requirement_id": "a482410ab364d422fb2e"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

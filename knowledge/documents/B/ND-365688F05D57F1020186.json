@@ -1,0 +1,36 @@
+{
+  "id": "ND-365688F05D57F1020186",
+  "title": "AP — Cấu hình VLAN cho từng SSID",
+  "body": "AP — Cấu hình VLAN cho từng SSID\nHạng mục gốc: Cấu hình VLAN cho từng SSID; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: SSID là tên mạng Wi-Fi; chế độ bảo mật quy định cách xác thực/mã hóa.\nPhân đoạn mạng lớp 2 theo VLAN ID; 802.1Q gắn thẻ VLAN trên liên kết dùng chung.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nTên SSID, band, VLAN, PSK hoặc RADIUS, client tương thích.\nVLAN ID/tên, subnet/gateway, parent interface, danh sách VLAN được phép.\nQuy trình bổ sung:\n1. Tạo SSID và chọn bảo mật theo yêu cầu; Open chỉ dùng mạng khách có cách ly và chấp thuận.\n2. Đặt PSK mạnh trong kho bí mật hoặc RADIUS cho Enterprise.\n3. Gán VLAN/tunnel/bridge và AP profile; kiểm tra uplink DHCP/policy.\n4. Test kết nối, roaming cơ bản và cách ly khách.\n5. Tạo VLAN trên thiết bị và sub-interface trên gateway nếu gateway đặt tại đó.\n6. Gán VLAN ID, tên, IP/mask cho sub-interface theo IP plan.\n7. Đồng bộ allowed VLAN và native VLAN giữa hai đầu uplink; tránh nhầm tagged/untagged.\n8. Cấu hình DHCP/policy liên quan và thử client của từng VLAN.\nNghiệm thu: Client hợp lệ kết nối; VLAN đúng; không lộ mạng nội bộ.\nClient vào đúng VLAN, lấy đúng IP; VLAN bị tách theo policy; uplink truyền đúng tag.\nRollback: Disable SSID mới, phục hồi profile/PSK trước theo quy trình bí mật.\nGỡ VLAN mới sau khi chuyển client về VLAN cũ; khôi phục allowed/native VLAN.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "AP — Cấu hình VLAN cho từng SSID",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "AP",
+    "source_row": 16,
+    "source_cell": "C16",
+    "service": "it_configuration",
+    "item_id": "IT-AP-016",
+    "device_family": "AP"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

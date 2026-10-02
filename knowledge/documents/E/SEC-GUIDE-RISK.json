@@ -1,0 +1,30 @@
+{
+  "id": "SEC-GUIDE-RISK",
+  "title": "Đánh giá rủi ro và phân loại tài sản — kiến thức & tư vấn",
+  "body": "## 1. Hiểu đúng\nRủi ro cần xét tài sản, tình huống đe dọa, điểm yếu và tác động kinh doanh. Mức chấp nhận rủi ro do tổ chức quyết định; đầu tư bảo vệ phải gắn với dữ liệu và dịch vụ cần duy trì.\n\n## 2. Câu hỏi khảo sát đề xuất\nTài sản nào chứa dữ liệu khách? Có owner và phụ thuộc bên ngoài không?\n\n## 3. Bằng chứng nên yêu cầu\nInventory; ma trận rủi ro; quyết định xử lý hoặc chấp nhận.\n\n## 4. Giới hạn\nKhông dùng một điểm số chung thay đánh giá nghiệp vụ.\n\n## Nguồn và biên soạn\nTham khảo nền tảng: NIST CSF 2.0. Bản diễn giải tiếng Việt và bài tập do demo biên soạn; không phải bản dịch tiêu chuẩn. Kiểm nguồn ngày 2026-09-05. Các câu hỏi, bước lab và đầu ra là đề xuất cho demo, không phải yêu cầu nguyên văn của nguồn.",
+  "group": "E",
+  "category": "An toàn thông tin",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "references": [
+    {
+      "title": "NIST CSF 2.0",
+      "url": "https://www.nist.gov/cyberframework/faqs",
+      "checked_at": "2026-09-05"
+    }
+  ],
+  "provenance": {
+    "source": "security_documents"
+  },
+  "content_kind": "reference"
+}

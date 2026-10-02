@@ -1,0 +1,36 @@
+{
+  "id": "ND-1D2FA0BF3B7EE9CD3827",
+  "title": "Monitoring — Tích hợp giám sát bảo mật/phát hiện bất thường (Anomaly Detection)",
+  "body": "Monitoring — Tích hợp giám sát bảo mật/phát hiện bất thường (Anomaly Detection)\nHạng mục gốc: Tích hợp giám sát bảo mật/phát hiện bất thường (Anomaly Detection); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Nhận biết sai lệch so với hành vi nền, cần xác minh để tránh chặn nhầm.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nDữ liệu lịch sử, chỉ số/use case, mùa vụ và owner điều tra.\nQuy trình bổ sung:\n1. Làm sạch dữ liệu thiếu/đổi đơn vị trước học baseline.\n2. Chọn cửa sổ và ngưỡng theo nhóm tương đồng, chạy monitor.\n3. Replay tình huống bất thường và hoạt động hợp lệ giờ cao điểm.\n4. Chỉ mở action sau đánh giá false positive; gắn ticket có bằng chứng.\nNghiệm thu: Cảnh báo giải thích được; drift được theo dõi; không tự khóa dịch vụ thiếu xác minh.\nRollback: Tắt rule/model mới và quay baseline trước.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Monitoring — Tích hợp giám sát bảo mật/phát hiện bất thường (Anomaly Detection)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Monitoring",
+    "source_row": 26,
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "item_id": "IT-Monitoring-026",
+    "device_family": "Monitoring"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

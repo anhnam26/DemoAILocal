@@ -1,0 +1,32 @@
+{
+  "id": "ND-61458465AAF1AA23BCAE",
+  "title": "SOW đề xuất managed_service: Giám sát & cảnh báo",
+  "body": "SOW đề xuất managed_service: Giám sát & cảnh báo\nĐầu ra đề xuất: Dashboard, ngưỡng, kênh thông báo và thử nghiệm cảnh báo\nCác bước:\n1. Thêm host đúng site và interface giám sát.\n2. Ưu tiên SNMPv3 authPriv nếu hỗ trợ; nếu v2c bắt buộc thì community riêng và giới hạn nguồn.\n3. Cài agent/template đúng OS/model; chọn CPU/RAM/disk/network và khoảng lấy mẫu.\n4. So sánh dữ liệu với thiết bị, test cảnh báo và mất kết nối.\n5. Đo baseline, đặt ngưỡng có hysteresis/duration để tránh báo dồn.\n6. Tạo rule theo device/service và kênh thông báo bảo vệ bí mật.\n7. Thiết lập escalation và maintenance suppression.\n8. Phát sinh sự kiện test, xác nhận nhận/ack/recovery và thời gian.\nNghiệm thu: Giá trị đúng đơn vị; không có lỗ hổng thu thập; chỉ server giám sát truy cập được.\nNgười đúng ca nhận alert; recovery đóng đúng; không lặp vô hạn.\nRollback: Gỡ template/agent mới, khôi phục ACL/interval và credential cũ.\nDisable rule/kênh mới, phục hồi ngưỡng cũ.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất managed_service: Giám sát & cảnh báo",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "managed_service-SOW-03",
+    "service": "managed_service"
+  },
+  "service": "managed_service",
+  "content_kind": "reference"
+}

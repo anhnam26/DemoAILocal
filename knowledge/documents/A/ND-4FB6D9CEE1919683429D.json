@@ -1,0 +1,35 @@
+{
+  "id": "ND-4FB6D9CEE1919683429D",
+  "title": "APM",
+  "body": "APM\nĐịnh nghĩa: Theo dõi hiệu năng ứng dụng từ transaction, trace, metric và log.\nĐầu vào: Ứng dụng/ngôn ngữ, agent hỗ trợ, endpoint collector, sampling và dữ liệu nhạy cảm.\nCách thực hiện:\n1. Chọn instrumentation phù hợp, triển khai một instance thử.\n2. Cấu hình service name/environment, sampling và loại bỏ secret/PII khỏi trace.\n3. Tạo transaction test, liên kết trace-metric-log.\n4. Đặt ngưỡng theo latency/error rate và đo overhead.\nKiểm tra: Trace đúng service; không lộ dữ liệu; overhead trong giới hạn đã đo.\nRollback: Gỡ/tắt instrumentation mới và phục hồi cấu hình ứng dụng.\nXuất hiện: Monitoring!C20",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "APM",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Monitoring",
+    "source_cell": "C20",
+    "service": "it_configuration",
+    "term": "APM",
+    "recipe_id": "apm"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

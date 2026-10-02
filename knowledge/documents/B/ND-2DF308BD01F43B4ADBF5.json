@@ -1,0 +1,36 @@
+{
+  "id": "ND-2DF308BD01F43B4ADBF5",
+  "title": "FortiGate — Cấu hình SSL VPN cho người dùng từ xa",
+  "body": "FortiGate — Cấu hình SSL VPN cho người dùng từ xa\nHạng mục gốc: Cấu hình SSL VPN cho người dùng từ xa; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: SSL VPN là cơ chế truy cập từ xa qua TLS; hỗ trợ phụ thuộc model và phiên bản, không mặc định còn khả dụng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nModel/RAM, FortiOS và client version, release notes, certificate, user/MFA.\nQuy trình bổ sung:\n1. Kiểm tra release notes trước tiên: FortiOS 7.6.3 đã bỏ SSL VPN tunnel mode; chọn IPsec thay thế cho trường hợp này.\n2. Nếu model/phiên bản còn hỗ trợ chế độ được yêu cầu, cấu hình certificate, cổng nghe, portal, pool và nhóm xác thực.\n3. Giới hạn policy tới tài nguyên được duyệt; triển khai profile client thử.\n4. Kiểm thử chứng chỉ, MFA, route/DNS và luồng bị cấm; lập kế hoạch chuyển đổi nếu nâng phiên bản.\nNghiệm thu: Tính năng thực sự được hỗ trợ trên thiết bị đích; không mất truy cập từ xa sau nâng cấp.\nRollback: Giữ kênh quản trị dự phòng; phục hồi cấu hình VPN được hỗ trợ đã kiểm chứng.\nTham khảo bổ sung: https://docs.fortinet.com/document/fortigate/7.6.3/fortios-release-notes/173430/ssl-vpn-tunnel-mode-replaced-with-ipsec-vpn",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Cấu hình SSL VPN cho người dùng từ xa",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 31,
+    "source_cell": "C31",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-031",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

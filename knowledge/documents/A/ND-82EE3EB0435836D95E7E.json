@@ -1,0 +1,35 @@
+{
+  "id": "ND-82EE3EB0435836D95E7E",
+  "title": "Fingerprinting",
+  "body": "Fingerprinting\nĐịnh nghĩa: Phân loại endpoint từ thông tin mạng/agent, có mức tin cậy và khả năng nhận nhầm.\nĐầu vào: Nguồn DHCP/SNMP/agent, nhóm thiết bị, baseline.\nCách thực hiện:\n1. Bật nguồn thu thập được phép trên VLAN thử.\n2. Tạo profile theo thuộc tính kết hợp, đặt mức confidence.\n3. Đối chiếu thiết bị đã biết trước khi gắn enforcement.\n4. Kiểm tra thiết bị mới/giả thuộc tính và quy trình sửa nhận diện.\nKiểm tra: Phân loại đúng mẫu test; thiết bị không rõ vào nhóm cách ly/duyệt theo thiết kế.\nRollback: Chuyển profile lỗi về monitor, phục hồi classification cũ.\nXuất hiện: FortiNAC!C21",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Fingerprinting",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiNAC",
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "term": "Fingerprinting",
+    "recipe_id": "profiling"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

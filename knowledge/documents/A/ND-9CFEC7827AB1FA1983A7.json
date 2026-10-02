@@ -1,0 +1,35 @@
+{
+  "id": "ND-9CFEC7827AB1FA1983A7",
+  "title": "Traffic Shaping",
+  "body": "Traffic Shaping\nĐịnh nghĩa: QoS ưu tiên hoặc giới hạn tài nguyên; shaping điều tiết lưu lượng, IOPS đo thao tác I/O mỗi giây.\nĐầu vào: Băng thông/IOPS thực, lớp ứng dụng, min/max, DSCP và ngưỡng độ trễ.\nCách thực hiện:\n1. Đo baseline và xác định điểm nghẽn.\n2. Tạo class/shaper hoặc storage QoS theo thiết bị; min không vượt năng lực thực.\n3. Gắn đúng policy/interface/LUN, thống nhất marking/trust nếu dùng DSCP.\n4. Thử tải có kiểm soát, đo throughput/latency và kiểm tra class counter.\nKiểm tra: Luồng ưu tiên đạt mục tiêu dưới tải; không làm đói dịch vụ khác.\nRollback: Bỏ policy QoS mới, trả min/max/marking cũ.\nXuất hiện: Thông tin lên Bom!B41",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Traffic Shaping",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B41",
+    "service": "fortigate_configuration",
+    "term": "Traffic Shaping",
+    "recipe_id": "qos"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

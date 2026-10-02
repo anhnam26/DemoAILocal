@@ -1,0 +1,36 @@
+{
+  "id": "ND-504E7E05A76D3B6FCF13",
+  "title": "FortiGate — Cấu hình SSL Inspection (Deep Packet Inspection)",
+  "body": "FortiGate — Cấu hình SSL Inspection (Deep Packet Inspection)\nHạng mục gốc: Cấu hình SSL Inspection (Deep Packet Inspection); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Kiểm tra lưu lượng mã hóa bằng chứng chỉ hoặc giải mã trung gian có kiểm soát.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPhạm vi kiểm tra, CA doanh nghiệp, endpoint tin cậy, ngoại lệ và quyền xử lý dữ liệu.\nQuy trình bổ sung:\n1. Tách certificate inspection khỏi deep inspection.\n2. Tạo/import CA được quản lý và phân phối trust tới nhóm thử nghiệm qua kênh quản trị.\n3. Clone profile SSL, đặt ngoại lệ cho ứng dụng pinning/nhạy cảm đã duyệt, gắn policy thử.\n4. Kiểm tra chuỗi chứng chỉ, ứng dụng HTTPS, log và CPU; mở rộng từng nhóm.\nNghiệm thu: Không lỗi certificate trên nhóm hợp lệ; có kiểm tra đúng phạm vi; ngoại lệ được ghi nhận.\nRollback: Tháo deep inspection khỏi policy, phục hồi profile trước và thu hồi CA thử nếu cần.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Cấu hình SSL Inspection (Deep Packet Inspection)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 41,
+    "source_cell": "C41",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-041",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

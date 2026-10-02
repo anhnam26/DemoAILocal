@@ -1,0 +1,30 @@
+{
+  "id": "ND-15FEDFA1D5980F090EA7",
+  "title": "migration_copy_title",
+  "body": "migration_copy_title\nForm thông tin KH của chuyển đổi có tiêu đề hỗ trợ kỹ thuật từ xa.\nVị trí: Dịch vụ chuyển đổi cấu hình - Khảo sát thông tin.xlsx / 1. Thông tin KH!A1",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "data_quality",
+  "provenance": {
+    "category": "data_quality",
+    "document_type": "data_quality",
+    "title": "migration_copy_title",
+    "provenance": "authored_review",
+    "review_status": "draft_engineer_review",
+    "source_file": "data_quality.json"
+  },
+  "service": "",
+  "content_kind": "reference"
+}

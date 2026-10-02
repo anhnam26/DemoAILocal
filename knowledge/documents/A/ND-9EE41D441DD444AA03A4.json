@@ -1,0 +1,35 @@
+{
+  "id": "ND-9EE41D441DD444AA03A4",
+  "title": "24x7",
+  "body": "24x7\nĐịnh nghĩa: Remote hỗ trợ từ xa, onsite tại chỗ; Managed Service quản trị theo phạm vi liên tục; giờ hỗ trợ khác thời gian khắc phục.\nĐầu vào: Scope, inventory, SLA/severity, đầu mối, kênh remote bảo vệ, change approval.\nCách thực hiện:\n1. Tạo ticket và phân loại ảnh hưởng/ưu tiên theo hợp đồng.\n2. Xác nhận quyền truy cập; dùng phiên remote định danh có thời hạn và ghi thao tác.\n3. Chẩn đoán từ log/baseline, đề xuất thay đổi kèm backup/rollback, thực hiện khi được duyệt.\n4. Test với khách hàng, escalation khi vượt khả năng/ngưỡng, cập nhật báo cáo và đóng khi xác nhận.\nKiểm tra: Ticket có lịch sử, thời điểm response/resolution riêng; quyền remote được thu hồi sau phiên.\nRollback: Dừng thay đổi và khôi phục baseline; escalation theo danh sách phụ trách.\nXuất hiện: 2. Checklist Yeu cau!B19",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "24x7",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vũ hỗ trợ kỹ thuật - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_cell": "B19",
+    "service": "remote_support",
+    "term": "24x7",
+    "recipe_id": "support"
+  },
+  "service": "remote_support",
+  "content_kind": "concept"
+}

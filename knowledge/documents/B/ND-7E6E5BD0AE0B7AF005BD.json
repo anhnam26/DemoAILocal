@@ -1,0 +1,36 @@
+{
+  "id": "ND-7E6E5BD0AE0B7AF005BD",
+  "title": "FortiManager — Cấu hình Backup cấu hình tập trung (Revision History)",
+  "body": "FortiManager — Cấu hình Backup cấu hình tập trung (Revision History)\nHạng mục gốc: Cấu hình Backup cấu hình tập trung (Revision History); gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Lưu phiên bản cấu hình để so sánh và phục hồi thay đổi.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nThiết bị được quản lý, lịch, retention, nơi lưu bảo vệ.\nQuy trình bổ sung:\n1. Tạo revision baseline có mô tả trước khi đổi cấu hình.\n2. Thiết lập backup theo lịch/sự kiện và phân quyền nơi lưu.\n3. Thực hiện một thay đổi lab, tạo revision và xem diff.\n4. Thử khôi phục lab/kiểm tra export; ghi chính xác version phụ thuộc.\nNghiệm thu: Có revision đủ thiết bị đúng lịch; diff rõ; phục hồi được kiểm chứng.\nRollback: Phục hồi revision đã xác nhận qua quy trình triển khai, không ghi đè tự động toàn hệ thống.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiManager — Cấu hình Backup cấu hình tập trung (Revision History)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiManager",
+    "source_row": 17,
+    "source_cell": "C17",
+    "service": "it_configuration",
+    "item_id": "IT-FortiManager-017",
+    "device_family": "FortiManager"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

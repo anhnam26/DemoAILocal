@@ -1,0 +1,36 @@
+{
+  "id": "ND-ADE320885BEDBAE9277B",
+  "title": "FortiAnalyzer — Cấu hìnhlưu trữ dài hạn (PCI DSS/ISO 27001)",
+  "body": "FortiAnalyzer — Cấu hìnhlưu trữ dài hạn (PCI DSS/ISO 27001)\nHạng mục gốc: Cấu hìnhlưu trữ dài hạn (PCI DSS/ISO 27001); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Chính sách lưu/xóa/đóng băng log; cấu hình kỹ thuật riêng lẻ không chứng minh đạt chứng nhận.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nYêu cầu lưu đã được tổ chức xác nhận, dung lượng/ngày, loại log, quyền legal hold.\nQuy trình bổ sung:\n1. Phân loại dữ liệu và tính dung lượng với replication/index overhead.\n2. Thiết lập thời hạn online/archive theo từng loại; cấu hình phân quyền và bảo vệ bản lưu.\n3. Đặt cảnh báo dung lượng, lịch rotate và ngoại lệ giữ dữ liệu.\n4. Thử truy xuất log cũ và phục hồi archive; xác minh xóa đúng hạn bằng dữ liệu test.\nNghiệm thu: Tìm được dữ liệu theo thời hạn; dung lượng đủ; quyền và audit phù hợp yêu cầu được duyệt.\nRollback: Dừng job xóa mới khi sai, phục hồi policy; dữ liệu đã xóa chỉ khôi phục từ backup còn tồn tại.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiAnalyzer — Cấu hìnhlưu trữ dài hạn (PCI DSS/ISO 27001)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAnalyzer",
+    "source_row": 26,
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "item_id": "IT-FortiAnalyzer-026",
+    "device_family": "FortiAnalyzer"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-7CA0EB29ACBBE65046B8",
+  "title": "fortigate_configuration: Có yêu cầu cấu hình gửi log (Syslog, SNMP…) không?",
+  "body": "fortigate_configuration: Có yêu cầu cấu hình gửi log (Syslog, SNMP…) không?\nCâu hỏi/mô tả gốc: 1 ADOM = 1 công ty / 1 site?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: 1 ADOM = 1 công ty / 1 site?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Log ghi sự kiện; syslog/trap chuyển sự kiện tới máy thu tập trung.\nNền tảng quản lý tập trung thiết bị, cấu hình và thay đổi theo nhóm/site.\nMiền quản trị trên FortiManager/FortiAnalyzer tách thiết bị và quyền, không tự đồng nghĩa với một công ty/site.\nThu thập chỉ số trạng thái/hiệu năng qua agent hoặc giao thức quản trị.\nCách xử lý bổ sung:\n1. Kiểm tra dung lượng và kết nối tới collector.\n2. Bật local log nếu model có khả năng lưu; chọn mức log và thời gian lưu phù hợp.\n3. Cấu hình syslog/trap receiver và interface nguồn; ưu tiên kênh bảo vệ khi hỗ trợ.\n4. Phát sinh sự kiện test, kiểm tra timestamp, hostname, parser và việc nhận đủ bản ghi.\n5. Kiểm tra routing/certificate và phiên bản được quản lý.\n6. Thêm thiết bị bằng serial/IP và xác nhận tin cậy tại hai đầu.\n7. Import cấu hình hiện hành, gán group/site/ADOM đúng; đối chiếu diff trước mọi push.\n8. Thử backup và thao tác đọc; chưa triển khai template rộng khi chưa test pilot.\n9. Xác định tiêu chí chia ADOM được duyệt và tương thích version.\n10. Tạo ADOM, gán thiết bị đúng phạm vi.\n11. Phân quyền user/role chỉ truy cập ADOM được giao.\n12. Test truy cập chéo bị chặn, import/log/policy đúng miền.\n13. Thêm host đúng site và interface giám sát.\n14. Ưu tiên SNMPv3 authPriv nếu hỗ trợ; nếu v2c bắt buộc thì community riêng và giới hạn nguồn.\n15. Cài agent/template đúng OS/model; chọn CPU/RAM/disk/network và khoảng lấy mẫu.\n16. So sánh dữ liệu với thiết bị, test cảnh báo và mất kết nối.\nTiêu chí: Sự kiện test xuất hiện trên máy thu; không lệch giờ; hàng đợi/đĩa không tràn.\nĐủ thiết bị đúng group; trạng thái synchronized; không ghi đè cấu hình ngoài ý muốn.\nThiết bị và dữ liệu nằm đúng ADOM; không lộ chéo miền.\nGiá trị đúng đơn vị; không có lỗ hổng thu thập; chỉ server giám sát truy cập được.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Có yêu cầu cấu hình gửi log (Syslog, SNMP…) không?",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 72,
+    "source_cell": "row:72",
+    "service": "fortigate_configuration",
+    "requirement_id": "8f5a68a5df517cf9e707"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

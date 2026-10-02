@@ -1,0 +1,24 @@
+{
+  "id": "RUN-FIREWALL",
+  "title": "Triển khai firewall / VPN — runbook kỹ sư",
+  "body": "Checklist DEMO Triển khai firewall / VPN. Trước triển khai: xác minh model/firmware/license và scope 01 site, 01 firewall, tối đa 10 VLAN và 02 tunnel VPN; sao lưu; kiểm tài khoản dự phòng; lab và phê duyệt change. Thao tác theo thứ tự: Khảo sát routing/VLAN; thiết kế NAT/policy; cấu hình VPN; kiểm ứng dụng và bàn giao. Xác nhận thành công bằng: Backup cấu hình; sơ đồ; bảng policy; UAT Internet/VPN; hướng dẫn vận hành. Dừng nếu mất truy cập quản trị hoặc ứng dụng trọng yếu không đạt UAT; quay lui theo bản sao đã kiểm. Thu log có mốc giờ; che bí mật; không chạy lệnh không đúng phiên bản. Owner: trưởng nhóm kỹ thuật.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

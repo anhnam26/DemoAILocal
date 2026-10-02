@@ -1,0 +1,36 @@
+{
+  "id": "ND-49B3CFFC936D67C826DB",
+  "title": "Switch — Cấu hình LACP/Link Aggregation (EtherChannel/Port-Channel)",
+  "body": "Switch — Cấu hình LACP/Link Aggregation (EtherChannel/Port-Channel)\nHạng mục gốc: Cấu hình LACP/Link Aggregation (EtherChannel/Port-Channel); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Gộp nhiều liên kết thành giao diện logic có thương lượng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPort member, tốc độ, LACP mode, VLAN/MTU, topology một hoặc nhiều chassis.\nQuy trình bổ sung:\n1. Kiểm tra hai đầu cùng khả năng và tốc độ.\n2. Tạo aggregate, thêm port và cấu hình LACP mode phù hợp cả hai đầu.\n3. Đưa VLAN/IP/policy lên aggregate theo hướng dẫn nền tảng.\n4. Kiểm tra member bundled và thử mất một member; đo phân phối nhiều luồng.\nNghiệm thu: Aggregate up, thành viên đúng; mất một link không cắt toàn bộ dịch vụ.\nRollback: Trả port/cáp về topology cũ; tránh để song song link không chống loop.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Switch — Cấu hình LACP/Link Aggregation (EtherChannel/Port-Channel)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_row": 26,
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "item_id": "IT-Switch-026",
+    "device_family": "Switch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-8BD1BFF7368A19CB04D9",
+  "title": "NAS — Cấu hình Backup/Snapshot cơ bản",
+  "body": "NAS — Cấu hình Backup/Snapshot cơ bản\nHạng mục gốc: Cấu hình Backup/Snapshot cơ bản; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Backup tạo bản phục hồi độc lập; RPO là mức mất dữ liệu, RTO là thời gian phục hồi mục tiêu.\nSnapshot lưu trạng thái tại thời điểm; thin cấp dung lượng theo sử dụng; snapshot không thay backup độc lập.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nỨng dụng/dataset, RPO/RTO đã duyệt, repository, retention và băng thông.\nWorkload consistency, lịch/retention, dung lượng dự trữ, ngưỡng cảnh báo.\nQuy trình bổ sung:\n1. Phân loại dữ liệu và dependency ứng dụng.\n2. Tạo repository được bảo vệ, job application-aware phù hợp và lịch theo RPO.\n3. Đặt retention/cảnh báo, bản sao tách biệt/không sửa được nếu thiết kế yêu cầu.\n4. Chạy backup và restore thử file/VM/ứng dụng vào môi trường cách ly, đo thời gian.\n5. Đánh giá dung lượng thay đổi và yêu cầu application consistency.\n6. Tạo lịch snapshot/versioning với retention và quyền xóa giới hạn.\n7. Nếu thin, đặt cảnh báo capacity thực, không chỉ dung lượng logic.\n8. Khôi phục clone/file thử vào chỗ cách ly; kiểm tra cleanup không xóa bản cần giữ.\nNghiệm thu: Restore kiểm chứng được; RPO/RTO đo thực tế đạt; backup lỗi có cảnh báo.\nSnapshot phục hồi được; không đầy pool; lịch/retention đúng.\nRollback: Dừng job lỗi, bảo toàn restore point cũ; phục hồi lịch trước.\nTắt lịch mới, giữ restore point; không rollback volume production khi chưa đánh giá dữ liệu mới.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "NAS — Cấu hình Backup/Snapshot cơ bản",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_row": 19,
+    "source_cell": "C19",
+    "service": "it_configuration",
+    "item_id": "IT-NAS-019",
+    "device_family": "NAS"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

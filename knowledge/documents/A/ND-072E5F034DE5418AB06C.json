@@ -1,0 +1,35 @@
+{
+  "id": "ND-072E5F034DE5418AB06C",
+  "title": "SSL Inspection",
+  "body": "SSL Inspection\nĐịnh nghĩa: Kiểm tra lưu lượng mã hóa bằng chứng chỉ hoặc giải mã trung gian có kiểm soát.\nĐầu vào: Phạm vi kiểm tra, CA doanh nghiệp, endpoint tin cậy, ngoại lệ và quyền xử lý dữ liệu.\nCách thực hiện:\n1. Tách certificate inspection khỏi deep inspection.\n2. Tạo/import CA được quản lý và phân phối trust tới nhóm thử nghiệm qua kênh quản trị.\n3. Clone profile SSL, đặt ngoại lệ cho ứng dụng pinning/nhạy cảm đã duyệt, gắn policy thử.\n4. Kiểm tra chuỗi chứng chỉ, ứng dụng HTTPS, log và CPU; mở rộng từng nhóm.\nKiểm tra: Không lỗi certificate trên nhóm hợp lệ; có kiểm tra đúng phạm vi; ngoại lệ được ghi nhận.\nRollback: Tháo deep inspection khỏi policy, phục hồi profile trước và thu hồi CA thử nếu cần.\nXuất hiện: Thông tin lên Bom!A43",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SSL Inspection",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "A43",
+    "service": "fortigate_configuration",
+    "term": "SSL Inspection",
+    "recipe_id": "sslinspect"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

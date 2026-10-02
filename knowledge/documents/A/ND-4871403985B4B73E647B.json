@@ -1,0 +1,35 @@
+{
+  "id": "ND-4871403985B4B73E647B",
+  "title": "OSPF",
+  "body": "OSPF\nĐịnh nghĩa: Giao thức định tuyến nội bộ trao đổi trạng thái liên kết theo area.\nĐầu vào: Router ID, area, network/interface, authentication, cost, prefix được quảng bá.\nCách thực hiện:\n1. Kiểm tra subnet hai đầu và router ID không trùng.\n2. Khai báo area/interface, đặt passive cho mạng không tạo neighbor; cấu hình xác thực và cost theo thiết kế.\n3. Kiểm soát redistribution và default advertisement.\n4. Kiểm tra neighbor, database, routing table; thử failover và route không được phép.\nKiểm tra: Adjacency đúng trạng thái cho loại mạng; chỉ prefix cho phép được học/quảng bá; hội tụ đạt test.\nRollback: Tắt quảng bá/interface mới, phục hồi cost/filter và route dự phòng đã duyệt.\nXuất hiện: Thông tin lên Bom!B68",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "OSPF",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B68",
+    "service": "fortigate_configuration",
+    "term": "OSPF",
+    "recipe_id": "ospf"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

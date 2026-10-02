@@ -1,0 +1,35 @@
+{
+  "id": "ND-9AC205DC35A0A98B9B9B",
+  "title": "fortigate_configuration: Cấu hình Destination NAT (VIP)",
+  "body": "fortigate_configuration: Cấu hình Destination NAT (VIP)\nCâu hỏi/mô tả gốc: Liệt kê các dịch vụ cần Publish:\nProtocol: TCP/UDP?\nĐịa chỉ IP Public cần NAT?\nĐịa chỉ IP server Internal cần NAT?\nĐịa chỉ Port nguồn? Port đích?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Liệt kê các dịch vụ cần Publish:\nProtocol: TCP/UDP?\nĐịa chỉ IP Public cần NAT?\nĐịa chỉ IP server Internal cần NAT?\nĐịa chỉ Port nguồn? Port đích?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Source NAT đổi địa chỉ nguồn; overload cho nhiều máy dùng chung địa chỉ ra ngoài qua port.\nDestination NAT ánh xạ IP/port công cộng tới dịch vụ nội bộ.\nCổng access đưa lưu lượng đầu cuối không gắn thẻ vào một VLAN.\nERP quản trị doanh nghiệp; POS bán hàng; NVR ghi hình; ISP cung cấp Internet; bridge chuyển tiếp lớp 2, PPPoE xác thực đường truy nhập.\nCách xử lý bổ sung:\n1. Kiểm tra route ra WAN và mô hình NAT của nền tảng.\n2. Chọn NAT dùng IP interface hoặc pool đã được cấp; gắn vào policy/central NAT theo chế độ đang dùng.\n3. Kiểm tra policy LAN ra Internet và tuyến trả về.\n4. Thử kết nối từ nhiều client; xem session/log xác nhận IP nguồn sau NAT.\n5. Kiểm tra server lắng nghe và gateway trả về.\n6. Tạo VIP/port forwarding trên đúng WAN, khai báo external/mapped IP và port.\n7. Tạo policy từ nguồn được duyệt tới VIP và service tương ứng; không công khai trang quản trị.\n8. Thử từ mạng ngoài thật, kiểm tra log và đường về; kiểm tra từ LAN riêng nếu có hairpin.\n9. Đối chiếu cổng với nhãn thiết bị.\n10. Đặt access/untagged VLAN và PVID phù hợp; đặt description.\n11. Cấu hình voice VLAN/edge protection nếu thiết kế hỗ trợ.\n12. Kết nối máy thử, kiểm tra MAC table, DHCP và truy cập đúng subnet.\n13. Liệt kê từng dịch vụ và mức ảnh hưởng khi gián đoạn.\n14. Thu số lượng thiết bị/user riêng, tránh cộng lẫn người dùng và endpoint.\n15. Xác nhận ISP/IP public/PPPoE và khả năng bridge với nhà mạng trước đổi modem.\n16. Tạo test nghiệp vụ thực cho từng ERP/POS/NVR và ghi pass/fail sau thay đổi.\nTiêu chí: Client truy cập được; đúng IP public; không NAT luồng nội bộ/VPN ngoài thiết kế.\nChỉ port đã duyệt được truy cập; đúng server; nguồn bị cấm không vào được.\nMAC học trên đúng port/VLAN; client không truy cập VLAN khác trái phép.\nInventory rõ đơn vị; ứng dụng có owner và test case; đường truyền được xác nhận.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Cấu hình Destination NAT (VIP)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 19,
+    "source_cell": "row:19",
+    "service": "fortigate_configuration",
+    "requirement_id": "3ff2fc93bdb2905de718"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

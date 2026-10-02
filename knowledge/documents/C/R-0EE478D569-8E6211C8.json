@@ -1,0 +1,26 @@
+{
+  "id": "R-0EE478D569-8E6211C8",
+  "title": "Rental service.docx",
+  "body": "Dịch vụ Cho thuê Thiết bị CNTT\n\nCyberAnt cung cấp dịch vụ cho thuê thiết bị CNTT, mạng và an toàn thông tin theo mô hình linh hoạt, giúp doanh nghiệp nhanh chóng triển khai hệ thống mà không cần đầu tư chi phí ban đầu lớn. Dịch vụ được kết hợp với License, hỗ trợ kỹ thuật, bảo hành và thay thế thiết bị theo SLA, đảm bảo hệ thống luôn vận hành ổn định trong suốt thời gian sử dụng.\n\nĐội ngũ Kỹ sư Chuyên gia\n\nDịch vụ được hỗ trợ bởi đội ngũ kỹ sư có nhiều kinh nghiệm triển khai và vận hành các hệ thống CNTT quy mô lớn.\n\nSở hữu các chứng chỉ chuyên môn quốc tế từ các hãng công nghệ và an toàn thông tin hàng đầu.\n\nSẵn sàng hỗ trợ khách hàng trong suốt vòng đời sử dụng thiết bị.\n\nPhạm vi Dịch vụ\n\nCung cấp thiết bị CNTT theo thời hạn thuê đã thỏa thuận, bao gồm Firewall, Switch, Router, Wireless, Server, Storage và các thiết bị mạng khác.\n\nCung cấp đầy đủ License và các dịch vụ đi kèm theo từng gói thuê.\n\nHỗ trợ lắp đặt, cài đặt và cấu hình ban đầu theo phạm vi hợp đồng.\n\nBảo hành thiết bị trong suốt thời gian thuê theo chính sách của nhà sản xuất hoặc CyberAnt.\n\nThay thế thiết bị khi xảy ra sự cố phần cứng theo cam kết trong hợp đồng hoặc Thỏa thuận mức dịch vụ (SLA).\n\nHỗ trợ kỹ thuật từ xa và tư vấn trong suốt quá trình khách hàng sử dụng thiết bị.\n\nCung cấp các dịch vụ giá trị gia tăng như quản trị vận hành, giám sát hệ thống và hỗ trợ kỹ thuật 24/7 theo nhu cầu.\n\nGiá trị CyberAnt mang lại\n\nTriển khai hệ thống nhanh chóng mà không cần đầu tư chi phí ban đầu lớn.\n\nChủ động ngân sách CNTT với chi phí thuê cố định theo tháng hoặc theo năm.\n\nThiết bị luôn được bảo hành, hỗ trợ kỹ thuật và thay thế theo SLA.\n\nLinh hoạt nâng cấp hoặc mở rộng hệ thống theo nhu cầu phát triển của doanh nghiệp.\n\nKết hợp nhiều dịch vụ trong một gói duy nhất, giúp giảm chi phí quản lý và vận hành hạ tầng CNTT.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 1; Khối 2; Khối 3; Khối 4; Khối 5; Khối 6; Khối 7; Khối 8; Khối 9; Khối 10; Khối 11; Khối 12; Khối 13; Khối 14; Khối 15; Khối 16; Khối 17; Khối 18; Khối 19; Khối 20",
+    "sha256": "0ee478d569c07ba451e23871c3933aa71083d9092aa0979ca3ae159ca1885304"
+  },
+  "service": "Rental service.docx",
+  "content_kind": "reference"
+}

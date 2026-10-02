@@ -1,0 +1,36 @@
+{
+  "id": "ND-2973288A90AFBD6B2331",
+  "title": "SAN — Cấu hình Disaster Recovery (DR Site)",
+  "body": "SAN — Cấu hình Disaster Recovery (DR Site)\nHạng mục gốc: Cấu hình Disaster Recovery (DR Site); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Khôi phục dịch vụ ở địa điểm khác theo RPO/RTO, gồm người, dữ liệu, mạng và kiểm thử.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nSite dự phòng, dependency, RPO/RTO, replication, DNS/route và kế hoạch failback.\nQuy trình bổ sung:\n1. Xác định thứ tự phục hồi ứng dụng và dữ liệu.\n2. Chuẩn bị storage/compute/network dự phòng và replication.\n3. Viết runbook failover/failback, điểm quyết định và người phê duyệt.\n4. Diễn tập cách ly, đo mất dữ liệu/thời gian, xác nhận dữ liệu nhất quán trước quay lại.\nNghiệm thu: Phục hồi dịch vụ đạt mục tiêu đã đo; failback kiểm chứng; có biên bản diễn tập.\nRollback: Dừng ghi phía sai để tránh phân kỳ, quay về site chính theo runbook và đồng bộ có kiểm soát.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "SAN — Cấu hình Disaster Recovery (DR Site)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_row": 27,
+    "source_cell": "C27",
+    "service": "it_configuration",
+    "item_id": "IT-SAN-027",
+    "device_family": "SAN"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-22B08C80073F92CE5A16",
+  "title": "Veeam",
+  "body": "Veeam\nĐịnh nghĩa: Backup tạo bản phục hồi độc lập; RPO là mức mất dữ liệu, RTO là thời gian phục hồi mục tiêu.\nĐầu vào: Ứng dụng/dataset, RPO/RTO đã duyệt, repository, retention và băng thông.\nCách thực hiện:\n1. Phân loại dữ liệu và dependency ứng dụng.\n2. Tạo repository được bảo vệ, job application-aware phù hợp và lịch theo RPO.\n3. Đặt retention/cảnh báo, bản sao tách biệt/không sửa được nếu thiết kế yêu cầu.\n4. Chạy backup và restore thử file/VM/ứng dụng vào môi trường cách ly, đo thời gian.\nKiểm tra: Restore kiểm chứng được; RPO/RTO đo thực tế đạt; backup lỗi có cảnh báo.\nRollback: Dừng job lỗi, bảo toàn restore point cũ; phục hồi lịch trước.\nXuất hiện: Server!C26",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Veeam",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "term": "Veeam",
+    "recipe_id": "backupjob"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

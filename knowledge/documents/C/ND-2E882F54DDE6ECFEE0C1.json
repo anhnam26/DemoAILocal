@@ -1,0 +1,35 @@
+{
+  "id": "ND-2E882F54DDE6ECFEE0C1",
+  "title": "consulting: BOM",
+  "body": "consulting: BOM\nCâu hỏi/mô tả gốc: Khách hàng có yêu cầu BOM/BOQ thiết bị và license đề xuất không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Khách hàng có yêu cầu BOM/BOQ thiết bị và license đề xuất không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: License cấp quyền tính năng/dịch vụ; serial nhận dạng tài sản và entitlement.\nBOM liệt kê hạng mục thiết bị/license/dịch vụ; BOQ định lượng; mã nội bộ không mặc nhiên là SKU hãng.\nCách xử lý bổ sung:\n1. Đối chiếu serial trên thiết bị, nhãn và hồ sơ mua.\n2. Kiểm tra quyền đăng ký/chuyển chủ với khách hàng.\n3. Đăng ký/kích hoạt qua cổng hãng theo entitlement, đồng bộ trên thiết bị.\n4. Lưu trạng thái và ngày hết hạn, không lưu mã bí mật; test dịch vụ subscription.\n5. Chuyển từng yêu cầu thành dòng hạng mục có mã và source reference.\n6. Tách phần cứng/license/công cấu hình, ghi đơn vị và số lượng có căn cứ.\n7. Đánh dấu optional/TBD với yêu cầu chưa xác nhận; để giá null khi chưa có bảng giá.\n8. Đối chiếu tổng số lượng và phạm vi SOW rồi duyệt báo giá.\nTiêu chí: Serial đúng chủ; entitlement/tính năng hiện đúng; có cảnh báo gia hạn.\nKhông tính trùng; không bịa giá/SKU; từng dòng truy được về nhu cầu.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: BOM",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 33,
+    "source_cell": "row:33",
+    "service": "consulting",
+    "requirement_id": "24272bee94f0bcb79779"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

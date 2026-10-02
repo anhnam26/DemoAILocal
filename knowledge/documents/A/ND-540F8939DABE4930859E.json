@@ -1,0 +1,35 @@
+{
+  "id": "ND-540F8939DABE4930859E",
+  "title": "BBNT",
+  "body": "BBNT\nĐịnh nghĩa: Backup lưu bản phục hồi; bàn giao gồm cấu hình, sơ đồ, hướng dẫn và biên bản nghiệm thu.\nĐầu vào: Danh mục tài sản, cấu hình cuối, kết quả test, nơi lưu có phân quyền, người nhận.\nCách thực hiện:\n1. Export backup cấu hình và ghi model/version/thời điểm/checksum.\n2. Mã hóa và lưu kho nội bộ; kiểm tra phục hồi trong lab hoặc kiểm tra tính toàn vẹn.\n3. Hoàn thiện as-built, IP plan, checklist kết quả, hướng dẫn vận hành/rollback và các tồn đọng.\n4. Hướng dẫn người nhận; ký BBNT đúng phạm vi và bàn giao bí mật qua kênh riêng.\nKiểm tra: Backup đọc được; hồ sơ đầy đủ; người nhận xác nhận; vấn đề chưa đạt có người chịu trách nhiệm.\nRollback: Nếu hồ sơ/test chưa đủ thì chưa xác nhận hoàn tất; bổ sung tài liệu và kiểm thử.\nXuất hiện: FortiGate!A52; FortiSwitch!A34; FortiAP!A29; FortiManager!A30; FortiNAC!A31; FortiAnalyzer!A31; Server!A33; Firewall!A36; Switch!A40; AP!A31; NAS!A33; SAN!A32; Manager!A32; Log!A31; Monitoring!A31",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "BBNT",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "A52",
+    "service": "it_configuration",
+    "term": "BBNT",
+    "recipe_id": "handover"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

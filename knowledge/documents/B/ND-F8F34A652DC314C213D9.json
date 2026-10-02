@@ -1,0 +1,36 @@
+{
+  "id": "ND-F8F34A652DC314C213D9",
+  "title": "FortiGate — Cấu hình Antivirus nâng cao (tích hợp FortiSandbox)",
+  "body": "FortiGate — Cấu hình Antivirus nâng cao (tích hợp FortiSandbox)\nHạng mục gốc: Cấu hình Antivirus nâng cao (tích hợp FortiSandbox); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Antivirus quét nội dung độc hại; UTM gom các lớp bảo vệ gắn vào policy.\nMôi trường phân tích hành vi file đáng ngờ tách khỏi hệ thống thật.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nLicense, kiểu inspection, luồng cần bảo vệ, ngoại lệ đã duyệt.\nLicense, sandbox endpoint, quyền gửi mẫu, loại dữ liệu cho phép.\nQuy trình bổ sung:\n1. Kiểm tra subscription và cập nhật chữ ký.\n2. Tạo hoặc clone profile; chọn action theo loại giao thức và chế độ flow/proxy được hỗ trợ.\n3. Gắn profile vào policy thực sự đi qua luồng cần quét.\n4. Thử mẫu kiểm tra lành tính được hãng cho phép trong lab, kiểm tra log, tải CPU và false positive.\n5. Kiểm tra quyền xử lý dữ liệu và kết nối sandbox.\n6. Thiết lập connector/chứng chỉ và profile AV gửi loại file được phép.\n7. Chọn hành vi chờ/phản ứng theo khả năng sản phẩm.\n8. Gửi mẫu test an toàn; kiểm tra submission ID, verdict và log policy.\nNghiệm thu: Profile được hit; mẫu test bị xử lý đúng; ứng dụng hợp lệ hoạt động.\nMẫu đến đúng nơi, có verdict; dữ liệu không vượt phạm vi cho phép.\nRollback: Tháo profile mới khỏi policy hoặc phục hồi profile cũ, giữ log điều tra.\nTắt gửi mẫu mới, phục hồi connector/profile cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Cấu hình Antivirus nâng cao (tích hợp FortiSandbox)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 40,
+    "source_cell": "C40",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-040",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

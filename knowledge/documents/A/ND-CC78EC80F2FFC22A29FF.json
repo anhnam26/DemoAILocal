@@ -1,0 +1,35 @@
+{
+  "id": "ND-CC78EC80F2FFC22A29FF",
+  "title": "Core",
+  "body": "Core\nĐịnh nghĩa: Lớp mạng lõi kết nối các phần của hệ thống và cần năng lực/dự phòng phù hợp lưu lượng.\nĐầu vào: VLAN/subnet, vị trí gateway, ACL, DHCP relay, route upstream.\nCách thực hiện:\n1. Bật chức năng routing nếu platform/license cho phép.\n2. Tạo SVI/routed interface cho từng VLAN, gán gateway không trùng.\n3. Khai báo route lên upstream và đường về; cấu hình relay/ACL theo ma trận.\n4. Test liên VLAN được phép và bị cấm từ client.\nKiểm tra: Gateway đúng; route hai chiều; cách ly bằng ACL hoạt động.\nRollback: Khôi phục gateway/route trước; tránh hai gateway cùng IP.\nXuất hiện: Thông tin lên Bom!B8",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Core",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B8",
+    "service": "fortigate_configuration",
+    "term": "Core",
+    "recipe_id": "extra_Core"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

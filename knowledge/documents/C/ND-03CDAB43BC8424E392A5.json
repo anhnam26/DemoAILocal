@@ -1,0 +1,35 @@
+{
+  "id": "ND-03CDAB43BC8424E392A5",
+  "title": "consulting: Roadmap",
+  "body": "consulting: Roadmap\nCâu hỏi/mô tả gốc: Khách hàng có yêu cầu tư vấn roadmap phát triển/mở rộng hệ thống trong tương lai không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Khách hàng có yêu cầu tư vấn roadmap phát triển/mở rộng hệ thống trong tương lai không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: HLD mô tả kiến trúc tổng thể; LLD đặc tả chi tiết để triển khai; roadmap chia giai đoạn.\nCách xử lý bổ sung:\n1. Lập HLD gồm thành phần/luồng/dự phòng và ranh giới trách nhiệm.\n2. Viết LLD với IP/VLAN/interface/routing/policy và license cụ thể.\n3. Đối chiếu BOM/SOW, compatibility và test plan; ghi lựa chọn/giả định.\n4. Review với owner kỹ thuật và lưu bản được phê duyệt trước triển khai.\nTiêu chí: Thiết kế truy được về yêu cầu; đủ thông số triển khai; có version/approval.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: Roadmap",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 35,
+    "source_cell": "row:35",
+    "service": "consulting",
+    "requirement_id": "81fe0d8cb22368faaaba"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

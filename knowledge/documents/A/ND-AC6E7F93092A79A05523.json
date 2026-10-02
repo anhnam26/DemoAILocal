@@ -1,0 +1,35 @@
+{
+  "id": "ND-AC6E7F93092A79A05523",
+  "title": "Archive",
+  "body": "Archive\nĐịnh nghĩa: Chính sách lưu/xóa/đóng băng log; cấu hình kỹ thuật riêng lẻ không chứng minh đạt chứng nhận.\nĐầu vào: Yêu cầu lưu đã được tổ chức xác nhận, dung lượng/ngày, loại log, quyền legal hold.\nCách thực hiện:\n1. Phân loại dữ liệu và tính dung lượng với replication/index overhead.\n2. Thiết lập thời hạn online/archive theo từng loại; cấu hình phân quyền và bảo vệ bản lưu.\n3. Đặt cảnh báo dung lượng, lịch rotate và ngoại lệ giữ dữ liệu.\n4. Thử truy xuất log cũ và phục hồi archive; xác minh xóa đúng hạn bằng dữ liệu test.\nKiểm tra: Tìm được dữ liệu theo thời hạn; dung lượng đủ; quyền và audit phù hợp yêu cầu được duyệt.\nRollback: Dừng job xóa mới khi sai, phục hồi policy; dữ liệu đã xóa chỉ khôi phục từ backup còn tồn tại.\nXuất hiện: Log!C25",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Archive",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Log",
+    "source_cell": "C25",
+    "service": "it_configuration",
+    "term": "Archive",
+    "recipe_id": "retention"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-216B5D42B680AA257B4E",
+  "title": "Server — Cấu hình giải pháp Backup nâng cao (Veeam...)",
+  "body": "Server — Cấu hình giải pháp Backup nâng cao (Veeam...)\nHạng mục gốc: Cấu hình giải pháp Backup nâng cao (Veeam...); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Backup tạo bản phục hồi độc lập; RPO là mức mất dữ liệu, RTO là thời gian phục hồi mục tiêu.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nỨng dụng/dataset, RPO/RTO đã duyệt, repository, retention và băng thông.\nQuy trình bổ sung:\n1. Phân loại dữ liệu và dependency ứng dụng.\n2. Tạo repository được bảo vệ, job application-aware phù hợp và lịch theo RPO.\n3. Đặt retention/cảnh báo, bản sao tách biệt/không sửa được nếu thiết kế yêu cầu.\n4. Chạy backup và restore thử file/VM/ứng dụng vào môi trường cách ly, đo thời gian.\nNghiệm thu: Restore kiểm chứng được; RPO/RTO đo thực tế đạt; backup lỗi có cảnh báo.\nRollback: Dừng job lỗi, bảo toàn restore point cũ; phục hồi lịch trước.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Server — Cấu hình giải pháp Backup nâng cao (Veeam...)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_row": 26,
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "item_id": "IT-Server-026",
+    "device_family": "Server"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

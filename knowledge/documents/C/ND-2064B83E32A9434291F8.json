@@ -1,0 +1,35 @@
+{
+  "id": "ND-2064B83E32A9434291F8",
+  "title": "managed_service: Báo cáo hàng tháng",
+  "body": "managed_service: Báo cáo hàng tháng\nCâu hỏi/mô tả gốc: Có yêu cầu gửi báo cáo hàng tháng không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Có yêu cầu gửi báo cáo hàng tháng không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Remote hỗ trợ từ xa, onsite tại chỗ; Managed Service quản trị theo phạm vi liên tục; giờ hỗ trợ khác thời gian khắc phục.\nCách xử lý bổ sung:\n1. Tạo ticket và phân loại ảnh hưởng/ưu tiên theo hợp đồng.\n2. Xác nhận quyền truy cập; dùng phiên remote định danh có thời hạn và ghi thao tác.\n3. Chẩn đoán từ log/baseline, đề xuất thay đổi kèm backup/rollback, thực hiện khi được duyệt.\n4. Test với khách hàng, escalation khi vượt khả năng/ngưỡng, cập nhật báo cáo và đóng khi xác nhận.\nTiêu chí: Ticket có lịch sử, thời điểm response/resolution riêng; quyền remote được thu hồi sau phiên.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "managed_service: Báo cáo hàng tháng",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Managed Service - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yêu cầu",
+    "source_row": 20,
+    "source_cell": "row:20",
+    "service": "managed_service",
+    "requirement_id": "06c254f3c06cdb769ee1"
+  },
+  "service": "managed_service",
+  "content_kind": "survey"
+}

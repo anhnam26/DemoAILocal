@@ -1,0 +1,38 @@
+{
+  "id": "KB-NET-DHCP",
+  "title": "DHCP IPv4: cấp địa chỉ, lease và relay",
+  "body": "DHCP cấp địa chỉ và thông tin cấu hình mạng cho host. Bài này nói về DHCP IPv4; không áp dụng máy móc quy trình này cho DHCPv6.\nLuồng cấp mới thường là DHCPDISCOVER → DHCPOFFER → DHCPREQUEST → DHCPACK. Đây không phải chuỗi bắt buộc cho mọi trạng thái: gia hạn và dùng lại địa chỉ có quy trình khác.\nLease giới hạn thời gian sử dụng địa chỉ; client cần gia hạn. DHCP server quản lý pool và ràng buộc cấp phát; cần loại trừ địa chỉ tĩnh và tránh pool chồng lấn.\nRelay chuyển tiếp thông điệp khi client và server khác subnet; không cần đặt một DHCP server trên mọi VLAN. Cấu hình phải biết subnet, đường đi, server và relay cụ thể.\nKhi không nhận được IP, kiểm link/VLAN, pool còn địa chỉ, server, relay và policy theo luồng thực tế; cần log trước khi kết luận. Nhận được IP chưa chứng minh DNS, gateway hoặc Internet hoạt động.",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-2",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "aliases": [
+    "DHCP",
+    "DHCP relay",
+    "lease",
+    "DORA"
+  ],
+  "references": [
+    {
+      "title": "RFC 2131 — DHCP",
+      "url": "https://www.rfc-editor.org/rfc/rfc2131.txt",
+      "checked_at": "2026-09-30"
+    }
+  ],
+  "content_kind": "concept",
+  "data_type": "reference_article",
+  "provenance": {
+    "source": "referenced_editorial",
+    "review_note": "Biên soạn đối chiếu nguồn; không chứng nhận cấu hình theo hãng/phiên bản."
+  }
+}

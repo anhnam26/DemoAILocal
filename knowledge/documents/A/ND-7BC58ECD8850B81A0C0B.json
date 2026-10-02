@@ -1,0 +1,35 @@
+{
+  "id": "ND-7BC58ECD8850B81A0C0B",
+  "title": "PoE",
+  "body": "PoE\nĐịnh nghĩa: Cấp nguồn qua Ethernet, có giới hạn công suất tổng và từng cổng.\nĐầu vào: Power budget, công suất endpoint, lịch, port priority.\nCách thực hiện:\n1. Đối chiếu chuẩn và công suất AP/phone/camera với switch.\n2. Cấu hình enable/priority/limit PoE theo cổng và lịch nếu cần.\n3. Kiểm tra tổng công suất khi tất cả thiết bị khởi động.\n4. Test lịch trên port thử, xem cảnh báo thiếu nguồn.\nKiểm tra: Endpoint chạy ổn định; không vượt budget; lịch đúng timezone.\nRollback: Khôi phục lịch/limit cũ hoặc chuyển nguồn dự phòng cho endpoint.\nXuất hiện: FortiSwitch!B30; FortiSwitch!C30",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "PoE",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "B30",
+    "service": "it_configuration",
+    "term": "PoE",
+    "recipe_id": "poe"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

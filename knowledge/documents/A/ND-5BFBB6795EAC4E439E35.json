@@ -1,0 +1,35 @@
+{
+  "id": "ND-5BFBB6795EAC4E439E35",
+  "title": "Overload",
+  "body": "Overload\nĐịnh nghĩa: Source NAT đổi địa chỉ nguồn; overload cho nhiều máy dùng chung địa chỉ ra ngoài qua port.\nĐầu vào: Subnet nguồn, egress, IP pool/public hoặc dùng IP interface.\nCách thực hiện:\n1. Kiểm tra route ra WAN và mô hình NAT của nền tảng.\n2. Chọn NAT dùng IP interface hoặc pool đã được cấp; gắn vào policy/central NAT theo chế độ đang dùng.\n3. Kiểm tra policy LAN ra Internet và tuyến trả về.\n4. Thử kết nối từ nhiều client; xem session/log xác nhận IP nguồn sau NAT.\nKiểm tra: Client truy cập được; đúng IP public; không NAT luồng nội bộ/VPN ngoài thiết kế.\nRollback: Gỡ ánh xạ NAT mới, phục hồi pool/policy cũ và kiểm tra session.\nXuất hiện: FortiGate!C23",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Overload",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "term": "Overload",
+    "recipe_id": "snat"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

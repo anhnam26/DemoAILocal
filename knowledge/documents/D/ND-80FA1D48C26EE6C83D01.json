@@ -1,0 +1,32 @@
+{
+  "id": "ND-80FA1D48C26EE6C83D01",
+  "title": "SOW đề xuất rma: Thu hồi & đóng case",
+  "body": "SOW đề xuất rma: Thu hồi & đóng case\nĐầu ra đề xuất: Xử lý dữ liệu theo thỏa thuận, biên nhận trả hãng và đóng ticket\nCác bước:\n1. Tiếp nhận ticket, kiểm tra khách hàng/entitlement và phân biệt lỗi cấu hình/phần cứng.\n2. Thu bằng chứng chẩn đoán, mở case hãng và chờ xác nhận RMA.\n3. Xác nhận loại dịch vụ, thời điểm bắt đầu tính và lịch logistics; không mặc định 4h là thời gian khắc phục.\n4. Giao/thay hoặc gửi thiết bị, khôi phục config tương thích, kiểm thử/nghiệm thu; thu hồi thiết bị lỗi và đóng case.\nNghiệm thu: Có mã hãng, serial cũ/mới, bằng chứng khôi phục/test và biên nhận thu hồi.\nRollback: Nếu thiết bị thay không đạt, giữ dịch vụ trên phương án dự phòng và escalation tới hãng.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất rma: Thu hồi & đóng case",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "rma-SOW-07",
+    "service": "rma"
+  },
+  "service": "rma",
+  "content_kind": "reference"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-1F9E542A14AC798A0B83",
+  "title": "Category",
+  "body": "Category\nĐịnh nghĩa: Lọc web theo URL, nhóm nội dung hoặc uy tín.\nĐầu vào: Category/URL cần cho phép/chặn, nhóm người dùng, exception.\nCách thực hiện:\n1. Kiểm tra license và phương thức quan sát HTTPS.\n2. Clone profile web filter; đặt action từng category và URL override theo yêu cầu.\n3. Gắn vào đúng policy, xác nhận DNS/SSL inspection liên quan.\n4. Thử URL được phép/chặn từ client đại diện và xem log.\nKiểm tra: Đúng nhóm người dùng bị áp dụng; URL được phép vẫn hoạt động; có log chặn.\nRollback: Khôi phục category/URL override và profile trước thay đổi.\nXuất hiện: Thông tin lên Bom!C47",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Category",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C47",
+    "service": "fortigate_configuration",
+    "term": "Category",
+    "recipe_id": "web"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

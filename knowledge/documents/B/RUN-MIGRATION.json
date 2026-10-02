@@ -1,0 +1,24 @@
+{
+  "id": "RUN-MIGRATION",
+  "title": "Di chuyển firewall có kiểm soát — runbook kỹ sư",
+  "body": "Checklist DEMO Di chuyển firewall có kiểm soát. Trước triển khai: xác minh model/firmware/license và scope 01 site, tối đa 150 policy và 04 VPN; sao lưu; kiểm tài khoản dự phòng; lab và phê duyệt change. Thao tác theo thứ tự: Đối chiếu policy; chuyển đổi lab; chạy song song; cutover; hậu kiểm. Xác nhận thành công bằng: Mapping policy; kế hoạch cutover; UAT; cấu hình hoàn công. Dừng nếu mất truy cập quản trị hoặc ứng dụng trọng yếu không đạt UAT; quay lui theo bản sao đã kiểm. Thu log có mốc giờ; che bí mật; không chạy lệnh không đúng phiên bản. Owner: trưởng nhóm kỹ thuật.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

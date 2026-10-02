@@ -1,0 +1,26 @@
+{
+  "id": "R-1AAAC27DDC-580022EC",
+  "title": "Managed Service.docx",
+  "body": "Đề xuất các phương án tối ưu nhằm nâng cao hiệu suất, tăng cường bảo mật và mở rộng hệ thống khi cần thiết.\n\nBáo cáo & Khuyến nghị\n\nCung cấp báo cáo định kỳ về tình trạng hoạt động của hệ thống.\n\nThống kê các sự cố đã xử lý, thay đổi cấu hình, tình trạng sử dụng tài nguyên và các cảnh báo bảo mật.\n\nĐưa ra các khuyến nghị về tối ưu hiệu năng, tăng cường an toàn thông tin và giảm chi phí vận hành.\n\nHỗ trợ khách hàng xây dựng kế hoạch nâng cấp và phát triển hạ tầng CNTT trong tương lai.\n\nGiá trị CyberAnt mang lại\n\nGiảm thiểu thời gian gián đoạn hệ thống.\n\nPhát hiện và xử lý sự cố chủ động trước khi ảnh hưởng đến hoạt động kinh doanh.\n\nĐảm bảo hệ thống luôn được cập nhật, an toàn và vận hành theo Best Practices.\n\nGiảm gánh nặng cho đội ngũ CNTT nội bộ và tối ưu chi phí vận hành.\n\nĐồng hành lâu dài cùng doanh nghiệp trong quá trình quản trị và phát triển hạ tầng CNTT.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 22; Khối 23; Khối 24; Khối 25; Khối 26; Khối 27; Khối 28; Khối 29; Khối 30; Khối 31; Khối 32; Khối 33",
+    "sha256": "1aaac27ddcc414a0de1fbe9e1763bb7de79850985b05c7f0c40e0ce393a830db"
+  },
+  "service": "Managed Service.docx",
+  "content_kind": "reference"
+}

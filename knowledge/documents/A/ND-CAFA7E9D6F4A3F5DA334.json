@@ -1,0 +1,35 @@
+{
+  "id": "ND-CAFA7E9D6F4A3F5DA334",
+  "title": "Disk Group",
+  "body": "Disk Group\nĐịnh nghĩa: Gộp đĩa thành vùng lưu trữ với mức dự phòng/hiệu năng; RAID không thay thế backup.\nĐầu vào: Inventory đĩa, dữ liệu cần giữ, dung lượng usable, RAID level, hot spare.\nCách thực hiện:\n1. Xác minh backup và dữ liệu trên đĩa trước thao tác có thể xóa.\n2. Kiểm tra sức khỏe và tương thích đĩa/controller.\n3. Chọn đĩa/RAID/pool và tạo theo thiết kế đã duyệt; chờ initialization.\n4. Kiểm tra trạng thái healthy, usable capacity và cảnh báo rebuild.\nKiểm tra: Đúng số đĩa/mức RAID/dung lượng; không lỗi controller; có giám sát.\nRollback: Không xóa pool có dữ liệu để rollback; dừng thao tác, phục hồi từ backup theo kế hoạch storage.\nXuất hiện: SAN!C15",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Disk Group",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_cell": "C15",
+    "service": "it_configuration",
+    "term": "Disk Group",
+    "recipe_id": "raid"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

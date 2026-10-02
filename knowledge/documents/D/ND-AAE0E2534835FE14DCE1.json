@@ -1,0 +1,34 @@
+{
+  "id": "ND-AAE0E2534835FE14DCE1",
+  "title": "Cấu hình HA",
+  "body": "Cấu hình HA\nƯớc tính trong nguồn: 2 giờ × 1 kỹ sư = 2 man-hour. Không phải downtime hoặc giá.\nCấu hình HA, thực hiện đồng bộ cấu hình giữa thiết bị Master & Slave\nCách làm bổ sung:\n1. Đọc ma trận HA đúng sản phẩm; không ghép hai model FortiGate khác nhau vào cùng FGCP cluster.\n2. Sao lưu từng node; cấu hình cluster/group, heartbeat, priority và interface được giám sát.\n3. Kết nối heartbeat theo thiết kế; chờ đồng bộ và đối chiếu trạng thái/config checksum.\n4. Kiểm thử mất link/node trong cửa sổ bảo trì; đo gián đoạn ứng dụng và kiểm tra split-brain.\nNghiệm thu: Đủ node, sync healthy; failover/failback đạt ngưỡng đã duyệt; không trùng IP/split-brain.\nRollback: Cô lập node lỗi khỏi production, đưa primary đã xác nhận về phục vụ theo kế hoạch rollback.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "migration_sow",
+  "provenance": {
+    "category": "migration_sow",
+    "document_type": "migration_sow",
+    "title": "Cấu hình HA",
+    "provenance": "source_estimate_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_row": 18,
+    "source_cell": "row:18",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

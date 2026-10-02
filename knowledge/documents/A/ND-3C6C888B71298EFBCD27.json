@@ -1,0 +1,35 @@
+{
+  "id": "ND-3C6C888B71298EFBCD27",
+  "title": "Fiber",
+  "body": "Fiber\nĐịnh nghĩa: ERP quản trị doanh nghiệp; POS bán hàng; NVR ghi hình; ISP cung cấp Internet; bridge chuyển tiếp lớp 2, PPPoE xác thực đường truy nhập.\nĐầu vào: Danh sách ứng dụng/endpoint, owner, port/dependency, đường truyền và modem.\nCách thực hiện:\n1. Liệt kê từng dịch vụ và mức ảnh hưởng khi gián đoạn.\n2. Thu số lượng thiết bị/user riêng, tránh cộng lẫn người dùng và endpoint.\n3. Xác nhận ISP/IP public/PPPoE và khả năng bridge với nhà mạng trước đổi modem.\n4. Tạo test nghiệp vụ thực cho từng ERP/POS/NVR và ghi pass/fail sau thay đổi.\nKiểm tra: Inventory rõ đơn vị; ứng dụng có owner và test case; đường truyền được xác nhận.\nRollback: Khôi phục modem/route và ứng dụng theo kế hoạch; phối hợp ISP nếu đổi truy nhập.\nXuất hiện: Thông tin lên Bom!C5",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Fiber",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C5",
+    "service": "fortigate_configuration",
+    "term": "Fiber",
+    "recipe_id": "apps"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

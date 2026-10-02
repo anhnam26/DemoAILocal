@@ -1,0 +1,36 @@
+{
+  "id": "ND-87D765C865127FCB83C3",
+  "title": "Switch — Cấu hình STP nâng cao (RPVST+/MST)",
+  "body": "Switch — Cấu hình STP nâng cao (RPVST+/MST)\nHạng mục gốc: Cấu hình STP nâng cao (RPVST+/MST); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Giao thức lớp 2 chặn đường dư để tránh loop; biến thể phải tương thích.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nRoot chính/phụ, VLAN-instance, vùng MST, port edge/uplink.\nQuy trình bổ sung:\n1. Ghi topology và trạng thái STP trước.\n2. Chọn mode phù hợp toàn miền; đặt root priority và mapping MST đồng nhất nếu dùng.\n3. Đặt edge/BPDU guard chỉ trên cổng đầu cuối đúng mục đích.\n4. Kiểm tra root/port role; thử rút link dự phòng và theo dõi broadcast.\nNghiệm thu: Root đúng thiết kế; không loop; hội tụ khi mất link.\nRollback: Phục hồi priority/mode/mapping; cô lập link gây loop trước.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Switch — Cấu hình STP nâng cao (RPVST+/MST)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_row": 29,
+    "source_cell": "C29",
+    "service": "it_configuration",
+    "item_id": "IT-Switch-029",
+    "device_family": "Switch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

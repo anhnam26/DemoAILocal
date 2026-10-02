@@ -1,0 +1,35 @@
+{
+  "id": "ND-BEA4C8263876703200E0",
+  "title": "HA",
+  "body": "HA\nĐịnh nghĩa: Cụm dự phòng giảm gián đoạn; cách đồng bộ, bầu primary và xử lý session phụ thuộc nền tảng.\nĐầu vào: Model/version tương thích, heartbeat, IP quản lý riêng, mode, quorum nếu có, test failover.\nCách thực hiện:\n1. Đọc ma trận HA đúng sản phẩm; không ghép hai model FortiGate khác nhau vào cùng FGCP cluster.\n2. Sao lưu từng node; cấu hình cluster/group, heartbeat, priority và interface được giám sát.\n3. Kết nối heartbeat theo thiết kế; chờ đồng bộ và đối chiếu trạng thái/config checksum.\n4. Kiểm thử mất link/node trong cửa sổ bảo trì; đo gián đoạn ứng dụng và kiểm tra split-brain.\nKiểm tra: Đủ node, sync healthy; failover/failback đạt ngưỡng đã duyệt; không trùng IP/split-brain.\nRollback: Cô lập node lỗi khỏi production, đưa primary đã xác nhận về phục vụ theo kế hoạch rollback.\nXuất hiện: 1. Thong tin KH!A16",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "HA",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Managed Service - Khảo sát thông tin.xlsx",
+    "source_sheet": "1. Thong tin KH",
+    "source_cell": "A16",
+    "service": "managed_service",
+    "term": "HA",
+    "recipe_id": "ha"
+  },
+  "service": "managed_service",
+  "content_kind": "concept"
+}

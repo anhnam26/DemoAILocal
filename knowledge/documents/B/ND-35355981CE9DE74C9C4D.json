@@ -1,0 +1,36 @@
+{
+  "id": "ND-35355981CE9DE74C9C4D",
+  "title": "Manager — Cấu hình báo cáo tuân thủ (Compliance Reporting)",
+  "body": "Manager — Cấu hình báo cáo tuân thủ (Compliance Reporting)\nHạng mục gốc: Cấu hình báo cáo tuân thủ (Compliance Reporting); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Dashboard hiển thị chỉ số; báo cáo tổng hợp theo thời gian, phạm vi và định nghĩa đo.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nNguồn dữ liệu, timezone, nhóm được xem, kỳ báo cáo, tiêu chí.\nQuy trình bổ sung:\n1. Kiểm tra dữ liệu nguồn và cách tính từng chỉ số.\n2. Tạo dashboard/report với bộ lọc site/device/time và quyền truy cập.\n3. Nếu định kỳ, đặt lịch/định dạng/người nhận theo thỏa thuận.\n4. Đối chiếu một kỳ mẫu với log thô; kiểm tra dữ liệu thiếu và gửi thử.\nNghiệm thu: Số liệu đối chiếu được; đúng phạm vi/thời gian/người nhận.\nRollback: Tắt lịch mới, phục hồi filter/template cũ và gửi bản sửa nếu có sai số.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Manager — Cấu hình báo cáo tuân thủ (Compliance Reporting)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Manager",
+    "source_row": 25,
+    "source_cell": "C25",
+    "service": "it_configuration",
+    "item_id": "IT-Manager-025",
+    "device_family": "Manager"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

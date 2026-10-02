@@ -1,0 +1,36 @@
+{
+  "id": "ND-C15E142B148943AB790B",
+  "title": "FortiSwitch — Cấu hình Access Port theo VLAN",
+  "body": "FortiSwitch — Cấu hình Access Port theo VLAN\nHạng mục gốc: Cấu hình Access Port theo VLAN; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Cổng access đưa lưu lượng đầu cuối không gắn thẻ vào một VLAN.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPort map, access VLAN, voice VLAN nếu có, loại endpoint.\nQuy trình bổ sung:\n1. Đối chiếu cổng với nhãn thiết bị.\n2. Đặt access/untagged VLAN và PVID phù hợp; đặt description.\n3. Cấu hình voice VLAN/edge protection nếu thiết kế hỗ trợ.\n4. Kết nối máy thử, kiểm tra MAC table, DHCP và truy cập đúng subnet.\nNghiệm thu: MAC học trên đúng port/VLAN; client không truy cập VLAN khác trái phép.\nRollback: Trả VLAN/PVID/description về cấu hình trước.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiSwitch — Cấu hình Access Port theo VLAN",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_row": 17,
+    "source_cell": "C17",
+    "service": "it_configuration",
+    "item_id": "IT-FortiSwitch-017",
+    "device_family": "FortiSwitch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

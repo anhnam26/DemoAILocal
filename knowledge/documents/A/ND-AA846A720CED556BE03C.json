@@ -1,0 +1,35 @@
+{
+  "id": "ND-AA846A720CED556BE03C",
+  "title": "MST",
+  "body": "MST\nĐịnh nghĩa: Trong biểu mẫu pháp nhân: mã số thuế. Trong cấu hình STP/MST: Multiple Spanning Tree; xác định nghĩa theo ngữ cảnh.\nĐầu vào: Thông tin pháp nhân/đầu mối, vai trò SI/EU, phạm vi, giá/thuế được bộ phận phụ trách cung cấp.\nCách thực hiện:\n1. Thu trường định danh từ người có thẩm quyền, giữ SI và EU thành vai trò riêng.\n2. Đối chiếu mã báo giá/PO, phạm vi SOW và BBNT.\n3. Chuyển bộ phận kinh doanh/kế toán xác nhận giá, thuế và hóa đơn.\n4. Ghi ô chưa có là null/chờ xác nhận; không tự sinh MST/giá/điều khoản như sự thật.\nKiểm tra: Pháp nhân/đầu mối có nguồn; tài liệu thương mại nhất quán; không nhầm SI/EU.\nRollback: Sửa bản nháp có lưu revision; chứng từ đã phát hành chuyển bộ phận phụ trách xử lý.\nXuất hiện: 1. Thông tin KH!A3; 1. Thông tin KH!A8",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "MST",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "1. Thông tin KH",
+    "source_cell": "A3",
+    "service": "consulting",
+    "term": "MST",
+    "recipe_id": "extra_MST"
+  },
+  "service": "consulting",
+  "content_kind": "concept"
+}

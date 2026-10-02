@@ -1,0 +1,35 @@
+{
+  "id": "ND-26F6EDC82A8F06136321",
+  "title": "Cluster",
+  "body": "Cluster\nĐịnh nghĩa: Cụm dự phòng giảm gián đoạn; cách đồng bộ, bầu primary và xử lý session phụ thuộc nền tảng.\nĐầu vào: Model/version tương thích, heartbeat, IP quản lý riêng, mode, quorum nếu có, test failover.\nCách thực hiện:\n1. Đọc ma trận HA đúng sản phẩm; không ghép hai model FortiGate khác nhau vào cùng FGCP cluster.\n2. Sao lưu từng node; cấu hình cluster/group, heartbeat, priority và interface được giám sát.\n3. Kết nối heartbeat theo thiết kế; chờ đồng bộ và đối chiếu trạng thái/config checksum.\n4. Kiểm thử mất link/node trong cửa sổ bảo trì; đo gián đoạn ứng dụng và kiểm tra split-brain.\nKiểm tra: Đủ node, sync healthy; failover/failback đạt ngưỡng đã duyệt; không trùng IP/split-brain.\nRollback: Cô lập node lỗi khỏi production, đưa primary đã xác nhận về phục vụ theo kế hoạch rollback.\nXuất hiện: FortiManager!C24; FortiNAC!C26; Server!C21",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Cluster",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiManager",
+    "source_cell": "C24",
+    "service": "it_configuration",
+    "term": "Cluster",
+    "recipe_id": "ha"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

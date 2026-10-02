@@ -1,0 +1,36 @@
+{
+  "id": "ND-95A372A47DE6043F283F",
+  "title": "FortiAP — Cấu hình FortiPresence",
+  "body": "FortiAP — Cấu hình FortiPresence\nHạng mục gốc: Cấu hình FortiPresence; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Phân tích hiện diện/định vị từ tín hiệu mạng; độ chính xác phụ thuộc thiết kế và thiết bị.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nMục đích, quyền xử lý dữ liệu, bản đồ/tọa độ AP, license, endpoint thu thập.\nQuy trình bổ sung:\n1. Xác nhận phạm vi dữ liệu được phép thu.\n2. Cấu hình connector/đích gửi và map AP lên mặt bằng.\n3. Hiệu chỉnh bằng điểm đo được biết, đặt retention và quyền truy cập.\n4. Test báo cáo/tọa độ và độ sai lệch thực tế; không hứa độ chính xác chưa đo.\nNghiệm thu: Dữ liệu lên đúng site; sai số được ghi; truy cập và thời gian lưu đúng yêu cầu.\nRollback: Tắt thu thập/gửi mới, phục hồi connector và xử lý dữ liệu thử theo chính sách.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiAP — Cấu hình FortiPresence",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAP",
+    "source_row": 20,
+    "source_cell": "C20",
+    "service": "it_configuration",
+    "item_id": "IT-FortiAP-020",
+    "device_family": "FortiAP"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

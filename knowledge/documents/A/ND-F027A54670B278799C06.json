@@ -1,0 +1,35 @@
+{
+  "id": "ND-F027A54670B278799C06",
+  "title": "FortiGuard",
+  "body": "FortiGuard\nĐịnh nghĩa: Thông tin chỉ dấu đe dọa dùng làm ngữ cảnh hoặc điều kiện lọc, có hạn sử dụng và false positive.\nĐầu vào: Nguồn feed/license, định dạng IOC, TTL, loại action.\nCách thực hiện:\n1. Kiểm tra nguồn, quyền dùng và kết nối cập nhật.\n2. Map IP/domain/hash đúng loại object; đặt TTL và giới hạn kích thước.\n3. Áp giám sát trước để đo ảnh hưởng rồi chặn theo phê duyệt.\n4. Test IOC mẫu an toàn, cập nhật/xóa IOC hết hạn và cảnh báo feed lỗi.\nKiểm tra: Feed cập nhật đúng; IOC hết hạn được xử lý; không chặn nhầm không kiểm soát.\nRollback: Gỡ feed khỏi policy chặn và phục hồi danh sách trước.\nXuất hiện: FortiAnalyzer!C27",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "FortiGuard",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAnalyzer",
+    "source_cell": "C27",
+    "service": "it_configuration",
+    "term": "FortiGuard",
+    "recipe_id": "intel"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

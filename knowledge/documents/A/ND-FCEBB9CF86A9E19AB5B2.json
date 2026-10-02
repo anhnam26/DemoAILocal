@@ -1,0 +1,35 @@
+{
+  "id": "ND-FCEBB9CF86A9E19AB5B2",
+  "title": "SOAR",
+  "body": "SOAR\nĐịnh nghĩa: Tự động hóa phản ứng bằng chuỗi điều kiện/hành động có giới hạn và audit.\nĐầu vào: Trigger, action allowlist, quyền API tối thiểu, reviewer, timeout và rollback.\nCách thực hiện:\n1. Viết playbook với đầu vào/điều kiện dừng và log từng bước.\n2. Chạy dry-run trên sự kiện mẫu, bảo đảm action idempotent và giới hạn phạm vi.\n3. Yêu cầu phê duyệt trước action ảnh hưởng sản xuất như block/reboot.\n4. Pilot, test lỗi API/retry và rollback rồi mới bật lịch/trigger.\nKiểm tra: Không hành động ngoài scope; không lặp vô hạn; thất bại có cảnh báo và audit.\nRollback: Disable trigger; thực thi action bù theo playbook, thu hồi quyền nếu cần.\nXuất hiện: FortiAnalyzer!C23; Log!C26",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SOAR",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAnalyzer",
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "term": "SOAR",
+    "recipe_id": "soar"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

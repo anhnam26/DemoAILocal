@@ -1,0 +1,35 @@
+{
+  "id": "ND-54C476E574E3866D2A38",
+  "title": "configuration_migration: Số lượng thiết bị :",
+  "body": "configuration_migration: Số lượng thiết bị :\nCâu hỏi/mô tả gốc: Số lượng thiết bị :\nTrả lời thực trong nguồn: 2. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Số lượng thiết bị :. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Cut-over chuyển dịch vụ sang hệ mới; rollback đưa về trạng thái đã kiểm chứng khi tiêu chí không đạt.\nCách xử lý bổ sung:\n1. Chốt change plan và điểm go/no-go, backup cả hai phía.\n2. Chuẩn bị thiết bị mới/lab, đối chiếu policy/NAT/route/VPN/license.\n3. Trong cửa sổ đã duyệt, chuyển cáp/route theo từng bước có timestamp.\n4. Chạy test nghiệp vụ và HA; nếu quá ngưỡng hoặc test trọng yếu lỗi, rollback cáp/config theo bản trước và kiểm tra lại.\nTiêu chí: Bộ test có pass/fail/bằng chứng; thời gian gián đoạn được đo; khách hàng xác nhận.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "configuration_migration: Số lượng thiết bị :",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Khảo sát thông tin",
+    "source_row": 12,
+    "source_cell": "row:12",
+    "service": "configuration_migration",
+    "requirement_id": "02dfd64adba195bd542d"
+  },
+  "service": "configuration_migration",
+  "content_kind": "survey"
+}

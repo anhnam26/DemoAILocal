@@ -1,0 +1,30 @@
+{
+  "id": "ND-437570AE223C8626CE03",
+  "title": "source_customer_missing",
+  "body": "source_customer_missing\nCác trường tên công ty/khách hàng, MST, người liên hệ trong các form chưa được điền; không có hồ sơ định danh khách hàng thực để suy ra.\nVị trí: all customer sheets",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "data_quality",
+  "provenance": {
+    "category": "data_quality",
+    "document_type": "data_quality",
+    "title": "source_customer_missing",
+    "provenance": "authored_review",
+    "review_status": "draft_engineer_review",
+    "source_file": "data_quality.json"
+  },
+  "service": "",
+  "content_kind": "reference"
+}

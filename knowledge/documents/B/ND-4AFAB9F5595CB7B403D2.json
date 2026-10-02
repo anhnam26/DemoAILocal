@@ -1,0 +1,36 @@
+{
+  "id": "ND-4AFAB9F5595CB7B403D2",
+  "title": "Manager — Cấu hình User/Role quản trị cơ bản",
+  "body": "Manager — Cấu hình User/Role quản trị cơ bản\nHạng mục gốc: Cấu hình User/Role quản trị cơ bản; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Tài khoản và vai trò giới hạn quyền quản trị; trusted host giới hạn nguồn được đăng nhập.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nDanh sách người quản trị, ma trận quyền, subnet quản trị, phương án tài khoản khẩn cấp.\nQuy trình bổ sung:\n1. Giữ một phiên quản trị hoạt động và có console dự phòng.\n2. Tạo tài khoản riêng cho từng người, gán role tối thiểu và giới hạn IP nguồn quản trị.\n3. Bật MFA nếu nền tảng hỗ trợ; lưu bí mật ở kho bí mật, không trong dataset.\n4. Đăng nhập bằng tài khoản mới; thử thao tác được phép và thao tác bị cấm; chỉ vô hiệu tài khoản cũ sau xác nhận.\nNghiệm thu: Đúng người/đúng phạm vi; truy cập ngoài subnet bị từ chối; có audit log.\nRollback: Dùng tài khoản khẩn cấp khôi phục role/trusted host; không khóa phiên cuối cùng.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Manager — Cấu hình User/Role quản trị cơ bản",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Manager",
+    "source_row": 18,
+    "source_cell": "C18",
+    "service": "it_configuration",
+    "item_id": "IT-Manager-018",
+    "device_family": "Manager"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

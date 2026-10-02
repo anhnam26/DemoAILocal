@@ -1,0 +1,36 @@
+{
+  "id": "ND-033AF940D16C1F66015D",
+  "title": "Manager — Tích hợp API với hệ thống khác (ITSM/Ticketing)",
+  "body": "Manager — Tích hợp API với hệ thống khác (ITSM/Ticketing)\nHạng mục gốc: Tích hợp API với hệ thống khác (ITSM/Ticketing); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Giao diện tích hợp dữ liệu và công việc; ticket ghi owner, trạng thái và lịch sử.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nEndpoint/schema, auth scope, mapping fields, retry/idempotency, môi trường test.\nQuy trình bổ sung:\n1. Tạo service account quyền tối thiểu, lưu token trong secret store.\n2. Map trường và validate schema; đặt timeout, retry có giới hạn và idempotency key.\n3. Test tạo/cập nhật/lỗi/trùng ticket trên môi trường thử.\n4. Ghi audit đã che bí mật, giám sát lỗi và giới hạn tốc độ.\nNghiệm thu: Không trùng ticket khi retry; không lộ token; lỗi được theo dõi.\nRollback: Tắt connector, thu hồi token và xử lý bản ghi dở dang theo audit.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Manager — Tích hợp API với hệ thống khác (ITSM/Ticketing)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Manager",
+    "source_row": 23,
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "item_id": "IT-Manager-023",
+    "device_family": "Manager"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-BF2F63B3DC62473A739C",
+  "title": "Encryption at Rest",
+  "body": "Encryption at Rest\nĐịnh nghĩa: Mã hóa dữ liệu lưu trữ, cần quản lý khóa và phục hồi khóa riêng.\nĐầu vào: Khả năng platform, KMS/key owner, backup khóa, ảnh hưởng hiệu năng.\nCách thực hiện:\n1. Xác nhận backup dữ liệu và chính sách giữ khóa.\n2. Bật mã hóa trên pool/volume hỗ trợ theo quy trình hãng; không tái tạo volume có dữ liệu tùy tiện.\n3. Lưu recovery key ngoài thiết bị và giới hạn quyền.\n4. Test mount/reboot và phục hồi bằng khóa trong lab.\nKiểm tra: Dữ liệu mở được với khóa hợp lệ; recovery key kiểm chứng; audit truy cập khóa.\nRollback: Giữ khóa gốc; theo quy trình decrypt/restore hãng, không xóa key để rollback.\nXuất hiện: NAS!C28",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Encryption at Rest",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_cell": "C28",
+    "service": "it_configuration",
+    "term": "Encryption at Rest",
+    "recipe_id": "encryption"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -9,8 +9,10 @@ Type=simple
 User=YOUR_LINUX_USER
 WorkingDirectory=/opt/cyberant
 ExecStart=/home/YOUR_LINUX_USER/miniconda3/envs/cyberant/bin/python /opt/cyberant/main.py
-# APP_ENV / APP_HOST / APP_PORT / APP_ORIGINS are read from the project's .env.
-# Do not override APP_ENV here: LAN HTTP uses lan; HTTPS uses production.
+Environment=APP_ENV_FILE=/etc/cyberant/cyberant.env
+# Add --share to ExecStart for a NEW temporary Cloudflare URL on every restart.
+# Read the URL via journalctl -u cyberant. cloudflared must be on the service PATH
+# or pass --cloudflared /absolute/path/cloudflared. Never run concurrent instances.
 Environment=PYTHONUNBUFFERED=1
 Environment=PYTHONDONTWRITEBYTECODE=1
 Restart=on-failure
@@ -20,6 +22,7 @@ TimeoutStopSec=420
 UMask=0077
 NoNewPrivileges=true
 PrivateTmp=true
+KillMode=control-group
 
 [Install]
 WantedBy=multi-user.target

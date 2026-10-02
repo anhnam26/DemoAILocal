@@ -1,0 +1,32 @@
+{
+  "id": "ND-7822421357E6598979EF",
+  "title": "SOW đề xuất equipment_rental: Hỗ trợ trong hạn thuê",
+  "body": "SOW đề xuất equipment_rental: Hỗ trợ trong hạn thuê\nĐầu ra đề xuất: Ticket và báo cáo theo gói hỗ trợ thực sự chọn\nCác bước:\n1. Tạo ticket và phân loại ảnh hưởng/ưu tiên theo hợp đồng.\n2. Xác nhận quyền truy cập; dùng phiên remote định danh có thời hạn và ghi thao tác.\n3. Chẩn đoán từ log/baseline, đề xuất thay đổi kèm backup/rollback, thực hiện khi được duyệt.\n4. Test với khách hàng, escalation khi vượt khả năng/ngưỡng, cập nhật báo cáo và đóng khi xác nhận.\nNghiệm thu: Ticket có lịch sử, thời điểm response/resolution riêng; quyền remote được thu hồi sau phiên.\nRollback: Dừng thay đổi và khôi phục baseline; escalation theo danh sách phụ trách.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất equipment_rental: Hỗ trợ trong hạn thuê",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "equipment_rental-SOW-06",
+    "service": "equipment_rental"
+  },
+  "service": "equipment_rental",
+  "content_kind": "reference"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-74A8C6B14127C138CBE4",
+  "title": "equipment_rental: Yêu cầu về bảo mật / cam kết",
+  "body": "equipment_rental: Yêu cầu về bảo mật / cam kết\nCâu hỏi/mô tả gốc: Cam kết bảo mật cấu hình, dữ liệu\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Cam kết bảo mật cấu hình, dữ liệu. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Yêu cầu phi chức năng xác định giới hạn xử lý dữ liệu, mức ảnh hưởng và nguồn lực; cần chủ sở hữu xác nhận.\nCách xử lý bổ sung:\n1. Ghi nguyên văn yêu cầu và người cung cấp.\n2. Chuyển yêu cầu chung thành tiêu chí kiểm tra được như nguồn truy cập, thời hạn phiên, retention hoặc giới hạn chi phí.\n3. Xác định mâu thuẫn với scope/SLA và gửi đầu mối xác nhận.\n4. Lưu trạng thái draft/confirmed cùng bằng chứng, không xem câu hỏi trong form là cam kết.\nTiêu chí: Từng yêu cầu có owner, giá trị và tiêu chí; ô trống giữ trạng thái chưa biết.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "equipment_rental: Yêu cầu về bảo mật / cam kết",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ cho thuê - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_row": 33,
+    "source_cell": "row:33",
+    "service": "equipment_rental",
+    "requirement_id": "905d848787437bfdc4da"
+  },
+  "service": "equipment_rental",
+  "content_kind": "survey"
+}

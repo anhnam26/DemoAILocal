@@ -1,0 +1,36 @@
+{
+  "id": "ND-D1B2F6E7F37689EB740D",
+  "title": "AP — Cấu hình IP quản lý (Standalone) hoặc kết nối Controller",
+  "body": "AP — Cấu hình IP quản lý (Standalone) hoặc kết nối Controller\nHạng mục gốc: Cấu hình IP quản lý (Standalone) hoặc kết nối Controller; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Interface là cổng logic/vật lý; WAN nối ngoài, LAN nội bộ, DMZ tách dịch vụ; zone nhóm interface cùng chính sách.\nAP cung cấp Wi-Fi; controller quản lý profile, radio và SSID tập trung.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nSơ đồ cổng/cáp, IP/mask/gateway, tốc độ/duplex, VLAN và quyền quản trị.\nAP model/version, discovery, IP quản lý, PoE, cổng trunk, controller/license.\nQuy trình bổ sung:\n1. Đối chiếu nhãn cáp và cổng; giữ console khi đổi IP quản lý.\n2. Tạo zone nếu thiết kế yêu cầu; gán interface, địa chỉ và role WAN/LAN/DMZ.\n3. Chỉ bật giao thức quản trị trên mạng quản trị; kiểm tra link và MTU với đầu đối diện.\n4. Kiểm tra ARP, ping gateway và route; lưu sơ đồ cổng sau thay đổi.\n5. Kiểm tra nguồn, DHCP/DNS và đường discovery tới controller.\n6. Kết nối AP và authorize theo serial; gán site/AP profile đúng model.\n7. Đồng bộ radio/SSID và VLAN uplink.\n8. Kiểm tra online, client association, DHCP và truy cập mạng.\nNghiệm thu: Không trùng IP; link up; đúng zone và subnet; truy cập quản trị đúng nguồn.\nĐúng AP online đúng profile; client nhận mạng và dịch vụ.\nRollback: Trả IP/zone/cáp về sơ đồ ban đầu qua console.\nGỡ profile mới và phục hồi controller/discovery/VLAN cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "AP — Cấu hình IP quản lý (Standalone) hoặc kết nối Controller",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "AP",
+    "source_row": 14,
+    "source_cell": "C14",
+    "service": "it_configuration",
+    "item_id": "IT-AP-014",
+    "device_family": "AP"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "ND-047BD8D663075E70A0F3",
+  "title": "SOW đề xuất configuration_migration: Cut-over đã duyệt",
+  "body": "SOW đề xuất configuration_migration: Cut-over đã duyệt\nĐầu ra đề xuất: Nhật ký chuyển cáp/kết nối và số đo downtime thực\nCác bước:\n1. Kiểm tra tải trọng, airflow, nguồn và an toàn điện tại site.\n2. Lắp rail/thiết bị đúng hướng dẫn với đủ nhân lực.\n3. Đấu nguồn theo sơ đồ A/B/PDU/UPS đã duyệt, dán nhãn cáp/cổng.\n4. Kiểm tra cả nguồn và trạng thái thiết bị, lưu as-built.\n5. Chốt change plan và điểm go/no-go, backup cả hai phía.\n6. Chuẩn bị thiết bị mới/lab, đối chiếu policy/NAT/route/VPN/license.\n7. Trong cửa sổ đã duyệt, chuyển cáp/route theo từng bước có timestamp.\n8. Chạy test nghiệp vụ và HA; nếu quá ngưỡng hoặc test trọng yếu lỗi, rollback cáp/config theo bản trước và kiểm tra lại.\nNghiệm thu: Thiết bị chắc chắn; airflow thông; nguồn và nhãn đúng; không vượt tải.\nBộ test có pass/fail/bằng chứng; thời gian gián đoạn được đo; khách hàng xác nhận.\nRollback: Ngắt nguồn theo quy trình, trả cáp/vị trí cũ; không thao tác điện ngoài chuyên môn.\nTrả cáp/route/config về thiết bị cũ, xác nhận ứng dụng phục hồi; ghi lỗi và lập kế hoạch thử lại.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất configuration_migration: Cut-over đã duyệt",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "configuration_migration-SOW-05",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

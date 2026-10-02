@@ -1,0 +1,26 @@
+{
+  "id": "R-13446FDBF0-AC0E9E69",
+  "title": "Dịch vụ triển khai CNTT.docx",
+  "body": "Quy trình triển khai chuyên nghiệp, kiểm soát chặt chẽ từ khảo sát đến nghiệm thu.\n\nHạn chế tối đa thời gian gián đoạn trong quá trình chuyển đổi hệ thống.\n\nĐảm bảo hệ thống hoạt động ổn định ngay sau khi đưa vào vận hành.\n\nBàn giao đầy đủ tài liệu kỹ thuật và hỗ trợ đội ngũ CNTT của khách hàng tiếp nhận, vận hành hệ thống.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 23; Khối 24; Khối 25; Khối 26",
+    "sha256": "13446fdbf0d54220ac6a83caf68677dc7d3c9fd453b4235e246f4bbb9ca8ed9b"
+  },
+  "service": "Dịch vụ triển khai CNTT.docx",
+  "content_kind": "reference"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "ND-6B12407571876EFD31C0",
+  "title": "Nâng/hạ cấp Firmware FortiGate",
+  "body": "Nâng/hạ cấp Firmware FortiGate\nƯớc tính trong nguồn: 1 giờ × 1 kỹ sư = 1 man-hour. Không phải downtime hoặc giá.\nUpgrade/downgrade firmware tương thích\nCách làm bổ sung:\n1. Sao lưu cấu hình và image cần phục hồi; xác minh backup đọc được.\n2. Kiểm tra ma trận hỗ trợ tính năng/license và lộ trình nâng cấp đúng model; không tự chọn bản mới nhất.\n3. Tải image từ hãng, kiểm tra checksum; nâng cấp theo từng bước được hỗ trợ.\n4. Sau mỗi lần khởi động, kiểm tra interface, route, policy, VPN, HA và log; cập nhật driver tương thích nếu là server.\nNghiệm thu: Đúng version; không lỗi chuyển đổi cấu hình; bộ test dịch vụ đạt; có biên bản downtime.\nRollback: Dừng khi không tương thích; phục hồi image và backup cùng phiên bản theo hướng dẫn hãng, không nạp mù config mới vào firmware cũ.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "migration_sow",
+  "provenance": {
+    "category": "migration_sow",
+    "document_type": "migration_sow",
+    "title": "Nâng/hạ cấp Firmware FortiGate",
+    "provenance": "source_estimate_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_row": 11,
+    "source_cell": "row:11",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

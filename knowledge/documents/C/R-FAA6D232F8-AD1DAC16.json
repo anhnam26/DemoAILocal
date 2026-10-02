@@ -1,0 +1,26 @@
+{
+  "id": "R-FAA6D232F8-AD1DAC16",
+  "title": "dịch vụ cấu hình.docx",
+  "body": "Phù hợp với các yêu cầu cấu hình chuyên sâu, tối ưu hệ thống hoặc tích hợp nhiều thành phần hạ tầng CNTT.\n\nBao gồm:\n\nKhảo sát hiện trạng và thu thập yêu cầu.\n\n- Phân tích, tư vấn và xây dựng phương án triển khai hoặc thiết kế kỹ thuật (nếu cần).\n\n- Triển khai và cấu hình các tính năng nâng cao theo tài liệu thiết kế hoặc yêu cầu của khách hàng, bao gồm:\n\n+ Cấu hình mạng và kết nối nâng cao.\n\n+ Cấu hình Networking: Routing, Switching...\n\n+ Cấu hình VPN và kết nối bảo mật giữa các hệ thống.\n\n+ Cấu hình dự phòng, cân bằng tải và đảm bảo tính sẵn sàng cao (High Availability).\n\n+ Cấu hình các chính sách bảo mật, kiểm soát truy cập và xác thực người dùng.\n\n+ Cấu hình các dịch vụ hạ tầng như DNS, DHCP, NTP, Directory Services và các dịch vụ liên quan.\n\n+ Cấu hình tích hợp với các hệ thống quản lý tập trung, giám sát, lưu trữ nhật ký (Log), xác thực, giám sát hiệu năng hoặc các hệ thống của bên thứ ba.\n\n+ Cấu hình giám sát, cảnh báo, ghi log, tự động hóa và các tính năng quản trị nâng cao.\n\n+ Cấu hình tối ưu hiệu năng, chất lượng dịch vụ (QoS), phân bổ tài nguyên và các tính năng chuyên biệt theo từng nền tảng.\n\n+ Thực hiện các yêu cầu cấu hình nâng cao khác theo phạm vi công việc đã thống nhất.\n\n+ Kiểm tra, xác nhận kết quả triển khai và tối ưu cấu hình.\n\n+ Bàn giao tài liệu cấu hình, hướng dẫn vận hành và hỗ trợ nghiệm thu sau triển khai.\n\nTại sao chọn CyberAnt?\n\nThực hiện theo quy trình nhằm giảm thiểu rủi ro.\n\nLuôn đánh giá tác động và chuẩn bị phương án Rollback trước khi triển khai.\n\nKỹ sư giàu kinh nghiệm với nhiều dự án Network & Security quy mô lớn.\n\nHạn chế tối đa thời gian gián đoạn dịch vụ trong quá trình cấu hình.\n\nBàn giao đầy đủ tài liệu thay đổi và hỗ trợ khách hàng sau khi hoàn thành.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 28; Khối 29; Khối 30; Khối 31; Khối 32; Khối 33; Khối 34; Khối 35; Khối 36; Khối 37; Khối 38; Khối 39; Khối 40; Khối 41; Khối 42; Khối 43; Khối 44; Khối 45; Khối 46; Khối 47; Khối 48; Khối 49; Khối 50",
+    "sha256": "faa6d232f8d01d94201b88d42105aa0e07d29e07a4cb8b13b2b806e20a38fdb7"
+  },
+  "service": "dịch vụ cấu hình.docx",
+  "content_kind": "reference"
+}

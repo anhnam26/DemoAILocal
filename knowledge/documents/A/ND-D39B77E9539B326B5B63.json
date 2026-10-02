@@ -1,0 +1,35 @@
+{
+  "id": "ND-D39B77E9539B326B5B63",
+  "title": "IP plan",
+  "body": "IP plan\nĐịnh nghĩa: Thu thập hiện trạng có bằng chứng để chốt phạm vi và thiết kế.\nĐầu vào: Đầu mối, sơ đồ, inventory, vấn đề, mục tiêu và quyền truy cập.\nCách thực hiện:\n1. Ghi mục tiêu, site, người dùng và dịch vụ quan trọng.\n2. Thu inventory, config đã che bí mật, IP/VLAN/route và license; đối chiếu thông tin tại chỗ khi cần.\n3. Ghi thiếu/mâu thuẫn kèm người xác nhận, không tự điền như dữ liệu thật.\n4. Lập báo cáo hiện trạng, nhu cầu và giả định để khách hàng xác nhận.\nKiểm tra: Mỗi yêu cầu có nguồn; thiếu dữ liệu được liệt kê; phạm vi được xác nhận.\nRollback: Sửa phiên bản khảo sát và cập nhật tài liệu phụ thuộc khi có thông tin mới.\nXuất hiện: Thông tin lên Bom!C14",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "IP plan",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C14",
+    "service": "fortigate_configuration",
+    "term": "IP plan",
+    "recipe_id": "survey"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

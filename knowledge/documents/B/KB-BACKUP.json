@@ -1,0 +1,24 @@
+{
+  "id": "KB-BACKUP",
+  "title": "Backup chạy nhưng restore lỗi — bài học ẩn danh",
+  "body": "Tình huống tổng hợp DEMO không gắn khách: Job thành công không chứng minh backup dùng được; cần restore test. Kiểm tra: Kiểm chuỗi full/incremental, khóa mã hóa, quyền và dung lượng đích trong lab. Bài học: Lập lịch diễn tập và ghi bằng chứng đọc được dữ liệu. Nêu giả thuyết rõ, chỉ kết luận khi có log/test. Chuyển trưởng nhóm nếu ảnh hưởng nhiều site.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

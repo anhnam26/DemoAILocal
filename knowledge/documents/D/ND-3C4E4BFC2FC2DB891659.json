@@ -1,0 +1,32 @@
+{
+  "id": "ND-3C4E4BFC2FC2DB891659",
+  "title": "SOW đề xuất configuration_migration: Lập kế hoạch & test case",
+  "body": "SOW đề xuất configuration_migration: Lập kế hoạch & test case\nĐầu ra đề xuất: Go/no-go, người quyết định, rollback threshold và bộ test nghiệp vụ\nCác bước:\n1. Tạo change record với phạm vi, rủi ro, dependency và backup.\n2. Đặt người lập/người duyệt tách vai trò; cấu hình approval matrix nếu nền tảng hỗ trợ.\n3. Gửi duyệt, sửa khi bị từ chối; chỉ triển khai bản đã duyệt.\n4. Ghi thời điểm, kết quả test, rollback nếu vượt ngưỡng và đóng change.\n5. Chốt change plan và điểm go/no-go, backup cả hai phía.\n6. Chuẩn bị thiết bị mới/lab, đối chiếu policy/NAT/route/VPN/license.\n7. Trong cửa sổ đã duyệt, chuyển cáp/route theo từng bước có timestamp.\n8. Chạy test nghiệp vụ và HA; nếu quá ngưỡng hoặc test trọng yếu lỗi, rollback cáp/config theo bản trước và kiểm tra lại.\nNghiệm thu: Có audit trail; không bỏ qua approval; bản thực thi trùng bản được duyệt.\nBộ test có pass/fail/bằng chứng; thời gian gián đoạn được đo; khách hàng xác nhận.\nRollback: Thực hiện rollback của change và mở lại đánh giá; không xóa dấu vết.\nTrả cáp/route/config về thiết bị cũ, xác nhận ứng dụng phục hồi; ghi lỗi và lập kế hoạch thử lại.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất configuration_migration: Lập kế hoạch & test case",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "configuration_migration-SOW-03",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

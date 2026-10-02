@@ -1,0 +1,35 @@
+{
+  "id": "ND-12F244276F45376CA3F4",
+  "title": "Onsite",
+  "body": "Onsite\nĐịnh nghĩa: Remote hỗ trợ từ xa, onsite tại chỗ; Managed Service quản trị theo phạm vi liên tục; giờ hỗ trợ khác thời gian khắc phục.\nĐầu vào: Scope, inventory, SLA/severity, đầu mối, kênh remote bảo vệ, change approval.\nCách thực hiện:\n1. Tạo ticket và phân loại ảnh hưởng/ưu tiên theo hợp đồng.\n2. Xác nhận quyền truy cập; dùng phiên remote định danh có thời hạn và ghi thao tác.\n3. Chẩn đoán từ log/baseline, đề xuất thay đổi kèm backup/rollback, thực hiện khi được duyệt.\n4. Test với khách hàng, escalation khi vượt khả năng/ngưỡng, cập nhật báo cáo và đóng khi xác nhận.\nKiểm tra: Ticket có lịch sử, thời điểm response/resolution riêng; quyền remote được thu hồi sau phiên.\nRollback: Dừng thay đổi và khôi phục baseline; escalation theo danh sách phụ trách.\nXuất hiện: Thông tin chung!C13",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Onsite",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin chung",
+    "source_cell": "C13",
+    "service": "fortigate_configuration",
+    "term": "Onsite",
+    "recipe_id": "support"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

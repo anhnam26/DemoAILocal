@@ -1,0 +1,35 @@
+{
+  "id": "ND-B7EB24E4FDDB062A7B92",
+  "title": "DNS",
+  "body": "DNS\nĐịnh nghĩa: Hệ thống phân giải tên thành địa chỉ; forwarder chuyển truy vấn tới máy chủ DNS khác.\nĐầu vào: IP DNS nội bộ/ngoài, domain nội bộ, interface nguồn.\nCách thực hiện:\n1. Kiểm tra đường đi từ thiết bị tới DNS.\n2. Khai báo DNS chính/phụ, domain tìm kiếm và forwarder theo thiết kế.\n3. Cho phép luồng DNS cần thiết trong policy; không mở resolver ra Internet.\n4. Thử phân giải tên nội bộ, ngoài và trường hợp DNS chính không hoạt động.\nKiểm tra: Truy vấn đúng bản ghi; máy chủ dự phòng trả lời; không rò tên nội bộ tới DNS công cộng ngoài thiết kế.\nRollback: Trả DNS/forwarder về giá trị đã sao lưu.\nXuất hiện: Thông tin lên Bom!C21; Thông tin lên Bom!B47; Thông tin lên Bom!C47",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "DNS",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C21",
+    "service": "fortigate_configuration",
+    "term": "DNS",
+    "recipe_id": "dns"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

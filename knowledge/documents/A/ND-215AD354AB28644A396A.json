@@ -1,0 +1,35 @@
+{
+  "id": "ND-215AD354AB28644A396A",
+  "title": "IPS",
+  "body": "IPS\nĐịnh nghĩa: IDS phát hiện; IPS có thể chặn dấu hiệu tấn công trong lưu lượng.\nĐầu vào: Máy chủ/dịch vụ cần bảo vệ, license/chữ ký, action, baseline lưu lượng.\nCách thực hiện:\n1. Chọn sensor theo hệ điều hành/dịch vụ thay vì bật mọi chữ ký.\n2. Áp ban đầu chế độ giám sát nếu cần đánh giá ảnh hưởng, rồi action đã duyệt.\n3. Gắn sensor vào policy cần bảo vệ và kiểm tra inspection.\n4. Kiểm thử an toàn trong lab, đánh giá false positive và hiệu năng; lưu ngoại lệ có lý do.\nKiểm tra: Phát hiện/chặn mẫu test đúng; dịch vụ hợp lệ hoạt động; có log ID chữ ký.\nRollback: Chuyển signature gây lỗi về monitor theo phê duyệt hoặc phục hồi sensor cũ.\nXuất hiện: Thông tin lên Bom!A43; Thông tin lên Bom!B44",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "IPS",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "A43",
+    "service": "fortigate_configuration",
+    "term": "IPS",
+    "recipe_id": "ips"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

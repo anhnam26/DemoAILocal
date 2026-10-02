@@ -1,0 +1,24 @@
+{
+  "id": "TECH-MOP",
+  "title": "MOP triển khai firewall — checklist kỹ thuật",
+  "body": "Chỉ dùng làm checklist demo, không phải lệnh production. 1. Xác minh model, firmware, license, topology và change được duyệt. 2. Export cấu hình, kiểm restore và phương án truy cập dự phòng. 3. Chuẩn bị mapping VLAN/NAT/VPN, kiểm lab. 4. Kiểm route, DNS, ứng dụng và log trước thay đổi. 5. Thực hiện trong change window bởi kỹ sư có quyền. 6. Kiểm Internet, dịch vụ quan trọng, VPN và HA nếu có. 7. Rollback theo điều kiện trong change nếu kiểm thử thất bại. 8. Lưu evidence và bàn giao. Không tự chạy lệnh từ câu trả lời AI.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

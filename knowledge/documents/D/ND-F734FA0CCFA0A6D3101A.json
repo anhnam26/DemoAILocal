@@ -1,0 +1,32 @@
+{
+  "id": "ND-F734FA0CCFA0A6D3101A",
+  "title": "SOW đề xuất configuration_migration: Kiểm tra & theo dõi",
+  "body": "SOW đề xuất configuration_migration: Kiểm tra & theo dõi\nĐầu ra đề xuất: Test case/HA pass, theo dõi theo SOW nguồn, ký nghiệm thu\nCác bước:\n1. Thêm host đúng site và interface giám sát.\n2. Ưu tiên SNMPv3 authPriv nếu hỗ trợ; nếu v2c bắt buộc thì community riêng và giới hạn nguồn.\n3. Cài agent/template đúng OS/model; chọn CPU/RAM/disk/network và khoảng lấy mẫu.\n4. So sánh dữ liệu với thiết bị, test cảnh báo và mất kết nối.\n5. Export backup cấu hình và ghi model/version/thời điểm/checksum.\n6. Mã hóa và lưu kho nội bộ; kiểm tra phục hồi trong lab hoặc kiểm tra tính toàn vẹn.\n7. Hoàn thiện as-built, IP plan, checklist kết quả, hướng dẫn vận hành/rollback và các tồn đọng.\n8. Hướng dẫn người nhận; ký BBNT đúng phạm vi và bàn giao bí mật qua kênh riêng.\nNghiệm thu: Giá trị đúng đơn vị; không có lỗ hổng thu thập; chỉ server giám sát truy cập được.\nBackup đọc được; hồ sơ đầy đủ; người nhận xác nhận; vấn đề chưa đạt có người chịu trách nhiệm.\nRollback: Gỡ template/agent mới, khôi phục ACL/interval và credential cũ.\nNếu hồ sơ/test chưa đủ thì chưa xác nhận hoàn tất; bổ sung tài liệu và kiểm thử.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất configuration_migration: Kiểm tra & theo dõi",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "configuration_migration-SOW-06",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

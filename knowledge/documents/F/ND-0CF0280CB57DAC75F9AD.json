@@ -1,0 +1,30 @@
+{
+  "id": "ND-0CF0280CB57DAC75F9AD",
+  "title": "formula_cache",
+  "body": "formula_cache\nopenpyxl không tính công thức. Giữ formula và cached value ở raw; SOW dùng phép nhân/cộng số học rõ ràng. Mở bản Excel bằng Excel/LibreOffice để recalculate.\nVị trí: Checklist IT / SOW",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "data_quality",
+  "provenance": {
+    "category": "data_quality",
+    "document_type": "data_quality",
+    "title": "formula_cache",
+    "provenance": "authored_review",
+    "review_status": "draft_engineer_review",
+    "source_file": "data_quality.json"
+  },
+  "service": "",
+  "content_kind": "reference"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-1CBD4BF8145D20BF34CB",
+  "title": "SAN — Cấu hình Deduplication/Compression",
+  "body": "SAN — Cấu hình Deduplication/Compression\nHạng mục gốc: Cấu hình Deduplication/Compression; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Giảm dung lượng vật lý bằng loại bỏ khối trùng và nén; mức tiết kiệm phụ thuộc dữ liệu.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPlatform hỗ trợ, loại workload, CPU/RAM và baseline latency.\nQuy trình bổ sung:\n1. Đánh giá dữ liệu có phù hợp và tác động tới snapshot/encryption.\n2. Bật tính năng trên pool/volume thử theo khả năng hãng.\n3. Chạy workload đại diện, đo tỷ lệ tiết kiệm và latency.\n4. Theo dõi capacity/rebuild và mở rộng khi đạt tiêu chí.\nNghiệm thu: Tiết kiệm được đo thực; latency trong ngưỡng; không suy diễn tỷ lệ cố định.\nRollback: Tắt tính năng theo hướng dẫn và tính đủ dung lượng tái hydrat hóa trước.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "SAN — Cấu hình Deduplication/Compression",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_row": 26,
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "item_id": "IT-SAN-026",
+    "device_family": "SAN"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-D7B0EE1DB355438988C4",
+  "title": "Web Filtering",
+  "body": "Web Filtering\nĐịnh nghĩa: Lọc web theo URL, nhóm nội dung hoặc uy tín.\nĐầu vào: Category/URL cần cho phép/chặn, nhóm người dùng, exception.\nCách thực hiện:\n1. Kiểm tra license và phương thức quan sát HTTPS.\n2. Clone profile web filter; đặt action từng category và URL override theo yêu cầu.\n3. Gắn vào đúng policy, xác nhận DNS/SSL inspection liên quan.\n4. Thử URL được phép/chặn từ client đại diện và xem log.\nKiểm tra: Đúng nhóm người dùng bị áp dụng; URL được phép vẫn hoạt động; có log chặn.\nRollback: Khôi phục category/URL override và profile trước thay đổi.\nXuất hiện: FortiGate!C26; Firewall!C20",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Web Filtering",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "term": "Web Filtering",
+    "recipe_id": "web"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

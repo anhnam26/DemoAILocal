@@ -1,0 +1,32 @@
+{
+  "id": "ND-6DDA467253C058EB4B48",
+  "title": "SOW đề xuất rma: Chẩn đoán & mở case hãng",
+  "body": "SOW đề xuất rma: Chẩn đoán & mở case hãng\nĐầu ra đề xuất: Bằng chứng lỗi hardware; lỗi config chuyển nhánh hướng dẫn\nCác bước:\n1. Tạo ticket và phân loại ảnh hưởng/ưu tiên theo hợp đồng.\n2. Xác nhận quyền truy cập; dùng phiên remote định danh có thời hạn và ghi thao tác.\n3. Chẩn đoán từ log/baseline, đề xuất thay đổi kèm backup/rollback, thực hiện khi được duyệt.\n4. Test với khách hàng, escalation khi vượt khả năng/ngưỡng, cập nhật báo cáo và đóng khi xác nhận.\n5. Tiếp nhận ticket, kiểm tra khách hàng/entitlement và phân biệt lỗi cấu hình/phần cứng.\n6. Thu bằng chứng chẩn đoán, mở case hãng và chờ xác nhận RMA.\n7. Xác nhận loại dịch vụ, thời điểm bắt đầu tính và lịch logistics; không mặc định 4h là thời gian khắc phục.\n8. Giao/thay hoặc gửi thiết bị, khôi phục config tương thích, kiểm thử/nghiệm thu; thu hồi thiết bị lỗi và đóng case.\nNghiệm thu: Ticket có lịch sử, thời điểm response/resolution riêng; quyền remote được thu hồi sau phiên.\nCó mã hãng, serial cũ/mới, bằng chứng khôi phục/test và biên nhận thu hồi.\nRollback: Dừng thay đổi và khôi phục baseline; escalation theo danh sách phụ trách.\nNếu thiết bị thay không đạt, giữ dịch vụ trên phương án dự phòng và escalation tới hãng.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất rma: Chẩn đoán & mở case hãng",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "rma-SOW-02",
+    "service": "rma"
+  },
+  "service": "rma",
+  "content_kind": "reference"
+}

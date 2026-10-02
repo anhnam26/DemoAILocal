@@ -1,0 +1,35 @@
+{
+  "id": "ND-11517507F7687078DA61",
+  "title": "fortigate_configuration: Active Directory / LDAP Server:",
+  "body": "fortigate_configuration: Active Directory / LDAP Server:\nCâu hỏi/mô tả gốc: Có DC không? Version? (Windows Server 2016/2019/2022?)\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Có DC không? Version? (Windows Server 2016/2019/2022?). Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Directory lưu danh tính/nhóm; LDAP truy vấn directory, AD là hệ thống directory của Microsoft.\nHệ điều hành cung cấp nền tảng chạy dịch vụ trên server.\nERP quản trị doanh nghiệp; POS bán hàng; NVR ghi hình; ISP cung cấp Internet; bridge chuyển tiếp lớp 2, PPPoE xác thực đường truy nhập.\nCách xử lý bổ sung:\n1. Kiểm tra DNS, giờ và đường tới domain controller.\n2. Khai báo LDAP/LDAPS và kiểm tra certificate; dùng tài khoản bind riêng trong kho bí mật.\n3. Map nhóm directory sang nhóm quyền/VPN; không cấp quyền toàn domain mặc định.\n4. Test user đúng/sai nhóm và kiểm tra log; nếu join domain, xác nhận computer object/OU.\n5. Xác nhận đúng boot disk và quyền ghi đè trước cài.\n6. Boot media đã kiểm tra, chọn partition theo thiết kế và cài OS/driver hỗ trợ.\n7. Cấu hình hostname/IP/time/DNS, cập nhật bản vá theo baseline.\n8. Kiểm tra reboot, event log, thiết bị phần cứng và truy cập quản trị.\n9. Liệt kê từng dịch vụ và mức ảnh hưởng khi gián đoạn.\n10. Thu số lượng thiết bị/user riêng, tránh cộng lẫn người dùng và endpoint.\n11. Xác nhận ISP/IP public/PPPoE và khả năng bridge với nhà mạng trước đổi modem.\n12. Tạo test nghiệp vụ thực cho từng ERP/POS/NVR và ghi pass/fail sau thay đổi.\nTiêu chí: Xác thực và phân quyền đúng nhóm; lỗi directory không mở quyền ngoài thiết kế.\nOS/license đúng; không thiếu driver; reboot ổn định; quản trị được bảo vệ.\nInventory rõ đơn vị; ứng dụng có owner và test case; đường truyền được xác nhận.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Active Directory / LDAP Server:",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 10,
+    "source_cell": "row:10",
+    "service": "fortigate_configuration",
+    "requirement_id": "f4a28195d914a71fbc97"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

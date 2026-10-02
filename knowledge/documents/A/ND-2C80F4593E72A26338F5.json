@@ -1,0 +1,35 @@
+{
+  "id": "ND-2C80F4593E72A26338F5",
+  "title": "Trunk",
+  "body": "Trunk\nĐịnh nghĩa: Cổng trunk truyền nhiều VLAN; native/untagged VLAN phải khớp hai đầu.\nĐầu vào: Allowed VLAN, native VLAN, cổng hai đầu và MTU.\nCách thực hiện:\n1. So sánh cấu hình cả hai đầu liên kết.\n2. Đặt trunk/tagged và danh sách VLAN tối thiểu; đồng bộ native VLAN.\n3. Kiểm tra VLAN quản trị trước khi áp thay đổi từ xa.\n4. Test từng VLAN qua trunk, MAC table và lỗi tag.\nKiểm tra: Các VLAN cho phép đi qua; VLAN ngoài danh sách bị chặn; không mất quản trị.\nRollback: Phục hồi allowed/native VLAN cả hai đầu bằng console nếu cần.\nXuất hiện: Thông tin lên Bom!C8",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Trunk",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C8",
+    "service": "fortigate_configuration",
+    "term": "Trunk",
+    "recipe_id": "trunk"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

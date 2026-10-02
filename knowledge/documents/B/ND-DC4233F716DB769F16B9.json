@@ -1,0 +1,36 @@
+{
+  "id": "ND-DC4233F716DB769F16B9",
+  "title": "FortiSwitch — Cấu hình DHCP Snooping cơ bản",
+  "body": "FortiSwitch — Cấu hình DHCP Snooping cơ bản\nHạng mục gốc: Cấu hình DHCP Snooping cơ bản; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Kiểm soát server DHCP được tin cậy và tạo bảng binding client.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nVLAN áp dụng, uplink tới DHCP hợp lệ, rate limit.\nQuy trình bổ sung:\n1. Bật snooping cho VLAN thử nghiệm.\n2. Chỉ đánh dấu trusted cổng đi tới DHCP server/relay hợp lệ; cổng client untrusted.\n3. Đặt rate limit phù hợp và lưu binding nếu hỗ trợ.\n4. Test DHCP hợp lệ và server giả lập trong lab, kiểm tra binding/drop counter.\nNghiệm thu: DHCP hợp lệ hoạt động; DHCP giả bị chặn; binding đúng MAC/IP/port.\nRollback: Tắt snooping trên VLAN gây lỗi và khôi phục trust port trước.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiSwitch — Cấu hình DHCP Snooping cơ bản",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_row": 19,
+    "source_cell": "C19",
+    "service": "it_configuration",
+    "item_id": "IT-FortiSwitch-019",
+    "device_family": "FortiSwitch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

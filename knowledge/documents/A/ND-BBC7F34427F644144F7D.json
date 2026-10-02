@@ -1,0 +1,35 @@
+{
+  "id": "ND-BBC7F34427F644144F7D",
+  "title": "FortiAnalyzer",
+  "body": "FortiAnalyzer\nĐịnh nghĩa: Nền tảng Fortinet thu thập, lưu và phân tích log; khác với FortiManager quản lý cấu hình.\nĐầu vào: IP máy thu, transport/port, chứng chỉ nếu TLS, loại log, dung lượng đĩa.\nCách thực hiện:\n1. Kiểm tra dung lượng và kết nối tới collector.\n2. Bật local log nếu model có khả năng lưu; chọn mức log và thời gian lưu phù hợp.\n3. Cấu hình syslog/trap receiver và interface nguồn; ưu tiên kênh bảo vệ khi hỗ trợ.\n4. Phát sinh sự kiện test, kiểm tra timestamp, hostname, parser và việc nhận đủ bản ghi.\nKiểm tra: Sự kiện test xuất hiện trên máy thu; không lệch giờ; hàng đợi/đĩa không tràn.\nRollback: Khôi phục mức log và collector cũ; bảo toàn log đã thu.\nXuất hiện: FortiGate!C28; FortiGate!C46; FortiAnalyzer!A1; Log!A1",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "FortiAnalyzer",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C28",
+    "service": "it_configuration",
+    "term": "FortiAnalyzer",
+    "recipe_id": "extra_FortiAnalyzer"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-47F0D7C39009CE834F70",
+  "title": "SPAN",
+  "body": "SPAN\nĐịnh nghĩa: Sao chép lưu lượng từ cổng/VLAN nguồn tới cổng sensor.\nĐầu vào: Source/direction, destination sensor, tốc độ, quyền xử lý dữ liệu.\nCách thực hiện:\n1. Xác định đúng nguồn cần quan sát và ước tính tải mirror.\n2. Cấu hình session mirror chiều ingress/egress cần thiết; port đích không dùng như cổng client.\n3. Kết nối sensor có phân quyền, thu mẫu ngắn.\n4. Kiểm tra đủ chiều và drop khi quá tải, kết thúc thu thập đúng lịch.\nKiểm tra: Sensor thấy đúng luồng; không gây nghẽn/copy dữ liệu ngoài phạm vi.\nRollback: Tắt session mirror, phục hồi vai trò port đích.\nXuất hiện: Switch!C36",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SPAN",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_cell": "C36",
+    "service": "it_configuration",
+    "term": "SPAN",
+    "recipe_id": "span"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

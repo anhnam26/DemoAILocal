@@ -1,0 +1,24 @@
+{
+  "id": "CMP-FW-WAF",
+  "title": "So sánh firewall mạng và WAF",
+  "body": "| Tiêu chí | Firewall mạng | WAF |\n| Mục tiêu | Kiểm soát kết nối giữa các vùng mạng | Bảo vệ ứng dụng web và API |\n| Lưu lượng | Kết nối IP/port, VPN, NAT theo tính năng | HTTP/HTTPS và nội dung yêu cầu web |\n| Vị trí thường dùng | Biên Internet hoặc giữa VLAN/vùng mạng | Trước web server, reverse proxy hoặc dịch vụ WAF |\n| Bài toán mẫu | Chặn truy cập trái phép giữa mạng khách và máy chủ | Lọc yêu cầu web có mẫu tấn công hoặc bất thường |\n| Giới hạn | Không tự thay cho bảo vệ logic ứng dụng | Không thay firewall mạng hoặc sửa source code |\n| Cần phối hợp | WAF, endpoint, backup, giám sát | Firewall, phát triển ứng dụng, giám sát |",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-2",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

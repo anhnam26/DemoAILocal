@@ -1,0 +1,35 @@
+{
+  "id": "ND-82A2E3D0D7A625263166",
+  "title": "SSL VPN",
+  "body": "SSL VPN\nĐịnh nghĩa: SSL VPN là cơ chế truy cập từ xa qua TLS; hỗ trợ phụ thuộc model và phiên bản, không mặc định còn khả dụng.\nĐầu vào: Model/RAM, FortiOS và client version, release notes, certificate, user/MFA.\nCách thực hiện:\n1. Kiểm tra release notes trước tiên: FortiOS 7.6.3 đã bỏ SSL VPN tunnel mode; chọn IPsec thay thế cho trường hợp này.\n2. Nếu model/phiên bản còn hỗ trợ chế độ được yêu cầu, cấu hình certificate, cổng nghe, portal, pool và nhóm xác thực.\n3. Giới hạn policy tới tài nguyên được duyệt; triển khai profile client thử.\n4. Kiểm thử chứng chỉ, MFA, route/DNS và luồng bị cấm; lập kế hoạch chuyển đổi nếu nâng phiên bản.\nKiểm tra: Tính năng thực sự được hỗ trợ trên thiết bị đích; không mất truy cập từ xa sau nâng cấp.\nRollback: Giữ kênh quản trị dự phòng; phục hồi cấu hình VPN được hỗ trợ đã kiểm chứng.\nXuất hiện: FortiGate!C31",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SSL VPN",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C31",
+    "service": "it_configuration",
+    "term": "SSL VPN",
+    "recipe_id": "sslvpn"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

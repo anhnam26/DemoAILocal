@@ -1,0 +1,32 @@
+{
+  "id": "ND-1096920B1A380BA6764A",
+  "title": "SOW đề xuất rma: Xác minh thiết bị & dịch vụ",
+  "body": "SOW đề xuất rma: Xác minh thiết bị & dịch vụ\nĐầu ra đề xuất: Serial, model, entitlement, đầu mối và mức ảnh hưởng được xác minh\nCác bước:\n1. Đối chiếu serial trên thiết bị, nhãn và hồ sơ mua.\n2. Kiểm tra quyền đăng ký/chuyển chủ với khách hàng.\n3. Đăng ký/kích hoạt qua cổng hãng theo entitlement, đồng bộ trên thiết bị.\n4. Lưu trạng thái và ngày hết hạn, không lưu mã bí mật; test dịch vụ subscription.\n5. Tiếp nhận ticket, kiểm tra khách hàng/entitlement và phân biệt lỗi cấu hình/phần cứng.\n6. Thu bằng chứng chẩn đoán, mở case hãng và chờ xác nhận RMA.\n7. Xác nhận loại dịch vụ, thời điểm bắt đầu tính và lịch logistics; không mặc định 4h là thời gian khắc phục.\n8. Giao/thay hoặc gửi thiết bị, khôi phục config tương thích, kiểm thử/nghiệm thu; thu hồi thiết bị lỗi và đóng case.\nNghiệm thu: Serial đúng chủ; entitlement/tính năng hiện đúng; có cảnh báo gia hạn.\nCó mã hãng, serial cũ/mới, bằng chứng khôi phục/test và biên nhận thu hồi.\nRollback: Nếu sai chủ/serial, dừng và mở yêu cầu hãng; không tự chuyển tài sản.\nNếu thiết bị thay không đạt, giữ dịch vụ trên phương án dự phòng và escalation tới hãng.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất rma: Xác minh thiết bị & dịch vụ",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "rma-SOW-01",
+    "service": "rma"
+  },
+  "service": "rma",
+  "content_kind": "reference"
+}

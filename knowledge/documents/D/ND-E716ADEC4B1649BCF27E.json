@@ -1,0 +1,32 @@
+{
+  "id": "ND-E716ADEC4B1649BCF27E",
+  "title": "SOW đề xuất consulting: Thu thập yêu cầu & hiện trạng",
+  "body": "SOW đề xuất consulting: Thu thập yêu cầu & hiện trạng\nĐầu ra đề xuất: Assessment report với bằng chứng và giới hạn khảo sát\nCác bước:\n1. Ghi mục tiêu, site, người dùng và dịch vụ quan trọng.\n2. Thu inventory, config đã che bí mật, IP/VLAN/route và license; đối chiếu thông tin tại chỗ khi cần.\n3. Ghi thiếu/mâu thuẫn kèm người xác nhận, không tự điền như dữ liệu thật.\n4. Lập báo cáo hiện trạng, nhu cầu và giả định để khách hàng xác nhận.\nNghiệm thu: Mỗi yêu cầu có nguồn; thiếu dữ liệu được liệt kê; phạm vi được xác nhận.\nRollback: Sửa phiên bản khảo sát và cập nhật tài liệu phụ thuộc khi có thông tin mới.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất consulting: Thu thập yêu cầu & hiện trạng",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "consulting-SOW-01",
+    "service": "consulting"
+  },
+  "service": "consulting",
+  "content_kind": "reference"
+}

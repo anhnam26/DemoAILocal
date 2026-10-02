@@ -1,0 +1,36 @@
+{
+  "id": "ND-DACC6D7A4951001872A6",
+  "title": "Switch — Cấu hình xác thực 802.1X (tích hợp NAC)",
+  "body": "Switch — Cấu hình xác thực 802.1X (tích hợp NAC)\nHạng mục gốc: Cấu hình xác thực 802.1X (tích hợp NAC); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: RADIUS cung cấp AAA; 802.1X kiểm soát truy cập cổng/Wi-Fi dựa trên danh tính.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nRADIUS/CA, shared secret, EAP method, supplicant, nhóm và VLAN trả về.\nQuy trình bổ sung:\n1. Đăng ký NAS client trên RADIUS, cấu hình IP/secret tương ứng phía thiết bị.\n2. Tạo policy EAP/certificate và mapping user/device sang VLAN/role.\n3. Bật 802.1X trên port/SSID thử, xác định hành vi khi server không đáp ứng.\n4. Test user đúng/sai, chứng chỉ hết hạn và endpoint không hỗ trợ.\nNghiệm thu: Danh tính đúng vào VLAN đúng; truy cập sai bị từ chối; log AAA đủ.\nRollback: Trả port/SSID về policy trước; thu hồi client/secret thử.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Switch — Cấu hình xác thực 802.1X (tích hợp NAC)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_row": 34,
+    "source_cell": "C34",
+    "service": "it_configuration",
+    "item_id": "IT-Switch-034",
+    "device_family": "Switch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

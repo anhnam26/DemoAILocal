@@ -1,0 +1,35 @@
+{
+  "id": "ND-85F0A910E69804E4986D",
+  "title": "Change Plan",
+  "body": "Change Plan\nĐịnh nghĩa: Quy trình yêu cầu, đánh giá, phê duyệt, thực thi và kiểm chứng thay đổi.\nĐầu vào: Owner, reviewer, tác động, cửa sổ, test plan và rollback threshold.\nCách thực hiện:\n1. Tạo change record với phạm vi, rủi ro, dependency và backup.\n2. Đặt người lập/người duyệt tách vai trò; cấu hình approval matrix nếu nền tảng hỗ trợ.\n3. Gửi duyệt, sửa khi bị từ chối; chỉ triển khai bản đã duyệt.\n4. Ghi thời điểm, kết quả test, rollback nếu vượt ngưỡng và đóng change.\nKiểm tra: Có audit trail; không bỏ qua approval; bản thực thi trùng bản được duyệt.\nRollback: Thực hiện rollback của change và mở lại đánh giá; không xóa dấu vết.\nXuất hiện: DV Chuyển đổi - Thời gian!B9",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Change Plan",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_cell": "B9",
+    "service": "configuration_migration",
+    "term": "Change Plan",
+    "recipe_id": "change"
+  },
+  "service": "configuration_migration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-30D554622C5926E0F685",
+  "title": "Switch — Tắt (shutdown) các port không sử dụng",
+  "body": "Switch — Tắt (shutdown) các port không sử dụng\nHạng mục gốc: Tắt (shutdown) các port không sử dụng; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Vô hiệu cổng không dùng để giảm kết nối ngoài kiểm soát.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPort map đã xác nhận, cổng dự phòng/HA/uplink cần giữ.\nQuy trình bổ sung:\n1. Kiểm tra link, MAC, LLDP và chủ sở hữu từng port.\n2. Đánh dấu port không dùng, ghi description và administratively disable.\n3. Lưu cấu hình.\n4. Xác nhận không ảnh hưởng uplink/heartbeat/dự phòng và thử kết nối port đã khóa.\nNghiệm thu: Chỉ port đã duyệt bị tắt; mạng và HA bình thường.\nRollback: Enable lại đúng cổng vừa tắt, kiểm tra VLAN/PoE.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Switch — Tắt (shutdown) các port không sử dụng",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_row": 22,
+    "source_cell": "C22",
+    "service": "it_configuration",
+    "item_id": "IT-Switch-022",
+    "device_family": "Switch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

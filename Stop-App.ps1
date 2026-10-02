@@ -23,7 +23,7 @@ if (-not $running) {
     Write-Output 'App is already stopped.'
     exit 0
 }
-if ($running.CommandLine -notmatch '\buvicorn\s+app:app\b' -or $running.CommandLine -notmatch ('--port\s+'+$Port+'(?=\s|$)')) {
+if ($running.CommandLine -notmatch '\buvicorn\s+cyberant\.app:app\b' -or $running.CommandLine -notmatch ('--port\s+'+$Port+'(?=\s|$)')) {
     throw 'Process is not the expected application. Nothing was stopped.'
 }
 # Stop only this app; never terminate all Python processes.

@@ -1,0 +1,34 @@
+{
+  "id": "ND-E12805C65F52494E93BA",
+  "title": "Hỗ trợ giám sát hệ thống trong 2 giờ sau cut-over",
+  "body": "Hỗ trợ giám sát hệ thống trong 2 giờ sau cut-over\nƯớc tính trong nguồn: 2 giờ × 1 kỹ sư = 2 man-hour. Không phải downtime hoặc giá.\nHỗ trợ giám sát hệ thống sau chuyển đổi trong vòng 2h\nCách làm bổ sung:\n1. Thêm host đúng site và interface giám sát.\n2. Ưu tiên SNMPv3 authPriv nếu hỗ trợ; nếu v2c bắt buộc thì community riêng và giới hạn nguồn.\n3. Cài agent/template đúng OS/model; chọn CPU/RAM/disk/network và khoảng lấy mẫu.\n4. So sánh dữ liệu với thiết bị, test cảnh báo và mất kết nối.\nNghiệm thu: Giá trị đúng đơn vị; không có lỗ hổng thu thập; chỉ server giám sát truy cập được.\nRollback: Gỡ template/agent mới, khôi phục ACL/interval và credential cũ.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "migration_sow",
+  "provenance": {
+    "category": "migration_sow",
+    "document_type": "migration_sow",
+    "title": "Hỗ trợ giám sát hệ thống trong 2 giờ sau cut-over",
+    "provenance": "source_estimate_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_row": 27,
+    "source_cell": "row:27",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

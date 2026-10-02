@@ -1,0 +1,35 @@
+{
+  "id": "ND-E87753B1B8E715CD41B5",
+  "title": "Active Directory",
+  "body": "Active Directory\nĐịnh nghĩa: Directory lưu danh tính/nhóm; LDAP truy vấn directory, AD là hệ thống directory của Microsoft.\nĐầu vào: Server/domain, base DN, bind account quyền đọc, CA, group mapping.\nCách thực hiện:\n1. Kiểm tra DNS, giờ và đường tới domain controller.\n2. Khai báo LDAP/LDAPS và kiểm tra certificate; dùng tài khoản bind riêng trong kho bí mật.\n3. Map nhóm directory sang nhóm quyền/VPN; không cấp quyền toàn domain mặc định.\n4. Test user đúng/sai nhóm và kiểm tra log; nếu join domain, xác nhận computer object/OU.\nKiểm tra: Xác thực và phân quyền đúng nhóm; lỗi directory không mở quyền ngoài thiết kế.\nRollback: Phục hồi mapping/server trước; dùng quản trị cục bộ khẩn cấp khi directory lỗi.\nXuất hiện: Thông tin lên Bom!B10",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Active Directory",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B10",
+    "service": "fortigate_configuration",
+    "term": "Active Directory",
+    "recipe_id": "ldap"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

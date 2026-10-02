@@ -1,0 +1,35 @@
+{
+  "id": "ND-68C97C03FB7D85536A82",
+  "title": "consulting: HLD/LLD",
+  "body": "consulting: HLD/LLD\nCâu hỏi/mô tả gốc: Khách hàng có yêu cầu bàn giao HLD/LLD không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Khách hàng có yêu cầu bàn giao HLD/LLD không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Backup lưu bản phục hồi; bàn giao gồm cấu hình, sơ đồ, hướng dẫn và biên bản nghiệm thu.\nHLD mô tả kiến trúc tổng thể; LLD đặc tả chi tiết để triển khai; roadmap chia giai đoạn.\nCách xử lý bổ sung:\n1. Export backup cấu hình và ghi model/version/thời điểm/checksum.\n2. Mã hóa và lưu kho nội bộ; kiểm tra phục hồi trong lab hoặc kiểm tra tính toàn vẹn.\n3. Hoàn thiện as-built, IP plan, checklist kết quả, hướng dẫn vận hành/rollback và các tồn đọng.\n4. Hướng dẫn người nhận; ký BBNT đúng phạm vi và bàn giao bí mật qua kênh riêng.\n5. Lập HLD gồm thành phần/luồng/dự phòng và ranh giới trách nhiệm.\n6. Viết LLD với IP/VLAN/interface/routing/policy và license cụ thể.\n7. Đối chiếu BOM/SOW, compatibility và test plan; ghi lựa chọn/giả định.\n8. Review với owner kỹ thuật và lưu bản được phê duyệt trước triển khai.\nTiêu chí: Backup đọc được; hồ sơ đầy đủ; người nhận xác nhận; vấn đề chưa đạt có người chịu trách nhiệm.\nThiết kế truy được về yêu cầu; đủ thông số triển khai; có version/approval.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: HLD/LLD",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 31,
+    "source_cell": "row:31",
+    "service": "consulting",
+    "requirement_id": "86e3bbfc4dff5ee157c3"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

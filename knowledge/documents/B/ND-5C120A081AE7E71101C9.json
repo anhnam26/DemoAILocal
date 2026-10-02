@@ -1,0 +1,36 @@
+{
+  "id": "ND-5C120A081AE7E71101C9",
+  "title": "Monitoring — Cấu hình giám sát phân tán đa site (Distributed Monitoring/Proxy)",
+  "body": "Monitoring — Cấu hình giám sát phân tán đa site (Distributed Monitoring/Proxy)\nHạng mục gốc: Cấu hình giám sát phân tán đa site (Distributed Monitoring/Proxy); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Thu thập chỉ số qua collector tại nhiều site rồi chuyển về trung tâm.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nSite/host map, proxy version/capacity, TLS, buffer và đường truyền.\nQuy trình bổ sung:\n1. Đặt collector ở site đúng phạm vi và đồng bộ giờ.\n2. Cấu hình TLS/auth, gán host cho collector, chọn active/passive theo sản phẩm.\n3. Kiểm tra dữ liệu về trung tâm và buffer khi mất WAN.\n4. Test phục hồi đường truyền, tránh duplicate và giới hạn backlog.\nNghiệm thu: Site mất WAN không mất dữ liệu ngoài dung lượng buffer; collector đúng host.\nRollback: Chuyển host về collector cũ và dừng proxy mới có kiểm soát.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Monitoring — Cấu hình giám sát phân tán đa site (Distributed Monitoring/Proxy)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Monitoring",
+    "source_row": 25,
+    "source_cell": "C25",
+    "service": "it_configuration",
+    "item_id": "IT-Monitoring-025",
+    "device_family": "Monitoring"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-A701939E0196D8BE560F",
+  "title": "Posture Assessment",
+  "body": "Posture Assessment\nĐịnh nghĩa: Đánh giá trạng thái endpoint so với yêu cầu bảo mật trước/sau truy cập.\nĐầu vào: OS/agent hỗ trợ, tiêu chí bản vá/AV/mã hóa, ngoại lệ và remediation.\nCách thực hiện:\n1. Định nghĩa từng tiêu chí đo được và nhóm áp dụng.\n2. Cấu hình agent/scan phù hợp; chạy monitor trên nhóm thử.\n3. Tạo trạng thái compliant/noncompliant và hướng dẫn khắc phục.\n4. Test endpoint đạt/không đạt; chỉ bật chặn sau khi xác minh.\nKiểm tra: Đánh giá đúng và có lý do; endpoint khắc phục được đánh giá lại.\nRollback: Tạm đưa rule mới về monitor, giữ cách ly các nguy cơ đã xác nhận theo quy trình.\nXuất hiện: FortiNAC!C22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Posture Assessment",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiNAC",
+    "source_cell": "C22",
+    "service": "it_configuration",
+    "term": "Posture Assessment",
+    "recipe_id": "posture"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

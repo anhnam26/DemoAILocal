@@ -1,0 +1,35 @@
+{
+  "id": "ND-C21CF5F705452112C276",
+  "title": "Explicit Proxy",
+  "body": "Explicit Proxy\nĐịnh nghĩa: Proxy nhận yêu cầu web theo cấu hình client/PAC, áp xác thực và policy.\nĐầu vào: IP/port proxy, PAC, user groups, upstream, SSL policy.\nCách thực hiện:\n1. Bật proxy trên interface nội bộ và giới hạn nguồn.\n2. Tạo explicit proxy policy và xác thực/profile cần thiết.\n3. Cấu hình PAC hoặc proxy trên nhóm client thử.\n4. Test HTTP/HTTPS, auth, domain ngoại lệ và log; xác minh không thành open proxy.\nKiểm tra: Chỉ client được duyệt dùng được; web nghiệp vụ hoạt động; có audit.\nRollback: Trả PAC/client về proxy cũ và disable listener/policy mới.\nXuất hiện: FortiGate!C47",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Explicit Proxy",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C47",
+    "service": "it_configuration",
+    "term": "Explicit Proxy",
+    "recipe_id": "proxy"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

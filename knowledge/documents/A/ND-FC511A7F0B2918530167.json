@@ -1,0 +1,35 @@
+{
+  "id": "ND-FC511A7F0B2918530167",
+  "title": "Multi-Chassis Link Aggregation",
+  "body": "Multi-Chassis Link Aggregation\nĐịnh nghĩa: Một LAG trải qua hai switch phối hợp, cần liên kết và cơ chế bảo vệ giữa chassis.\nĐầu vào: Cặp model tương thích, ICL, keepalive, downstream LAG.\nCách thực hiện:\n1. Kiểm tra ma trận MCLAG/FortiLink và sơ đồ chống loop.\n2. Cấu hình peer/ICL và đồng bộ tham số; chỉ dùng cổng được chỉ định.\n3. Tạo MCLAG xuống thiết bị với VLAN/MTU đồng nhất.\n4. Test mất uplink, ICL và một chassis theo kịch bản; theo dõi split-brain.\nKiểm tra: Peer healthy; LAG dùng cả hai switch; failover đạt yêu cầu.\nRollback: Ngắt đường tạo loop, tắt MCLAG mới và phục hồi LAG/topology cũ.\nXuất hiện: FortiSwitch!C24",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Multi-Chassis Link Aggregation",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "C24",
+    "service": "it_configuration",
+    "term": "Multi-Chassis Link Aggregation",
+    "recipe_id": "mclag"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-7A5480020285EC2796CE",
+  "title": "fortigate_configuration: Có yêu cầu cấu hình VPN Site-to-Site (IPsec) không?",
+  "body": "fortigate_configuration: Có yêu cầu cấu hình VPN Site-to-Site (IPsec) không?\nCâu hỏi/mô tả gốc: Số lượng kết nối (tunnel) cần cấu hình?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Số lượng kết nối (tunnel) cần cấu hình?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: IPsec bảo vệ lưu lượng giữa các đầu VPN; IKE thương lượng khóa và thông số tunnel.\nNền tảng quản lý tập trung thiết bị, cấu hình và thay đổi theo nhóm/site.\nCách xử lý bổ sung:\n1. Thống nhất tham số hai đầu và bảo quản PSK/chứng chỉ ngoài dataset.\n2. Tạo phase 1 với peer/interface/IKE phù hợp; tạo phase 2/selectors theo subnet cần trao đổi.\n3. Tạo route và firewall policy hai chiều; chỉ NAT nếu thiết kế yêu cầu.\n4. Kiểm tra SA, counter mã hóa/giải mã và ứng dụng hai chiều; thử khôi phục tunnel khi ngắt có kiểm soát.\n5. Kiểm tra routing/certificate và phiên bản được quản lý.\n6. Thêm thiết bị bằng serial/IP và xác nhận tin cậy tại hai đầu.\n7. Import cấu hình hiện hành, gán group/site/ADOM đúng; đối chiếu diff trước mọi push.\n8. Thử backup và thao tác đọc; chưa triển khai template rộng khi chưa test pilot.\nTiêu chí: SA up; counter tăng hai chiều; chỉ mạng được duyệt thông; tunnel phục hồi.\nĐủ thiết bị đúng group; trạng thái synchronized; không ghi đè cấu hình ngoài ý muốn.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Có yêu cầu cấu hình VPN Site-to-Site (IPsec) không?",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 33,
+    "source_cell": "row:33",
+    "service": "fortigate_configuration",
+    "requirement_id": "ba5b4463bad73df95b74"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

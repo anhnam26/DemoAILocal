@@ -1,0 +1,35 @@
+{
+  "id": "ND-E3A16FBEA845877190F3",
+  "title": "MFA",
+  "body": "MFA\nĐịnh nghĩa: Xác thực nhiều yếu tố, FortiToken cung cấp yếu tố bổ sung.\nĐầu vào: Danh sách user, token/license, kênh kích hoạt, recovery policy.\nCách thực hiện:\n1. Đối chiếu số token/license và user.\n2. Gán token theo từng danh tính, gửi kích hoạt qua kênh đã xác nhận.\n3. Bật yêu cầu MFA cho VPN/admin và thử enrollment.\n4. Kiểm tra OTP đúng/sai, mất token và quy trình thu hồi; không lưu seed/token vào dataset.\nKiểm tra: Không thể bỏ qua MFA; token đúng user; có cách khôi phục đã kiểm soát.\nRollback: Thu hồi token lỗi và phục hồi phương án truy cập được phê duyệt, không tắt MFA diện rộng.\nXuất hiện: Thông tin lên Bom!B32; Thông tin lên Bom!C32",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "MFA",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B32",
+    "service": "fortigate_configuration",
+    "term": "MFA",
+    "recipe_id": "mfa"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

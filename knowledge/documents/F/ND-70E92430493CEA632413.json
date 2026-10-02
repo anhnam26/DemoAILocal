@@ -1,0 +1,30 @@
+{
+  "id": "ND-70E92430493CEA632413",
+  "title": "sla_not_agreement",
+  "body": "sla_not_agreement\n24x7x4 trong form remote nói phản hồi trong 4 giờ, không phải giải quyết hoặc giao thiết bị trong 4 giờ; NBD cần điều kiện hợp đồng.\nVị trí: Remote checklist row 20; RMA checklist row 15",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "data_quality",
+  "provenance": {
+    "category": "data_quality",
+    "document_type": "data_quality",
+    "title": "sla_not_agreement",
+    "provenance": "authored_review",
+    "review_status": "draft_engineer_review",
+    "source_file": "data_quality.json"
+  },
+  "service": "",
+  "content_kind": "reference"
+}

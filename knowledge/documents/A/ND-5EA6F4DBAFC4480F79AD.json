@@ -1,0 +1,35 @@
+{
+  "id": "ND-5EA6F4DBAFC4480F79AD",
+  "title": "Solution Proposal",
+  "body": "Solution Proposal\nĐịnh nghĩa: HLD mô tả kiến trúc tổng thể; LLD đặc tả chi tiết để triển khai; roadmap chia giai đoạn.\nĐầu vào: Yêu cầu được chốt, constraints, capacity, tích hợp và tiêu chí nghiệm thu.\nCách thực hiện:\n1. Lập HLD gồm thành phần/luồng/dự phòng và ranh giới trách nhiệm.\n2. Viết LLD với IP/VLAN/interface/routing/policy và license cụ thể.\n3. Đối chiếu BOM/SOW, compatibility và test plan; ghi lựa chọn/giả định.\n4. Review với owner kỹ thuật và lưu bản được phê duyệt trước triển khai.\nKiểm tra: Thiết kế truy được về yêu cầu; đủ thông số triển khai; có version/approval.\nRollback: Quay bản thiết kế được duyệt trước và đánh giá tác động các tài liệu liên quan.\nXuất hiện: 2. Checklist khảo sát!B30",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Solution Proposal",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_cell": "B30",
+    "service": "consulting",
+    "term": "Solution Proposal",
+    "recipe_id": "design"
+  },
+  "service": "consulting",
+  "content_kind": "concept"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-098F212C4ACBE82E2EEF",
+  "title": "Manager — Tạo cấu trúc phân nhóm thiết bị (theo Site/Group)",
+  "body": "Manager — Tạo cấu trúc phân nhóm thiết bị (theo Site/Group)\nHạng mục gốc: Tạo cấu trúc phân nhóm thiết bị (theo Site/Group); gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Nền tảng quản lý tập trung thiết bị, cấu hình và thay đổi theo nhóm/site.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nInventory, phiên bản tương thích, IP quản lý, license, nhóm/site.\nQuy trình bổ sung:\n1. Kiểm tra routing/certificate và phiên bản được quản lý.\n2. Thêm thiết bị bằng serial/IP và xác nhận tin cậy tại hai đầu.\n3. Import cấu hình hiện hành, gán group/site/ADOM đúng; đối chiếu diff trước mọi push.\n4. Thử backup và thao tác đọc; chưa triển khai template rộng khi chưa test pilot.\nNghiệm thu: Đủ thiết bị đúng group; trạng thái synchronized; không ghi đè cấu hình ngoài ý muốn.\nRollback: Dừng push, khôi phục revision và gỡ thiết bị mới khỏi nhóm sai.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Manager — Tạo cấu trúc phân nhóm thiết bị (theo Site/Group)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Manager",
+    "source_row": 16,
+    "source_cell": "C16",
+    "service": "it_configuration",
+    "item_id": "IT-Manager-016",
+    "device_family": "Manager"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

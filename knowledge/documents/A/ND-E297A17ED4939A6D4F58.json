@@ -1,0 +1,35 @@
+{
+  "id": "ND-E297A17ED4939A6D4F58",
+  "title": "Email Alert",
+  "body": "Email Alert\nĐịnh nghĩa: Cảnh báo chuyển sự kiện vượt ngưỡng tới người phụ trách.\nĐầu vào: Ngưỡng, khoảng đánh giá, người nhận, lịch trực, SMTP/webhook và maintenance window.\nCách thực hiện:\n1. Đo baseline, đặt ngưỡng có hysteresis/duration để tránh báo dồn.\n2. Tạo rule theo device/service và kênh thông báo bảo vệ bí mật.\n3. Thiết lập escalation và maintenance suppression.\n4. Phát sinh sự kiện test, xác nhận nhận/ack/recovery và thời gian.\nKiểm tra: Người đúng ca nhận alert; recovery đóng đúng; không lặp vô hạn.\nRollback: Disable rule/kênh mới, phục hồi ngưỡng cũ.\nXuất hiện: Monitoring!C18",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Email Alert",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Monitoring",
+    "source_cell": "C18",
+    "service": "it_configuration",
+    "term": "Email Alert",
+    "recipe_id": "alert"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

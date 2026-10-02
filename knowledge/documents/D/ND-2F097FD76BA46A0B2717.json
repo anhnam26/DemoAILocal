@@ -1,0 +1,32 @@
+{
+  "id": "ND-2F097FD76BA46A0B2717",
+  "title": "SOW đề xuất fortigate_configuration: Cấu hình theo lựa chọn",
+  "body": "SOW đề xuất fortigate_configuration: Cấu hình theo lựa chọn\nĐầu ra đề xuất: Cấu hình theo 251 mục IT tương ứng đã chọn, không tự mở rộng scope\nCác bước:\n1. Đối chiếu nhãn cáp và cổng; giữ console khi đổi IP quản lý.\n2. Tạo zone nếu thiết kế yêu cầu; gán interface, địa chỉ và role WAN/LAN/DMZ.\n3. Chỉ bật giao thức quản trị trên mạng quản trị; kiểm tra link và MTU với đầu đối diện.\n4. Kiểm tra ARP, ping gateway và route; lưu sơ đồ cổng sau thay đổi.\n5. Tạo address/service objects đúng subnet và port.\n6. Tạo luật từ cụ thể đến tổng quát theo cơ chế hãng; chọn đúng ingress/egress, action và lịch.\n7. Gắn profile bảo mật và NAT chỉ khi thiết kế yêu cầu; bật log cần thiết.\n8. Thử luồng được phép và luồng phải chặn; xem hit count/log để tìm luật che khuất.\nNghiệm thu: Không trùng IP; link up; đúng zone và subnet; truy cập quản trị đúng nguồn.\nChỉ các luồng đã duyệt được thông; kiểm thử deny đạt; log truy vết đúng policy.\nRollback: Trả IP/zone/cáp về sơ đồ ban đầu qua console.\nDisable luật mới và phục hồi thứ tự luật/object cũ; không mở any-any để xử lý tạm.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất fortigate_configuration: Cấu hình theo lựa chọn",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "fortigate_configuration-SOW-04",
+    "service": "fortigate_configuration"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "reference"
+}

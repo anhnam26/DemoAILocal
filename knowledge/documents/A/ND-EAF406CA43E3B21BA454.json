@@ -1,0 +1,35 @@
+{
+  "id": "ND-EAF406CA43E3B21BA454",
+  "title": "FortiAP",
+  "body": "FortiAP\nĐịnh nghĩa: AP cung cấp Wi-Fi; controller quản lý profile, radio và SSID tập trung.\nĐầu vào: AP model/version, discovery, IP quản lý, PoE, cổng trunk, controller/license.\nCách thực hiện:\n1. Kiểm tra nguồn, DHCP/DNS và đường discovery tới controller.\n2. Kết nối AP và authorize theo serial; gán site/AP profile đúng model.\n3. Đồng bộ radio/SSID và VLAN uplink.\n4. Kiểm tra online, client association, DHCP và truy cập mạng.\nKiểm tra: Đúng AP online đúng profile; client nhận mạng và dịch vụ.\nRollback: Gỡ profile mới và phục hồi controller/discovery/VLAN cũ.\nXuất hiện: Thông tin lên Bom!B63; Thông tin lên Bom!C63",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "FortiAP",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B63",
+    "service": "fortigate_configuration",
+    "term": "FortiAP",
+    "recipe_id": "apcontroller"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

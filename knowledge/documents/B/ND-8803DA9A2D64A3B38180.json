@@ -1,0 +1,36 @@
+{
+  "id": "ND-8803DA9A2D64A3B38180",
+  "title": "SAN — Tích hợp Storage vMotion/vSphere",
+  "body": "SAN — Tích hợp Storage vMotion/vSphere\nHạng mục gốc: Tích hợp Storage vMotion/vSphere; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Di chuyển ổ đĩa máy ảo giữa datastore khi nền tảng/license hỗ trợ.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nVersion/license, datastore đích, dung lượng, network và backup VM.\nQuy trình bổ sung:\n1. Kiểm tra compatibility, sức khỏe VM và dung lượng đích.\n2. Chọn migration chỉ storage hoặc compute/storage theo thiết kế.\n3. Chọn datastore/policy và chạy pilot một VM.\n4. Giám sát task, latency và ứng dụng; xác nhận file VM đã ở đích.\nNghiệm thu: VM hoạt động, dữ liệu đúng datastore/policy; không lỗi I/O.\nRollback: Di chuyển ngược bằng công cụ được hỗ trợ nếu đủ dung lượng; không tự xóa file VM cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "SAN — Tích hợp Storage vMotion/vSphere",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_row": 25,
+    "source_cell": "C25",
+    "service": "it_configuration",
+    "item_id": "IT-SAN-025",
+    "device_family": "SAN"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

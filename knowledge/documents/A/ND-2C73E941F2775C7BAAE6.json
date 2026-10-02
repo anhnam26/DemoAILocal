@@ -1,0 +1,35 @@
+{
+  "id": "ND-2C73E941F2775C7BAAE6",
+  "title": "Bảo mật thông tin",
+  "body": "Bảo mật thông tin\nĐịnh nghĩa: Yêu cầu phi chức năng xác định giới hạn xử lý dữ liệu, mức ảnh hưởng và nguồn lực; cần chủ sở hữu xác nhận.\nĐầu vào: Loại dữ liệu, quyền remote, lưu giữ, mức ảnh hưởng, ngân sách và người quyết định.\nCách thực hiện:\n1. Ghi nguyên văn yêu cầu và người cung cấp.\n2. Chuyển yêu cầu chung thành tiêu chí kiểm tra được như nguồn truy cập, thời hạn phiên, retention hoặc giới hạn chi phí.\n3. Xác định mâu thuẫn với scope/SLA và gửi đầu mối xác nhận.\n4. Lưu trạng thái draft/confirmed cùng bằng chứng, không xem câu hỏi trong form là cam kết.\nKiểm tra: Từng yêu cầu có owner, giá trị và tiêu chí; ô trống giữ trạng thái chưa biết.\nRollback: Cập nhật revision yêu cầu, đánh giá lại BOM/SOW và lịch khi thay đổi.\nXuất hiện: 2. Checklist Yeu cau!B37",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Bảo mật thông tin",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vũ hỗ trợ kỹ thuật - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_cell": "B37",
+    "service": "remote_support",
+    "term": "Bảo mật thông tin",
+    "recipe_id": "security"
+  },
+  "service": "remote_support",
+  "content_kind": "concept"
+}

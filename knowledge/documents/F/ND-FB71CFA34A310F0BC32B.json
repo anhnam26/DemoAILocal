@@ -1,0 +1,30 @@
+{
+  "id": "ND-FB71CFA34A310F0BC32B",
+  "title": "ha_model",
+  "body": "ha_model\nHai model FortiGate 500E và 401G không tạo một cặp FGCP chung; chuyển đổi giữa hai cụm, cần xác nhận topology/firmware.\nVị trí: Khảo sát chuyển đổi",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "data_quality",
+  "provenance": {
+    "category": "data_quality",
+    "document_type": "data_quality",
+    "title": "ha_model",
+    "provenance": "authored_review",
+    "review_status": "draft_engineer_review",
+    "source_file": "data_quality.json"
+  },
+  "service": "",
+  "content_kind": "reference"
+}

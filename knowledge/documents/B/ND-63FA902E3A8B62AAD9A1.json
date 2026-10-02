@@ -1,0 +1,36 @@
+{
+  "id": "ND-63FA902E3A8B62AAD9A1",
+  "title": "Monitoring — Cấu hình giám sát ứng dụng/dịch vụ nâng cao (APM)",
+  "body": "Monitoring — Cấu hình giám sát ứng dụng/dịch vụ nâng cao (APM)\nHạng mục gốc: Cấu hình giám sát ứng dụng/dịch vụ nâng cao (APM); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Theo dõi hiệu năng ứng dụng từ transaction, trace, metric và log.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nỨng dụng/ngôn ngữ, agent hỗ trợ, endpoint collector, sampling và dữ liệu nhạy cảm.\nQuy trình bổ sung:\n1. Chọn instrumentation phù hợp, triển khai một instance thử.\n2. Cấu hình service name/environment, sampling và loại bỏ secret/PII khỏi trace.\n3. Tạo transaction test, liên kết trace-metric-log.\n4. Đặt ngưỡng theo latency/error rate và đo overhead.\nNghiệm thu: Trace đúng service; không lộ dữ liệu; overhead trong giới hạn đã đo.\nRollback: Gỡ/tắt instrumentation mới và phục hồi cấu hình ứng dụng.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Monitoring — Cấu hình giám sát ứng dụng/dịch vụ nâng cao (APM)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Monitoring",
+    "source_row": 20,
+    "source_cell": "C20",
+    "service": "it_configuration",
+    "item_id": "IT-Monitoring-020",
+    "device_family": "Monitoring"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

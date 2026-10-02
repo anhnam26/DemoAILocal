@@ -1,0 +1,26 @@
+{
+  "id": "R-13446FDBF0-D967AC85",
+  "title": "Dịch vụ triển khai CNTT.docx",
+  "body": "Dịch vụ Triển khai Dự án CNTT\n\nCyberAnt cung cấp dịch vụ triển khai trọn gói các dự án CNTT, từ hạ tầng mạng, trung tâm dữ liệu, điện toán đám mây đến các giải pháp an toàn thông tin. Với đội ngũ kỹ sư giàu kinh nghiệm và quy trình quản lý dự án chuyên nghiệp, chúng tôi cam kết đảm bảo tiến độ, chất lượng, hạn chế tối đa thời gian gián đoạn và đưa hệ thống vào vận hành ổn định.\n\nĐội ngũ Kỹ sư Chuyên gia\n\nDịch vụ được thực hiện bởi đội ngũ kỹ sư có nhiều kinh nghiệm triển khai các dự án CNTT quy mô lớn.\n\nSở hữu các chứng chỉ chuyên môn quốc tế từ các hãng công nghệ và an toàn thông tin hàng đầu.\n\nÁp dụng các Best Practices và quy trình triển khai chuẩn nhằm đảm bảo chất lượng và giảm thiểu rủi ro.\n\nPhạm vi Dịch vụ\n\nKhảo sát hiện trạng hạ tầng, thu thập yêu cầu và đánh giá các điều kiện triển khai.\n\nXây dựng kế hoạch triển khai, kế hoạch chuyển đổi (Migration), kiểm thử và phương án Rollback nhằm đảm bảo an toàn cho hệ thống.\n\nLắp đặt, cấu hình, tích hợp và triển khai giải pháp theo tài liệu thiết kế hoặc phạm vi công việc đã được phê duyệt.\n\nThực hiện chuyển đổi hệ thống (Cut-over/Migration) theo kế hoạch, hạn chế tối đa thời gian gián đoạn dịch vụ.\n\nKiểm thử kỹ thuật, kiểm thử chức năng và xác nhận hệ thống đáp ứng đầy đủ các yêu cầu của dự án.\n\nNghiệm thu, bàn giao hệ thống, tài liệu kỹ thuật, tài liệu cấu hình và đào tạo đội ngũ vận hành.\n\nHỗ trợ kỹ thuật sau triển khai theo phạm vi dịch vụ đã cam kết.\n\nPhạm vi Dự án\n\nCyberAnt triển khai đa dạng các giải pháp CNTT, bao gồm nhưng không giới hạn:\n\nHạ tầng mạng: LAN, WAN, Wireless, Data Center Network.\n\nAn toàn thông tin: Firewall, VPN, SD-WAN, NAC, WAF và các giải pháp bảo mật khác.\n\nHệ thống máy chủ & lưu trữ: Windows Server, Linux, Virtualization, Storage và Backup.\n\nĐiện toán đám mây: Microsoft 365, Microsoft Azure và các nền tảng Cloud.\n\nCác giải pháp CNTT chuyên dụng: Thiết kế và triển khai theo yêu cầu riêng của doanh nghiệp.\n\nGiá trị CyberAnt mang lại",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 1; Khối 2; Khối 3; Khối 4; Khối 5; Khối 6; Khối 7; Khối 8; Khối 9; Khối 10; Khối 11; Khối 12; Khối 13; Khối 14; Khối 15; Khối 16; Khối 17; Khối 18; Khối 19; Khối 20; Khối 21; Khối 22",
+    "sha256": "13446fdbf0d54220ac6a83caf68677dc7d3c9fd453b4235e246f4bbb9ca8ed9b"
+  },
+  "service": "Dịch vụ triển khai CNTT.docx",
+  "content_kind": "reference"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-8769D3E897A64218117B",
+  "title": "fortigate_configuration: Cấu hình Hostname / Timezone (GMT+7) / NTP",
+  "body": "fortigate_configuration: Cấu hình Hostname / Timezone (GMT+7) / NTP\nCâu hỏi/mô tả gốc: NTP server nội bộ hay public? (time.windows.com / pool.ntp.org)\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: NTP server nội bộ hay public? (time.windows.com / pool.ntp.org). Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Hostname định danh thiết bị; timezone hiển thị giờ địa phương; NTP đồng bộ đồng hồ; banner là thông báo đăng nhập.\nERP quản trị doanh nghiệp; POS bán hàng; NVR ghi hình; ISP cung cấp Internet; bridge chuyển tiếp lớp 2, PPPoE xác thực đường truy nhập.\nCách xử lý bổ sung:\n1. Đối chiếu model và hệ điều hành; mở trang System/General hoặc công cụ quản trị tương ứng.\n2. Đặt hostname duy nhất, timezone theo site; khai báo NTP được phép truy cập và nguồn interface đúng.\n3. Nếu yêu cầu IP quản lý, gán IP/mask/gateway theo IP plan; đặt banner đã duyệt.\n4. Lưu cấu hình và kiểm tra đồng bộ thời gian, truy cập quản lý từ mạng cho phép.\n5. Liệt kê từng dịch vụ và mức ảnh hưởng khi gián đoạn.\n6. Thu số lượng thiết bị/user riêng, tránh cộng lẫn người dùng và endpoint.\n7. Xác nhận ISP/IP public/PPPoE và khả năng bridge với nhà mạng trước đổi modem.\n8. Tạo test nghiệp vụ thực cho từng ERP/POS/NVR và ghi pass/fail sau thay đổi.\nTiêu chí: Tên, địa chỉ quản lý và giờ đúng; NTP synchronized; log có timestamp đúng.\nInventory rõ đơn vị; ứng dụng có owner và test case; đường truyền được xác nhận.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Cấu hình Hostname / Timezone (GMT+7) / NTP",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 23,
+    "source_cell": "row:23",
+    "service": "fortigate_configuration",
+    "requirement_id": "896a390ceb1762146964"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

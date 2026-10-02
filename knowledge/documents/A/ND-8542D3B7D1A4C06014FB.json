@@ -1,0 +1,35 @@
+{
+  "id": "ND-8542D3B7D1A4C06014FB",
+  "title": "Mail",
+  "body": "Mail\nĐịnh nghĩa: Lọc thư rác/nội dung theo khả năng gateway và giao thức email.\nĐầu vào: Mail path, protocol, profile/license, allowlist và quarantine.\nCách thực hiện:\n1. Xác định thiết bị có thực sự thấy luồng mail cần lọc.\n2. Tạo profile chống spam/allowlist, cấu hình quarantine hoặc action.\n3. Gắn đúng policy; kiểm tra TLS và giới hạn tính năng của sản phẩm.\n4. Gửi thư test hợp lệ và mẫu spam an toàn, kiểm tra log/quarantine.\nKiểm tra: Không chặn mail nghiệp vụ; mẫu spam đúng action; có cách giải phóng mail nhầm.\nRollback: Tháo profile mới, phục hồi policy và xử lý quarantine theo owner.\nXuất hiện: Thông tin lên Bom!C4",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Mail",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C4",
+    "service": "fortigate_configuration",
+    "term": "Mail",
+    "recipe_id": "emailfilter"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

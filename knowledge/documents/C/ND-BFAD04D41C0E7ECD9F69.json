@@ -1,0 +1,35 @@
+{
+  "id": "ND-BFAD04D41C0E7ECD9F69",
+  "title": "remote_support: FortiManager",
+  "body": "remote_support: FortiManager\nCâu hỏi/mô tả gốc: Liệt kê Model / Số lượng thiết bị\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Liệt kê Model / Số lượng thiết bị. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Nền tảng quản lý tập trung thiết bị, cấu hình và thay đổi theo nhóm/site.\nCách xử lý bổ sung:\n1. Kiểm tra routing/certificate và phiên bản được quản lý.\n2. Thêm thiết bị bằng serial/IP và xác nhận tin cậy tại hai đầu.\n3. Import cấu hình hiện hành, gán group/site/ADOM đúng; đối chiếu diff trước mọi push.\n4. Thử backup và thao tác đọc; chưa triển khai template rộng khi chưa test pilot.\nTiêu chí: Đủ thiết bị đúng group; trạng thái synchronized; không ghi đè cấu hình ngoài ý muốn.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "remote_support: FortiManager",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vũ hỗ trợ kỹ thuật - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_row": 14,
+    "source_cell": "row:14",
+    "service": "remote_support",
+    "requirement_id": "66469f0116382672af70"
+  },
+  "service": "remote_support",
+  "content_kind": "survey"
+}

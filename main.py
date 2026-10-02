@@ -20,7 +20,7 @@ def port_number(value):
 def main(argv=None):
     # Resolve relative APP_DATA_DIR consistently even when launched from elsewhere.
     os.chdir(ROOT)
-    import config
+    from cyberant import config
 
     values = config.env()
     parser = argparse.ArgumentParser(description='CyberAnt web UI and OpenRouter API server')
@@ -33,17 +33,18 @@ def main(argv=None):
     binary = None
     try:
         if args.share:
-            import public_share
+            from cyberant import public_share
             binary = public_share.preflight(ROOT, config.data_dir(), args.cloudflared)
             args.host = '127.0.0.1'
             os.umask(0o077)
         else:
             security=config.security()
-        # Fail before importing app (startup has database side effects).
+        # Validate dependencies/config before opening a listener.
         import importlib
         for dependency in ('uvicorn','fastapi','httpx','numpy','sklearn','pypdf','python_multipart'):
             importlib.import_module(dependency)
-        import model_provider,uvicorn
+        from cyberant import model_provider
+        import uvicorn
         model_provider.settings()
         if not args.share and security['mode']=='lan':print('LAN HTTP: traffic is not encrypted. Restrict access with the server firewall.',flush=True)
     except ImportError as exc:
@@ -52,7 +53,7 @@ def main(argv=None):
         parser.exit(1, f'Invalid application configuration: {exc}\n')
 
     settings = uvicorn.Config(
-        'app:app', host=args.host, port=args.port, workers=1,
+        'cyberant.app:app', host=args.host, port=args.port, workers=1,
         proxy_headers=False, timeout_graceful_shutdown=400,
     )
     # Bind before importing app: a duplicate start must not run DB crash recovery.
@@ -66,8 +67,9 @@ def main(argv=None):
         parser.exit(1, f'Cannot listen on {args.host}:{args.port}: {exc}\n')
     instance = None
     try:
-        import runtime_lock
+        from cyberant import runtime_lock,storage
         instance = runtime_lock.acquire(config.data_dir())
+        storage.validate(config.data_dir(),integrity=True)
         server = uvicorn.Server(settings)
         if args.share:
             public_share.validate_database(config.data_dir())

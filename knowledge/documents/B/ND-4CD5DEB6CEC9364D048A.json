@@ -1,0 +1,36 @@
+{
+  "id": "ND-4CD5DEB6CEC9364D048A",
+  "title": "FortiAnalyzer — Tích hợp SOAR/Playbook tự động phản ứng sự cố",
+  "body": "FortiAnalyzer — Tích hợp SOAR/Playbook tự động phản ứng sự cố\nHạng mục gốc: Tích hợp SOAR/Playbook tự động phản ứng sự cố; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Tự động hóa phản ứng bằng chuỗi điều kiện/hành động có giới hạn và audit.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nTrigger, action allowlist, quyền API tối thiểu, reviewer, timeout và rollback.\nQuy trình bổ sung:\n1. Viết playbook với đầu vào/điều kiện dừng và log từng bước.\n2. Chạy dry-run trên sự kiện mẫu, bảo đảm action idempotent và giới hạn phạm vi.\n3. Yêu cầu phê duyệt trước action ảnh hưởng sản xuất như block/reboot.\n4. Pilot, test lỗi API/retry và rollback rồi mới bật lịch/trigger.\nNghiệm thu: Không hành động ngoài scope; không lặp vô hạn; thất bại có cảnh báo và audit.\nRollback: Disable trigger; thực thi action bù theo playbook, thu hồi quyền nếu cần.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiAnalyzer — Tích hợp SOAR/Playbook tự động phản ứng sự cố",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAnalyzer",
+    "source_row": 23,
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "item_id": "IT-FortiAnalyzer-023",
+    "device_family": "FortiAnalyzer"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

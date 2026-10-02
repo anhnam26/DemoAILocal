@@ -1,7 +1,23 @@
 # Phát triển
 
-Server dùng OpenRouter, không nhập lại dependency GPU/local. Nguồn chuẩn `knowledge/documents.json`; cấu hình qua `config.py`; ghi usage chỉ qua `token_usage.py`.
+Python 3.14, FastAPI/Uvicorn, SQLite, OpenRouter, JS/CSS thuần.
+Không thêm GPU runtime hoặc framework frontend trong đợt chuẩn hóa.
 
-Source đã loại bộ kiểm thử tự động và công cụ đánh giá offline theo yêu cầu. Khi chỉnh sửa, kiểm tra cú pháp/import và chạy thử bằng APP_DATA_DIR trỏ tới thư mục tạm trước khi khởi động ứng dụng; tuyệt đối không thử trên DB thật. Các thay đổi quota vẫn cần kiểm cạnh tranh, tháng UTC, lỗi mạng, restart, usage thiếu và lịch sử bị xóa bằng môi trường xác minh riêng. Không để lại file kiểm thử trong source bàn giao; không gọi model có phí nếu chưa được duyệt. Không log .env/key/password.
+- Backend dưới `cyberant/`, import không ghi dữ liệu.
+- Init/migrate rõ ràng qua `cyberant.operations`, schema cũ chỉ nâng trên snapshot.
+- Tất cả truy cập runtime qua `cyberant.storage.connect`; không bypass khóa ghi,
+  không bật WAL trên các DB attached. Dùng local filesystem, một process.
+- `users` là TEMP VIEW tương thích join auth.accounts/users.profiles, không có
+  bảng gộp tài khoản/hồ sơ trên đĩa. Trigger tạm cập nhật hai kho trong transaction.
+- Giữ ID, password hash, quyền sở hữu, trạng thái nguồn, usage và dữ liệu cũ.
+- Test dữ liệu tạm, không log secret hoặc gọi OpenRouter thật.
 
-Docker context chỉ chứa runtime theo allowlist .dockerignore. Không commit DB, mật khẩu khởi tạo hoặc API key. Source tri thức công ty cần được phép chia sẻ trước publish.
+```bash
+python -m unittest discover -s /absolute/path/TestSystem/tests -v
+```
+
+Browser cần Playwright/Chromium trong môi trường test, không dependency runtime.
+Tests không phải file thừa; gói server loại bằng allowlist.
+Nguồn tri thức: một JSON/tài liệu. Khi sửa/thêm/xóa, cập nhật SHA-256 bytes/danh mục
+trong manifest. Loader kiểm toàn bộ trước transaction; không nâng nhãn draft thành
+verified chỉ vì dữ liệu hợp lệ về cấu trúc.

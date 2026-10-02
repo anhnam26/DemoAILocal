@@ -1,0 +1,35 @@
+{
+  "id": "ND-C6A2C5EEEC7652BA1AF4",
+  "title": "Failover Cluster",
+  "body": "Failover Cluster\nĐịnh nghĩa: Cụm chạy dịch vụ trên node dự phòng với cơ chế quorum tránh hai phía cùng ghi.\nĐầu vào: Node/OS đồng nhất được hỗ trợ, storage/network, quorum/witness và role.\nCách thực hiện:\n1. Chạy bộ validation của nền tảng, sửa lỗi trước khi tạo cụm.\n2. Thiết lập mạng heartbeat/client/storage và quorum theo số node/site.\n3. Tạo cluster và thêm role/disk đúng thiết kế.\n4. Di chuyển role và thử mất node; kiểm tra khả năng truy cập dữ liệu từ ứng dụng.\nKiểm tra: Validation đạt; role chạy trên node dự phòng; không split-brain.\nRollback: Đưa role về node ổn định, giữ storage nhất quán; phục hồi cấu hình cluster đã sao lưu.\nXuất hiện: Server!C21",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Failover Cluster",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "term": "Failover Cluster",
+    "recipe_id": "cluster"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-28D19F1C435282BE9C9C",
+  "title": "Static Route",
+  "body": "Static Route\nĐịnh nghĩa: Định tuyến tĩnh chỉ định đường tới prefix; default route dùng khi không có route cụ thể hơn.\nĐầu vào: Prefix, next-hop, interface, metric/distance, đường về.\nCách thực hiện:\n1. Kiểm tra next-hop nằm trên mạng có thể tới được.\n2. Tạo route cho từng prefix và default route theo thiết kế; đặt ưu tiên dự phòng rõ ràng.\n3. Kiểm tra routing table và đường hồi đáp; tránh route chồng hoặc vòng lặp.\n4. Thử ping/traceroute với địa chỉ nguồn đúng mạng, thử ứng dụng thực.\nKiểm tra: Route được cài đúng next-hop; hai chiều thông; đường dự phòng hoạt động khi được thử.\nRollback: Gỡ route vừa thêm, phục hồi metric và next-hop cũ.\nXuất hiện: FortiGate!C21; Firewall!C17; Switch!C28",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Static Route",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "term": "Static Route",
+    "recipe_id": "route"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

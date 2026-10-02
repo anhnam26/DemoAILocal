@@ -1,0 +1,35 @@
+{
+  "id": "ND-652C494C8C7AB4E15AD3",
+  "title": "consulting: Báo cáo khảo sát",
+  "body": "consulting: Báo cáo khảo sát\nCâu hỏi/mô tả gốc: Khách hàng có yêu cầu Báo cáo khảo sát/Assessment Report không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Khách hàng có yêu cầu Báo cáo khảo sát/Assessment Report không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Dashboard hiển thị chỉ số; báo cáo tổng hợp theo thời gian, phạm vi và định nghĩa đo.\nThu thập hiện trạng có bằng chứng để chốt phạm vi và thiết kế.\nCách xử lý bổ sung:\n1. Kiểm tra dữ liệu nguồn và cách tính từng chỉ số.\n2. Tạo dashboard/report với bộ lọc site/device/time và quyền truy cập.\n3. Nếu định kỳ, đặt lịch/định dạng/người nhận theo thỏa thuận.\n4. Đối chiếu một kỳ mẫu với log thô; kiểm tra dữ liệu thiếu và gửi thử.\n5. Ghi mục tiêu, site, người dùng và dịch vụ quan trọng.\n6. Thu inventory, config đã che bí mật, IP/VLAN/route và license; đối chiếu thông tin tại chỗ khi cần.\n7. Ghi thiếu/mâu thuẫn kèm người xác nhận, không tự điền như dữ liệu thật.\n8. Lập báo cáo hiện trạng, nhu cầu và giả định để khách hàng xác nhận.\nTiêu chí: Số liệu đối chiếu được; đúng phạm vi/thời gian/người nhận.\nMỗi yêu cầu có nguồn; thiếu dữ liệu được liệt kê; phạm vi được xác nhận.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: Báo cáo khảo sát",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 29,
+    "source_cell": "row:29",
+    "service": "consulting",
+    "requirement_id": "87f7d1d84ed1570fe2ad"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

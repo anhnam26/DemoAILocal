@@ -1,0 +1,32 @@
+{
+  "id": "ND-A4B07C9DE51B4AEA3F8D",
+  "title": "Workflow Triển khai Cơ bản",
+  "body": "Workflow Triển khai Cơ bản\nTiếp nhận thông tin → [Tiếp tục] → Khảo sát & Thu thập thông tin\nKhảo sát & Thu thập thông tin → [Tiếp tục] → Thực hiện triển khai\nThực hiện triển khai → [Tiếp tục] → Kiểm thử & Hiệu chỉnh\nKiểm thử & Hiệu chỉnh → [Tiếp tục] → Bàn giao & Nghiệm thu\nBàn giao & Nghiệm thu → [Tiếp tục] → Hỗ trợ kỹ thuật sau triển khai\nHỗ trợ kỹ thuật sau triển khai → [Tiếp tục] → Đóng case",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "source_transcribed",
+  "data_type": "workflow",
+  "provenance": {
+    "category": "workflow",
+    "document_type": "workflow",
+    "title": "Workflow Triển khai Cơ bản",
+    "provenance": "source",
+    "review_status": "source_transcribed",
+    "source_file": "CBA Services Work Flow (1).pdf",
+    "source_page": 4,
+    "workflow_id": "WF-04"
+  },
+  "service": "",
+  "content_kind": "workflow"
+}

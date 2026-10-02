@@ -1,0 +1,24 @@
+{
+  "id": "KB-DNS",
+  "title": "Ứng dụng không truy cập bằng tên — bài học ẩn danh",
+  "body": "Tình huống tổng hợp DEMO không gắn khách: IP còn truy cập được nhưng DNS phân giải sai. Kiểm tra: Kiểm resolver, TTL, zone nội bộ và split DNS; giữ bản cấu hình trước thay. Bài học: Thử nhiều client; phân biệt cache DNS và lỗi route. Nêu giả thuyết rõ, chỉ kết luận khi có log/test. Chuyển trưởng nhóm nếu ảnh hưởng nhiều site.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

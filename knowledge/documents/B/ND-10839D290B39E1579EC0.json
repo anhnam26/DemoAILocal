@@ -1,0 +1,36 @@
+{
+  "id": "ND-10839D290B39E1579EC0",
+  "title": "FortiGate — Cấu hình OSPF",
+  "body": "FortiGate — Cấu hình OSPF\nHạng mục gốc: Cấu hình OSPF; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Giao thức định tuyến nội bộ trao đổi trạng thái liên kết theo area.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nRouter ID, area, network/interface, authentication, cost, prefix được quảng bá.\nQuy trình bổ sung:\n1. Kiểm tra subnet hai đầu và router ID không trùng.\n2. Khai báo area/interface, đặt passive cho mạng không tạo neighbor; cấu hình xác thực và cost theo thiết kế.\n3. Kiểm soát redistribution và default advertisement.\n4. Kiểm tra neighbor, database, routing table; thử failover và route không được phép.\nNghiệm thu: Adjacency đúng trạng thái cho loại mạng; chỉ prefix cho phép được học/quảng bá; hội tụ đạt test.\nRollback: Tắt quảng bá/interface mới, phục hồi cost/filter và route dự phòng đã duyệt.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Cấu hình OSPF",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 36,
+    "source_cell": "C36",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-036",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

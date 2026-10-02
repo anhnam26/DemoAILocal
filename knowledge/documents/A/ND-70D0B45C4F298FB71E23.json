@@ -1,0 +1,35 @@
+{
+  "id": "ND-70D0B45C4F298FB71E23",
+  "title": "SOW",
+  "body": "SOW\nĐịnh nghĩa: SOW mô tả phạm vi, đầu ra, trách nhiệm và nghiệm thu; man-hour = giờ công việc × số kỹ sư.\nĐầu vào: Checklist chốt, deliverables, exclusions, lịch, dependencies và rate nếu có.\nCách thực hiện:\n1. Chia công việc theo giai đoạn và gán owner/output/test.\n2. Ghi thời lượng và số kỹ sư riêng; tính man-hour từng dòng, không coi tổng man-hour là downtime.\n3. Liệt kê giả định, ngoài phạm vi và cơ chế change request.\n4. Review với khách hàng, chỉ lập lịch thực thi sau xác nhận.\nKiểm tra: Tổng công tính đúng; phạm vi/đầu ra có tiêu chí; downtime được xác định riêng.\nRollback: Cập nhật revision và tác động tiến độ/chi phí trước khi đổi scope.\nXuất hiện: FortiGate!A52; FortiSwitch!A34; FortiAP!A29; FortiManager!A30; FortiNAC!A31; FortiAnalyzer!A31; Server!A33; Firewall!A36; Switch!A40; AP!A31; NAS!A33; SAN!A32; Manager!A32; Log!A31; Monitoring!A31",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SOW",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "A52",
+    "service": "it_configuration",
+    "term": "SOW",
+    "recipe_id": "sow"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

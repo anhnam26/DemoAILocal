@@ -1,0 +1,37 @@
+{
+  "id": "ND-A9A43D59581C2EE5D4C3",
+  "title": "TCP — Transmission Control Protocol",
+  "body": "TCP (Transmission Control Protocol) là giao thức tầng Transport cung cấp luồng byte tin cậy, có thứ tự giữa hai đầu cuối. TCP không giữ ranh giới thông điệp của ứng dụng.\nSequence number đánh số byte, acknowledgment xác nhận, phát hiện mất dữ liệu và truyền lại. Bắt tay thông thường SYN → SYN-ACK → ACK thiết lập kết nối; đóng kết nối dùng FIN/ACK hoặc kết thúc bằng RST tùy tình huống.\nFlow control giới hạn lượng gửi theo khả năng nhận; congestion control điều tiết theo tình trạng mạng. Đây là hai mục tiêu khác nhau.\nTCP không tự mã hóa và không bảo đảm thời gian giao nhận cố định; khi kết nối hỏng ứng dụng vẫn phải xử lý lỗi. ACK của TCP không chứng minh ứng dụng đã hoàn tất nghiệp vụ.\nPort nhận diện đầu cuối dịch vụ; IP kết hợp port và giao thức giúp phân biệt luồng. Cấu hình NAT/VIP là chủ đề riêng, không phải định nghĩa hoặc cơ chế TCP.",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-2",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "aliases": [
+    "TCP",
+    "bắt tay ba bước",
+    "byte stream"
+  ],
+  "references": [
+    {
+      "title": "RFC 9293 — TCP",
+      "url": "https://www.rfc-editor.org/rfc/rfc9293",
+      "checked_at": "2026-09-30"
+    }
+  ],
+  "content_kind": "concept",
+  "data_type": "reference_article",
+  "provenance": {
+    "source": "referenced_editorial",
+    "review_note": "Biên soạn đối chiếu nguồn; không chứng nhận cấu hình theo hãng/phiên bản."
+  }
+}

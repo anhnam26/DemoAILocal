@@ -1,0 +1,35 @@
+{
+  "id": "ND-734C639A2745D8E01748",
+  "title": "Proxmox",
+  "body": "Proxmox\nĐịnh nghĩa: Lớp ảo hóa chạy nhiều máy ảo và chia tài nguyên host.\nĐầu vào: HCL, license, CPU/RAM, boot/network/storage design.\nCách thực hiện:\n1. Kiểm tra phần cứng/firmware hỗ trợ và virtualization trong BIOS.\n2. Cài hypervisor lên boot disk đã chỉ định.\n3. Tạo management/vSwitch/bridge/VLAN và datastore với đúng quyền.\n4. Tạo VM thử, kiểm tra network/storage, backup và reboot host trong lab.\nKiểm tra: VM hoạt động, tài nguyên/network cách ly đúng; quản trị và backup sẵn sàng.\nRollback: Di chuyển/tắt VM theo kế hoạch, phục hồi cấu hình host và datastore mapping cũ.\nXuất hiện: Server!C22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Proxmox",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_cell": "C22",
+    "service": "it_configuration",
+    "term": "Proxmox",
+    "recipe_id": "hypervisor"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

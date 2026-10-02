@@ -1,0 +1,24 @@
+{
+  "id": "KB-WAF",
+  "title": "False positive API — bài học ẩn danh",
+  "body": "Tình huống tổng hợp DEMO không gắn khách: API upload hợp lệ bị chặn sau bật rule mới. Kiểm tra: Thu request đã che dữ liệu, test staging, giới hạn ngoại lệ đúng endpoint. Bài học: Không tắt toàn bộ WAF vì một API bị chặn. Nêu giả thuyết rõ, chỉ kết luận khi có log/test. Chuyển trưởng nhóm nếu ảnh hưởng nhiều site.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

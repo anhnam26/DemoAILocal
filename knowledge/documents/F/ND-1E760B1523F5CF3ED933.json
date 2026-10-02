@@ -1,0 +1,30 @@
+{
+  "id": "ND-1E760B1523F5CF3ED933",
+  "title": "ssl_version",
+  "body": "ssl_version\nKhông áp hướng dẫn SSL VPN tunnel mode cho FortiOS 7.6.3; kiểm tra release notes/model/version trước triển khai.\nVị trí: Hạng mục SSL VPN; tham khảo Fortinet release notes 7.6.3",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "data_quality",
+  "provenance": {
+    "category": "data_quality",
+    "document_type": "data_quality",
+    "title": "ssl_version",
+    "provenance": "authored_review",
+    "review_status": "draft_engineer_review",
+    "source_file": "data_quality.json"
+  },
+  "service": "",
+  "content_kind": "reference"
+}

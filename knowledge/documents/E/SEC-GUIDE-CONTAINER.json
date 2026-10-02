@@ -1,0 +1,30 @@
+{
+  "id": "SEC-GUIDE-CONTAINER",
+  "title": "Hardening container và kiểm image — kiến thức & tư vấn",
+  "body": "## 1. Hiểu đúng\nContainer dùng chung một phần nền tảng host nên cần kiểm quyền và cấu hình. Tránh đặc quyền không cần thiết; quản lý image và cập nhật phụ thuộc phải đi cùng vận hành.\n\n## 2. Câu hỏi khảo sát đề xuất\nAi tạo image? Có chạy root/privileged? Volume và secret được cấp thế nào?\n\n## 3. Bằng chứng nên yêu cầu\nDanh sách image; kết quả scan; manifest đã review.\n\n## 4. Giới hạn\nKhông cung cấp lệnh hardening chung cho mọi workload hoặc coi container là VM cách ly tuyệt đối.\n\n## Nguồn và biên soạn\nTham khảo nền tảng: OWASP Docker Security Cheat Sheet. Bản diễn giải tiếng Việt và bài tập do demo biên soạn; không phải bản dịch tiêu chuẩn. Kiểm nguồn ngày 2026-09-05. Các câu hỏi, bước lab và đầu ra là đề xuất cho demo, không phải yêu cầu nguyên văn của nguồn.",
+  "group": "E",
+  "category": "An toàn thông tin",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "references": [
+    {
+      "title": "OWASP Docker Security Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html",
+      "checked_at": "2026-09-05"
+    }
+  ],
+  "provenance": {
+    "source": "security_documents"
+  },
+  "content_kind": "reference"
+}

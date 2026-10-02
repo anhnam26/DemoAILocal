@@ -1,0 +1,35 @@
+{
+  "id": "ND-63300E57A91C28954641",
+  "title": "Zoning",
+  "body": "Zoning\nĐịnh nghĩa: Zoning giới hạn giao tiếp trong fabric Fibre Channel.\nĐầu vào: WWPN host/storage, fabric A/B, active zoneset và sơ đồ.\nCách thực hiện:\n1. Đối chiếu WWPN thực và backup switch config.\n2. Tạo alias/zone theo thiết kế, thường tách initiator-target và giữ hai fabric độc lập.\n3. Thêm vào zoneset và activate có kiểm soát.\n4. Rescan host, kiểm tra path và lỗi FC.\nKiểm tra: Host thấy đúng target qua các fabric; không mất path cũ.\nRollback: Phục hồi zoneset trước; chỉ thay đổi zone mới liên quan.\nXuất hiện: SAN!C17",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Zoning",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_cell": "C17",
+    "service": "it_configuration",
+    "term": "Zoning",
+    "recipe_id": "zoning"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

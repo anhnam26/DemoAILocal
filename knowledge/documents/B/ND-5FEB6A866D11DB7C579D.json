@@ -1,0 +1,36 @@
+{
+  "id": "ND-5FEB6A866D11DB7C579D",
+  "title": "FortiGate — Cấu hình Static Route",
+  "body": "FortiGate — Cấu hình Static Route\nHạng mục gốc: Cấu hình Static Route; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Định tuyến tĩnh chỉ định đường tới prefix; default route dùng khi không có route cụ thể hơn.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPrefix, next-hop, interface, metric/distance, đường về.\nQuy trình bổ sung:\n1. Kiểm tra next-hop nằm trên mạng có thể tới được.\n2. Tạo route cho từng prefix và default route theo thiết kế; đặt ưu tiên dự phòng rõ ràng.\n3. Kiểm tra routing table và đường hồi đáp; tránh route chồng hoặc vòng lặp.\n4. Thử ping/traceroute với địa chỉ nguồn đúng mạng, thử ứng dụng thực.\nNghiệm thu: Route được cài đúng next-hop; hai chiều thông; đường dự phòng hoạt động khi được thử.\nRollback: Gỡ route vừa thêm, phục hồi metric và next-hop cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Cấu hình Static Route",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 21,
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-021",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

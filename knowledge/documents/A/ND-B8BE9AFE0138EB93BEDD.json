@@ -1,0 +1,35 @@
+{
+  "id": "ND-B8BE9AFE0138EB93BEDD",
+  "title": "Workflow",
+  "body": "Workflow\nĐịnh nghĩa: Quy trình yêu cầu, đánh giá, phê duyệt, thực thi và kiểm chứng thay đổi.\nĐầu vào: Owner, reviewer, tác động, cửa sổ, test plan và rollback threshold.\nCách thực hiện:\n1. Tạo change record với phạm vi, rủi ro, dependency và backup.\n2. Đặt người lập/người duyệt tách vai trò; cấu hình approval matrix nếu nền tảng hỗ trợ.\n3. Gửi duyệt, sửa khi bị từ chối; chỉ triển khai bản đã duyệt.\n4. Ghi thời điểm, kết quả test, rollback nếu vượt ngưỡng và đóng change.\nKiểm tra: Có audit trail; không bỏ qua approval; bản thực thi trùng bản được duyệt.\nRollback: Thực hiện rollback của change và mở lại đánh giá; không xóa dấu vết.\nXuất hiện: FortiManager!C23; Manager!C24",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Workflow",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiManager",
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "term": "Workflow",
+    "recipe_id": "change"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-810ABFC4B8E8EA93B298",
+  "title": "FortiSandbox",
+  "body": "FortiSandbox\nĐịnh nghĩa: Môi trường phân tích hành vi file đáng ngờ tách khỏi hệ thống thật.\nĐầu vào: License, sandbox endpoint, quyền gửi mẫu, loại dữ liệu cho phép.\nCách thực hiện:\n1. Kiểm tra quyền xử lý dữ liệu và kết nối sandbox.\n2. Thiết lập connector/chứng chỉ và profile AV gửi loại file được phép.\n3. Chọn hành vi chờ/phản ứng theo khả năng sản phẩm.\n4. Gửi mẫu test an toàn; kiểm tra submission ID, verdict và log policy.\nKiểm tra: Mẫu đến đúng nơi, có verdict; dữ liệu không vượt phạm vi cho phép.\nRollback: Tắt gửi mẫu mới, phục hồi connector/profile cũ.\nXuất hiện: FortiGate!C40",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "FortiSandbox",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C40",
+    "service": "it_configuration",
+    "term": "FortiSandbox",
+    "recipe_id": "sandbox"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

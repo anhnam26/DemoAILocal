@@ -1,0 +1,36 @@
+{
+  "id": "ND-821D80BD0208DEF32871",
+  "title": "FortiGate — Cấu hình VDOM (Virtual Domain)",
+  "body": "FortiGate — Cấu hình VDOM (Virtual Domain)\nHạng mục gốc: Cấu hình VDOM (Virtual Domain); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Phân chia thiết bị thành miền cấu hình/chính sách riêng; liên kết miền cần route/policy rõ ràng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nLicense/giới hạn, danh sách miền, cổng/IP/tài nguyên từng miền, quyền admin.\nQuy trình bổ sung:\n1. Kiểm tra hỗ trợ và tác động khi bật chế độ đa miền.\n2. Tạo miền, gán interface/tài nguyên và admin đúng phạm vi.\n3. Tạo link giữa miền khi có thiết kế; cấu hình IP, route và policy hai chiều.\n4. Test cách ly tenant, truy cập quản trị và giới hạn tài nguyên.\nNghiệm thu: Miền độc lập; chỉ luồng liên miền đã duyệt thông.\nRollback: Phục hồi gán interface/route; chỉ xóa miền mới sau khi đã chuyển tài nguyên về an toàn.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Cấu hình VDOM (Virtual Domain)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 45,
+    "source_cell": "C45",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-045",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

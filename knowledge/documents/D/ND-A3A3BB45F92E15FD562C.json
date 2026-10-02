@@ -1,0 +1,32 @@
+{
+  "id": "ND-A3A3BB45F92E15FD562C",
+  "title": "SOW đề xuất configuration_migration: Phân tích tương thích",
+  "body": "SOW đề xuất configuration_migration: Phân tích tương thích\nĐầu ra đề xuất: Danh sách tính năng hỗ trợ/không hỗ trợ trên model đích\nCác bước:\n1. Sao lưu cấu hình và image cần phục hồi; xác minh backup đọc được.\n2. Kiểm tra ma trận hỗ trợ tính năng/license và lộ trình nâng cấp đúng model; không tự chọn bản mới nhất.\n3. Tải image từ hãng, kiểm tra checksum; nâng cấp theo từng bước được hỗ trợ.\n4. Sau mỗi lần khởi động, kiểm tra interface, route, policy, VPN, HA và log; cập nhật driver tương thích nếu là server.\n5. Lập HLD gồm thành phần/luồng/dự phòng và ranh giới trách nhiệm.\n6. Viết LLD với IP/VLAN/interface/routing/policy và license cụ thể.\n7. Đối chiếu BOM/SOW, compatibility và test plan; ghi lựa chọn/giả định.\n8. Review với owner kỹ thuật và lưu bản được phê duyệt trước triển khai.\nNghiệm thu: Đúng version; không lỗi chuyển đổi cấu hình; bộ test dịch vụ đạt; có biên bản downtime.\nThiết kế truy được về yêu cầu; đủ thông số triển khai; có version/approval.\nRollback: Dừng khi không tương thích; phục hồi image và backup cùng phiên bản theo hướng dẫn hãng, không nạp mù config mới vào firmware cũ.\nQuay bản thiết kế được duyệt trước và đánh giá tác động các tài liệu liên quan.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất configuration_migration: Phân tích tương thích",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "configuration_migration-SOW-02",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

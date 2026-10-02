@@ -1,0 +1,35 @@
+{
+  "id": "ND-099FCD848C65D6EAA09B",
+  "title": "fortigate_configuration: Cấu hình VLAN(Sub-Interface + 802.1Q)",
+  "body": "fortigate_configuration: Cấu hình VLAN(Sub-Interface + 802.1Q)\nCâu hỏi/mô tả gốc: Số lượng VLAN?\nTên các VLAN?\nSubnet/Gateway từng VLAN?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Số lượng VLAN?\nTên các VLAN?\nSubnet/Gateway từng VLAN?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Interface là cổng logic/vật lý; WAN nối ngoài, LAN nội bộ, DMZ tách dịch vụ; zone nhóm interface cùng chính sách.\nPhân đoạn mạng lớp 2 theo VLAN ID; 802.1Q gắn thẻ VLAN trên liên kết dùng chung.\nCách xử lý bổ sung:\n1. Đối chiếu nhãn cáp và cổng; giữ console khi đổi IP quản lý.\n2. Tạo zone nếu thiết kế yêu cầu; gán interface, địa chỉ và role WAN/LAN/DMZ.\n3. Chỉ bật giao thức quản trị trên mạng quản trị; kiểm tra link và MTU với đầu đối diện.\n4. Kiểm tra ARP, ping gateway và route; lưu sơ đồ cổng sau thay đổi.\n5. Tạo VLAN trên thiết bị và sub-interface trên gateway nếu gateway đặt tại đó.\n6. Gán VLAN ID, tên, IP/mask cho sub-interface theo IP plan.\n7. Đồng bộ allowed VLAN và native VLAN giữa hai đầu uplink; tránh nhầm tagged/untagged.\n8. Cấu hình DHCP/policy liên quan và thử client của từng VLAN.\nTiêu chí: Không trùng IP; link up; đúng zone và subnet; truy cập quản trị đúng nguồn.\nClient vào đúng VLAN, lấy đúng IP; VLAN bị tách theo policy; uplink truyền đúng tag.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Cấu hình VLAN(Sub-Interface + 802.1Q)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 15,
+    "source_cell": "row:15",
+    "service": "fortigate_configuration",
+    "requirement_id": "d2c24b4e0bb5fecfc0b4"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

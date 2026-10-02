@@ -1,0 +1,36 @@
+{
+  "id": "ND-33927F5D2E9694041CAE",
+  "title": "Server — Cấu hình iDRAC/iLO (remote management) cơ bản",
+  "body": "Server — Cấu hình iDRAC/iLO (remote management) cơ bản\nHạng mục gốc: Cấu hình iDRAC/iLO (remote management) cơ bản; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Giao diện quản trị phần cứng ngoài băng, hoạt động độc lập OS.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nIP/VLAN quản trị, license console, tài khoản và certificate.\nQuy trình bổ sung:\n1. Kết nối cổng quản trị vào mạng riêng.\n2. Đặt IP/gateway/DNS, đổi tài khoản mặc định và giới hạn nguồn truy cập.\n3. Cài certificate/firmware tương thích, bật cảnh báo phần cứng.\n4. Test remote console và virtual media; không power-cycle sản xuất ngoài cửa sổ.\nNghiệm thu: Console truy cập từ mạng cho phép; phần cứng và alert được nhìn thấy.\nRollback: Trả IP/ACL/tài khoản quản trị trước qua console tại chỗ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Server — Cấu hình iDRAC/iLO (remote management) cơ bản",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_row": 19,
+    "source_cell": "C19",
+    "service": "it_configuration",
+    "item_id": "IT-Server-019",
+    "device_family": "Server"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

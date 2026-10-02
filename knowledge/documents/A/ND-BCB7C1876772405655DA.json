@@ -1,0 +1,35 @@
+{
+  "id": "ND-BCB7C1876772405655DA",
+  "title": "Static IP Public",
+  "body": "Static IP Public\nĐịnh nghĩa: Địa chỉ công cộng được cấp cố định theo dịch vụ ISP, không đồng nghĩa chỉ có một IP trên mỗi đường truyền.\nĐầu vào: IP public được cấp, IP server, TCP/UDP, port ngoài/trong, nguồn cho phép.\nCách thực hiện:\n1. Kiểm tra server lắng nghe và gateway trả về.\n2. Tạo VIP/port forwarding trên đúng WAN, khai báo external/mapped IP và port.\n3. Tạo policy từ nguồn được duyệt tới VIP và service tương ứng; không công khai trang quản trị.\n4. Thử từ mạng ngoài thật, kiểm tra log và đường về; kiểm tra từ LAN riêng nếu có hairpin.\nKiểm tra: Chỉ port đã duyệt được truy cập; đúng server; nguồn bị cấm không vào được.\nRollback: Disable policy/VIP mới, khôi phục ánh xạ cũ.\nXuất hiện: Thông tin lên Bom!B7",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Static IP Public",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B7",
+    "service": "fortigate_configuration",
+    "term": "Static IP Public",
+    "recipe_id": "extra_Static IP Public"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

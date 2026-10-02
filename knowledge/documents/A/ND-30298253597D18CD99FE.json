@@ -1,0 +1,35 @@
+{
+  "id": "ND-30298253597D18CD99FE",
+  "title": "DNS Filter",
+  "body": "DNS Filter\nĐịnh nghĩa: Lọc tên miền theo danh sách/category/uy tín, bổ sung chặn kết nối điều khiển độc hại.\nĐầu vào: DNS path, domain allow/block, license và exception.\nCách thực hiện:\n1. Xác định client dùng DNS nào kể cả DoH/DoT theo chính sách.\n2. Tạo DNS filter với action từng category/domain và ngoại lệ đã duyệt.\n3. Gắn vào luồng/policy thật; cấu hình block C&C theo tính năng được hỗ trợ.\n4. Test domain mẫu an toàn, DNS nội bộ và log.\nKiểm tra: Domain bị cấm được xử lý; DNS nghiệp vụ vẫn hoạt động; có log rõ.\nRollback: Phục hồi profile DNS và exception trước.\nXuất hiện: Thông tin lên Bom!B47",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "DNS Filter",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B47",
+    "service": "fortigate_configuration",
+    "term": "DNS Filter",
+    "recipe_id": "dnfilter"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-89D5E784589956F1F420",
+  "title": "Event Correlation",
+  "body": "Event Correlation\nĐịnh nghĩa: Tương quan nhiều sự kiện để phát hiện tình huống an ninh và tạo incident.\nĐầu vào: Nguồn log đã parse, use case, cửa sổ thời gian, severity và owner.\nCách thực hiện:\n1. Chuẩn hóa timestamp/host/user trước khi viết rule.\n2. Định nghĩa chuỗi/đếm sự kiện và điều kiện loại trừ có cơ sở.\n3. Replay log test để đo true/false positive; tạo incident có bằng chứng.\n4. Gắn người xử lý/escalation và chỉnh threshold trước vận hành.\nKiểm tra: Incident test có nguồn truy vết; không cảnh báo trùng; có owner.\nRollback: Disable rule mới, giữ log và incident để rà soát.\nXuất hiện: FortiAnalyzer!C22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Event Correlation",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAnalyzer",
+    "source_cell": "C22",
+    "service": "it_configuration",
+    "term": "Event Correlation",
+    "recipe_id": "siem"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "ND-BD5F8015A81432843B94",
+  "title": "SOW đề xuất remote_support: Thực hiện change khi cần",
+  "body": "SOW đề xuất remote_support: Thực hiện change khi cần\nĐầu ra đề xuất: Approval, backup, thao tác có audit, rollback\nCác bước:\n1. Tạo change record với phạm vi, rủi ro, dependency và backup.\n2. Đặt người lập/người duyệt tách vai trò; cấu hình approval matrix nếu nền tảng hỗ trợ.\n3. Gửi duyệt, sửa khi bị từ chối; chỉ triển khai bản đã duyệt.\n4. Ghi thời điểm, kết quả test, rollback nếu vượt ngưỡng và đóng change.\nNghiệm thu: Có audit trail; không bỏ qua approval; bản thực thi trùng bản được duyệt.\nRollback: Thực hiện rollback của change và mở lại đánh giá; không xóa dấu vết.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất remote_support: Thực hiện change khi cần",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "remote_support-SOW-05",
+    "service": "remote_support"
+  },
+  "service": "remote_support",
+  "content_kind": "reference"
+}

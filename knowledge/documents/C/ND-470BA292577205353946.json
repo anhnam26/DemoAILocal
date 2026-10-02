@@ -1,0 +1,35 @@
+{
+  "id": "ND-470BA292577205353946",
+  "title": "managed_service: Yêu cầu bảo mật thông tin",
+  "body": "managed_service: Yêu cầu bảo mật thông tin\nCâu hỏi/mô tả gốc: Yêu cầu đặc biệt về bảo mật dữ liệu\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Yêu cầu đặc biệt về bảo mật dữ liệu. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Yêu cầu phi chức năng xác định giới hạn xử lý dữ liệu, mức ảnh hưởng và nguồn lực; cần chủ sở hữu xác nhận.\nCách xử lý bổ sung:\n1. Ghi nguyên văn yêu cầu và người cung cấp.\n2. Chuyển yêu cầu chung thành tiêu chí kiểm tra được như nguồn truy cập, thời hạn phiên, retention hoặc giới hạn chi phí.\n3. Xác định mâu thuẫn với scope/SLA và gửi đầu mối xác nhận.\n4. Lưu trạng thái draft/confirmed cùng bằng chứng, không xem câu hỏi trong form là cam kết.\nTiêu chí: Từng yêu cầu có owner, giá trị và tiêu chí; ô trống giữ trạng thái chưa biết.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "managed_service: Yêu cầu bảo mật thông tin",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Managed Service - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yêu cầu",
+    "source_row": 32,
+    "source_cell": "row:32",
+    "service": "managed_service",
+    "requirement_id": "84dbb11cc540754c0d58"
+  },
+  "service": "managed_service",
+  "content_kind": "survey"
+}

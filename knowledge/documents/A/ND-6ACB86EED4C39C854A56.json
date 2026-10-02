@@ -1,0 +1,35 @@
+{
+  "id": "ND-6ACB86EED4C39C854A56",
+  "title": "Router",
+  "body": "Router\nĐịnh nghĩa: Thiết bị chuyển tiếp gói giữa các mạng dựa trên bảng định tuyến.\nĐầu vào: Prefix, next-hop, interface, metric/distance, đường về.\nCách thực hiện:\n1. Kiểm tra next-hop nằm trên mạng có thể tới được.\n2. Tạo route cho từng prefix và default route theo thiết kế; đặt ưu tiên dự phòng rõ ràng.\n3. Kiểm tra routing table và đường hồi đáp; tránh route chồng hoặc vòng lặp.\n4. Thử ping/traceroute với địa chỉ nguồn đúng mạng, thử ứng dụng thực.\nKiểm tra: Route được cài đúng next-hop; hai chiều thông; đường dự phòng hoạt động khi được thử.\nRollback: Gỡ route vừa thêm, phục hồi metric và next-hop cũ.\nXuất hiện: Thông tin lên Bom!B6",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Router",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B6",
+    "service": "fortigate_configuration",
+    "term": "Router",
+    "recipe_id": "extra_Router"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

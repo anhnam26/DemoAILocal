@@ -1,0 +1,35 @@
+{
+  "id": "ND-E9EF6677E6D33B7DF886",
+  "title": "Storage vMotion",
+  "body": "Storage vMotion\nĐịnh nghĩa: Di chuyển ổ đĩa máy ảo giữa datastore khi nền tảng/license hỗ trợ.\nĐầu vào: Version/license, datastore đích, dung lượng, network và backup VM.\nCách thực hiện:\n1. Kiểm tra compatibility, sức khỏe VM và dung lượng đích.\n2. Chọn migration chỉ storage hoặc compute/storage theo thiết kế.\n3. Chọn datastore/policy và chạy pilot một VM.\n4. Giám sát task, latency và ứng dụng; xác nhận file VM đã ở đích.\nKiểm tra: VM hoạt động, dữ liệu đúng datastore/policy; không lỗi I/O.\nRollback: Di chuyển ngược bằng công cụ được hỗ trợ nếu đủ dung lượng; không tự xóa file VM cũ.\nXuất hiện: SAN!C25",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Storage vMotion",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_cell": "C25",
+    "service": "it_configuration",
+    "term": "Storage vMotion",
+    "recipe_id": "vmotion"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

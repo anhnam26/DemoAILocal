@@ -1,0 +1,35 @@
+{
+  "id": "ND-46376AF48761F7AFC361",
+  "title": "Anomaly Detection",
+  "body": "Anomaly Detection\nĐịnh nghĩa: Nhận biết sai lệch so với hành vi nền, cần xác minh để tránh chặn nhầm.\nĐầu vào: Dữ liệu lịch sử, chỉ số/use case, mùa vụ và owner điều tra.\nCách thực hiện:\n1. Làm sạch dữ liệu thiếu/đổi đơn vị trước học baseline.\n2. Chọn cửa sổ và ngưỡng theo nhóm tương đồng, chạy monitor.\n3. Replay tình huống bất thường và hoạt động hợp lệ giờ cao điểm.\n4. Chỉ mở action sau đánh giá false positive; gắn ticket có bằng chứng.\nKiểm tra: Cảnh báo giải thích được; drift được theo dõi; không tự khóa dịch vụ thiếu xác minh.\nRollback: Tắt rule/model mới và quay baseline trước.\nXuất hiện: Monitoring!C26",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Anomaly Detection",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Monitoring",
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "term": "Anomaly Detection",
+    "recipe_id": "anomaly"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

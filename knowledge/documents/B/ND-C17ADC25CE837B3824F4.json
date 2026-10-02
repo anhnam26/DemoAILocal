@@ -1,0 +1,36 @@
+{
+  "id": "ND-C17ADC25CE837B3824F4",
+  "title": "Firewall — Cấu hình Remote Access VPN (SSL/IPSec)",
+  "body": "Firewall — Cấu hình Remote Access VPN (SSL/IPSec)\nHạng mục gốc: Cấu hình Remote Access VPN (SSL/IPSec); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: VPN từ máy người dùng vào mạng nội bộ, kiểm soát danh tính và phạm vi truy cập.\nSSL VPN là cơ chế truy cập từ xa qua TLS; hỗ trợ phụ thuộc model và phiên bản, không mặc định còn khả dụng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nOS/FortiClient/version FortiOS, nhóm user, MFA, pool không trùng, DNS, mạng được vào.\nModel/RAM, FortiOS và client version, release notes, certificate, user/MFA.\nQuy trình bổ sung:\n1. Kiểm tra ma trận tương thích trước khi chọn IPsec/SSL.\n2. Tạo remote-access IPsec/dial-up và nhóm xác thực; định nghĩa IP pool, split/full tunnel và DNS.\n3. Tạo policy từ pool/user group vào đúng tài nguyên; triển khai profile FortiClient thử nghiệm.\n4. Thử từ Internet bằng user hợp lệ, sai quyền và MFA; kiểm tra DNS, route và log.\n5. Kiểm tra release notes trước tiên: FortiOS 7.6.3 đã bỏ SSL VPN tunnel mode; chọn IPsec thay thế cho trường hợp này.\n6. Nếu model/phiên bản còn hỗ trợ chế độ được yêu cầu, cấu hình certificate, cổng nghe, portal, pool và nhóm xác thực.\n7. Giới hạn policy tới tài nguyên được duyệt; triển khai profile client thử.\n8. Kiểm thử chứng chỉ, MFA, route/DNS và luồng bị cấm; lập kế hoạch chuyển đổi nếu nâng phiên bản.\nNghiệm thu: User đúng nhóm vào đúng tài nguyên; user sai bị từ chối; MFA và timeout đúng yêu cầu.\nTính năng thực sự được hỗ trợ trên thiết bị đích; không mất truy cập từ xa sau nâng cấp.\nRollback: Thu hồi profile mới; phục hồi VPN cũ đã kiểm chứng; không để tài khoản thử tồn tại.\nGiữ kênh quản trị dự phòng; phục hồi cấu hình VPN được hỗ trợ đã kiểm chứng.\nTham khảo bổ sung: https://docs.fortinet.com/document/fortigate/7.6.3/fortios-release-notes/173430/ssl-vpn-tunnel-mode-replaced-with-ipsec-vpn",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Firewall — Cấu hình Remote Access VPN (SSL/IPSec)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Firewall",
+    "source_row": 24,
+    "source_cell": "C24",
+    "service": "it_configuration",
+    "item_id": "IT-Firewall-024",
+    "device_family": "Firewall"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "ND-73F8C89B5057F5C1F4D3",
+  "title": "SOW đề xuất equipment_rental: Chuẩn bị thiết bị",
+  "body": "SOW đề xuất equipment_rental: Chuẩn bị thiết bị\nĐầu ra đề xuất: Kiểm tra serial, tình trạng, license và tương thích\nCác bước:\n1. Đối chiếu serial trên thiết bị, nhãn và hồ sơ mua.\n2. Kiểm tra quyền đăng ký/chuyển chủ với khách hàng.\n3. Đăng ký/kích hoạt qua cổng hãng theo entitlement, đồng bộ trên thiết bị.\n4. Lưu trạng thái và ngày hết hạn, không lưu mã bí mật; test dịch vụ subscription.\n5. Sao lưu cấu hình và image cần phục hồi; xác minh backup đọc được.\n6. Kiểm tra ma trận hỗ trợ tính năng/license và lộ trình nâng cấp đúng model; không tự chọn bản mới nhất.\n7. Tải image từ hãng, kiểm tra checksum; nâng cấp theo từng bước được hỗ trợ.\n8. Sau mỗi lần khởi động, kiểm tra interface, route, policy, VPN, HA và log; cập nhật driver tương thích nếu là server.\nNghiệm thu: Serial đúng chủ; entitlement/tính năng hiện đúng; có cảnh báo gia hạn.\nĐúng version; không lỗi chuyển đổi cấu hình; bộ test dịch vụ đạt; có biên bản downtime.\nRollback: Nếu sai chủ/serial, dừng và mở yêu cầu hãng; không tự chuyển tài sản.\nDừng khi không tương thích; phục hồi image và backup cùng phiên bản theo hướng dẫn hãng, không nạp mù config mới vào firmware cũ.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất equipment_rental: Chuẩn bị thiết bị",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "equipment_rental-SOW-03",
+    "service": "equipment_rental"
+  },
+  "service": "equipment_rental",
+  "content_kind": "reference"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-C02D0DE0A96778D15171",
+  "title": "UEFI",
+  "body": "UEFI\nĐịnh nghĩa: Firmware nền của server thiết lập khởi động và tính năng phần cứng.\nĐầu vào: Model, boot mode OS, yêu cầu virtualization, lịch reboot.\nCách thực hiện:\n1. Ghi lại thiết lập hiện tại, kiểm tra khả năng truy cập console.\n2. Vào BIOS/UEFI, đặt boot order đúng ổ, chế độ boot theo OS.\n3. Bật CPU virtualization/IOMMU nếu hypervisor yêu cầu và phần cứng hỗ trợ.\n4. Lưu/reboot, kiểm tra OS khởi động và hypervisor nhận tính năng.\nKiểm tra: OS boot bình thường; đúng boot device; tính năng virtualization hiện đúng.\nRollback: Phục hồi giá trị BIOS trước; không đổi boot mode của OS đang chạy tùy tiện.\nXuất hiện: Server!B14; Server!C14",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "UEFI",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_cell": "B14",
+    "service": "it_configuration",
+    "term": "UEFI",
+    "recipe_id": "bios"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

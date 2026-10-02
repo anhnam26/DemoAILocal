@@ -1,0 +1,35 @@
+{
+  "id": "ND-A022B1575DFAA5CDCC2D",
+  "title": "managed_service: Ngân sách dự kiến",
+  "body": "managed_service: Ngân sách dự kiến\nCâu hỏi/mô tả gốc: Ngân sách hàng năm / hàng tháng\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Ngân sách hàng năm / hàng tháng. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: SI là đơn vị tích hợp; EU là khách hàng sử dụng cuối; MST mã số thuế; PO đơn đặt hàng; invoice hóa đơn.\nYêu cầu phi chức năng xác định giới hạn xử lý dữ liệu, mức ảnh hưởng và nguồn lực; cần chủ sở hữu xác nhận.\nCách xử lý bổ sung:\n1. Thu trường định danh từ người có thẩm quyền, giữ SI và EU thành vai trò riêng.\n2. Đối chiếu mã báo giá/PO, phạm vi SOW và BBNT.\n3. Chuyển bộ phận kinh doanh/kế toán xác nhận giá, thuế và hóa đơn.\n4. Ghi ô chưa có là null/chờ xác nhận; không tự sinh MST/giá/điều khoản như sự thật.\n5. Ghi nguyên văn yêu cầu và người cung cấp.\n6. Chuyển yêu cầu chung thành tiêu chí kiểm tra được như nguồn truy cập, thời hạn phiên, retention hoặc giới hạn chi phí.\n7. Xác định mâu thuẫn với scope/SLA và gửi đầu mối xác nhận.\n8. Lưu trạng thái draft/confirmed cùng bằng chứng, không xem câu hỏi trong form là cam kết.\nTiêu chí: Pháp nhân/đầu mối có nguồn; tài liệu thương mại nhất quán; không nhầm SI/EU.\nTừng yêu cầu có owner, giá trị và tiêu chí; ô trống giữ trạng thái chưa biết.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "managed_service: Ngân sách dự kiến",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Managed Service - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yêu cầu",
+    "source_row": 29,
+    "source_cell": "row:29",
+    "service": "managed_service",
+    "requirement_id": "84a48d1fc59289973b25"
+  },
+  "service": "managed_service",
+  "content_kind": "survey"
+}

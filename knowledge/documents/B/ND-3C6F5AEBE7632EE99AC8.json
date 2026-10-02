@@ -1,0 +1,36 @@
+{
+  "id": "ND-3C6F5AEBE7632EE99AC8",
+  "title": "FortiNAC — Cấu hình Device Profiling/Fingerprinting",
+  "body": "FortiNAC — Cấu hình Device Profiling/Fingerprinting\nHạng mục gốc: Cấu hình Device Profiling/Fingerprinting; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Phân loại endpoint từ thông tin mạng/agent, có mức tin cậy và khả năng nhận nhầm.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nNguồn DHCP/SNMP/agent, nhóm thiết bị, baseline.\nQuy trình bổ sung:\n1. Bật nguồn thu thập được phép trên VLAN thử.\n2. Tạo profile theo thuộc tính kết hợp, đặt mức confidence.\n3. Đối chiếu thiết bị đã biết trước khi gắn enforcement.\n4. Kiểm tra thiết bị mới/giả thuộc tính và quy trình sửa nhận diện.\nNghiệm thu: Phân loại đúng mẫu test; thiết bị không rõ vào nhóm cách ly/duyệt theo thiết kế.\nRollback: Chuyển profile lỗi về monitor, phục hồi classification cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiNAC — Cấu hình Device Profiling/Fingerprinting",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiNAC",
+    "source_row": 21,
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "item_id": "IT-FortiNAC-021",
+    "device_family": "FortiNAC"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

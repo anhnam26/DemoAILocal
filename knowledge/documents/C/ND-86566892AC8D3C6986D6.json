@@ -1,0 +1,35 @@
+{
+  "id": "ND-86566892AC8D3C6986D6",
+  "title": "managed_service: Tích hợp Ticket System",
+  "body": "managed_service: Tích hợp Ticket System\nCâu hỏi/mô tả gốc: Hệ thống hiện tại có hệ thống quản lý Ticket không? Có yêu cầu tích hợp không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Hệ thống hiện tại có hệ thống quản lý Ticket không? Có yêu cầu tích hợp không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Giao diện tích hợp dữ liệu và công việc; ticket ghi owner, trạng thái và lịch sử.\nCách xử lý bổ sung:\n1. Tạo service account quyền tối thiểu, lưu token trong secret store.\n2. Map trường và validate schema; đặt timeout, retry có giới hạn và idempotency key.\n3. Test tạo/cập nhật/lỗi/trùng ticket trên môi trường thử.\n4. Ghi audit đã che bí mật, giám sát lỗi và giới hạn tốc độ.\nTiêu chí: Không trùng ticket khi retry; không lộ token; lỗi được theo dõi.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "managed_service: Tích hợp Ticket System",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Managed Service - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yêu cầu",
+    "source_row": 22,
+    "source_cell": "row:22",
+    "service": "managed_service",
+    "requirement_id": "6560810378715a72c90c"
+  },
+  "service": "managed_service",
+  "content_kind": "survey"
+}

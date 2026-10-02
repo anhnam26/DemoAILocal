@@ -1,0 +1,36 @@
+{
+  "id": "ND-DE994E41E1B531B7E6AE",
+  "title": "AP — Cấu hình Fast Roaming/802.11r",
+  "body": "AP — Cấu hình Fast Roaming/802.11r\nHạng mục gốc: Cấu hình Fast Roaming/802.11r; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Giảm thời gian xác thực lại khi client chuyển giữa AP, phụ thuộc hỗ trợ client.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nThiết bị client, SSID/security đồng nhất, mobility domain và vùng phủ.\nQuy trình bổ sung:\n1. Khảo sát vùng giao phủ và baseline ngắt phiên.\n2. Bật 802.11r/cơ chế roaming được hỗ trợ trên SSID thử; giữ tham số nhất quán giữa AP.\n3. Đi bộ kiểm thử thoại/video, đo mất gói và thời gian chuyển AP.\n4. Kiểm tra client cũ; tách profile nếu không tương thích.\nNghiệm thu: Ứng dụng liên tục trong mức đã duyệt; client cũ không bị mất kết nối ngoài kế hoạch.\nRollback: Tắt fast roaming ở SSID thử và phục hồi profile cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "AP — Cấu hình Fast Roaming/802.11r",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "AP",
+    "source_row": 21,
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "item_id": "IT-AP-021",
+    "device_family": "AP"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

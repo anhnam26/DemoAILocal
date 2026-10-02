@@ -1,0 +1,35 @@
+{
+  "id": "ND-E589A7662CCC34C24E85",
+  "title": "iSCSI",
+  "body": "iSCSI\nĐịnh nghĩa: Truy cập lưu trữ khối qua IP; initiator kết nối target và LUN được cấp.\nĐầu vào: Storage VLAN/IP, IQN, LUN, CHAP nếu dùng, multipath.\nCách thực hiện:\n1. Tách luồng storage và kiểm tra MTU end-to-end.\n2. Tạo target/LUN mapping và allowlist initiator, cấu hình CHAP trong kho bí mật.\n3. Kết nối initiator, rescan và bật multipath phù hợp.\n4. Test đọc/ghi trên LUN thử và mất một đường; không format nhầm LUN.\nKiểm tra: Host đúng thấy đúng LUN; I/O ổn định; host khác bị chặn.\nRollback: Disconnect LUN mới sau khi dừng I/O, phục hồi mapping/target cũ.\nXuất hiện: NAS!C24; SAN!C17",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "iSCSI",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_cell": "C24",
+    "service": "it_configuration",
+    "term": "iSCSI",
+    "recipe_id": "iscsi"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

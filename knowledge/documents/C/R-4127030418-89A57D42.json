@@ -1,0 +1,26 @@
+{
+  "id": "R-4127030418-89A57D42",
+  "title": "RMA Service.docx",
+  "body": "RMA Services\n\nBảo hành phần cứng thiết bị nhanh chóng, chuyên nghiệp và giảm thiểu tối đa thời gian gián đoạn\n\nKhi thiết bị gặp sự cố phần cứng, điều doanh nghiệp cần không chỉ là một thiết bị thay thế mà còn là một quy trình xử lý nhanh, đúng kỹ thuật và hạn chế tối đa ảnh hưởng đến hoạt động kinh doanh.\n\nCyberAnt cung cấp hai gói dịch vụ RMA nhằm đáp ứng các nhu cầu vận hành khác nhau của doanh nghiệp.\n\nStandard RMA & Remote Support – Giải pháp tối ưu chi phí.\n\nExpress RMA & Onsite Support – Giải pháp ưu tiên cho các hệ thống quan trọng yêu cầu thời gian khôi phục nhanh nhất.\n\nCyberAnt sẽ hỗ trợ khách hàng những gì?\n\nHỗ trợ kỹ thuật\n\nTiếp nhận yêu cầu bảo hành.\n\nPhân tích và chẩn đoán lỗi phần cứng.\n\nHướng dẫn kiểm tra sự cố.\n\nTheo dõi trạng thái xử lý.\n\nLàm việc với Hãng\n\nCyberAnt sẽ hỗ trợ khách hàng\n\nMở yêu cầu RMA.\n\nTheo dõi tiến độ.\n\nTrao đổi với hãng.\n\nHỗ trợ sau khi nhận thiết bị\n\nKhôi phục cấu hình.\n\nHỗ trợ lắp đặt\n\nKiểm tra hệ thống.\n\nChuyển đổi License sang thiết bị mới.\n\nSo sánh hai gói dịch vụ\n\n| Nội dung | Standard RMA | Express RMA |\n| --- | --- | --- |\n| Tiếp nhận sự cố | Email, Hotline… | Email, Hotline… |\n| Hỗ trợ chuẩn đoán | 8x5 | 24x7 |\n| Phối hợp RMA với hãng | Có | Có |\n| Theo dõi tiến độ RMA | Có | Có |\n| Hỗ trợ chuyển License | Có | Có |\n| Hỗ trợ khôi phục cấu hình | Từ xa(Remote) | Tại chỗ(Onsite) |\n| Hỗ trợ thay thế thiết bị | Khách hàng tự thay dưới hướng dẫn của CyberAnt | Kỹ sư CyberAnt thực hiện tận nơi |\n| Kiểm thử sau thay thế | Từ xa(Remote) | Tại chỗ(Onsite) |\n| Thời gian thay thế TP.HCM | Next Business Day | ≤ 4 giờ làm việc* |\n| Thời gian thay thế các tỉnh | 24–48 giờ* | 24–48 giờ* |\n| Phù hợp | Văn phòng, SME | Nhà máy, Datacenter, hệ thống 24/7 |\n\nCam kết SLA",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 1; Khối 2; Khối 3; Khối 4; Khối 5; Khối 6; Khối 7; Khối 8; Khối 9; Khối 10; Khối 11; Khối 12; Khối 13; Khối 14; Khối 15; Khối 16; Khối 17; Khối 18; Khối 19; Khối 20; Khối 21; Khối 22; Khối 24; Khối 25; Khối 27",
+    "sha256": "4127030418b2a7a0044810870fd81af8d7c848a981aa5ce91a05801be43a8d2f"
+  },
+  "service": "RMA Service.docx",
+  "content_kind": "reference"
+}

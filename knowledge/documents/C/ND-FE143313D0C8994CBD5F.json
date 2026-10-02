@@ -1,0 +1,35 @@
+{
+  "id": "ND-FE143313D0C8994CBD5F",
+  "title": "fortigate_configuration: Có yêu cầu cấu hình SSL VPN Client to Site không?",
+  "body": "fortigate_configuration: Có yêu cầu cấu hình SSL VPN Client to Site không?\nCâu hỏi/mô tả gốc: Mode: Tunnel (Full VPN) / Web mode hay cả 2?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Mode: Tunnel (Full VPN) / Web mode hay cả 2?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: IPsec bảo vệ lưu lượng giữa các đầu VPN; IKE thương lượng khóa và thông số tunnel.\nVPN từ máy người dùng vào mạng nội bộ, kiểm soát danh tính và phạm vi truy cập.\nSSL VPN là cơ chế truy cập từ xa qua TLS; hỗ trợ phụ thuộc model và phiên bản, không mặc định còn khả dụng.\nNền tảng quản lý tập trung thiết bị, cấu hình và thay đổi theo nhóm/site.\nCách xử lý bổ sung:\n1. Thống nhất tham số hai đầu và bảo quản PSK/chứng chỉ ngoài dataset.\n2. Tạo phase 1 với peer/interface/IKE phù hợp; tạo phase 2/selectors theo subnet cần trao đổi.\n3. Tạo route và firewall policy hai chiều; chỉ NAT nếu thiết kế yêu cầu.\n4. Kiểm tra SA, counter mã hóa/giải mã và ứng dụng hai chiều; thử khôi phục tunnel khi ngắt có kiểm soát.\n5. Kiểm tra ma trận tương thích trước khi chọn IPsec/SSL.\n6. Tạo remote-access IPsec/dial-up và nhóm xác thực; định nghĩa IP pool, split/full tunnel và DNS.\n7. Tạo policy từ pool/user group vào đúng tài nguyên; triển khai profile FortiClient thử nghiệm.\n8. Thử từ Internet bằng user hợp lệ, sai quyền và MFA; kiểm tra DNS, route và log.\n9. Kiểm tra release notes trước tiên: FortiOS 7.6.3 đã bỏ SSL VPN tunnel mode; chọn IPsec thay thế cho trường hợp này.\n10. Nếu model/phiên bản còn hỗ trợ chế độ được yêu cầu, cấu hình certificate, cổng nghe, portal, pool và nhóm xác thực.\n11. Giới hạn policy tới tài nguyên được duyệt; triển khai profile client thử.\n12. Kiểm thử chứng chỉ, MFA, route/DNS và luồng bị cấm; lập kế hoạch chuyển đổi nếu nâng phiên bản.\n13. Kiểm tra routing/certificate và phiên bản được quản lý.\n14. Thêm thiết bị bằng serial/IP và xác nhận tin cậy tại hai đầu.\n15. Import cấu hình hiện hành, gán group/site/ADOM đúng; đối chiếu diff trước mọi push.\n16. Thử backup và thao tác đọc; chưa triển khai template rộng khi chưa test pilot.\nTiêu chí: SA up; counter tăng hai chiều; chỉ mạng được duyệt thông; tunnel phục hồi.\nUser đúng nhóm vào đúng tài nguyên; user sai bị từ chối; MFA và timeout đúng yêu cầu.\nTính năng thực sự được hỗ trợ trên thiết bị đích; không mất truy cập từ xa sau nâng cấp.\nĐủ thiết bị đúng group; trạng thái synchronized; không ghi đè cấu hình ngoài ý muốn.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Có yêu cầu cấu hình SSL VPN Client to Site không?",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 29,
+    "source_cell": "row:29",
+    "service": "fortigate_configuration",
+    "requirement_id": "4182b22848663a421164"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

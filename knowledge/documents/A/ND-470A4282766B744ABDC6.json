@@ -1,0 +1,35 @@
+{
+  "id": "ND-470A4282766B744ABDC6",
+  "title": "Backup",
+  "body": "Backup\nĐịnh nghĩa: Backup lưu bản phục hồi; bàn giao gồm cấu hình, sơ đồ, hướng dẫn và biên bản nghiệm thu.\nĐầu vào: Danh mục tài sản, cấu hình cuối, kết quả test, nơi lưu có phân quyền, người nhận.\nCách thực hiện:\n1. Export backup cấu hình và ghi model/version/thời điểm/checksum.\n2. Mã hóa và lưu kho nội bộ; kiểm tra phục hồi trong lab hoặc kiểm tra tính toàn vẹn.\n3. Hoàn thiện as-built, IP plan, checklist kết quả, hướng dẫn vận hành/rollback và các tồn đọng.\n4. Hướng dẫn người nhận; ký BBNT đúng phạm vi và bàn giao bí mật qua kênh riêng.\nKiểm tra: Backup đọc được; hồ sơ đầy đủ; người nhận xác nhận; vấn đề chưa đạt có người chịu trách nhiệm.\nRollback: Nếu hồ sơ/test chưa đủ thì chưa xác nhận hoàn tất; bổ sung tài liệu và kiểm thử.\nXuất hiện: 2. Checklist khảo sát!C22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Backup",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_cell": "C22",
+    "service": "consulting",
+    "term": "Backup",
+    "recipe_id": "handover"
+  },
+  "service": "consulting",
+  "content_kind": "concept"
+}

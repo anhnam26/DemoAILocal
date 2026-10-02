@@ -1,0 +1,35 @@
+{
+  "id": "ND-0907438D984193C57034",
+  "title": "FortiAnalyzer",
+  "body": "FortiAnalyzer\nĐịnh nghĩa: Nền tảng Fortinet thu thập, lưu và phân tích log; khác với FortiManager quản lý cấu hình.\nĐầu vào: IP máy thu, transport/port, chứng chỉ nếu TLS, loại log, dung lượng đĩa.\nCách thực hiện:\n1. Kiểm tra dung lượng và kết nối tới collector.\n2. Bật local log nếu model có khả năng lưu; chọn mức log và thời gian lưu phù hợp.\n3. Cấu hình syslog/trap receiver và interface nguồn; ưu tiên kênh bảo vệ khi hỗ trợ.\n4. Phát sinh sự kiện test, kiểm tra timestamp, hostname, parser và việc nhận đủ bản ghi.\nKiểm tra: Sự kiện test xuất hiện trên máy thu; không lệch giờ; hàng đợi/đĩa không tràn.\nRollback: Khôi phục mức log và collector cũ; bảo toàn log đã thu.\nXuất hiện: 2. Checklist Yeu cau!B15",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "FortiAnalyzer",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vũ hỗ trợ kỹ thuật - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_cell": "B15",
+    "service": "remote_support",
+    "term": "FortiAnalyzer",
+    "recipe_id": "extra_FortiAnalyzer"
+  },
+  "service": "remote_support",
+  "content_kind": "concept"
+}

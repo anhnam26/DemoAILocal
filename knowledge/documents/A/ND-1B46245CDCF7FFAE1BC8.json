@@ -1,0 +1,35 @@
+{
+  "id": "ND-1B46245CDCF7FFAE1BC8",
+  "title": "Access Port",
+  "body": "Access Port\nĐịnh nghĩa: Cổng access đưa lưu lượng đầu cuối không gắn thẻ vào một VLAN.\nĐầu vào: Port map, access VLAN, voice VLAN nếu có, loại endpoint.\nCách thực hiện:\n1. Đối chiếu cổng với nhãn thiết bị.\n2. Đặt access/untagged VLAN và PVID phù hợp; đặt description.\n3. Cấu hình voice VLAN/edge protection nếu thiết kế hỗ trợ.\n4. Kết nối máy thử, kiểm tra MAC table, DHCP và truy cập đúng subnet.\nKiểm tra: MAC học trên đúng port/VLAN; client không truy cập VLAN khác trái phép.\nRollback: Trả VLAN/PVID/description về cấu hình trước.\nXuất hiện: FortiSwitch!C17; Switch!C18",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Access Port",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "C17",
+    "service": "it_configuration",
+    "term": "Access Port",
+    "recipe_id": "access"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

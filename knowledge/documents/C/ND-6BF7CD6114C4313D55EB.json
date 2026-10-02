@@ -1,0 +1,35 @@
+{
+  "id": "ND-6BF7CD6114C4313D55EB",
+  "title": "fortigate_configuration: Có yêu cầu tài liệu hướng dẫn cài đặt, cấu hình & sử dụng FortiClient VPN cho user không?",
+  "body": "fortigate_configuration: Có yêu cầu tài liệu hướng dẫn cài đặt, cấu hình & sử dụng FortiClient VPN cho user không?\nCâu hỏi/mô tả gốc: Số user cần hướng dẫn? Cần file PDF guide không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Số user cần hướng dẫn? Cần file PDF guide không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Tài khoản và vai trò giới hạn quyền quản trị; trusted host giới hạn nguồn được đăng nhập.\nVPN từ máy người dùng vào mạng nội bộ, kiểm soát danh tính và phạm vi truy cập.\nCách xử lý bổ sung:\n1. Giữ một phiên quản trị hoạt động và có console dự phòng.\n2. Tạo tài khoản riêng cho từng người, gán role tối thiểu và giới hạn IP nguồn quản trị.\n3. Bật MFA nếu nền tảng hỗ trợ; lưu bí mật ở kho bí mật, không trong dataset.\n4. Đăng nhập bằng tài khoản mới; thử thao tác được phép và thao tác bị cấm; chỉ vô hiệu tài khoản cũ sau xác nhận.\n5. Kiểm tra ma trận tương thích trước khi chọn IPsec/SSL.\n6. Tạo remote-access IPsec/dial-up và nhóm xác thực; định nghĩa IP pool, split/full tunnel và DNS.\n7. Tạo policy từ pool/user group vào đúng tài nguyên; triển khai profile FortiClient thử nghiệm.\n8. Thử từ Internet bằng user hợp lệ, sai quyền và MFA; kiểm tra DNS, route và log.\nTiêu chí: Đúng người/đúng phạm vi; truy cập ngoài subnet bị từ chối; có audit log.\nUser đúng nhóm vào đúng tài nguyên; user sai bị từ chối; MFA và timeout đúng yêu cầu.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Có yêu cầu tài liệu hướng dẫn cài đặt, cấu hình & sử dụng FortiClient VPN cho user không?",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 34,
+    "source_cell": "row:34",
+    "service": "fortigate_configuration",
+    "requirement_id": "3734ba66982b67d60c90"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

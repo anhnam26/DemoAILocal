@@ -1,0 +1,35 @@
+{
+  "id": "ND-2C71FEA4459F0B39978C",
+  "title": "Server Role",
+  "body": "Server Role\nĐịnh nghĩa: Các dịch vụ máy chủ như directory, phân giải tên và cấp IP.\nĐầu vào: Domain design, địa chỉ tĩnh, zone/scope, license, backup.\nCách thực hiện:\n1. Chốt thiết kế role và quyền quản trị trước cài.\n2. Cài role cần thiết; với AD DS chọn forest/domain và replication đúng, với DNS tạo zone/forwarder, với DHCP tạo/authorize scope.\n3. Kiểm tra DNS/time/replication, lease và quyền client.\n4. Sao lưu system state/config role và tài liệu phụ thuộc.\nKiểm tra: Client join/auth, DNS và DHCP đạt test; không tạo domain/scope ngoài thiết kế.\nRollback: Khôi phục role/config theo hướng dẫn nền tảng; không xóa DC/zone đang phục vụ tùy tiện.\nXuất hiện: Server!B24",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Server Role",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_cell": "B24",
+    "service": "it_configuration",
+    "term": "Server Role",
+    "recipe_id": "serverroles"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

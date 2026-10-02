@@ -1,0 +1,26 @@
+{
+  "id": "R-FAA6D232F8-11B1B0BE",
+  "title": "dịch vụ cấu hình.docx",
+  "body": "Dịch vụ Cấu hình theo yêu cầu\n\nCyberAnt cung cấp dịch vụ cấu hình mới, thay đổi và tối ưu hệ thống CNTT trên nền tảng hạ tầng hiện có của khách hàng. Dịch vụ được thực hiện bởi đội ngũ kỹ sư giàu kinh nghiệm, giúp doanh nghiệp triển khai các thay đổi nhanh chóng, an toàn và hạn chế tối đa ảnh hưởng đến hoạt động của hệ thống.\n\nĐội ngũ Kỹ sư Chuyên gia\n\nDịch vụ được thực hiện bởi đội ngũ kỹ sư có nhiều kinh nghiệm triển khai và vận hành các hệ thống CNTT.\n\nSở hữu các chứng chỉ chuyên môn quốc tế từ các hãng công nghệ và an toàn thông tin hàng đầu.\n\nThực hiện theo Best Practices và quy trình quản lý thay đổi nhằm đảm bảo tính ổn định và an toàn cho hệ thống.\n\nPhạm vi Dịch vụ\n\nKhảo sát hiện trạng và thu thập yêu cầu cấu hình.\n\nPhân tích, tư vấn và đề xuất phương án thực hiện phù hợp với hệ thống hiện có.\n\nThực hiện cấu hình trực tiếp tại địa điểm khách hàng hoặc từ xa thông qua các công cụ hỗ trợ.\n\nKiểm tra, xác nhận kết quả sau khi cấu hình.\n\nBàn giao tài liệu cấu hình hoặc nhật ký thay đổi theo phạm vi công việc.\n\nHỗ trợ nghiệm thu sau khi hoàn thành.\n\nCác Gói Dịch vụ\n\nGói cơ bản:\n\nPhù hợp với các yêu cầu cấu hình, thay đổi hoặc tối ưu ở mức cơ bản trên hệ thống hiện hữu.\n\nBao gồm:\n\nThực hiện cấu hình ban đầu cho thiết bị hoặc hệ thống, bao gồm:\n\n+ Thiết lập thông tin quản trị và các thông số cơ bản của hệ thống.\n\n+ Cấu hình địa chỉ IP, Interface kết nối và các dịch vụ hạ tầng cơ bản.\n\n+ Thiết lập tài khoản quản trị, phân quyền truy cập và xác thực cơ bản.\n\n+ Cấu hình các tham số vận hành và quản trị theo khuyến nghị của nhà sản xuất.\n\n+ Cấu hình các chính sách, quy tắc hoặc dịch vụ cơ bản để đáp ứng nhu cầu sử dụng ban đầu.\n\n+ Kết nối và tích hợp cơ bản với hạ tầng hiện có (nếu thuộc phạm vi triển khai).\n\n+ Kiểm tra và xác nhận hoạt động của hệ thống sau khi cấu hình.\n\n+ Bàn giao tài liệu cấu hình và hướng dẫn vận hành cơ bản.\n\nGói chuyên sâu:",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 1; Khối 2; Khối 3; Khối 4; Khối 5; Khối 6; Khối 7; Khối 8; Khối 9; Khối 10; Khối 11; Khối 12; Khối 13; Khối 14; Khối 15; Khối 16; Khối 17; Khối 18; Khối 19; Khối 20; Khối 21; Khối 22; Khối 23; Khối 24; Khối 25; Khối 26; Khối 27",
+    "sha256": "faa6d232f8d01d94201b88d42105aa0e07d29e07a4cb8b13b2b806e20a38fdb7"
+  },
+  "service": "dịch vụ cấu hình.docx",
+  "content_kind": "reference"
+}

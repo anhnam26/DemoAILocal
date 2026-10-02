@@ -1,0 +1,35 @@
+{
+  "id": "ND-95D586D369D4C6A0FD59",
+  "title": "Deduplication",
+  "body": "Deduplication\nĐịnh nghĩa: Giảm dung lượng vật lý bằng loại bỏ khối trùng và nén; mức tiết kiệm phụ thuộc dữ liệu.\nĐầu vào: Platform hỗ trợ, loại workload, CPU/RAM và baseline latency.\nCách thực hiện:\n1. Đánh giá dữ liệu có phù hợp và tác động tới snapshot/encryption.\n2. Bật tính năng trên pool/volume thử theo khả năng hãng.\n3. Chạy workload đại diện, đo tỷ lệ tiết kiệm và latency.\n4. Theo dõi capacity/rebuild và mở rộng khi đạt tiêu chí.\nKiểm tra: Tiết kiệm được đo thực; latency trong ngưỡng; không suy diễn tỷ lệ cố định.\nRollback: Tắt tính năng theo hướng dẫn và tính đủ dung lượng tái hydrat hóa trước.\nXuất hiện: SAN!C26",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Deduplication",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "term": "Deduplication",
+    "recipe_id": "dedup"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

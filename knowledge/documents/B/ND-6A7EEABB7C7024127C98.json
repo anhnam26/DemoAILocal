@@ -1,0 +1,36 @@
+{
+  "id": "ND-6A7EEABB7C7024127C98",
+  "title": "NAS — Tạo Volume/Shared Folder",
+  "body": "NAS — Tạo Volume/Shared Folder\nHạng mục gốc: Tạo Volume/Shared Folder; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: NAS chia sẻ file; volume chứa filesystem, shared folder công bố đường dẫn có quyền.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPool còn trống, filesystem, dung lượng, thư mục và ACL.\nQuy trình bổ sung:\n1. Kiểm tra pool healthy và backup dữ liệu.\n2. Tạo volume theo dung lượng/thin-thick đã duyệt.\n3. Tạo shared folder, gán owner/group/ACL tối thiểu.\n4. Test đọc/ghi/xóa bằng user được phép và user bị cấm; đặt quota/snapshot khi yêu cầu.\nNghiệm thu: Đúng dung lượng và quyền; không public nhầm dữ liệu.\nRollback: Gỡ quyền/chia sẻ mới; không xóa volume có dữ liệu khi rollback.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "NAS — Tạo Volume/Shared Folder",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_row": 16,
+    "source_cell": "C16",
+    "service": "it_configuration",
+    "item_id": "IT-NAS-016",
+    "device_family": "NAS"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

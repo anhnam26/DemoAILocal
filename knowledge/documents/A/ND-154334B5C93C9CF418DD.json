@@ -1,0 +1,35 @@
+{
+  "id": "ND-154334B5C93C9CF418DD",
+  "title": "Port",
+  "body": "Port\nĐịnh nghĩa: Cổng access đưa lưu lượng đầu cuối không gắn thẻ vào một VLAN.\nĐầu vào: Port map, access VLAN, voice VLAN nếu có, loại endpoint.\nCách thực hiện:\n1. Đối chiếu cổng với nhãn thiết bị.\n2. Đặt access/untagged VLAN và PVID phù hợp; đặt description.\n3. Cấu hình voice VLAN/edge protection nếu thiết kế hỗ trợ.\n4. Kết nối máy thử, kiểm tra MAC table, DHCP và truy cập đúng subnet.\nKiểm tra: MAC học trên đúng port/VLAN; client không truy cập VLAN khác trái phép.\nRollback: Trả VLAN/PVID/description về cấu hình trước.\nXuất hiện: FortiSwitch!B16; FortiSwitch!B17; FortiSwitch!C17; FortiSwitch!B18; FortiSwitch!C18; FortiSwitch!C20; FortiSwitch!C28; FortiSwitch!C30; Switch!B17; Switch!B18; Switch!C18; Switch!B19; Switch!C19; Switch!B20; Switch!C20; Switch!C22; Switch!C23; Switch!C26; Switch!C36",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Port",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "B16",
+    "service": "it_configuration",
+    "term": "Port",
+    "recipe_id": "access"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

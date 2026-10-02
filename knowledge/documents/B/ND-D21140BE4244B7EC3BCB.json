@@ -1,0 +1,36 @@
+{
+  "id": "ND-D21140BE4244B7EC3BCB",
+  "title": "FortiGate — Cấu hình Explicit Proxy/Web Proxy nâng cao",
+  "body": "FortiGate — Cấu hình Explicit Proxy/Web Proxy nâng cao\nHạng mục gốc: Cấu hình Explicit Proxy/Web Proxy nâng cao; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Proxy nhận yêu cầu web theo cấu hình client/PAC, áp xác thực và policy.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nIP/port proxy, PAC, user groups, upstream, SSL policy.\nQuy trình bổ sung:\n1. Bật proxy trên interface nội bộ và giới hạn nguồn.\n2. Tạo explicit proxy policy và xác thực/profile cần thiết.\n3. Cấu hình PAC hoặc proxy trên nhóm client thử.\n4. Test HTTP/HTTPS, auth, domain ngoại lệ và log; xác minh không thành open proxy.\nNghiệm thu: Chỉ client được duyệt dùng được; web nghiệp vụ hoạt động; có audit.\nRollback: Trả PAC/client về proxy cũ và disable listener/policy mới.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Cấu hình Explicit Proxy/Web Proxy nâng cao",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 47,
+    "source_cell": "C47",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-047",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

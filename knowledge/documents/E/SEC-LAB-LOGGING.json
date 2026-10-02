@@ -1,0 +1,30 @@
+{
+  "id": "SEC-LAB-LOGGING",
+  "title": "Log bảo mật: thu thập và bảo vệ dữ liệu — bài tập & checklist kỹ thuật",
+  "body": "## 1. Tình huống DEMO\nBài tập do nhóm biên soạn demo xây dựng cho công ty dưới 20 người; dùng tài khoản, tài sản và dữ liệu lab. Không phải quy trình hãng hoặc sự cố thật.\n\n## 2. Checklist đề xuất\n1. Thiết kế schema cho đăng nhập và đổi quyền trong app demo.\n2. Gửi sự kiện test rồi đối chiếu trên nguồn và nơi nhận.\n3. Kiểm log không chứa token/mật khẩu.\n4. Thử mất kết nối nơi nhận và ghi cách phục hồi thu thập.\n\n## 3. Hồ sơ đầu ra\nSchema; mẫu log đã che; kiểm quyền đọc; báo cáo thất thoát.\n\n## 4. Điều kiện áp dụng\nKhông tự đặt retention pháp lý hoặc ghi toàn bộ payload khách hàng.\n\n## Nguồn và biên soạn\nTham khảo nền tảng: OWASP Logging Cheat Sheet. Bản diễn giải tiếng Việt và bài tập do demo biên soạn; không phải bản dịch tiêu chuẩn. Kiểm nguồn ngày 2026-09-05. Các câu hỏi, bước lab và đầu ra là đề xuất cho demo, không phải yêu cầu nguyên văn của nguồn.",
+  "group": "E",
+  "category": "An toàn thông tin",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "references": [
+    {
+      "title": "OWASP Logging Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html",
+      "checked_at": "2026-09-05"
+    }
+  ],
+  "provenance": {
+    "source": "security_documents"
+  },
+  "content_kind": "reference"
+}

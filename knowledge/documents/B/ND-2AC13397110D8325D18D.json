@@ -1,0 +1,36 @@
+{
+  "id": "ND-2AC13397110D8325D18D",
+  "title": "FortiAP — Cấu hình Application Control trên Wireless (tích hợp UTM FortiGate)",
+  "body": "FortiAP — Cấu hình Application Control trên Wireless (tích hợp UTM FortiGate)\nHạng mục gốc: Cấu hình Application Control trên Wireless (tích hợp UTM FortiGate); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Nhận dạng ứng dụng để cho phép, giám sát hoặc chặn, không chỉ theo port.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nDanh sách app/category, nhóm user, ngoại lệ, mức inspection.\nQuy trình bổ sung:\n1. Cập nhật cơ sở nhận dạng, tạo profile theo ứng dụng mục tiêu.\n2. Đặt action và ngoại lệ; gắn vào policy liên quan.\n3. Thử ứng dụng bằng client đại diện, kiểm tra log app và kết nối qua HTTPS.\n4. Đánh giá false positive/hiệu năng và điều chỉnh có ghi nhận.\nNghiệm thu: Ứng dụng mục tiêu bị xử lý đúng; không chặn nhầm nghiệp vụ.\nRollback: Phục hồi profile/action trước thay đổi.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiAP — Cấu hình Application Control trên Wireless (tích hợp UTM FortiGate)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAP",
+    "source_row": 25,
+    "source_cell": "C25",
+    "service": "it_configuration",
+    "item_id": "IT-FortiAP-025",
+    "device_family": "FortiAP"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-438DBC810F359254C57F",
+  "title": "FortiSwitch",
+  "body": "FortiSwitch\nĐịnh nghĩa: Switch Ethernet của Fortinet, có thể quản lý độc lập hoặc qua FortiLink tùy model/version.\nĐầu vào: Cổng uplink, switch model/version, VLAN và topology FortiLink.\nCách thực hiện:\n1. Kiểm tra bảng tương thích và sơ đồ vòng lặp.\n2. Cấu hình FortiLink trên cổng được thiết kế; đấu nối switch.\n3. Xác nhận serial và authorize đúng switch; đợi online.\n4. Tạo VLAN/port profile từ FortiGate, thử client và backup topology.\nKiểm tra: Switch online/managed; đúng serial; VLAN và port profile hoạt động.\nRollback: Ngắt uplink mới nếu loop; khôi phục cấu hình FortiLink/port trước thay đổi.\nXuất hiện: FortiSwitch!A1; FortiSwitch!C15; FortiSwitch!C23; FortiSwitch!C25; FortiManager!C15; FortiNAC!C17; FortiNAC!C23; FortiAnalyzer!C15",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "FortiSwitch",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "A1",
+    "service": "it_configuration",
+    "term": "FortiSwitch",
+    "recipe_id": "extra_FortiSwitch"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

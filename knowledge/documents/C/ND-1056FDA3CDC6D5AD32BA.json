@@ -1,0 +1,35 @@
+{
+  "id": "ND-1056FDA3CDC6D5AD32BA",
+  "title": "remote_support: Dedicated Engineer",
+  "body": "remote_support: Dedicated Engineer\nCâu hỏi/mô tả gốc: Có cần kỹ sư phụ trách riêng không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Có cần kỹ sư phụ trách riêng không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Remote hỗ trợ từ xa, onsite tại chỗ; Managed Service quản trị theo phạm vi liên tục; giờ hỗ trợ khác thời gian khắc phục.\nCách xử lý bổ sung:\n1. Tạo ticket và phân loại ảnh hưởng/ưu tiên theo hợp đồng.\n2. Xác nhận quyền truy cập; dùng phiên remote định danh có thời hạn và ghi thao tác.\n3. Chẩn đoán từ log/baseline, đề xuất thay đổi kèm backup/rollback, thực hiện khi được duyệt.\n4. Test với khách hàng, escalation khi vượt khả năng/ngưỡng, cập nhật báo cáo và đóng khi xác nhận.\nTiêu chí: Ticket có lịch sử, thời điểm response/resolution riêng; quyền remote được thu hồi sau phiên.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "remote_support: Dedicated Engineer",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vũ hỗ trợ kỹ thuật - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_row": 36,
+    "source_cell": "row:36",
+    "service": "remote_support",
+    "requirement_id": "603228ada8ef7d694d66"
+  },
+  "service": "remote_support",
+  "content_kind": "survey"
+}

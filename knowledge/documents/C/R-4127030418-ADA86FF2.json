@@ -1,0 +1,26 @@
+{
+  "id": "R-4127030418-ADA86FF2",
+  "title": "RMA Service.docx",
+  "body": "| Nội dung | Standard | Express |\n| --- | --- | --- |\n| Tiếp nhận yêu cầu | 8x5 | 24x7 |\n| Thời gian phản hồi | ≤ 1 giờ | ≤ 1 giờ |\n| Thay thế tại TP.HCM | NBD | ≤ 4 giờ làm việc* |\n| Thay thế tỉnh khác | 24–48 giờ* | 24–48 giờ* |\n\n* Thời gian được tính kể từ khi Fortinet chấp thuận yêu cầu RMA.\n\nKhi nào nên chọn Standard?\n\n✔ Muốn tối ưu chi phí\n\n✔ Không yêu cầu kỹ sư đến tận nơi\n\n✔ Có đội IT nội bộ\n\n✔ Hệ thống có thể chấp nhận thời gian gián đoạn theo chính sách NBD\n\nKhi nào nên chọn Express?\n\n✔ Hệ thống hoạt động 24/7\n\n✔ Nhà máy\n\n✔ Data Center\n\n✔ Bệnh viện\n\n✔ Ngân hàng\n\n✔ Logistics\n\n✔ Không có đội IT tại chỗ\n\n✔ Muốn khôi phục dịch vụ nhanh nhất\n\nVì sao CyberAnt?\n\nĐội ngũ kỹ sư Network Security giàu kinh nghiệm.\n\nĐồng hành xuyên suốt quy trình RMA.\n\nHỗ trợ cấu hình và kiểm thử sau thay thế.\n\nGiảm tối đa thời gian gián đoạn hệ thống.\n\nHỗ trợ chuyển License theo đúng chính sách của hãng.\n\nCam kết SLA rõ ràng.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 28; Khối 30; Khối 31; Khối 32; Khối 33; Khối 34; Khối 35; Khối 36; Khối 37; Khối 38; Khối 39; Khối 40; Khối 41; Khối 42; Khối 43; Khối 44; Khối 46; Khối 47; Khối 48; Khối 49; Khối 50; Khối 51; Khối 52",
+    "sha256": "4127030418b2a7a0044810870fd81af8d7c848a981aa5ce91a05801be43a8d2f"
+  },
+  "service": "RMA Service.docx",
+  "content_kind": "reference"
+}

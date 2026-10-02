@@ -1,0 +1,35 @@
+{
+  "id": "ND-EC1FCB94BFAC64E89F6F",
+  "title": "fortigate_configuration: Địa chỉ IP / Subnet đang dùng:",
+  "body": "fortigate_configuration: Địa chỉ IP / Subnet đang dùng:\nCâu hỏi/mô tả gốc: VD: LAN 192.168.1.0/24, Server 10.0.1.0/24\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: VD: LAN 192.168.1.0/24, Server 10.0.1.0/24. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Interface là cổng logic/vật lý; WAN nối ngoài, LAN nội bộ, DMZ tách dịch vụ; zone nhóm interface cùng chính sách.\nERP quản trị doanh nghiệp; POS bán hàng; NVR ghi hình; ISP cung cấp Internet; bridge chuyển tiếp lớp 2, PPPoE xác thực đường truy nhập.\nCách xử lý bổ sung:\n1. Đối chiếu nhãn cáp và cổng; giữ console khi đổi IP quản lý.\n2. Tạo zone nếu thiết kế yêu cầu; gán interface, địa chỉ và role WAN/LAN/DMZ.\n3. Chỉ bật giao thức quản trị trên mạng quản trị; kiểm tra link và MTU với đầu đối diện.\n4. Kiểm tra ARP, ping gateway và route; lưu sơ đồ cổng sau thay đổi.\n5. Liệt kê từng dịch vụ và mức ảnh hưởng khi gián đoạn.\n6. Thu số lượng thiết bị/user riêng, tránh cộng lẫn người dùng và endpoint.\n7. Xác nhận ISP/IP public/PPPoE và khả năng bridge với nhà mạng trước đổi modem.\n8. Tạo test nghiệp vụ thực cho từng ERP/POS/NVR và ghi pass/fail sau thay đổi.\nTiêu chí: Không trùng IP; link up; đúng zone và subnet; truy cập quản trị đúng nguồn.\nInventory rõ đơn vị; ứng dụng có owner và test case; đường truyền được xác nhận.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Địa chỉ IP / Subnet đang dùng:",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 11,
+    "source_cell": "row:11",
+    "service": "fortigate_configuration",
+    "requirement_id": "076614f74f075f58c7fb"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

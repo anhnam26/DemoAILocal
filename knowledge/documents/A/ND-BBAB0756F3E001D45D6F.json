@@ -1,0 +1,35 @@
+{
+  "id": "ND-BBAB0756F3E001D45D6F",
+  "title": "SNMP v3",
+  "body": "SNMP v3\nĐịnh nghĩa: Thu thập chỉ số trạng thái/hiệu năng qua agent hoặc giao thức quản trị.\nĐầu vào: Host/IP, template/MIB, credential, polling interval, chỉ tiêu cần đo.\nCách thực hiện:\n1. Thêm host đúng site và interface giám sát.\n2. Ưu tiên SNMPv3 authPriv nếu hỗ trợ; nếu v2c bắt buộc thì community riêng và giới hạn nguồn.\n3. Cài agent/template đúng OS/model; chọn CPU/RAM/disk/network và khoảng lấy mẫu.\n4. So sánh dữ liệu với thiết bị, test cảnh báo và mất kết nối.\nKiểm tra: Giá trị đúng đơn vị; không có lỗ hổng thu thập; chỉ server giám sát truy cập được.\nRollback: Gỡ template/agent mới, khôi phục ACL/interval và credential cũ.\nXuất hiện: Switch!C35",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SNMP v3",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_cell": "C35",
+    "service": "it_configuration",
+    "term": "SNMP v3",
+    "recipe_id": "monitor"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

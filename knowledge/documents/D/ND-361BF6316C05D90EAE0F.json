@@ -1,0 +1,32 @@
+{
+  "id": "ND-361BF6316C05D90EAE0F",
+  "title": "SOW đề xuất remote_support: Phân tích & đề xuất",
+  "body": "SOW đề xuất remote_support: Phân tích & đề xuất\nĐầu ra đề xuất: Bằng chứng log/baseline, chẩn đoán và phương án\nCác bước:\n1. Kiểm tra dung lượng và kết nối tới collector.\n2. Bật local log nếu model có khả năng lưu; chọn mức log và thời gian lưu phù hợp.\n3. Cấu hình syslog/trap receiver và interface nguồn; ưu tiên kênh bảo vệ khi hỗ trợ.\n4. Phát sinh sự kiện test, kiểm tra timestamp, hostname, parser và việc nhận đủ bản ghi.\n5. Tạo ticket và phân loại ảnh hưởng/ưu tiên theo hợp đồng.\n6. Xác nhận quyền truy cập; dùng phiên remote định danh có thời hạn và ghi thao tác.\n7. Chẩn đoán từ log/baseline, đề xuất thay đổi kèm backup/rollback, thực hiện khi được duyệt.\n8. Test với khách hàng, escalation khi vượt khả năng/ngưỡng, cập nhật báo cáo và đóng khi xác nhận.\nNghiệm thu: Sự kiện test xuất hiện trên máy thu; không lệch giờ; hàng đợi/đĩa không tràn.\nTicket có lịch sử, thời điểm response/resolution riêng; quyền remote được thu hồi sau phiên.\nRollback: Khôi phục mức log và collector cũ; bảo toàn log đã thu.\nDừng thay đổi và khôi phục baseline; escalation theo danh sách phụ trách.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất remote_support: Phân tích & đề xuất",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "remote_support-SOW-04",
+    "service": "remote_support"
+  },
+  "service": "remote_support",
+  "content_kind": "reference"
+}

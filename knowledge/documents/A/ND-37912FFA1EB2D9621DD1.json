@@ -1,0 +1,35 @@
+{
+  "id": "ND-37912FFA1EB2D9621DD1",
+  "title": "Template",
+  "body": "Template\nĐịnh nghĩa: Bộ policy/template dùng triển khai cấu hình có kiểm soát tới nhiều thiết bị.\nĐầu vào: Device scope, biến từng site, baseline revision, diff và lịch.\nCách thực hiện:\n1. Chọn đúng ADOM/site và tạo bản sao policy/template.\n2. Điền biến theo từng thiết bị, validate object/interface mapping.\n3. Xem install preview/diff và phê duyệt trước; triển khai một thiết bị pilot.\n4. Chạy test, sau đó chia batch triển khai và theo dõi kết quả từng thiết bị.\nKiểm tra: Chỉ thiết bị mục tiêu thay đổi; diff đúng; các test từng site đạt.\nRollback: Dừng batch khi lỗi, cài lại revision đã kiểm chứng cho thiết bị bị ảnh hưởng.\nXuất hiện: Manager!C21",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Template",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Manager",
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "term": "Template",
+    "recipe_id": "push"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

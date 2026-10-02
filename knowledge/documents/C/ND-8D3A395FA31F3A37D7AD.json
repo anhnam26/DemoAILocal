@@ -1,0 +1,35 @@
+{
+  "id": "ND-8D3A395FA31F3A37D7AD",
+  "title": "consulting: Disaster Recovery",
+  "body": "consulting: Disaster Recovery\nCâu hỏi/mô tả gốc: Giải pháp có yêu cầu Backup, Disaster Recovery hoặc Business Continuity không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Giải pháp có yêu cầu Backup, Disaster Recovery hoặc Business Continuity không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Backup lưu bản phục hồi; bàn giao gồm cấu hình, sơ đồ, hướng dẫn và biên bản nghiệm thu.\nKhôi phục dịch vụ ở địa điểm khác theo RPO/RTO, gồm người, dữ liệu, mạng và kiểm thử.\nCách xử lý bổ sung:\n1. Export backup cấu hình và ghi model/version/thời điểm/checksum.\n2. Mã hóa và lưu kho nội bộ; kiểm tra phục hồi trong lab hoặc kiểm tra tính toàn vẹn.\n3. Hoàn thiện as-built, IP plan, checklist kết quả, hướng dẫn vận hành/rollback và các tồn đọng.\n4. Hướng dẫn người nhận; ký BBNT đúng phạm vi và bàn giao bí mật qua kênh riêng.\n5. Xác định thứ tự phục hồi ứng dụng và dữ liệu.\n6. Chuẩn bị storage/compute/network dự phòng và replication.\n7. Viết runbook failover/failback, điểm quyết định và người phê duyệt.\n8. Diễn tập cách ly, đo mất dữ liệu/thời gian, xác nhận dữ liệu nhất quán trước quay lại.\nTiêu chí: Backup đọc được; hồ sơ đầy đủ; người nhận xác nhận; vấn đề chưa đạt có người chịu trách nhiệm.\nPhục hồi dịch vụ đạt mục tiêu đã đo; failback kiểm chứng; có biên bản diễn tập.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: Disaster Recovery",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 22,
+    "source_cell": "row:22",
+    "service": "consulting",
+    "requirement_id": "3d72ec7b6183fb338fa2"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

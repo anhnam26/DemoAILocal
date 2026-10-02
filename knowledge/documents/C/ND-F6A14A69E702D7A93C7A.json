@@ -1,0 +1,35 @@
+{
+  "id": "ND-F6A14A69E702D7A93C7A",
+  "title": "fortigate_configuration: DNS Filter + Botnet C&C Block",
+  "body": "fortigate_configuration: DNS Filter + Botnet C&C Block\nCâu hỏi/mô tả gốc: Chặn truy cập domain độc hại, DNS category\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Chặn truy cập domain độc hại, DNS category. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Hệ thống phân giải tên thành địa chỉ; forwarder chuyển truy vấn tới máy chủ DNS khác.\nLọc web theo URL, nhóm nội dung hoặc uy tín.\nDirectory lưu danh tính/nhóm; LDAP truy vấn directory, AD là hệ thống directory của Microsoft.\nThông tin chỉ dấu đe dọa dùng làm ngữ cảnh hoặc điều kiện lọc, có hạn sử dụng và false positive.\nCách xử lý bổ sung:\n1. Kiểm tra đường đi từ thiết bị tới DNS.\n2. Khai báo DNS chính/phụ, domain tìm kiếm và forwarder theo thiết kế.\n3. Cho phép luồng DNS cần thiết trong policy; không mở resolver ra Internet.\n4. Thử phân giải tên nội bộ, ngoài và trường hợp DNS chính không hoạt động.\n5. Kiểm tra license và phương thức quan sát HTTPS.\n6. Clone profile web filter; đặt action từng category và URL override theo yêu cầu.\n7. Gắn vào đúng policy, xác nhận DNS/SSL inspection liên quan.\n8. Thử URL được phép/chặn từ client đại diện và xem log.\n9. Kiểm tra DNS, giờ và đường tới domain controller.\n10. Khai báo LDAP/LDAPS và kiểm tra certificate; dùng tài khoản bind riêng trong kho bí mật.\n11. Map nhóm directory sang nhóm quyền/VPN; không cấp quyền toàn domain mặc định.\n12. Test user đúng/sai nhóm và kiểm tra log; nếu join domain, xác nhận computer object/OU.\n13. Kiểm tra nguồn, quyền dùng và kết nối cập nhật.\n14. Map IP/domain/hash đúng loại object; đặt TTL và giới hạn kích thước.\n15. Áp giám sát trước để đo ảnh hưởng rồi chặn theo phê duyệt.\n16. Test IOC mẫu an toàn, cập nhật/xóa IOC hết hạn và cảnh báo feed lỗi.\nTiêu chí: Truy vấn đúng bản ghi; máy chủ dự phòng trả lời; không rò tên nội bộ tới DNS công cộng ngoài thiết kế.\nĐúng nhóm người dùng bị áp dụng; URL được phép vẫn hoạt động; có log chặn.\nXác thực và phân quyền đúng nhóm; lỗi directory không mở quyền ngoài thiết kế.\nFeed cập nhật đúng; IOC hết hạn được xử lý; không chặn nhầm không kiểm soát.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: DNS Filter + Botnet C&C Block",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 47,
+    "source_cell": "row:47",
+    "service": "fortigate_configuration",
+    "requirement_id": "f0a8fbe0840be949869e"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

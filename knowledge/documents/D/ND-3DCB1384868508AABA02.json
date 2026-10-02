@@ -1,0 +1,34 @@
+{
+  "id": "ND-3DCB1384868508AABA02",
+  "title": "Đăng ký và kích hoạt License FortiCare/FortiGuard",
+  "body": "Đăng ký và kích hoạt License FortiCare/FortiGuard\nƯớc tính trong nguồn: 0.5 giờ × 1 kỹ sư = 0.5 man-hour. Không phải downtime hoặc giá.\nĐăng ký license trên support site & kích hoạt\nCách làm bổ sung:\n1. Đối chiếu serial trên thiết bị, nhãn và hồ sơ mua.\n2. Kiểm tra quyền đăng ký/chuyển chủ với khách hàng.\n3. Đăng ký/kích hoạt qua cổng hãng theo entitlement, đồng bộ trên thiết bị.\n4. Lưu trạng thái và ngày hết hạn, không lưu mã bí mật; test dịch vụ subscription.\nNghiệm thu: Serial đúng chủ; entitlement/tính năng hiện đúng; có cảnh báo gia hạn.\nRollback: Nếu sai chủ/serial, dừng và mở yêu cầu hãng; không tự chuyển tài sản.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "migration_sow",
+  "provenance": {
+    "category": "migration_sow",
+    "document_type": "migration_sow",
+    "title": "Đăng ký và kích hoạt License FortiCare/FortiGuard",
+    "provenance": "source_estimate_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_row": 12,
+    "source_cell": "row:12",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

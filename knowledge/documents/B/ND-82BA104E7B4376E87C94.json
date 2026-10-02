@@ -1,0 +1,36 @@
+{
+  "id": "ND-82BA104E7B4376E87C94",
+  "title": "SAN — Tạo LUN cơ bản",
+  "body": "SAN — Tạo LUN cơ bản\nHạng mục gốc: Tạo LUN cơ bản; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: LUN là đơn vị lưu trữ khối; masking chỉ cho host được chỉ định nhìn thấy.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPool, dung lượng, host IQN/WWPN, LUN ID và cluster usage.\nQuy trình bổ sung:\n1. Tạo LUN trên pool đúng tier/RAID.\n2. Đăng ký host/host group, map LUN với ID nhất quán theo yêu cầu OS.\n3. Chỉ cấp cho các host cần thiết; kiểm tra multipath/rescan.\n4. Test LUN mới trước khi đưa dữ liệu; tránh nhiều host ghi filesystem không hỗ trợ cluster.\nNghiệm thu: Đúng host thấy đúng LUN một lần; không lộ cho host khác.\nRollback: Unmap LUN mới sau khi dừng I/O; không xóa LUN có dữ liệu.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "SAN — Tạo LUN cơ bản",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_row": 16,
+    "source_cell": "C16",
+    "service": "it_configuration",
+    "item_id": "IT-SAN-016",
+    "device_family": "SAN"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

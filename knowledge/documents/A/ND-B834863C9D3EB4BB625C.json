@@ -1,0 +1,35 @@
+{
+  "id": "ND-B834863C9D3EB4BB625C",
+  "title": "Layer 3",
+  "body": "Layer 3\nĐịnh nghĩa: Định tuyến giữa VLAN qua gateway lớp 3.\nĐầu vào: VLAN/subnet, vị trí gateway, ACL, DHCP relay, route upstream.\nCách thực hiện:\n1. Bật chức năng routing nếu platform/license cho phép.\n2. Tạo SVI/routed interface cho từng VLAN, gán gateway không trùng.\n3. Khai báo route lên upstream và đường về; cấu hình relay/ACL theo ma trận.\n4. Test liên VLAN được phép và bị cấm từ client.\nKiểm tra: Gateway đúng; route hai chiều; cách ly bằng ACL hoạt động.\nRollback: Khôi phục gateway/route trước; tránh hai gateway cùng IP.\nXuất hiện: FortiSwitch!B25; FortiSwitch!C25; Switch!B27; Switch!C27; Switch!B28; Switch!C28; Switch!C31",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Layer 3",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "B25",
+    "service": "it_configuration",
+    "term": "Layer 3",
+    "recipe_id": "intervlan"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

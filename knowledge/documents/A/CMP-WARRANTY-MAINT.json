@@ -1,0 +1,24 @@
+{
+  "id": "CMP-WARRANTY-MAINT",
+  "title": "So sánh bảo hành và bảo trì",
+  "body": "| Tiêu chí | Bảo hành | Bảo trì |\n| Mục tiêu | Sửa lỗi thuộc trách nhiệm sản phẩm/cấu hình | Giữ hệ thống ổn định, kiểm tra định kỳ |\n| Phạm vi | Theo điều kiện bảo hành và loại trừ | Theo gói và hợp đồng dịch vụ |\n| Thiết bị thay thế | Tùy hãng, RMA và điều khoản | Không mặc định bao gồm phần cứng |\n| Lịch | Khi có lỗi đủ điều kiện | Tháng/quý theo gói |\n| Chi phí | Có thể miễn phí phần lỗi đủ điều kiện | Phí định kỳ hoặc mỗi đợt theo thỏa thuận |",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

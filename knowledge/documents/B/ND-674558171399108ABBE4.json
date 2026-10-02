@@ -1,0 +1,36 @@
+{
+  "id": "ND-674558171399108ABBE4",
+  "title": "NAS — Cấu hình Quota nâng cao & cảnh báo dung lượng",
+  "body": "NAS — Cấu hình Quota nâng cao & cảnh báo dung lượng\nHạng mục gốc: Cấu hình Quota nâng cao & cảnh báo dung lượng; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Giới hạn dung lượng theo user/share/volume và cảnh báo trước đầy.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nDung lượng thực, soft/hard limits, chủ dữ liệu và ngưỡng.\nQuy trình bổ sung:\n1. Đo sử dụng hiện tại theo đối tượng.\n2. Đặt quota lớn hơn nhu cầu đã duyệt, phân biệt soft warning và hard block.\n3. Cấu hình cảnh báo tới owner.\n4. Test user thử vượt ngưỡng và việc giải phóng dữ liệu.\nNghiệm thu: Alert đúng trước khi đầy; hard quota chỉ chặn đúng đối tượng.\nRollback: Khôi phục quota trước hoặc tăng tạm theo phê duyệt; không xóa dữ liệu tự động.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "NAS — Cấu hình Quota nâng cao & cảnh báo dung lượng",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_row": 27,
+    "source_cell": "C27",
+    "service": "it_configuration",
+    "item_id": "IT-NAS-027",
+    "device_family": "NAS"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

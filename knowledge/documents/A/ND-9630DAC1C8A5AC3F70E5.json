@@ -1,0 +1,35 @@
+{
+  "id": "ND-9630DAC1C8A5AC3F70E5",
+  "title": "LDAP",
+  "body": "LDAP\nĐịnh nghĩa: Directory lưu danh tính/nhóm; LDAP truy vấn directory, AD là hệ thống directory của Microsoft.\nĐầu vào: Server/domain, base DN, bind account quyền đọc, CA, group mapping.\nCách thực hiện:\n1. Kiểm tra DNS, giờ và đường tới domain controller.\n2. Khai báo LDAP/LDAPS và kiểm tra certificate; dùng tài khoản bind riêng trong kho bí mật.\n3. Map nhóm directory sang nhóm quyền/VPN; không cấp quyền toàn domain mặc định.\n4. Test user đúng/sai nhóm và kiểm tra log; nếu join domain, xác nhận computer object/OU.\nKiểm tra: Xác thực và phân quyền đúng nhóm; lỗi directory không mở quyền ngoài thiết kế.\nRollback: Phục hồi mapping/server trước; dùng quản trị cục bộ khẩn cấp khi directory lỗi.\nXuất hiện: FortiGate!C42; FortiNAC!C15; Firewall!C29; NAS!C23",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "LDAP",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C42",
+    "service": "it_configuration",
+    "term": "LDAP",
+    "recipe_id": "ldap"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

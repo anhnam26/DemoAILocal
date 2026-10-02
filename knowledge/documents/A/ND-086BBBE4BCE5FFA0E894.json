@@ -1,0 +1,35 @@
+{
+  "id": "ND-086BBBE4BCE5FFA0E894",
+  "title": "Telegram",
+  "body": "Telegram\nĐịnh nghĩa: Cảnh báo chuyển sự kiện vượt ngưỡng tới người phụ trách.\nĐầu vào: Ngưỡng, khoảng đánh giá, người nhận, lịch trực, SMTP/webhook và maintenance window.\nCách thực hiện:\n1. Đo baseline, đặt ngưỡng có hysteresis/duration để tránh báo dồn.\n2. Tạo rule theo device/service và kênh thông báo bảo vệ bí mật.\n3. Thiết lập escalation và maintenance suppression.\n4. Phát sinh sự kiện test, xác nhận nhận/ack/recovery và thời gian.\nKiểm tra: Người đúng ca nhận alert; recovery đóng đúng; không lặp vô hạn.\nRollback: Disable rule/kênh mới, phục hồi ngưỡng cũ.\nXuất hiện: Thông tin lên Bom!C46",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Telegram",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "C46",
+    "service": "fortigate_configuration",
+    "term": "Telegram",
+    "recipe_id": "alert"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ND-9A39E13ADCE491951628",
+  "title": "SMB",
+  "body": "SMB\nĐịnh nghĩa: Các giao thức chia sẻ file; quyền filesystem và quyền giao thức đều ảnh hưởng truy cập.\nĐầu vào: Client OS, protocol/version, subnet cho phép, user/group và yêu cầu mã hóa.\nCách thực hiện:\n1. Chỉ bật giao thức cần dùng; tránh SMB1/FTP rõ nếu không có yêu cầu tương thích được kiểm soát.\n2. Cấu hình share/export, ACL và mapping danh tính theo client.\n3. Bật mã hóa/kênh bảo vệ nếu hỗ trợ và yêu cầu.\n4. Mount từ client được phép, thử đọc/ghi và truy cập bị cấm.\nKiểm tra: Quyền hiệu lực đúng; không anonymous ngoài thiết kế; hiệu năng đạt test.\nRollback: Disable export/share mới, phục hồi ACL và protocol settings.\nXuất hiện: NAS!C18",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SMB",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_cell": "C18",
+    "service": "it_configuration",
+    "term": "SMB",
+    "recipe_id": "fileshare"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

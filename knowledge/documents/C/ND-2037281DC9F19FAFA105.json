@@ -1,0 +1,35 @@
+{
+  "id": "ND-2037281DC9F19FAFA105",
+  "title": "consulting: Quy mô & Địa điểm",
+  "body": "consulting: Quy mô & Địa điểm\nCâu hỏi/mô tả gốc: Quy mô dự kiến của dự án là bao nhiêu site, người dùng...?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Quy mô dự kiến của dự án là bao nhiêu site, người dùng...?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Nền tảng quản lý tập trung thiết bị, cấu hình và thay đổi theo nhóm/site.\nCách xử lý bổ sung:\n1. Kiểm tra routing/certificate và phiên bản được quản lý.\n2. Thêm thiết bị bằng serial/IP và xác nhận tin cậy tại hai đầu.\n3. Import cấu hình hiện hành, gán group/site/ADOM đúng; đối chiếu diff trước mọi push.\n4. Thử backup và thao tác đọc; chưa triển khai template rộng khi chưa test pilot.\nTiêu chí: Đủ thiết bị đúng group; trạng thái synchronized; không ghi đè cấu hình ngoài ý muốn.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: Quy mô & Địa điểm",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 8,
+    "source_cell": "row:8",
+    "service": "consulting",
+    "requirement_id": "933d8290bbb0938f88be"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

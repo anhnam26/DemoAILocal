@@ -1,0 +1,36 @@
+{
+  "id": "ND-093F9B1C0552F0CAD7B8",
+  "title": "FortiNAC — Tích hợp Enforcement động với FortiGate/FortiSwitch (tự đổi VLAN/tag)",
+  "body": "FortiNAC — Tích hợp Enforcement động với FortiGate/FortiSwitch (tự đổi VLAN/tag)\nHạng mục gốc: Tích hợp Enforcement động với FortiGate/FortiSwitch (tự đổi VLAN/tag); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Áp quyền mạng bằng VLAN/role/ACL động theo danh tính hoặc trạng thái thiết bị.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nTích hợp switch/firewall/NAC, VLAN cách ly, RADIUS CoA/API và policy.\nQuy trình bổ sung:\n1. Kiểm tra tích hợp, quyền API/AAA và VLAN đích tồn tại.\n2. Tạo mapping nhóm/posture sang role/VLAN/ACL.\n3. Bật trên cổng pilot; test thay đổi trạng thái và CoA/re-auth.\n4. Kiểm tra thu hồi quyền, đổi IP và hoạt động DHCP sau chuyển VLAN.\nNghiệm thu: Thiết bị bị cách ly/phục hồi đúng; không bị mở quyền khi connector lỗi.\nRollback: Tắt enforcement mới và trả port/VLAN/role đã ghi trước.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiNAC — Tích hợp Enforcement động với FortiGate/FortiSwitch (tự đổi VLAN/tag)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiNAC",
+    "source_row": 23,
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "item_id": "IT-FortiNAC-023",
+    "device_family": "FortiNAC"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

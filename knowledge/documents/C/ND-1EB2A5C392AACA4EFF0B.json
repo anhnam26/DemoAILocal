@@ -1,0 +1,35 @@
+{
+  "id": "ND-1EB2A5C392AACA4EFF0B",
+  "title": "fortigate_configuration: Có yêu cầu cấu hình chính sách bảo vệ Web (WAF) không?",
+  "body": "fortigate_configuration: Có yêu cầu cấu hình chính sách bảo vệ Web (WAF) không?\nCâu hỏi/mô tả gốc: Có yêu cầu cấu hình chính sách bảo vệ Web (WAF) không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Có yêu cầu cấu hình chính sách bảo vệ Web (WAF) không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Lọc yêu cầu web ở lớp ứng dụng theo khả năng sản phẩm; không thay sửa lỗi ứng dụng.\nCách xử lý bổ sung:\n1. Kiểm tra tính năng WAF thực sự được hỗ trợ và vị trí giải mã.\n2. Tạo profile bảo vệ endpoint đã duyệt, bắt đầu monitor.\n3. Test bộ yêu cầu hợp lệ và mẫu tấn công an toàn trong lab.\n4. Chỉnh exception tối thiểu, bật chặn theo đợt và theo dõi.\nTiêu chí: Ứng dụng hợp lệ chạy; mẫu test bị xử lý đúng; false positive có quy trình.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Có yêu cầu cấu hình chính sách bảo vệ Web (WAF) không?",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 51,
+    "source_cell": "row:51",
+    "service": "fortigate_configuration",
+    "requirement_id": "253b6036cf8de2f45b27"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

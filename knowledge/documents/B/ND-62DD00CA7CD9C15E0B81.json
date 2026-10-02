@@ -1,0 +1,36 @@
+{
+  "id": "ND-62DD00CA7CD9C15E0B81",
+  "title": "Switch — Cấu hình QoS/Traffic Shaping theo lớp dịch vụ",
+  "body": "Switch — Cấu hình QoS/Traffic Shaping theo lớp dịch vụ\nHạng mục gốc: Cấu hình QoS/Traffic Shaping theo lớp dịch vụ; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: QoS ưu tiên hoặc giới hạn tài nguyên; shaping điều tiết lưu lượng, IOPS đo thao tác I/O mỗi giây.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nBăng thông/IOPS thực, lớp ứng dụng, min/max, DSCP và ngưỡng độ trễ.\nQuy trình bổ sung:\n1. Đo baseline và xác định điểm nghẽn.\n2. Tạo class/shaper hoặc storage QoS theo thiết bị; min không vượt năng lực thực.\n3. Gắn đúng policy/interface/LUN, thống nhất marking/trust nếu dùng DSCP.\n4. Thử tải có kiểm soát, đo throughput/latency và kiểm tra class counter.\nNghiệm thu: Luồng ưu tiên đạt mục tiêu dưới tải; không làm đói dịch vụ khác.\nRollback: Bỏ policy QoS mới, trả min/max/marking cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Switch — Cấu hình QoS/Traffic Shaping theo lớp dịch vụ",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_row": 32,
+    "source_cell": "C32",
+    "service": "it_configuration",
+    "item_id": "IT-Switch-032",
+    "device_family": "Switch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-8E01BDAC72FDB5AD355E",
+  "title": "FortiGate — Tích hợp FortiAnalyzer/FortiManager (Log & quản lý tập trung nâng cao)",
+  "body": "FortiGate — Tích hợp FortiAnalyzer/FortiManager (Log & quản lý tập trung nâng cao)\nHạng mục gốc: Tích hợp FortiAnalyzer/FortiManager (Log & quản lý tập trung nâng cao); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Nền tảng quản lý tập trung thiết bị, cấu hình và thay đổi theo nhóm/site.\nLog ghi sự kiện; syslog/trap chuyển sự kiện tới máy thu tập trung.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nInventory, phiên bản tương thích, IP quản lý, license, nhóm/site.\nIP máy thu, transport/port, chứng chỉ nếu TLS, loại log, dung lượng đĩa.\nQuy trình bổ sung:\n1. Kiểm tra routing/certificate và phiên bản được quản lý.\n2. Thêm thiết bị bằng serial/IP và xác nhận tin cậy tại hai đầu.\n3. Import cấu hình hiện hành, gán group/site/ADOM đúng; đối chiếu diff trước mọi push.\n4. Thử backup và thao tác đọc; chưa triển khai template rộng khi chưa test pilot.\n5. Kiểm tra dung lượng và kết nối tới collector.\n6. Bật local log nếu model có khả năng lưu; chọn mức log và thời gian lưu phù hợp.\n7. Cấu hình syslog/trap receiver và interface nguồn; ưu tiên kênh bảo vệ khi hỗ trợ.\n8. Phát sinh sự kiện test, kiểm tra timestamp, hostname, parser và việc nhận đủ bản ghi.\nNghiệm thu: Đủ thiết bị đúng group; trạng thái synchronized; không ghi đè cấu hình ngoài ý muốn.\nSự kiện test xuất hiện trên máy thu; không lệch giờ; hàng đợi/đĩa không tràn.\nRollback: Dừng push, khôi phục revision và gỡ thiết bị mới khỏi nhóm sai.\nKhôi phục mức log và collector cũ; bảo toàn log đã thu.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Tích hợp FortiAnalyzer/FortiManager (Log & quản lý tập trung nâng cao)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 46,
+    "source_cell": "C46",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-046",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

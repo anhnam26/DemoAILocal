@@ -1,0 +1,32 @@
+{
+  "id": "ND-A3C496710F24550F485B",
+  "title": "Workflow Triển khai Dự án CNTT",
+  "body": "Workflow Triển khai Dự án CNTT\nTiếp nhận thông tin → [Tiếp tục] → Khảo sát/Thu thập thông tin/Kickoff Meeting\nKhảo sát/Thu thập thông tin/Kickoff Meeting → [Tiếp tục] → Tư vấn giải pháp\nTư vấn giải pháp → [Tiếp tục] → Lập BOM & SOW\nLập BOM & SOW → [Tiếp tục] → Thiết kế giải pháp/Phương án triển khai\nThiết kế giải pháp/Phương án triển khai → [Tiếp tục] → Gửi khách hàng phê duyệt\nThực hiện triển khai theo phương án → [Tiếp tục] → Kiểm thử & Hiệu chỉnh\nKiểm thử & Hiệu chỉnh → [Tiếp tục] → Đào tạo/Chuyển giao công nghệ\nĐào tạo/Chuyển giao công nghệ → [Tiếp tục] → Nghiệm thu & Bàn giao\nNghiệm thu & Bàn giao → [Tiếp tục] → Hỗ trợ kỹ thuật sau triển khai\nHỗ trợ kỹ thuật sau triển khai → [Tiếp tục] → Đóng dự án\nGửi khách hàng phê duyệt → [Phê duyệt] → Thực hiện triển khai theo phương án\nGửi khách hàng phê duyệt → [Không phê duyệt] → Cập nhật phương án\nCập nhật phương án → [Gửi duyệt lại] → Gửi khách hàng phê duyệt",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "source_transcribed",
+  "data_type": "workflow",
+  "provenance": {
+    "category": "workflow",
+    "document_type": "workflow",
+    "title": "Workflow Triển khai Dự án CNTT",
+    "provenance": "source",
+    "review_status": "source_transcribed",
+    "source_file": "CBA Services Work Flow (1).pdf",
+    "source_page": 6,
+    "workflow_id": "WF-06"
+  },
+  "service": "",
+  "content_kind": "workflow"
+}

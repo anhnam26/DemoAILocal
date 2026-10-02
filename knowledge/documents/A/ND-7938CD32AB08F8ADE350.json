@@ -1,0 +1,35 @@
+{
+  "id": "ND-7938CD32AB08F8ADE350",
+  "title": "Sub-Interface",
+  "body": "Sub-Interface\nĐịnh nghĩa: Phân đoạn mạng lớp 2 theo VLAN ID; 802.1Q gắn thẻ VLAN trên liên kết dùng chung.\nĐầu vào: VLAN ID/tên, subnet/gateway, parent interface, danh sách VLAN được phép.\nCách thực hiện:\n1. Tạo VLAN trên thiết bị và sub-interface trên gateway nếu gateway đặt tại đó.\n2. Gán VLAN ID, tên, IP/mask cho sub-interface theo IP plan.\n3. Đồng bộ allowed VLAN và native VLAN giữa hai đầu uplink; tránh nhầm tagged/untagged.\n4. Cấu hình DHCP/policy liên quan và thử client của từng VLAN.\nKiểm tra: Client vào đúng VLAN, lấy đúng IP; VLAN bị tách theo policy; uplink truyền đúng tag.\nRollback: Gỡ VLAN mới sau khi chuyển client về VLAN cũ; khôi phục allowed/native VLAN.\nXuất hiện: Thông tin lên Bom!B15",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Sub-Interface",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B15",
+    "service": "fortigate_configuration",
+    "term": "Sub-Interface",
+    "recipe_id": "vlan"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

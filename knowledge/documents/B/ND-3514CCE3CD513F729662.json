@@ -1,0 +1,36 @@
+{
+  "id": "ND-3514CCE3CD513F729662",
+  "title": "Firewall — Cấu hình NAT (Source NAT)",
+  "body": "Firewall — Cấu hình NAT (Source NAT)\nHạng mục gốc: Cấu hình NAT (Source NAT); gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Source NAT đổi địa chỉ nguồn; overload cho nhiều máy dùng chung địa chỉ ra ngoài qua port.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nSubnet nguồn, egress, IP pool/public hoặc dùng IP interface.\nQuy trình bổ sung:\n1. Kiểm tra route ra WAN và mô hình NAT của nền tảng.\n2. Chọn NAT dùng IP interface hoặc pool đã được cấp; gắn vào policy/central NAT theo chế độ đang dùng.\n3. Kiểm tra policy LAN ra Internet và tuyến trả về.\n4. Thử kết nối từ nhiều client; xem session/log xác nhận IP nguồn sau NAT.\nNghiệm thu: Client truy cập được; đúng IP public; không NAT luồng nội bộ/VPN ngoài thiết kế.\nRollback: Gỡ ánh xạ NAT mới, phục hồi pool/policy cũ và kiểm tra session.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Firewall — Cấu hình NAT (Source NAT)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Firewall",
+    "source_row": 19,
+    "source_cell": "C19",
+    "service": "it_configuration",
+    "item_id": "IT-Firewall-019",
+    "device_family": "Firewall"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

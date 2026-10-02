@@ -1,0 +1,35 @@
+{
+  "id": "ND-01123D6D5543C4261411",
+  "title": "equipment_rental: Cấu hình theo yêu cầu đặc biệt",
+  "body": "equipment_rental: Cấu hình theo yêu cầu đặc biệt\nCâu hỏi/mô tả gốc: Ghi rõ yêu cầu cấu hình nâng cao\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Ghi rõ yêu cầu cấu hình nâng cao. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Cho thuê giao quyền sử dụng tài sản trong thời hạn; buy-out là mua lại theo điều kiện hợp đồng.\nCách xử lý bổ sung:\n1. Xác nhận nhu cầu và phương án giá được duyệt.\n2. Kiểm tra thiết bị/license/phụ kiện, cấu hình theo checklist được chốt.\n3. Bàn giao serial/tình trạng và hướng dẫn vận hành; theo dõi hỗ trợ và thời hạn.\n4. Trước hết hạn, xác nhận gia hạn/mua lại/trả; backup bàn giao và xử lý dữ liệu theo thỏa thuận trước tái sử dụng.\nTiêu chí: Biên bản giao/nhận đầy đủ; term/serial đúng; có xác nhận xử lý dữ liệu khi thu hồi.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "equipment_rental: Cấu hình theo yêu cầu đặc biệt",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ cho thuê - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_row": 14,
+    "source_cell": "row:14",
+    "service": "equipment_rental",
+    "requirement_id": "8098e58664a822ea558b"
+  },
+  "service": "equipment_rental",
+  "content_kind": "survey"
+}

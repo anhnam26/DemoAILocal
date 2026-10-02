@@ -1,0 +1,35 @@
+{
+  "id": "ND-28696ADEAA3F465BCB18",
+  "title": "Trunk",
+  "body": "Trunk\nĐịnh nghĩa: Cổng trunk truyền nhiều VLAN; native/untagged VLAN phải khớp hai đầu.\nĐầu vào: Allowed VLAN, native VLAN, cổng hai đầu và MTU.\nCách thực hiện:\n1. So sánh cấu hình cả hai đầu liên kết.\n2. Đặt trunk/tagged và danh sách VLAN tối thiểu; đồng bộ native VLAN.\n3. Kiểm tra VLAN quản trị trước khi áp thay đổi từ xa.\n4. Test từng VLAN qua trunk, MAC table và lỗi tag.\nKiểm tra: Các VLAN cho phép đi qua; VLAN ngoài danh sách bị chặn; không mất quản trị.\nRollback: Phục hồi allowed/native VLAN cả hai đầu bằng console nếu cần.\nXuất hiện: FortiSwitch!C18; Switch!C19",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Trunk",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiSwitch",
+    "source_cell": "C18",
+    "service": "it_configuration",
+    "term": "Trunk",
+    "recipe_id": "trunk"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

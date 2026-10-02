@@ -1,0 +1,36 @@
+{
+  "id": "ND-986C99A4D13043843CFC",
+  "title": "SAN — Cấu hình Replication (Sync/Async) giữa 2 SAN",
+  "body": "SAN — Cấu hình Replication (Sync/Async) giữa 2 SAN\nHạng mục gốc: Cấu hình Replication (Sync/Async) giữa 2 SAN; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Sao chép dữ liệu sang hệ khác theo đồng bộ hoặc bất đồng bộ.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nNguồn/đích, RPO, băng thông/latency, retention và quyền truy cập.\nQuy trình bổ sung:\n1. Kiểm tra tương thích, dung lượng và kết nối hai site.\n2. Tạo replication pair đúng chiều, bảo vệ đường truyền và lên lịch.\n3. Theo dõi initial sync rồi đo lag/RPO.\n4. Test failover clone/isolated và failback, xác nhận tránh hai phía ghi đồng thời.\nNghiệm thu: Dữ liệu đích nhất quán theo chế độ; lag đáp ứng RPO đã duyệt.\nRollback: Pause replication lỗi, xác định bản dữ liệu đúng trước resync; không đảo chiều mù.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "SAN — Cấu hình Replication (Sync/Async) giữa 2 SAN",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_row": 21,
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "item_id": "IT-SAN-021",
+    "device_family": "SAN"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

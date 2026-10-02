@@ -1,0 +1,41 @@
+{
+  "id": "KB-NET-UDP",
+  "title": "UDP: datagram và khác biệt với TCP",
+  "body": "UDP cung cấp dịch vụ datagram trên IP với cơ chế giao thức tối giản. UDP giữ đơn vị thông điệp, không tự thiết lập kết nối kiểu bắt tay TCP.\nUDP không bảo đảm giao nhận, thứ tự hay chống lặp; ứng dụng cần tự xử lý hoặc dùng giao thức phía trên nếu cần các tính chất đó. Không suy ra mọi ứng dụng dùng UDP đều không tin cậy: chúng có thể bổ sung cơ chế riêng.\nTCP cung cấp luồng byte có thứ tự và truyền lại; UDP cung cấp datagram không có bảo đảm tương đương. Lựa chọn tùy yêu cầu độ trễ, mất gói, điều khiển tắc nghẽn và thiết kế ứng dụng; không khẳng định UDP luôn nhanh hơn.\nCả TCP và UDP dùng port và thuộc tầng Transport trong kiến trúc Internet; bản thân chúng không cung cấp mã hóa dữ liệu.",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-2",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "aliases": [
+    "UDP",
+    "User Datagram Protocol"
+  ],
+  "references": [
+    {
+      "title": "RFC 768 — UDP",
+      "url": "https://www.rfc-editor.org/rfc/rfc768.txt",
+      "checked_at": "2026-09-30"
+    },
+    {
+      "title": "RFC 9293 — TCP",
+      "url": "https://www.rfc-editor.org/rfc/rfc9293",
+      "checked_at": "2026-09-30"
+    }
+  ],
+  "content_kind": "concept",
+  "data_type": "reference_article",
+  "provenance": {
+    "source": "referenced_editorial",
+    "review_note": "Biên soạn đối chiếu nguồn; không chứng nhận cấu hình theo hãng/phiên bản."
+  }
+}

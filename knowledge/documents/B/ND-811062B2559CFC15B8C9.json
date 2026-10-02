@@ -1,0 +1,36 @@
+{
+  "id": "ND-811062B2559CFC15B8C9",
+  "title": "NAS — Cấu hình Snapshot/Versioning nâng cao & retention policy",
+  "body": "NAS — Cấu hình Snapshot/Versioning nâng cao & retention policy\nHạng mục gốc: Cấu hình Snapshot/Versioning nâng cao & retention policy; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Snapshot lưu trạng thái tại thời điểm; thin cấp dung lượng theo sử dụng; snapshot không thay backup độc lập.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nWorkload consistency, lịch/retention, dung lượng dự trữ, ngưỡng cảnh báo.\nQuy trình bổ sung:\n1. Đánh giá dung lượng thay đổi và yêu cầu application consistency.\n2. Tạo lịch snapshot/versioning với retention và quyền xóa giới hạn.\n3. Nếu thin, đặt cảnh báo capacity thực, không chỉ dung lượng logic.\n4. Khôi phục clone/file thử vào chỗ cách ly; kiểm tra cleanup không xóa bản cần giữ.\nNghiệm thu: Snapshot phục hồi được; không đầy pool; lịch/retention đúng.\nRollback: Tắt lịch mới, giữ restore point; không rollback volume production khi chưa đánh giá dữ liệu mới.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "NAS — Cấu hình Snapshot/Versioning nâng cao & retention policy",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_row": 25,
+    "source_cell": "C25",
+    "service": "it_configuration",
+    "item_id": "IT-NAS-025",
+    "device_family": "NAS"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

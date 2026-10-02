@@ -1,0 +1,36 @@
+{
+  "id": "ND-B7E28EB203D59002EE5D",
+  "title": "Server — Security Hardening theo chuẩn (CIS Benchmark)",
+  "body": "Server — Security Hardening theo chuẩn (CIS Benchmark)\nHạng mục gốc: Security Hardening theo chuẩn (CIS Benchmark); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Giảm bề mặt tấn công theo baseline đúng sản phẩm/phiên bản, có ngoại lệ được ghi.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nBenchmark phù hợp version, danh sách dịch vụ cần giữ, backup, owner.\nQuy trình bổ sung:\n1. Đo baseline và chọn profile phù hợp vai trò server.\n2. Áp từng nhóm: account, dịch vụ, firewall, audit, cập nhật và quyền file.\n3. Kiểm tra ứng dụng sau từng nhóm, ghi ngoại lệ có lý do và thời hạn.\n4. Chạy đánh giá lại và bàn giao bằng chứng; không tuyên bố đạt chuẩn chỉ từ checklist.\nNghiệm thu: Các mục áp dụng đạt kiểm tra; ngoại lệ được duyệt; dịch vụ nghiệp vụ không lỗi.\nRollback: Phục hồi policy/service đã ghi trước, khôi phục OS/config backup khi cần.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Server — Security Hardening theo chuẩn (CIS Benchmark)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_row": 28,
+    "source_cell": "C28",
+    "service": "it_configuration",
+    "item_id": "IT-Server-028",
+    "device_family": "Server"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

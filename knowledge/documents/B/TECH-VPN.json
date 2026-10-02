@@ -1,0 +1,24 @@
+{
+  "id": "TECH-VPN",
+  "title": "VPN gián đoạn sau nâng firmware — hướng kiểm tra",
+  "body": "Cần model, firmware trước/sau, topology, thời điểm lỗi, log IKE/IPsec đã che bí mật và thay đổi vừa thực hiện. Kiểm tra chỉ đọc: trạng thái tunnel, reachability, đồng bộ thời gian, routing, đề xuất mã hóa hai đầu và log negotiation. So sánh release notes đúng phiên bản. Không kết luận lỗi firmware nếu chưa có bằng chứng. Không bật debug kéo dài không kiểm soát trên production. Rollback chỉ theo change được duyệt và điều kiện tương thích cấu hình. Chuyển kỹ sư cấp cao nếu ảnh hưởng diện rộng.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

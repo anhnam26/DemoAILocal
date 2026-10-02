@@ -1,0 +1,35 @@
+{
+  "id": "ND-8C9BC891E9669D662B69",
+  "title": "Port Security",
+  "body": "Port Security\nĐịnh nghĩa: Giới hạn địa chỉ MAC được phép trên cổng, không thay cho xác thực mạnh.\nĐầu vào: Số MAC tối đa, thiết bị hợp lệ, violation action, port có phone/AP.\nCách thực hiện:\n1. Đọc MAC thực trên cổng và xác nhận số endpoint.\n2. Đặt limit và static/sticky learning theo thiết kế.\n3. Chọn violation action phù hợp, cấu hình alert và cách phục hồi.\n4. Test máy được phép/máy ngoài danh sách trong lab.\nKiểm tra: MAC hợp lệ hoạt động; MAC ngoài bị xử lý đúng; uplink/AP không bị khóa nhầm.\nRollback: Xóa binding sai hoặc phục hồi limit/action trước.\nXuất hiện: Switch!C23",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Port Security",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "term": "Port Security",
+    "recipe_id": "portsecurity"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

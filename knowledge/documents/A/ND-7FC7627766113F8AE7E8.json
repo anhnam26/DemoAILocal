@@ -1,0 +1,35 @@
+{
+  "id": "ND-7FC7627766113F8AE7E8",
+  "title": "Firmware",
+  "body": "Firmware\nĐịnh nghĩa: Phần mềm điều khiển thiết bị; nâng/hạ phiên bản phải theo lộ trình và tính tương thích của hãng.\nĐầu vào: Model/revision, phiên bản hiện tại/đích, release notes, đường nâng cấp, thời gian bảo trì.\nCách thực hiện:\n1. Sao lưu cấu hình và image cần phục hồi; xác minh backup đọc được.\n2. Kiểm tra ma trận hỗ trợ tính năng/license và lộ trình nâng cấp đúng model; không tự chọn bản mới nhất.\n3. Tải image từ hãng, kiểm tra checksum; nâng cấp theo từng bước được hỗ trợ.\n4. Sau mỗi lần khởi động, kiểm tra interface, route, policy, VPN, HA và log; cập nhật driver tương thích nếu là server.\nKiểm tra: Đúng version; không lỗi chuyển đổi cấu hình; bộ test dịch vụ đạt; có biên bản downtime.\nRollback: Dừng khi không tương thích; phục hồi image và backup cùng phiên bản theo hướng dẫn hãng, không nạp mù config mới vào firmware cũ.\nXuất hiện: FortiGate!C17; Server!C18; NAS!C20",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Firmware",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C17",
+    "service": "it_configuration",
+    "term": "Firmware",
+    "recipe_id": "firmware"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

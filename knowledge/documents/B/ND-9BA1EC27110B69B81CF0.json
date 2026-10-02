@@ -1,0 +1,36 @@
+{
+  "id": "ND-9BA1EC27110B69B81CF0",
+  "title": "FortiGate — Cấu hình DHCP Server cho mạng LAN",
+  "body": "FortiGate — Cấu hình DHCP Server cho mạng LAN\nHạng mục gốc: Cấu hình DHCP Server cho mạng LAN; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: DHCP cấp tham số mạng; relay chuyển yêu cầu tới server ở subnet khác.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nPool, gateway, DNS, lease, exclusion/reservation hoặc IP DHCP server đích.\nQuy trình bổ sung:\n1. Xác nhận mỗi subnet chỉ có DHCP có chủ đích; loại trừ IP tĩnh.\n2. Chọn server hoặc relay theo thiết kế; tạo scope và option đúng subnet.\n3. Với relay, đặt server đích và kiểm tra route/policy hai chiều.\n4. Renew lease trên máy thử; đối chiếu IP, mask, gateway, DNS và bản ghi lease.\nNghiệm thu: Không cấp trùng IP; client nhận đúng option; relay đến đúng server.\nRollback: Tắt scope/relay mới, khôi phục scope cũ; kiểm soát lease còn hiệu lực.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Cấu hình DHCP Server cho mạng LAN",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 20,
+    "source_cell": "C20",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-020",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

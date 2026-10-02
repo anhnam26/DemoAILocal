@@ -1,0 +1,35 @@
+{
+  "id": "ND-C478AFBC75317E8AABD4",
+  "title": "UPS",
+  "body": "UPS\nĐịnh nghĩa: Rack giữ thiết bị; PDU phân phối điện; UPS cấp điện dự phòng trong giới hạn công suất/thời gian.\nĐầu vào: Vị trí U, tải điện, rail, nguồn A/B và sơ đồ cáp.\nCách thực hiện:\n1. Kiểm tra tải trọng, airflow, nguồn và an toàn điện tại site.\n2. Lắp rail/thiết bị đúng hướng dẫn với đủ nhân lực.\n3. Đấu nguồn theo sơ đồ A/B/PDU/UPS đã duyệt, dán nhãn cáp/cổng.\n4. Kiểm tra cả nguồn và trạng thái thiết bị, lưu as-built.\nKiểm tra: Thiết bị chắc chắn; airflow thông; nguồn và nhãn đúng; không vượt tải.\nRollback: Ngắt nguồn theo quy trình, trả cáp/vị trí cũ; không thao tác điện ngoài chuyên môn.\nXuất hiện: DV Chuyển đổi - Thời gian!C7; DV Chuyển đổi - Thời gian!B22; DV Chuyển đổi - Thời gian!C22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "UPS",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_cell": "C7",
+    "service": "configuration_migration",
+    "term": "UPS",
+    "recipe_id": "rack"
+  },
+  "service": "configuration_migration",
+  "content_kind": "concept"
+}

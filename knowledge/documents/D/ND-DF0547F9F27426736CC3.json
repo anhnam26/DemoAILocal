@@ -1,0 +1,32 @@
+{
+  "id": "ND-DF0547F9F27426736CC3",
+  "title": "SOW đề xuất managed_service: Đánh giá & tiếp quản",
+  "body": "SOW đề xuất managed_service: Đánh giá & tiếp quản\nĐầu ra đề xuất: Inventory, baseline cấu hình, credential vault, RACI và hồ sơ tiếp quản\nCác bước:\n1. Ghi mục tiêu, site, người dùng và dịch vụ quan trọng.\n2. Thu inventory, config đã che bí mật, IP/VLAN/route và license; đối chiếu thông tin tại chỗ khi cần.\n3. Ghi thiếu/mâu thuẫn kèm người xác nhận, không tự điền như dữ liệu thật.\n4. Lập báo cáo hiện trạng, nhu cầu và giả định để khách hàng xác nhận.\n5. Tạo revision baseline có mô tả trước khi đổi cấu hình.\n6. Thiết lập backup theo lịch/sự kiện và phân quyền nơi lưu.\n7. Thực hiện một thay đổi lab, tạo revision và xem diff.\n8. Thử khôi phục lab/kiểm tra export; ghi chính xác version phụ thuộc.\nNghiệm thu: Mỗi yêu cầu có nguồn; thiếu dữ liệu được liệt kê; phạm vi được xác nhận.\nCó revision đủ thiết bị đúng lịch; diff rõ; phục hồi được kiểm chứng.\nRollback: Sửa phiên bản khảo sát và cập nhật tài liệu phụ thuộc khi có thông tin mới.\nPhục hồi revision đã xác nhận qua quy trình triển khai, không ghi đè tự động toàn hệ thống.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất managed_service: Đánh giá & tiếp quản",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "managed_service-SOW-01",
+    "service": "managed_service"
+  },
+  "service": "managed_service",
+  "content_kind": "reference"
+}

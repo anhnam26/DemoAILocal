@@ -1,0 +1,35 @@
+{
+  "id": "ND-9875DA9ED319004269CF",
+  "title": "fortigate_configuration: Có yêu cầu cấu hình chia tách VDOM không?",
+  "body": "fortigate_configuration: Có yêu cầu cấu hình chia tách VDOM không?\nCâu hỏi/mô tả gốc: Số lượng VDOM cần cấu hình?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Số lượng VDOM cần cấu hình?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Phân chia thiết bị thành miền cấu hình/chính sách riêng; liên kết miền cần route/policy rõ ràng.\nCách xử lý bổ sung:\n1. Kiểm tra hỗ trợ và tác động khi bật chế độ đa miền.\n2. Tạo miền, gán interface/tài nguyên và admin đúng phạm vi.\n3. Tạo link giữa miền khi có thiết kế; cấu hình IP, route và policy hai chiều.\n4. Test cách ly tenant, truy cập quản trị và giới hạn tài nguyên.\nTiêu chí: Miền độc lập; chỉ luồng liên miền đã duyệt thông.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Có yêu cầu cấu hình chia tách VDOM không?",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 69,
+    "source_cell": "row:69",
+    "service": "fortigate_configuration",
+    "requirement_id": "0eeea54be063d111ba1f"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

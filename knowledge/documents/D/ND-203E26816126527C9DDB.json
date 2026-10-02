@@ -1,0 +1,32 @@
+{
+  "id": "ND-203E26816126527C9DDB",
+  "title": "Workflow Triển khai Nâng cao",
+  "body": "Workflow Triển khai Nâng cao\nTiếp nhận thông tin → [Tiếp tục] → Phân tích yêu cầu\nPhân tích yêu cầu → [Tiếp tục] → Khảo sát & Thu thập thông tin\nKhảo sát & Thu thập thông tin → [Tiếp tục] → Thiết kế giải pháp/Phương án triển khai\nThiết kế giải pháp/Phương án triển khai → [Tiếp tục] → Gửi Khách hàng phê duyệt\nThực hiện triển khai theo Phương án đã phê duyệt → [Tiếp tục] → Kiểm thử & Hiệu chỉnh\nKiểm thử & Hiệu chỉnh → [Tiếp tục] → Bàn giao & Nghiệm thu\nBàn giao & Nghiệm thu → [Tiếp tục] → Hỗ trợ kỹ thuật sau triển khai\nHỗ trợ kỹ thuật sau triển khai → [Tiếp tục] → Đóng case\nGửi Khách hàng phê duyệt → [Phê duyệt] → Thực hiện triển khai theo Phương án đã phê duyệt\nGửi Khách hàng phê duyệt → [Không phê duyệt] → Cập nhật phương án\nCập nhật phương án → [Gửi duyệt lại] → Gửi Khách hàng phê duyệt",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "source_transcribed",
+  "data_type": "workflow",
+  "provenance": {
+    "category": "workflow",
+    "document_type": "workflow",
+    "title": "Workflow Triển khai Nâng cao",
+    "provenance": "source",
+    "review_status": "source_transcribed",
+    "source_file": "CBA Services Work Flow (1).pdf",
+    "source_page": 3,
+    "workflow_id": "WF-03"
+  },
+  "service": "",
+  "content_kind": "workflow"
+}

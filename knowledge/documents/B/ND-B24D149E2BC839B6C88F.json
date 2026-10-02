@@ -1,0 +1,36 @@
+{
+  "id": "ND-B24D149E2BC839B6C88F",
+  "title": "NAS — Cấu hình mã hóa dữ liệu (Encryption at Rest)",
+  "body": "NAS — Cấu hình mã hóa dữ liệu (Encryption at Rest)\nHạng mục gốc: Cấu hình mã hóa dữ liệu (Encryption at Rest); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Mã hóa dữ liệu lưu trữ, cần quản lý khóa và phục hồi khóa riêng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nKhả năng platform, KMS/key owner, backup khóa, ảnh hưởng hiệu năng.\nQuy trình bổ sung:\n1. Xác nhận backup dữ liệu và chính sách giữ khóa.\n2. Bật mã hóa trên pool/volume hỗ trợ theo quy trình hãng; không tái tạo volume có dữ liệu tùy tiện.\n3. Lưu recovery key ngoài thiết bị và giới hạn quyền.\n4. Test mount/reboot và phục hồi bằng khóa trong lab.\nNghiệm thu: Dữ liệu mở được với khóa hợp lệ; recovery key kiểm chứng; audit truy cập khóa.\nRollback: Giữ khóa gốc; theo quy trình decrypt/restore hãng, không xóa key để rollback.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "NAS — Cấu hình mã hóa dữ liệu (Encryption at Rest)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_row": 28,
+    "source_cell": "C28",
+    "service": "it_configuration",
+    "item_id": "IT-NAS-028",
+    "device_family": "NAS"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

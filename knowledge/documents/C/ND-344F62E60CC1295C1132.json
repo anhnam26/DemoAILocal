@@ -1,0 +1,35 @@
+{
+  "id": "ND-344F62E60CC1295C1132",
+  "title": "managed_service: Resolution Time mong muốn",
+  "body": "managed_service: Resolution Time mong muốn\nCâu hỏi/mô tả gốc: Thời gian xử lý sự cố kỳ vọng\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Thời gian xử lý sự cố kỳ vọng. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Availability đo thời gian đáp ứng theo định nghĩa; response là phản hồi ban đầu, resolution là xử lý, hai mốc khác nhau.\nCách xử lý bổ sung:\n1. Thống nhất định nghĩa chỉ số và nguồn timestamp.\n2. Cấu hình calendar, mức ưu tiên và ngưỡng theo hợp đồng, không lấy ví dụ làm cam kết.\n3. Tính availability = thời gian khả dụng / thời gian thuộc phạm vi sau ngoại lệ hợp lệ.\n4. Đối chiếu ticket/outage mẫu với báo cáo và phê duyệt.\nTiêu chí: Mẫu tính có thể tái lập; tách response/resolution; maintenance xử lý đúng hợp đồng.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "managed_service: Resolution Time mong muốn",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Managed Service - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yêu cầu",
+    "source_row": 9,
+    "source_cell": "row:9",
+    "service": "managed_service",
+    "requirement_id": "e100a1c6722ec0d2aab9"
+  },
+  "service": "managed_service",
+  "content_kind": "survey"
+}

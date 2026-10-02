@@ -1,0 +1,39 @@
+{
+  "id": "KB-NET-DNS-TROUBLE",
+  "title": "Chẩn đoán: truy cập IP được nhưng tên miền không được",
+  "body": "Phạm vi: quy trình chẩn đoán tổng quát, không phải lệnh cấu hình cho một hệ điều hành cụ thể. Truy cập bằng IP được nhưng tên miền lỗi là dấu hiệu cần kiểm DNS; chưa đủ để kết luận chắc chắn lỗi DNS.\n1. Thu tên đầy đủ, lỗi cụ thể, thời điểm, máy bị ảnh hưởng, resolver đang dùng và địa chỉ mong đợi; không thu mật khẩu.\n2. Kiểm tra câu trả lời DNS từ resolver cấu hình: đúng A/AAAA/CNAME hay NXDOMAIN, timeout, SERVFAIL. So sánh với authoritative hoặc resolver nội bộ được phép; không gửi tên nội bộ ra dịch vụ ngoài.\n3. Nếu địa chỉ cũ, kiểm TTL/cache ở client và resolver, bản ghi và zone/split DNS. Nếu timeout, kiểm đường tới resolver và policy liên quan. Không xóa/đổi cấu hình trước khi lưu bằng chứng.\n4. Nếu phân giải đúng nhưng ứng dụng lỗi, kiểm port dịch vụ, route, proxy, TLS/chứng thư và virtual host. Truy cập IP trực tiếp có thể khác tên miền vì Host header hoặc TLS SNI.\n5. Sau thay đổi được duyệt, thử lại đúng tên từ các client liên quan, ghi trước/sau; khôi phục cấu hình resolver/bản ghi cũ nếu thay đổi làm lỗi nặng hơn. Cần biết nền tảng trước khi đưa lệnh cụ thể.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-2",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "aliases": [
+    "DNS",
+    "tên miền",
+    "truy cập IP",
+    "phân giải sai",
+    "DNS cache"
+  ],
+  "references": [
+    {
+      "title": "RFC 1034 — DNS concepts",
+      "url": "https://www.rfc-editor.org/rfc/rfc1034",
+      "checked_at": "2026-09-30"
+    }
+  ],
+  "content_kind": "troubleshooting",
+  "data_type": "reference_article",
+  "provenance": {
+    "source": "referenced_editorial",
+    "review_note": "Biên soạn đối chiếu nguồn; không chứng nhận cấu hình theo hãng/phiên bản."
+  }
+}

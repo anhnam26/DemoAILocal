@@ -1,0 +1,24 @@
+{
+  "id": "TERM-DR",
+  "title": "RPO, RTO, HA và SLA dễ hiểu",
+  "body": "RPO là khoảng dữ liệu có thể mất tính theo thời gian, ví dụ cần bản sao thường xuyên nếu chấp nhận mất ít dữ liệu. RTO là mục tiêu thời gian phục hồi dịch vụ. HA là thiết kế tăng tính sẵn sàng khi thành phần gặp lỗi. SLA là thỏa thuận mức dịch vụ theo phạm vi và điều kiện. Có backup không đồng nghĩa đạt ngay RPO/RTO; phải thử nghiệm. Phản hồi hỗ trợ không đồng nghĩa khôi phục xong.",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

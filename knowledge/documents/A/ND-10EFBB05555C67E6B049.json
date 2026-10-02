@@ -1,0 +1,35 @@
+{
+  "id": "ND-10EFBB05555C67E6B049",
+  "title": "Multi-WAN",
+  "body": "Multi-WAN\nĐịnh nghĩa: SD-WAN chọn đường theo chính sách và sức khỏe đường truyền; SLA trong SD-WAN là ngưỡng đo chất lượng.\nĐầu vào: WAN/gateway, probe đích, latency/jitter/loss, ứng dụng và thứ tự ưu tiên.\nCách thực hiện:\n1. Đo từng WAN và xác nhận route/policy hiện tại.\n2. Tạo zone/members, khai báo gateway và health check tới đích đại diện.\n3. Tạo rule theo ứng dụng/địa chỉ/dịch vụ, ngưỡng SLA và phương thức chọn đường.\n4. Với hub-spoke, xác nhận tunnel/route từng site trước khi gắn rule; thử mất từng WAN và phục hồi.\nKiểm tra: Luồng đi đúng WAN; chuyển đường đúng ngưỡng; không bất đối xứng ngoài thiết kế.\nRollback: Phục hồi route/interface/policy trước SD-WAN và rule cũ; kiểm tra session.\nXuất hiện: Firewall!C32",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Multi-WAN",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Firewall",
+    "source_cell": "C32",
+    "service": "it_configuration",
+    "term": "Multi-WAN",
+    "recipe_id": "sdwan"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

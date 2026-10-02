@@ -1,0 +1,35 @@
+{
+  "id": "ND-74AB1BD256C7CE96875A",
+  "title": "Gia hạn",
+  "body": "Gia hạn\nĐịnh nghĩa: Cho thuê giao quyền sử dụng tài sản trong thời hạn; buy-out là mua lại theo điều kiện hợp đồng.\nĐầu vào: Model/quantity, serial/phụ kiện, term, ngày bắt đầu, license và điều kiện trả.\nCách thực hiện:\n1. Xác nhận nhu cầu và phương án giá được duyệt.\n2. Kiểm tra thiết bị/license/phụ kiện, cấu hình theo checklist được chốt.\n3. Bàn giao serial/tình trạng và hướng dẫn vận hành; theo dõi hỗ trợ và thời hạn.\n4. Trước hết hạn, xác nhận gia hạn/mua lại/trả; backup bàn giao và xử lý dữ liệu theo thỏa thuận trước tái sử dụng.\nKiểm tra: Biên bản giao/nhận đầy đủ; term/serial đúng; có xác nhận xử lý dữ liệu khi thu hồi.\nRollback: Điều chỉnh lịch/thiết bị theo hợp đồng và giữ dấu vết bàn giao.\nXuất hiện: 2. Checklist Yeu cau!B9; 2. Checklist Yeu cau!C9",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Gia hạn",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ cho thuê - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_cell": "B9",
+    "service": "equipment_rental",
+    "term": "Gia hạn",
+    "recipe_id": "rental"
+  },
+  "service": "equipment_rental",
+  "content_kind": "concept"
+}

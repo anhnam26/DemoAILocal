@@ -1,0 +1,32 @@
+{
+  "id": "ND-F8F9FCD8E07451B84542",
+  "title": "SOW đề xuất managed_service: Kết thúc/chuyển giao",
+  "body": "SOW đề xuất managed_service: Kết thúc/chuyển giao\nĐầu ra đề xuất: As-built, backup, danh sách tồn đọng và thu hồi quyền nhà cung cấp\nCác bước:\n1. Export backup cấu hình và ghi model/version/thời điểm/checksum.\n2. Mã hóa và lưu kho nội bộ; kiểm tra phục hồi trong lab hoặc kiểm tra tính toàn vẹn.\n3. Hoàn thiện as-built, IP plan, checklist kết quả, hướng dẫn vận hành/rollback và các tồn đọng.\n4. Hướng dẫn người nhận; ký BBNT đúng phạm vi và bàn giao bí mật qua kênh riêng.\n5. Giữ một phiên quản trị hoạt động và có console dự phòng.\n6. Tạo tài khoản riêng cho từng người, gán role tối thiểu và giới hạn IP nguồn quản trị.\n7. Bật MFA nếu nền tảng hỗ trợ; lưu bí mật ở kho bí mật, không trong dataset.\n8. Đăng nhập bằng tài khoản mới; thử thao tác được phép và thao tác bị cấm; chỉ vô hiệu tài khoản cũ sau xác nhận.\nNghiệm thu: Backup đọc được; hồ sơ đầy đủ; người nhận xác nhận; vấn đề chưa đạt có người chịu trách nhiệm.\nĐúng người/đúng phạm vi; truy cập ngoài subnet bị từ chối; có audit log.\nRollback: Nếu hồ sơ/test chưa đủ thì chưa xác nhận hoàn tất; bổ sung tài liệu và kiểm thử.\nDùng tài khoản khẩn cấp khôi phục role/trusted host; không khóa phiên cuối cùng.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất managed_service: Kết thúc/chuyển giao",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "managed_service-SOW-08",
+    "service": "managed_service"
+  },
+  "service": "managed_service",
+  "content_kind": "reference"
+}

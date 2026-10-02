@@ -1,0 +1,35 @@
+{
+  "id": "ND-8A13C1DDFB6FE1AA8A57",
+  "title": "Captive Portal",
+  "body": "Captive Portal\nĐịnh nghĩa: Trang xác thực/chấp thuận trước khi thiết bị khách được truy cập mạng.\nĐầu vào: Guest VLAN, DNS/DHCP, certificate, quota/thời hạn, sponsor.\nCách thực hiện:\n1. Tách mạng khách khỏi nội bộ.\n2. Tạo portal và chính sách redirect/walled garden tối thiểu.\n3. Cấu hình tự đăng ký hoặc sponsor approval theo nhu cầu, đặt thời hạn tài khoản.\n4. Thử thiết bị mới, tài khoản hết hạn, truy cập nội bộ bị cấm và logging.\nKiểm tra: Khách đăng nhập đúng luồng; hết hạn bị cắt; không vào mạng nội bộ.\nRollback: Tắt portal mới và khôi phục policy/VLAN khách cũ.\nXuất hiện: FortiGate!C44; FortiAP!C22; AP!C24",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Captive Portal",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C44",
+    "service": "it_configuration",
+    "term": "Captive Portal",
+    "recipe_id": "portal"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

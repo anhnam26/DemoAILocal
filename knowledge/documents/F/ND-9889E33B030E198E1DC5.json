@@ -1,0 +1,30 @@
+{
+  "id": "ND-9889E33B030E198E1DC5",
+  "title": "example_user_count",
+  "body": "example_user_count\nVí dụ 50 người dùng và 30 PC + 20 laptop + 10 mobile có đơn vị khác nhau (60 endpoint); không dùng làm số liệu khách hàng.\nVị trí: Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx / Thông tin lên Bom!C3",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "data_quality",
+  "provenance": {
+    "category": "data_quality",
+    "document_type": "data_quality",
+    "title": "example_user_count",
+    "provenance": "authored_review",
+    "review_status": "draft_engineer_review",
+    "source_file": "data_quality.json"
+  },
+  "service": "",
+  "content_kind": "reference"
+}

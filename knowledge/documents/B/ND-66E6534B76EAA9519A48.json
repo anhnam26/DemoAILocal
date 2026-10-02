@@ -1,0 +1,36 @@
+{
+  "id": "ND-66E6534B76EAA9519A48",
+  "title": "NAS — Tích hợp giám sát SNMP/Syslog",
+  "body": "NAS — Tích hợp giám sát SNMP/Syslog\nHạng mục gốc: Tích hợp giám sát SNMP/Syslog; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Thu thập chỉ số trạng thái/hiệu năng qua agent hoặc giao thức quản trị.\nLog ghi sự kiện; syslog/trap chuyển sự kiện tới máy thu tập trung.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nHost/IP, template/MIB, credential, polling interval, chỉ tiêu cần đo.\nIP máy thu, transport/port, chứng chỉ nếu TLS, loại log, dung lượng đĩa.\nQuy trình bổ sung:\n1. Thêm host đúng site và interface giám sát.\n2. Ưu tiên SNMPv3 authPriv nếu hỗ trợ; nếu v2c bắt buộc thì community riêng và giới hạn nguồn.\n3. Cài agent/template đúng OS/model; chọn CPU/RAM/disk/network và khoảng lấy mẫu.\n4. So sánh dữ liệu với thiết bị, test cảnh báo và mất kết nối.\n5. Kiểm tra dung lượng và kết nối tới collector.\n6. Bật local log nếu model có khả năng lưu; chọn mức log và thời gian lưu phù hợp.\n7. Cấu hình syslog/trap receiver và interface nguồn; ưu tiên kênh bảo vệ khi hỗ trợ.\n8. Phát sinh sự kiện test, kiểm tra timestamp, hostname, parser và việc nhận đủ bản ghi.\nNghiệm thu: Giá trị đúng đơn vị; không có lỗ hổng thu thập; chỉ server giám sát truy cập được.\nSự kiện test xuất hiện trên máy thu; không lệch giờ; hàng đợi/đĩa không tràn.\nRollback: Gỡ template/agent mới, khôi phục ACL/interval và credential cũ.\nKhôi phục mức log và collector cũ; bảo toàn log đã thu.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "NAS — Tích hợp giám sát SNMP/Syslog",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_row": 29,
+    "source_cell": "C29",
+    "service": "it_configuration",
+    "item_id": "IT-NAS-029",
+    "device_family": "NAS"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -27,7 +27,7 @@ class WorkspaceUI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         import sys
-        if 'app' in sys.modules:
+        if 'cyberant.app' in sys.modules:
             raise RuntimeError('Run this suite in its own Python process.')
         cls.temp = tempfile.TemporaryDirectory(prefix='cyberant-ui-')
         sock = socket.socket()
@@ -35,12 +35,16 @@ class WorkspaceUI(unittest.TestCase):
         cls.port = sock.getsockname()[1]
         sock.close()
         cls.base = f'http://127.0.0.1:{cls.port}'
-        values = dict(APP_DATA_DIR=cls.temp.name, APP_ENV='development', APP_ORIGINS=cls.base,
+        cls.data=Path(cls.temp.name)/'runtime'
+        values = dict(APP_DATA_DIR=str(cls.data), APP_ENV='development', APP_ORIGINS=cls.base,
+                      BOOTSTRAP_ADMIN_PASSWORD=PASSWORD,
                       OPENROUTER_MODEL=MODELS[0], OPENROUTER_MODEL2=MODELS[1],
                       OPENROUTER_API_KEY='fake-key-never-sent')
-        cls.config_patch = patch('config.env', return_value=values)
+        cls.config_patch = patch('cyberant.config.env', return_value=values)
         cls.config_patch.start()
-        cls.module = importlib.import_module('app')
+        from cyberant import operations
+        operations.initialize(cls.data)
+        cls.module = importlib.import_module('cyberant.app')
         cls.provider_calls = 0
 
         async def fake_complete(messages, settings, max_tokens):
@@ -52,10 +56,12 @@ class WorkspaceUI(unittest.TestCase):
                     '```text\nKhông có cuộc gọi model thật\n```',
                     dict(prompt_tokens=80, completion_tokens=40, total_tokens=120), 'stop')
 
-        cls.provider_patch = patch('model_provider.complete', side_effect=fake_complete)
+        cls.provider_patch = patch('cyberant.model_provider.complete', side_effect=fake_complete)
         cls.provider_patch.start()
         with cls.module.connect() as c:
-            import accounts
+            from cyberant import accounts
+            c.execute('INSERT INTO users(id,username,name,role,customers,password_hash,active,created,updated,model,monthly_token_limit,allowed_models) VALUES(?,?,?,?,?,?,1,?,?,?,?,?)',
+                      ('fixture-member','member','Thành viên','member','[]',accounts.hash_password(PASSWORD),time.time(),time.time(),MODELS[0],1000000,json.dumps(MODELS)))
             c.execute('UPDATE users SET password_hash=?,allowed_models=?,model=?',
                       (accounts.hash_password(PASSWORD), json.dumps(MODELS), MODELS[0]))
             member = c.execute("SELECT id FROM users WHERE username='member'").fetchone()['id']
@@ -82,7 +88,6 @@ class WorkspaceUI(unittest.TestCase):
         cls.server.should_exit = True
         cls.thread.join(10)
         cls.provider_patch.stop()
-        cls.module.INSTANCE_LOCK.close()
         cls.config_patch.stop()
         cls.temp.cleanup()
 
@@ -176,7 +181,7 @@ class WorkspaceUI(unittest.TestCase):
         self.assertEqual(admin.post('/api/login', json=dict(username='admin', password=payload['new_password'])).status_code, 200)
         self.assertEqual(admin.post('/api/account/password', json=dict(old_password=payload['new_password'], new_password=PASSWORD)).status_code, 200)
         # Restore only the isolated fixture so tests can also be rerun independently.
-        import accounts
+        from cyberant import accounts
         with self.module.connect() as c:
             c.execute("UPDATE users SET password_hash=? WHERE username='member'", (accounts.hash_password(PASSWORD),))
 

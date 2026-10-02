@@ -1,0 +1,35 @@
+{
+  "id": "ND-84E7D87C889507C09C08",
+  "title": "fortigate_configuration: Wireless / Access Point:",
+  "body": "fortigate_configuration: Wireless / Access Point:\nCâu hỏi/mô tả gốc: Hãng? Model? Đã quản lý central chưa?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Hãng? Model? Đã quản lý central chưa?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: AP cung cấp Wi-Fi; controller quản lý profile, radio và SSID tập trung.\nCách xử lý bổ sung:\n1. Kiểm tra nguồn, DHCP/DNS và đường discovery tới controller.\n2. Kết nối AP và authorize theo serial; gán site/AP profile đúng model.\n3. Đồng bộ radio/SSID và VLAN uplink.\n4. Kiểm tra online, client association, DHCP và truy cập mạng.\nTiêu chí: Đúng AP online đúng profile; client nhận mạng và dịch vụ.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Wireless / Access Point:",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 9,
+    "source_cell": "row:9",
+    "service": "fortigate_configuration",
+    "requirement_id": "7c8cfdab0b95620859f2"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

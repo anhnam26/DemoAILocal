@@ -1,0 +1,35 @@
+{
+  "id": "ND-372A261CB5C41E75961B",
+  "title": "FortiGate",
+  "body": "FortiGate\nĐịnh nghĩa: Firewall của Fortinet dùng chính sách mạng, NAT, VPN và các chức năng bảo mật tùy model/license/firmware.\nĐầu vào: Ma trận luồng nguồn/đích/port, zone, user, lịch, yêu cầu log.\nCách thực hiện:\n1. Tạo address/service objects đúng subnet và port.\n2. Tạo luật từ cụ thể đến tổng quát theo cơ chế hãng; chọn đúng ingress/egress, action và lịch.\n3. Gắn profile bảo mật và NAT chỉ khi thiết kế yêu cầu; bật log cần thiết.\n4. Thử luồng được phép và luồng phải chặn; xem hit count/log để tìm luật che khuất.\nKiểm tra: Chỉ các luồng đã duyệt được thông; kiểm thử deny đạt; log truy vết đúng policy.\nRollback: Disable luật mới và phục hồi thứ tự luật/object cũ; không mở any-any để xử lý tạm.\nXuất hiện: FortiGate!A1; FortiSwitch!C15; FortiSwitch!C27; FortiSwitch!C28; FortiAP!C14; FortiAP!C25; FortiManager!C15; FortiNAC!C17; FortiNAC!C23; FortiAnalyzer!C15",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "FortiGate",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "A1",
+    "service": "it_configuration",
+    "term": "FortiGate",
+    "recipe_id": "extra_FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

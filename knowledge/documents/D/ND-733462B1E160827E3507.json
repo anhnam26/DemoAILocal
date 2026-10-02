@@ -1,0 +1,32 @@
+{
+  "id": "ND-733462B1E160827E3507",
+  "title": "SOW đề xuất equipment_rental: Khảo sát nhu cầu",
+  "body": "SOW đề xuất equipment_rental: Khảo sát nhu cầu\nĐầu ra đề xuất: Model/số lượng/phụ kiện/license/term đã chốt\nCác bước:\n1. Ghi mục tiêu, site, người dùng và dịch vụ quan trọng.\n2. Thu inventory, config đã che bí mật, IP/VLAN/route và license; đối chiếu thông tin tại chỗ khi cần.\n3. Ghi thiếu/mâu thuẫn kèm người xác nhận, không tự điền như dữ liệu thật.\n4. Lập báo cáo hiện trạng, nhu cầu và giả định để khách hàng xác nhận.\n5. Xác nhận nhu cầu và phương án giá được duyệt.\n6. Kiểm tra thiết bị/license/phụ kiện, cấu hình theo checklist được chốt.\n7. Bàn giao serial/tình trạng và hướng dẫn vận hành; theo dõi hỗ trợ và thời hạn.\n8. Trước hết hạn, xác nhận gia hạn/mua lại/trả; backup bàn giao và xử lý dữ liệu theo thỏa thuận trước tái sử dụng.\nNghiệm thu: Mỗi yêu cầu có nguồn; thiếu dữ liệu được liệt kê; phạm vi được xác nhận.\nBiên bản giao/nhận đầy đủ; term/serial đúng; có xác nhận xử lý dữ liệu khi thu hồi.\nRollback: Sửa phiên bản khảo sát và cập nhật tài liệu phụ thuộc khi có thông tin mới.\nĐiều chỉnh lịch/thiết bị theo hợp đồng và giữ dấu vết bàn giao.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất equipment_rental: Khảo sát nhu cầu",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "equipment_rental-SOW-01",
+    "service": "equipment_rental"
+  },
+  "service": "equipment_rental",
+  "content_kind": "reference"
+}

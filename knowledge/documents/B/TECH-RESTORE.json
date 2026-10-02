@@ -1,0 +1,24 @@
+{
+  "id": "TECH-RESTORE",
+  "title": "Runbook diễn tập khôi phục backup",
+  "body": "Chọn bản sao và tập dữ liệu được phép; xác nhận checksum nếu có; khôi phục vào môi trường cách ly; đo thời gian; kiểm tính toàn vẹn và ứng dụng; ghi khoảng dữ liệu phục hồi được. Không ghi đè dữ liệu production để thử. Ghi RPO/RTO thực đo, lỗi và hành động cải tiến. Mật khẩu kho sao lưu được lấy qua công cụ quản trị bí mật, không đưa vào AI.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "ND-D2E424AC3D92C8FBDC9D",
+  "title": "misaligned_hints",
+  "body": "misaligned_hints\nGợi ý C21, C71:C73 trong BOM có dấu hiệu lệch chủ đề (security profile/DNS; automation/log; syslog/ADOM; khảo sát/training). Giữ nguyên và yêu cầu xác minh.\nVị trí: Thông tin lên Bom!C21,C71:C73",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "data_quality",
+  "provenance": {
+    "category": "data_quality",
+    "document_type": "data_quality",
+    "title": "misaligned_hints",
+    "provenance": "authored_review",
+    "review_status": "draft_engineer_review",
+    "source_file": "data_quality.json"
+  },
+  "service": "",
+  "content_kind": "reference"
+}

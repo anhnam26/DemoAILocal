@@ -7,14 +7,14 @@ cd -- "$ROOT"
 fail() { printf 'CyberAnt: %s\n' "$*" >&2; exit 1; }
 if [[ "${1:-}" == '--help' ]]; then
     printf '%s\n' 'Usage: bash /absolute/path/start.sh [--host HOST] [--port PORT]' \
-        'Defaults: 0.0.0.0:8088, Conda environment cyberant.' \
+        'Host/port follow CLI, environment, then configuration (default loopback:8088).' \
         'Add --share for a temporary public HTTPS URL (Linux, cloudflared required).' \
         'Share mode always binds 127.0.0.1 and requires an existing private database.' \
         'Set CONDA_EXE to your conda executable if it is not on PATH.' \
-        'Requires an existing .env; never installs dependencies or overwrites data.'
+        'APP_ENV_FILE can point to an external private config file.' \
+        'Never installs dependencies or initializes/migrates data.'
     exit 0
 fi
-[[ -f "$ROOT/.env" ]] || fail 'Missing .env. Follow docs/DEPLOYMENT.md; do not overwrite an existing configuration.'
 CONDA_BIN="${CONDA_EXE:-}"
 if [[ -z "$CONDA_BIN" ]]; then CONDA_BIN="$(type -P conda || true)"; fi
 if [[ -z "$CONDA_BIN" ]]; then
@@ -28,9 +28,9 @@ CONDA_BASE="$("$CONDA_BIN" info --base)" || fail 'Cannot determine Conda base di
 # Conda versions may reference unset variables; restore nounset after activation.
 set +u
 source "$CONDA_BASE/etc/profile.d/conda.sh"
-conda activate cyberant || fail 'Cannot activate cyberant. Create the environment and install requirements-lock.txt first.'
+conda activate "${CONDA_ENV_NAME:-cyberant}" || fail 'Cannot activate Conda environment. Install requirements-lock.txt first.'
 set -u
 [[ -n "${CONDA_PREFIX:-}" && -x "$CONDA_PREFIX/bin/python" ]] || fail 'Activated environment has no Python executable.'
 export PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
 # exec preserves SIGTERM/Ctrl+C and the application's exit status.
-exec "$CONDA_PREFIX/bin/python" "$ROOT/main.py" --host 0.0.0.0 --port 8088 "$@"
+exec "$CONDA_PREFIX/bin/python" "$ROOT/main.py" "$@"

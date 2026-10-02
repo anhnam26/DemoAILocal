@@ -1,0 +1,32 @@
+{
+  "id": "ND-8301E61D5CCBEF599F25",
+  "title": "Workflow Hỗ trợ kỹ thuật",
+  "body": "Workflow Hỗ trợ kỹ thuật\nTiếp nhận yêu cầu từ KH → [Tiếp tục] → Ghi nhận Ticket & Phân loại sự cố\nGhi nhận Ticket & Phân loại sự cố → [Tiếp tục] → Phân công Kỹ sư hỗ trợ\nPhân công Kỹ sư hỗ trợ → [Tiếp tục] → Phân tích & Xử lý sự cố\nCập nhật cho KH → [Tiếp tục] → Xác nhận từ KH\nXác nhận từ KH → [Tiếp tục] → Đóng Ticket\nĐóng Ticket → [Tiếp tục] → Báo cáo & Cập nhật\nPhân tích & Xử lý sự cố → [Xử lý thành công] → Cập nhật cho KH\nPhân tích & Xử lý sự cố → [Yêu cầu Escalate] → Kỹ sư cấp cao/Chuyên gia\nKỹ sư cấp cao/Chuyên gia → [Không xử lý được] → Phối hợp hãng\nKỹ sư cấp cao/Chuyên gia → [Xử lý thành công] → Cập nhật cho KH\nPhối hợp hãng → [Xử lý thành công] → Cập nhật cho KH\nPhối hợp hãng → [Không xử lý được] → Tiếp tục theo dõi\nTiếp tục theo dõi → [Cập nhật theo dõi] → Cập nhật cho KH\nXác nhận từ KH → [Mũi tên phản hồi hai chiều trong PDF] → Cập nhật cho KH",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "source_transcribed",
+  "data_type": "workflow",
+  "provenance": {
+    "category": "workflow",
+    "document_type": "workflow",
+    "title": "Workflow Hỗ trợ kỹ thuật",
+    "provenance": "source",
+    "review_status": "source_transcribed",
+    "source_file": "CBA Services Work Flow (1).pdf",
+    "source_page": 8,
+    "workflow_id": "WF-08"
+  },
+  "service": "",
+  "content_kind": "workflow"
+}

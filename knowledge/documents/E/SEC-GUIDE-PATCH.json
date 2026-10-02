@@ -1,0 +1,30 @@
+{
+  "id": "SEC-GUIDE-PATCH",
+  "title": "Quản lý bản vá và kiểm thay đổi — kiến thức & tư vấn",
+  "body": "## 1. Hiểu đúng\nVá lỗi phải đi kèm kiểm tương thích và bằng chứng sau thay đổi. Khi chưa vá được, ghi biện pháp giảm thiểu, chủ sở hữu rủi ro và thời điểm xem xét lại.\n\n## 2. Câu hỏi khảo sát đề xuất\nCó HA, backup cấu hình và maintenance window? Ai kiểm UAT? Có bản vá phụ thuộc?\n\n## 3. Bằng chứng nên yêu cầu\nChange record; UAT; log sau vá; danh sách ngoại lệ.\n\n## 4. Giới hạn\nKhông suy ra hệ thống an toàn chỉ từ thông báo cài bản vá thành công.\n\n## Nguồn và biên soạn\nTham khảo nền tảng: CISA Known Exploited Vulnerabilities Catalog. Bản diễn giải tiếng Việt và bài tập do demo biên soạn; không phải bản dịch tiêu chuẩn. Kiểm nguồn ngày 2026-09-05. Các câu hỏi, bước lab và đầu ra là đề xuất cho demo, không phải yêu cầu nguyên văn của nguồn.",
+  "group": "E",
+  "category": "An toàn thông tin",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "references": [
+    {
+      "title": "CISA Known Exploited Vulnerabilities Catalog",
+      "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "checked_at": "2026-09-05"
+    }
+  ],
+  "provenance": {
+    "source": "security_documents"
+  },
+  "content_kind": "reference"
+}

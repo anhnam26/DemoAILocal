@@ -1,0 +1,36 @@
+{
+  "id": "ND-3A59738792809469DFA5",
+  "title": "SAN — Đặt Hostname, cấu hình Management IP",
+  "body": "SAN — Đặt Hostname, cấu hình Management IP\nHạng mục gốc: Đặt Hostname, cấu hình Management IP; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Hostname định danh thiết bị; timezone hiển thị giờ địa phương; NTP đồng bộ đồng hồ; banner là thông báo đăng nhập.\nInterface là cổng logic/vật lý; WAN nối ngoài, LAN nội bộ, DMZ tách dịch vụ; zone nhóm interface cùng chính sách.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nTên chuẩn, múi giờ, IP quản lý, NTP và DNS đã duyệt.\nSơ đồ cổng/cáp, IP/mask/gateway, tốc độ/duplex, VLAN và quyền quản trị.\nQuy trình bổ sung:\n1. Đối chiếu model và hệ điều hành; mở trang System/General hoặc công cụ quản trị tương ứng.\n2. Đặt hostname duy nhất, timezone theo site; khai báo NTP được phép truy cập và nguồn interface đúng.\n3. Nếu yêu cầu IP quản lý, gán IP/mask/gateway theo IP plan; đặt banner đã duyệt.\n4. Lưu cấu hình và kiểm tra đồng bộ thời gian, truy cập quản lý từ mạng cho phép.\n5. Đối chiếu nhãn cáp và cổng; giữ console khi đổi IP quản lý.\n6. Tạo zone nếu thiết kế yêu cầu; gán interface, địa chỉ và role WAN/LAN/DMZ.\n7. Chỉ bật giao thức quản trị trên mạng quản trị; kiểm tra link và MTU với đầu đối diện.\n8. Kiểm tra ARP, ping gateway và route; lưu sơ đồ cổng sau thay đổi.\nNghiệm thu: Tên, địa chỉ quản lý và giờ đúng; NTP synchronized; log có timestamp đúng.\nKhông trùng IP; link up; đúng zone và subnet; truy cập quản trị đúng nguồn.\nRollback: Khôi phục hostname/NTP/IP cũ qua console nếu mất quản lý.\nTrả IP/zone/cáp về sơ đồ ban đầu qua console.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "SAN — Đặt Hostname, cấu hình Management IP",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_row": 14,
+    "source_cell": "C14",
+    "service": "it_configuration",
+    "item_id": "IT-SAN-014",
+    "device_family": "SAN"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

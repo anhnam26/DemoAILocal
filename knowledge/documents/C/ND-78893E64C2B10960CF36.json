@@ -1,0 +1,35 @@
+{
+  "id": "ND-78893E64C2B10960CF36",
+  "title": "fortigate_configuration: Có yêu cầu cấu hình Automation Stich/Email cảnh báo…khi xảy ra các sự kiện không?",
+  "body": "fortigate_configuration: Có yêu cầu cấu hình Automation Stich/Email cảnh báo…khi xảy ra các sự kiện không?\nCâu hỏi/mô tả gốc: Log mức độ Low/Standard/Full? Log URL chi tiết?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Log mức độ Low/Standard/Full? Log URL chi tiết?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Lọc web theo URL, nhóm nội dung hoặc uy tín.\nLog ghi sự kiện; syslog/trap chuyển sự kiện tới máy thu tập trung.\nCách xử lý bổ sung:\n1. Kiểm tra license và phương thức quan sát HTTPS.\n2. Clone profile web filter; đặt action từng category và URL override theo yêu cầu.\n3. Gắn vào đúng policy, xác nhận DNS/SSL inspection liên quan.\n4. Thử URL được phép/chặn từ client đại diện và xem log.\n5. Kiểm tra dung lượng và kết nối tới collector.\n6. Bật local log nếu model có khả năng lưu; chọn mức log và thời gian lưu phù hợp.\n7. Cấu hình syslog/trap receiver và interface nguồn; ưu tiên kênh bảo vệ khi hỗ trợ.\n8. Phát sinh sự kiện test, kiểm tra timestamp, hostname, parser và việc nhận đủ bản ghi.\nTiêu chí: Đúng nhóm người dùng bị áp dụng; URL được phép vẫn hoạt động; có log chặn.\nSự kiện test xuất hiện trên máy thu; không lệch giờ; hàng đợi/đĩa không tràn.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Có yêu cầu cấu hình Automation Stich/Email cảnh báo…khi xảy ra các sự kiện không?",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 71,
+    "source_cell": "row:71",
+    "service": "fortigate_configuration",
+    "requirement_id": "48b7670aefca55842168"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

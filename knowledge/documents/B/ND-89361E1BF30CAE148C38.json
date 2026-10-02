@@ -1,0 +1,36 @@
+{
+  "id": "ND-89361E1BF30CAE148C38",
+  "title": "Monitoring — Cấu hình sơ đồ mạng tự động (Network Topology Mapping)",
+  "body": "Monitoring — Cấu hình sơ đồ mạng tự động (Network Topology Mapping)\nHạng mục gốc: Cấu hình sơ đồ mạng tự động (Network Topology Mapping); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Sơ đồ quan hệ thiết bị/cổng từ discovery và dữ liệu inventory.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nSubnet được quét, SNMP/LLDP/CDP quyền đọc, site map.\nQuy trình bổ sung:\n1. Giới hạn discovery vào mạng được phép.\n2. Thu inventory và neighbor, gộp thiết bị theo ID ổn định.\n3. Đối chiếu sơ đồ tự động với nhãn cáp/as-built, sửa liên kết thiếu bằng bằng chứng.\n4. Tạo lịch refresh và lưu phiên bản.\nNghiệm thu: Sơ đồ có port/site đúng; không quét ngoài scope; thay đổi được ghi nhận.\nRollback: Tắt discovery mới, phục hồi sơ đồ phiên bản trước.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Monitoring — Cấu hình sơ đồ mạng tự động (Network Topology Mapping)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Monitoring",
+    "source_row": 21,
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "item_id": "IT-Monitoring-021",
+    "device_family": "Monitoring"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

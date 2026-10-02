@@ -1,0 +1,35 @@
+{
+  "id": "ND-ABF0431B5660B0CBCA91",
+  "title": "Load Balancing",
+  "body": "Load Balancing\nĐịnh nghĩa: Phân phối kết nối tới nhiều backend; sức khỏe và session persistence phải đúng ứng dụng.\nĐầu vào: VIP, backend/port, health probe, session affinity và mạng.\nCách thực hiện:\n1. Đo baseline từng backend và xác định kiểu load balancer được hỗ trợ.\n2. Tạo pool/VIP/probe và phương thức phân phối, kiểm soát NAT/return path.\n3. Cấu hình affinity nếu ứng dụng cần.\n4. Thử tải và tắt một backend, kiểm tra session và health status.\nKiểm tra: Backend lỗi bị loại; dịch vụ tại VIP vẫn đáp ứng; tải chia đúng.\nRollback: Chuyển VIP/DNS về điểm cũ, disable pool mới theo kế hoạch.\nXuất hiện: FortiAP!C24; Server!C25; AP!C22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Load Balancing",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAP",
+    "source_cell": "C24",
+    "service": "it_configuration",
+    "term": "Load Balancing",
+    "recipe_id": "nlb"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-3AC8932410693A71CD5C",
+  "title": "Server — Cấu hình Active Directory/DNS/DHCP Role",
+  "body": "Server — Cấu hình Active Directory/DNS/DHCP Role\nHạng mục gốc: Cấu hình Active Directory/DNS/DHCP Role; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Các dịch vụ máy chủ như directory, phân giải tên và cấp IP.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nDomain design, địa chỉ tĩnh, zone/scope, license, backup.\nQuy trình bổ sung:\n1. Chốt thiết kế role và quyền quản trị trước cài.\n2. Cài role cần thiết; với AD DS chọn forest/domain và replication đúng, với DNS tạo zone/forwarder, với DHCP tạo/authorize scope.\n3. Kiểm tra DNS/time/replication, lease và quyền client.\n4. Sao lưu system state/config role và tài liệu phụ thuộc.\nNghiệm thu: Client join/auth, DNS và DHCP đạt test; không tạo domain/scope ngoài thiết kế.\nRollback: Khôi phục role/config theo hướng dẫn nền tảng; không xóa DC/zone đang phục vụ tùy tiện.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Server — Cấu hình Active Directory/DNS/DHCP Role",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_row": 24,
+    "source_cell": "C24",
+    "service": "it_configuration",
+    "item_id": "IT-Server-024",
+    "device_family": "Server"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

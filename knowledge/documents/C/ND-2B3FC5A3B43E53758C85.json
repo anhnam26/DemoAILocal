@@ -1,0 +1,35 @@
+{
+  "id": "ND-2B3FC5A3B43E53758C85",
+  "title": "fortigate_configuration: Có yêu cầu cấu hình HA không?",
+  "body": "fortigate_configuration: Có yêu cầu cấu hình HA không?\nCâu hỏi/mô tả gốc: HA Mode: Active - Passive hay Active - Active?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: HA Mode: Active - Passive hay Active - Active?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Cụm dự phòng giảm gián đoạn; cách đồng bộ, bầu primary và xử lý session phụ thuộc nền tảng.\nCách xử lý bổ sung:\n1. Đọc ma trận HA đúng sản phẩm; không ghép hai model FortiGate khác nhau vào cùng FGCP cluster.\n2. Sao lưu từng node; cấu hình cluster/group, heartbeat, priority và interface được giám sát.\n3. Kết nối heartbeat theo thiết kế; chờ đồng bộ và đối chiếu trạng thái/config checksum.\n4. Kiểm thử mất link/node trong cửa sổ bảo trì; đo gián đoạn ứng dụng và kiểm tra split-brain.\nTiêu chí: Đủ node, sync healthy; failover/failback đạt ngưỡng đã duyệt; không trùng IP/split-brain.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Có yêu cầu cấu hình HA không?",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 37,
+    "source_cell": "row:37",
+    "service": "fortigate_configuration",
+    "requirement_id": "f0769613f309976b84f4"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

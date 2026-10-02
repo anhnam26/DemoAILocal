@@ -1,0 +1,35 @@
+{
+  "id": "ND-4B5C24709377B06F8177",
+  "title": "FortiSwitch",
+  "body": "FortiSwitch\nĐịnh nghĩa: Switch Ethernet của Fortinet, có thể quản lý độc lập hoặc qua FortiLink tùy model/version.\nĐầu vào: Cổng uplink, switch model/version, VLAN và topology FortiLink.\nCách thực hiện:\n1. Kiểm tra bảng tương thích và sơ đồ vòng lặp.\n2. Cấu hình FortiLink trên cổng được thiết kế; đấu nối switch.\n3. Xác nhận serial và authorize đúng switch; đợi online.\n4. Tạo VLAN/port profile từ FortiGate, thử client và backup topology.\nKiểm tra: Switch online/managed; đúng serial; VLAN và port profile hoạt động.\nRollback: Ngắt uplink mới nếu loop; khôi phục cấu hình FortiLink/port trước thay đổi.\nXuất hiện: Thông tin lên Bom!A62; Thông tin lên Bom!B65; Thông tin lên Bom!C65; Thông tin lên Bom!B66",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "FortiSwitch",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "A62",
+    "service": "fortigate_configuration",
+    "term": "FortiSwitch",
+    "recipe_id": "extra_FortiSwitch"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

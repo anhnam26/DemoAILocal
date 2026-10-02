@@ -1,0 +1,36 @@
+{
+  "id": "ND-F7FC47AE58D93CA568B5",
+  "title": "FortiAP — Cấu hình Rogue AP Detection (WIDS/WIPS)",
+  "body": "FortiAP — Cấu hình Rogue AP Detection (WIDS/WIPS)\nHạng mục gốc: Cấu hình Rogue AP Detection (WIDS/WIPS); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Phát hiện AP không được phép; chế độ ngăn chặn sóng cần phạm vi và quyền rõ ràng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nDanh sách AP hợp lệ, sensor/radio, khu vực, quy trình xác minh.\nQuy trình bổ sung:\n1. Đăng ký AP hợp lệ, bật scan/detection theo khả năng radio.\n2. Tạo rule và cảnh báo rogue; bắt đầu ở chế độ phát hiện.\n3. Xác minh AP test trong khu vực kiểm soát; phân biệt AP lân cận với rogue nối mạng nội bộ.\n4. Chỉ bật containment khi có thẩm quyền và đánh giá ảnh hưởng.\nNghiệm thu: Cảnh báo đúng AP test; không nhận nhầm AP hợp lệ; có quy trình xử lý.\nRollback: Tắt containment/rule mới, giữ log và phục hồi lịch scan.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiAP — Cấu hình Rogue AP Detection (WIDS/WIPS)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAP",
+    "source_row": 23,
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "item_id": "IT-FortiAP-023",
+    "device_family": "FortiAP"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

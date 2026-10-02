@@ -1,0 +1,34 @@
+{
+  "id": "ND-3D70C592C4FAD98C5C8D",
+  "title": "Chuyển đổi kết nối cáp từ thiết bị cũ sang thiết bị mới",
+  "body": "Chuyển đổi kết nối cáp từ thiết bị cũ sang thiết bị mới\nƯớc tính trong nguồn: 0.25 giờ × 2 kỹ sư = 0.5 man-hour. Không phải downtime hoặc giá.\nThực hiện chuyển đổi hệ thống cũ sang hệ thống mới theo kế hoạch đã duyệt\nCách làm bổ sung:\n1. Chốt change plan và điểm go/no-go, backup cả hai phía.\n2. Chuẩn bị thiết bị mới/lab, đối chiếu policy/NAT/route/VPN/license.\n3. Trong cửa sổ đã duyệt, chuyển cáp/route theo từng bước có timestamp.\n4. Chạy test nghiệp vụ và HA; nếu quá ngưỡng hoặc test trọng yếu lỗi, rollback cáp/config theo bản trước và kiểm tra lại.\nNghiệm thu: Bộ test có pass/fail/bằng chứng; thời gian gián đoạn được đo; khách hàng xác nhận.\nRollback: Trả cáp/route/config về thiết bị cũ, xác nhận ứng dụng phục hồi; ghi lỗi và lập kế hoạch thử lại.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "migration_sow",
+  "provenance": {
+    "category": "migration_sow",
+    "document_type": "migration_sow",
+    "title": "Chuyển đổi kết nối cáp từ thiết bị cũ sang thiết bị mới",
+    "provenance": "source_estimate_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_row": 24,
+    "source_cell": "row:24",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

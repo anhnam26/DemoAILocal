@@ -1,0 +1,35 @@
+{
+  "id": "ND-D20595901B51E7A3AB90",
+  "title": "SLA",
+  "body": "SLA\nĐịnh nghĩa: Service Level Agreement: thỏa thuận mức dịch vụ với phạm vi, lịch, severity và cách đo. Trong SD-WAN, performance SLA chỉ bộ đo chất lượng đường truyền; phải phân biệt hai ngữ cảnh.\nĐầu vào: Giờ dịch vụ, timezone/lịch lễ, severity, mốc start/stop/pause và ngoại lệ.\nCách thực hiện:\n1. Thống nhất định nghĩa chỉ số và nguồn timestamp.\n2. Cấu hình calendar, mức ưu tiên và ngưỡng theo hợp đồng, không lấy ví dụ làm cam kết.\n3. Tính availability = thời gian khả dụng / thời gian thuộc phạm vi sau ngoại lệ hợp lệ.\n4. Đối chiếu ticket/outage mẫu với báo cáo và phê duyệt.\nKiểm tra: Mẫu tính có thể tái lập; tách response/resolution; maintenance xử lý đúng hợp đồng.\nRollback: Sửa định nghĩa và tính lại báo cáo có lưu phiên bản.\nXuất hiện: 2. Checklist Yêu cầu!A5",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SLA",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Managed Service - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yêu cầu",
+    "source_cell": "A5",
+    "service": "managed_service",
+    "term": "SLA",
+    "recipe_id": "extra_SLA"
+  },
+  "service": "managed_service",
+  "content_kind": "concept"
+}

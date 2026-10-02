@@ -1,0 +1,35 @@
+{
+  "id": "ND-C22092C0718F3F924A22",
+  "title": "fortigate_configuration: Cấu hình Log + Backup cấu hình",
+  "body": "fortigate_configuration: Cấu hình Log + Backup cấu hình\nCâu hỏi/mô tả gốc: Cấu hình Log + Backup cấu hình\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Cấu hình Log + Backup cấu hình. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Log ghi sự kiện; syslog/trap chuyển sự kiện tới máy thu tập trung.\nBackup lưu bản phục hồi; bàn giao gồm cấu hình, sơ đồ, hướng dẫn và biên bản nghiệm thu.\nCách xử lý bổ sung:\n1. Kiểm tra dung lượng và kết nối tới collector.\n2. Bật local log nếu model có khả năng lưu; chọn mức log và thời gian lưu phù hợp.\n3. Cấu hình syslog/trap receiver và interface nguồn; ưu tiên kênh bảo vệ khi hỗ trợ.\n4. Phát sinh sự kiện test, kiểm tra timestamp, hostname, parser và việc nhận đủ bản ghi.\n5. Export backup cấu hình và ghi model/version/thời điểm/checksum.\n6. Mã hóa và lưu kho nội bộ; kiểm tra phục hồi trong lab hoặc kiểm tra tính toàn vẹn.\n7. Hoàn thiện as-built, IP plan, checklist kết quả, hướng dẫn vận hành/rollback và các tồn đọng.\n8. Hướng dẫn người nhận; ký BBNT đúng phạm vi và bàn giao bí mật qua kênh riêng.\nTiêu chí: Sự kiện test xuất hiện trên máy thu; không lệch giờ; hàng đợi/đĩa không tràn.\nBackup đọc được; hồ sơ đầy đủ; người nhận xác nhận; vấn đề chưa đạt có người chịu trách nhiệm.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Cấu hình Log + Backup cấu hình",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 24,
+    "source_cell": "row:24",
+    "service": "fortigate_configuration",
+    "requirement_id": "eb22f5148c9beda16004"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

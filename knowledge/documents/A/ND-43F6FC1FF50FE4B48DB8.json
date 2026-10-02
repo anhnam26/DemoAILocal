@@ -1,0 +1,35 @@
+{
+  "id": "ND-43F6FC1FF50FE4B48DB8",
+  "title": "2FA",
+  "body": "2FA\nĐịnh nghĩa: Xác thực nhiều yếu tố, FortiToken cung cấp yếu tố bổ sung.\nĐầu vào: Danh sách user, token/license, kênh kích hoạt, recovery policy.\nCách thực hiện:\n1. Đối chiếu số token/license và user.\n2. Gán token theo từng danh tính, gửi kích hoạt qua kênh đã xác nhận.\n3. Bật yêu cầu MFA cho VPN/admin và thử enrollment.\n4. Kiểm tra OTP đúng/sai, mất token và quy trình thu hồi; không lưu seed/token vào dataset.\nKiểm tra: Không thể bỏ qua MFA; token đúng user; có cách khôi phục đã kiểm soát.\nRollback: Thu hồi token lỗi và phục hồi phương án truy cập được phê duyệt, không tắt MFA diện rộng.\nXuất hiện: FortiGate!C43; Firewall!C29",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "2FA",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C43",
+    "service": "it_configuration",
+    "term": "2FA",
+    "recipe_id": "mfa"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-C08B278647E5B00A0F39",
+  "title": "SAN — Cấu hình Zoning (FC) hoặc VLAN (iSCSI) cơ bản",
+  "body": "SAN — Cấu hình Zoning (FC) hoặc VLAN (iSCSI) cơ bản\nHạng mục gốc: Cấu hình Zoning (FC) hoặc VLAN (iSCSI) cơ bản; gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Zoning giới hạn giao tiếp trong fabric Fibre Channel.\nPhân đoạn mạng lớp 2 theo VLAN ID; 802.1Q gắn thẻ VLAN trên liên kết dùng chung.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nWWPN host/storage, fabric A/B, active zoneset và sơ đồ.\nVLAN ID/tên, subnet/gateway, parent interface, danh sách VLAN được phép.\nQuy trình bổ sung:\n1. Đối chiếu WWPN thực và backup switch config.\n2. Tạo alias/zone theo thiết kế, thường tách initiator-target và giữ hai fabric độc lập.\n3. Thêm vào zoneset và activate có kiểm soát.\n4. Rescan host, kiểm tra path và lỗi FC.\n5. Tạo VLAN trên thiết bị và sub-interface trên gateway nếu gateway đặt tại đó.\n6. Gán VLAN ID, tên, IP/mask cho sub-interface theo IP plan.\n7. Đồng bộ allowed VLAN và native VLAN giữa hai đầu uplink; tránh nhầm tagged/untagged.\n8. Cấu hình DHCP/policy liên quan và thử client của từng VLAN.\nNghiệm thu: Host thấy đúng target qua các fabric; không mất path cũ.\nClient vào đúng VLAN, lấy đúng IP; VLAN bị tách theo policy; uplink truyền đúng tag.\nRollback: Phục hồi zoneset trước; chỉ thay đổi zone mới liên quan.\nGỡ VLAN mới sau khi chuyển client về VLAN cũ; khôi phục allowed/native VLAN.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "SAN — Cấu hình Zoning (FC) hoặc VLAN (iSCSI) cơ bản",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_row": 17,
+    "source_cell": "C17",
+    "service": "it_configuration",
+    "item_id": "IT-SAN-017",
+    "device_family": "SAN"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

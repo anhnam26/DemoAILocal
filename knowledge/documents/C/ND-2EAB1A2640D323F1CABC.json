@@ -1,0 +1,35 @@
+{
+  "id": "ND-2EAB1A2640D323F1CABC",
+  "title": "consulting: High Availability",
+  "body": "consulting: High Availability\nCâu hỏi/mô tả gốc: Giải pháp có yêu cầu High Availability hoặc dự phòng không? Nếu có, vui lòng mô tả.\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Giải pháp có yêu cầu High Availability hoặc dự phòng không? Nếu có, vui lòng mô tả.. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Cụm dự phòng giảm gián đoạn; cách đồng bộ, bầu primary và xử lý session phụ thuộc nền tảng.\nAvailability đo thời gian đáp ứng theo định nghĩa; response là phản hồi ban đầu, resolution là xử lý, hai mốc khác nhau.\nCách xử lý bổ sung:\n1. Đọc ma trận HA đúng sản phẩm; không ghép hai model FortiGate khác nhau vào cùng FGCP cluster.\n2. Sao lưu từng node; cấu hình cluster/group, heartbeat, priority và interface được giám sát.\n3. Kết nối heartbeat theo thiết kế; chờ đồng bộ và đối chiếu trạng thái/config checksum.\n4. Kiểm thử mất link/node trong cửa sổ bảo trì; đo gián đoạn ứng dụng và kiểm tra split-brain.\n5. Thống nhất định nghĩa chỉ số và nguồn timestamp.\n6. Cấu hình calendar, mức ưu tiên và ngưỡng theo hợp đồng, không lấy ví dụ làm cam kết.\n7. Tính availability = thời gian khả dụng / thời gian thuộc phạm vi sau ngoại lệ hợp lệ.\n8. Đối chiếu ticket/outage mẫu với báo cáo và phê duyệt.\nTiêu chí: Đủ node, sync healthy; failover/failback đạt ngưỡng đã duyệt; không trùng IP/split-brain.\nMẫu tính có thể tái lập; tách response/resolution; maintenance xử lý đúng hợp đồng.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: High Availability",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 21,
+    "source_cell": "row:21",
+    "service": "consulting",
+    "requirement_id": "18e7d7a1be6b962ecd78"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

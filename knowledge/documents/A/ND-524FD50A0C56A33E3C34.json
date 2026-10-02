@@ -1,0 +1,35 @@
+{
+  "id": "ND-524FD50A0C56A33E3C34",
+  "title": "Remote Access VPN",
+  "body": "Remote Access VPN\nĐịnh nghĩa: VPN từ máy người dùng vào mạng nội bộ, kiểm soát danh tính và phạm vi truy cập.\nĐầu vào: OS/FortiClient/version FortiOS, nhóm user, MFA, pool không trùng, DNS, mạng được vào.\nCách thực hiện:\n1. Kiểm tra ma trận tương thích trước khi chọn IPsec/SSL.\n2. Tạo remote-access IPsec/dial-up và nhóm xác thực; định nghĩa IP pool, split/full tunnel và DNS.\n3. Tạo policy từ pool/user group vào đúng tài nguyên; triển khai profile FortiClient thử nghiệm.\n4. Thử từ Internet bằng user hợp lệ, sai quyền và MFA; kiểm tra DNS, route và log.\nKiểm tra: User đúng nhóm vào đúng tài nguyên; user sai bị từ chối; MFA và timeout đúng yêu cầu.\nRollback: Thu hồi profile mới; phục hồi VPN cũ đã kiểm chứng; không để tài khoản thử tồn tại.\nXuất hiện: Firewall!C24",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Remote Access VPN",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Firewall",
+    "source_cell": "C24",
+    "service": "it_configuration",
+    "term": "Remote Access VPN",
+    "recipe_id": "remotevpn"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

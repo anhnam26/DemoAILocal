@@ -1,0 +1,35 @@
+{
+  "id": "ND-BBE4194FB7C3AC51E133",
+  "title": "Flow-based",
+  "body": "Flow-based\nĐịnh nghĩa: Antivirus quét nội dung độc hại; UTM gom các lớp bảo vệ gắn vào policy.\nĐầu vào: License, kiểu inspection, luồng cần bảo vệ, ngoại lệ đã duyệt.\nCách thực hiện:\n1. Kiểm tra subscription và cập nhật chữ ký.\n2. Tạo hoặc clone profile; chọn action theo loại giao thức và chế độ flow/proxy được hỗ trợ.\n3. Gắn profile vào policy thực sự đi qua luồng cần quét.\n4. Thử mẫu kiểm tra lành tính được hãng cho phép trong lab, kiểm tra log, tải CPU và false positive.\nKiểm tra: Profile được hit; mẫu test bị xử lý đúng; ứng dụng hợp lệ hoạt động.\nRollback: Tháo profile mới khỏi policy hoặc phục hồi profile cũ, giữ log điều tra.\nXuất hiện: FortiGate!C25",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Flow-based",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C25",
+    "service": "it_configuration",
+    "term": "Flow-based",
+    "recipe_id": "av"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

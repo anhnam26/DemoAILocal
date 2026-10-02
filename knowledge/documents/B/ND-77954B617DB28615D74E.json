@@ -1,0 +1,36 @@
+{
+  "id": "ND-77954B617DB28615D74E",
+  "title": "FortiAnalyzer — Cấu hình SOC/Event Correlation (Incidents & Events)",
+  "body": "FortiAnalyzer — Cấu hình SOC/Event Correlation (Incidents & Events)\nHạng mục gốc: Cấu hình SOC/Event Correlation (Incidents & Events); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Tương quan nhiều sự kiện để phát hiện tình huống an ninh và tạo incident.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nNguồn log đã parse, use case, cửa sổ thời gian, severity và owner.\nQuy trình bổ sung:\n1. Chuẩn hóa timestamp/host/user trước khi viết rule.\n2. Định nghĩa chuỗi/đếm sự kiện và điều kiện loại trừ có cơ sở.\n3. Replay log test để đo true/false positive; tạo incident có bằng chứng.\n4. Gắn người xử lý/escalation và chỉnh threshold trước vận hành.\nNghiệm thu: Incident test có nguồn truy vết; không cảnh báo trùng; có owner.\nRollback: Disable rule mới, giữ log và incident để rà soát.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiAnalyzer — Cấu hình SOC/Event Correlation (Incidents & Events)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAnalyzer",
+    "source_row": 22,
+    "source_cell": "C22",
+    "service": "it_configuration",
+    "item_id": "IT-FortiAnalyzer-022",
+    "device_family": "FortiAnalyzer"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

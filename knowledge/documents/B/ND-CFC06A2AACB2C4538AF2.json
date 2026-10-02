@@ -1,0 +1,36 @@
+{
+  "id": "ND-CFC06A2AACB2C4538AF2",
+  "title": "FortiGate — Kiểm tra/cập nhật Firmware lên bản ổn định (nếu cần)",
+  "body": "FortiGate — Kiểm tra/cập nhật Firmware lên bản ổn định (nếu cần)\nHạng mục gốc: Kiểm tra/cập nhật Firmware lên bản ổn định (nếu cần); gói theo checklist này: Cơ bản.\nĐịnh nghĩa: Phần mềm điều khiển thiết bị; nâng/hạ phiên bản phải theo lộ trình và tính tương thích của hãng.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nModel/revision, phiên bản hiện tại/đích, release notes, đường nâng cấp, thời gian bảo trì.\nQuy trình bổ sung:\n1. Sao lưu cấu hình và image cần phục hồi; xác minh backup đọc được.\n2. Kiểm tra ma trận hỗ trợ tính năng/license và lộ trình nâng cấp đúng model; không tự chọn bản mới nhất.\n3. Tải image từ hãng, kiểm tra checksum; nâng cấp theo từng bước được hỗ trợ.\n4. Sau mỗi lần khởi động, kiểm tra interface, route, policy, VPN, HA và log; cập nhật driver tương thích nếu là server.\nNghiệm thu: Đúng version; không lỗi chuyển đổi cấu hình; bộ test dịch vụ đạt; có biên bản downtime.\nRollback: Dừng khi không tương thích; phục hồi image và backup cùng phiên bản theo hướng dẫn hãng, không nạp mù config mới vào firmware cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Kiểm tra/cập nhật Firmware lên bản ổn định (nếu cần)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 17,
+    "source_cell": "C17",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-017",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "ND-AE945D337F06273D634B",
+  "title": "SOW đề xuất managed_service: Báo cáo & cải tiến",
+  "body": "SOW đề xuất managed_service: Báo cáo & cải tiến\nĐầu ra đề xuất: Uptime, SLA, capacity, vấn đề lặp lại, đề xuất và monthly review\nCác bước:\n1. Kiểm tra dữ liệu nguồn và cách tính từng chỉ số.\n2. Tạo dashboard/report với bộ lọc site/device/time và quyền truy cập.\n3. Nếu định kỳ, đặt lịch/định dạng/người nhận theo thỏa thuận.\n4. Đối chiếu một kỳ mẫu với log thô; kiểm tra dữ liệu thiếu và gửi thử.\n5. Thu baseline giờ thường/cao điểm.\n6. Cấu hình dashboard throughput/latency/queue/capacity; với log thêm EPS, parse failures và lag.\n7. Tạo alert có thời gian duy trì.\n8. Test tải có kiểm soát và đối chiếu số liệu ở nguồn/đích.\nNghiệm thu: Số liệu đối chiếu được; đúng phạm vi/thời gian/người nhận.\nPhát hiện nghẽn trước mất dữ liệu; chỉ số đúng đơn vị; có lịch sử so sánh.\nRollback: Tắt lịch mới, phục hồi filter/template cũ và gửi bản sửa nếu có sai số.\nGiảm sampling/tắt rule gây tải, phục hồi template trước.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất managed_service: Báo cáo & cải tiến",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "managed_service-SOW-07",
+    "service": "managed_service"
+  },
+  "service": "managed_service",
+  "content_kind": "reference"
+}

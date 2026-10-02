@@ -1,0 +1,35 @@
+{
+  "id": "ND-69D820F8FE7AF4171590",
+  "title": "Thin Provisioning",
+  "body": "Thin Provisioning\nĐịnh nghĩa: Snapshot lưu trạng thái tại thời điểm; thin cấp dung lượng theo sử dụng; snapshot không thay backup độc lập.\nĐầu vào: Workload consistency, lịch/retention, dung lượng dự trữ, ngưỡng cảnh báo.\nCách thực hiện:\n1. Đánh giá dung lượng thay đổi và yêu cầu application consistency.\n2. Tạo lịch snapshot/versioning với retention và quyền xóa giới hạn.\n3. Nếu thin, đặt cảnh báo capacity thực, không chỉ dung lượng logic.\n4. Khôi phục clone/file thử vào chỗ cách ly; kiểm tra cleanup không xóa bản cần giữ.\nKiểm tra: Snapshot phục hồi được; không đầy pool; lịch/retention đúng.\nRollback: Tắt lịch mới, giữ restore point; không rollback volume production khi chưa đánh giá dữ liệu mới.\nXuất hiện: SAN!C22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Thin Provisioning",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "SAN",
+    "source_cell": "C22",
+    "service": "it_configuration",
+    "term": "Thin Provisioning",
+    "recipe_id": "snapshot"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

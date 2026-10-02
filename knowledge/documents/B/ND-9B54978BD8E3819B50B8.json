@@ -1,0 +1,36 @@
+{
+  "id": "ND-9B54978BD8E3819B50B8",
+  "title": "Switch — Cấu hình Port Mirroring/SPAN phục vụ giám sát",
+  "body": "Switch — Cấu hình Port Mirroring/SPAN phục vụ giám sát\nHạng mục gốc: Cấu hình Port Mirroring/SPAN phục vụ giám sát; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Sao chép lưu lượng từ cổng/VLAN nguồn tới cổng sensor.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nSource/direction, destination sensor, tốc độ, quyền xử lý dữ liệu.\nQuy trình bổ sung:\n1. Xác định đúng nguồn cần quan sát và ước tính tải mirror.\n2. Cấu hình session mirror chiều ingress/egress cần thiết; port đích không dùng như cổng client.\n3. Kết nối sensor có phân quyền, thu mẫu ngắn.\n4. Kiểm tra đủ chiều và drop khi quá tải, kết thúc thu thập đúng lịch.\nNghiệm thu: Sensor thấy đúng luồng; không gây nghẽn/copy dữ liệu ngoài phạm vi.\nRollback: Tắt session mirror, phục hồi vai trò port đích.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Switch — Cấu hình Port Mirroring/SPAN phục vụ giám sát",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_row": 36,
+    "source_cell": "C36",
+    "service": "it_configuration",
+    "item_id": "IT-Switch-036",
+    "device_family": "Switch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

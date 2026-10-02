@@ -1,0 +1,34 @@
+{
+  "id": "ND-90C65057030FD5284DB3",
+  "title": "Khảo sát: vị trí lắp đặt, kết nối vật lý, các ứng dụng/dịch vụ…",
+  "body": "Khảo sát: vị trí lắp đặt, kết nối vật lý, các ứng dụng/dịch vụ…\nƯớc tính trong nguồn: 0.5 giờ × 1 kỹ sư = 0.5 man-hour. Không phải downtime hoặc giá.\nKiểm tra rack, PDU, UPS, sơ đồ cáp hiện tại\nCách làm bổ sung:\n1. Kiểm tra tải trọng, airflow, nguồn và an toàn điện tại site.\n2. Lắp rail/thiết bị đúng hướng dẫn với đủ nhân lực.\n3. Đấu nguồn theo sơ đồ A/B/PDU/UPS đã duyệt, dán nhãn cáp/cổng.\n4. Kiểm tra cả nguồn và trạng thái thiết bị, lưu as-built.\nNghiệm thu: Thiết bị chắc chắn; airflow thông; nguồn và nhãn đúng; không vượt tải.\nRollback: Ngắt nguồn theo quy trình, trả cáp/vị trí cũ; không thao tác điện ngoài chuyên môn.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "migration_sow",
+  "provenance": {
+    "category": "migration_sow",
+    "document_type": "migration_sow",
+    "title": "Khảo sát: vị trí lắp đặt, kết nối vật lý, các ứng dụng/dịch vụ…",
+    "provenance": "source_estimate_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
+    "source_sheet": "DV Chuyển đổi - Thời gian",
+    "source_row": 7,
+    "source_cell": "row:7",
+    "service": "configuration_migration"
+  },
+  "service": "configuration_migration",
+  "content_kind": "reference"
+}

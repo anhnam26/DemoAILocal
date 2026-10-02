@@ -1,0 +1,36 @@
+{
+  "id": "ND-6A2BD4296376BAC92A45",
+  "title": "FortiGate — Cấu hình BGP",
+  "body": "FortiGate — Cấu hình BGP\nHạng mục gốc: Cấu hình BGP; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Giao thức trao đổi tuyến giữa các hệ tự trị, điều khiển chọn đường bằng thuộc tính và chính sách.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nASN, peer IP/ASN, prefix list, route-map, max-prefix, xác thực và route tới peer.\nQuy trình bổ sung:\n1. Tạo neighbor trên kết nối đã thông.\n2. Cấu hình ASN/router ID/peer và bảo vệ phiên theo khả năng nền tảng.\n3. Áp prefix-list/route-map chiều vào/ra trước khi bật quảng bá; giới hạn prefix.\n4. Kiểm tra established, routes received/advertised và best path; thử dự phòng.\nNghiệm thu: Không rò tuyến; đúng prefix và next-hop; phiên ổn định.\nRollback: Shutdown neighbor hoặc rút quảng bá mới; phục hồi filter và đường cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Cấu hình BGP",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 37,
+    "source_cell": "C37",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-037",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

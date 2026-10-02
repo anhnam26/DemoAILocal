@@ -1,0 +1,35 @@
+{
+  "id": "ND-F2C61887C61E92B097C7",
+  "title": "Ticket System",
+  "body": "Ticket System\nĐịnh nghĩa: Giao diện tích hợp dữ liệu và công việc; ticket ghi owner, trạng thái và lịch sử.\nĐầu vào: Endpoint/schema, auth scope, mapping fields, retry/idempotency, môi trường test.\nCách thực hiện:\n1. Tạo service account quyền tối thiểu, lưu token trong secret store.\n2. Map trường và validate schema; đặt timeout, retry có giới hạn và idempotency key.\n3. Test tạo/cập nhật/lỗi/trùng ticket trên môi trường thử.\n4. Ghi audit đã che bí mật, giám sát lỗi và giới hạn tốc độ.\nKiểm tra: Không trùng ticket khi retry; không lộ token; lỗi được theo dõi.\nRollback: Tắt connector, thu hồi token và xử lý bản ghi dở dang theo audit.\nXuất hiện: 2. Checklist Yêu cầu!B22",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Ticket System",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Managed Service - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yêu cầu",
+    "source_cell": "B22",
+    "service": "managed_service",
+    "term": "Ticket System",
+    "recipe_id": "api"
+  },
+  "service": "managed_service",
+  "content_kind": "concept"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-CA7FFEA777057F41544B",
+  "title": "NAS — Cấu hình VPN Server trên NAS",
+  "body": "NAS — Cấu hình VPN Server trên NAS\nHạng mục gốc: Cấu hình VPN Server trên NAS; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: VPN từ máy người dùng vào mạng nội bộ, kiểm soát danh tính và phạm vi truy cập.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nOS/FortiClient/version FortiOS, nhóm user, MFA, pool không trùng, DNS, mạng được vào.\nQuy trình bổ sung:\n1. Kiểm tra ma trận tương thích trước khi chọn IPsec/SSL.\n2. Tạo remote-access IPsec/dial-up và nhóm xác thực; định nghĩa IP pool, split/full tunnel và DNS.\n3. Tạo policy từ pool/user group vào đúng tài nguyên; triển khai profile FortiClient thử nghiệm.\n4. Thử từ Internet bằng user hợp lệ, sai quyền và MFA; kiểm tra DNS, route và log.\nNghiệm thu: User đúng nhóm vào đúng tài nguyên; user sai bị từ chối; MFA và timeout đúng yêu cầu.\nRollback: Thu hồi profile mới; phục hồi VPN cũ đã kiểm chứng; không để tài khoản thử tồn tại.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "NAS — Cấu hình VPN Server trên NAS",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_row": 26,
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "item_id": "IT-NAS-026",
+    "device_family": "NAS"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

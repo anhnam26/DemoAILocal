@@ -1,0 +1,32 @@
+{
+  "id": "ND-FBE0A939ED4E370401C1",
+  "title": "Workflow RMA Siêu tốc & Hỗ trợ tận nơi",
+  "body": "Workflow RMA Siêu tốc & Hỗ trợ tận nơi\nTiếp nhận yêu cầu hỗ trợ → [Tiếp tục] → Kiểm tra thông tin khách hàng\nTạo Ticket RMA → [Tiếp tục] → Hãng xác nhận bảo hành\nHãng xác nhận bảo hành → [Tiếp tục] → Thông báo & Xác nhận thời gian thực hiện dịch vụ\nThông báo & Xác nhận thời gian thực hiện dịch vụ → [Tiếp tục] → Giao & thay thế thiết bị cho KH\nGiao & thay thế thiết bị cho KH → [Tiếp tục] → Kiểm tra, Bàn giao & Nghiệm thu\nKiểm tra, Bàn giao & Nghiệm thu → [Tiếp tục] → Thu hồi thiết bị lỗi & Gửi hãng\nThu hồi thiết bị lỗi & Gửi hãng → [Tiếp tục] → Đóng case\nKiểm tra thông tin khách hàng → [Hợp lệ] → Chẩn đoán & Xác định nguyên nhân\nKiểm tra thông tin khách hàng → [Không hợp lệ] → Thông báo khách hàng không thuộc phạm vi hỗ trợ\nChẩn đoán & Xác định nguyên nhân → [Lỗi Hardware] → Tạo Ticket RMA\nChẩn đoán & Xác định nguyên nhân → [Lỗi cấu hình] → Thông báo, hướng dẫn KH khắc phục\nThông báo khách hàng không thuộc phạm vi hỗ trợ → [Sau thông báo] → Đóng case\nThông báo, hướng dẫn KH khắc phục → [Sau hướng dẫn] → Đóng case",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "source_transcribed",
+  "data_type": "workflow",
+  "provenance": {
+    "category": "workflow",
+    "document_type": "workflow",
+    "title": "Workflow RMA Siêu tốc & Hỗ trợ tận nơi",
+    "provenance": "source",
+    "review_status": "source_transcribed",
+    "source_file": "CBA Services Work Flow (1).pdf",
+    "source_page": 1,
+    "workflow_id": "WF-01"
+  },
+  "service": "",
+  "content_kind": "workflow"
+}

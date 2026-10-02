@@ -1,0 +1,35 @@
+{
+  "id": "ND-D8D2971ADA551C613E79",
+  "title": "Hostname",
+  "body": "Hostname\nĐịnh nghĩa: Hostname định danh thiết bị; timezone hiển thị giờ địa phương; NTP đồng bộ đồng hồ; banner là thông báo đăng nhập.\nĐầu vào: Tên chuẩn, múi giờ, IP quản lý, NTP và DNS đã duyệt.\nCách thực hiện:\n1. Đối chiếu model và hệ điều hành; mở trang System/General hoặc công cụ quản trị tương ứng.\n2. Đặt hostname duy nhất, timezone theo site; khai báo NTP được phép truy cập và nguồn interface đúng.\n3. Nếu yêu cầu IP quản lý, gán IP/mask/gateway theo IP plan; đặt banner đã duyệt.\n4. Lưu cấu hình và kiểm tra đồng bộ thời gian, truy cập quản lý từ mạng cho phép.\nKiểm tra: Tên, địa chỉ quản lý và giờ đúng; NTP synchronized; log có timestamp đúng.\nRollback: Khôi phục hostname/NTP/IP cũ qua console nếu mất quản lý.\nXuất hiện: Thông tin lên Bom!B23",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Hostname",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B23",
+    "service": "fortigate_configuration",
+    "term": "Hostname",
+    "recipe_id": "system"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ND-09F139C93327E290EFD8",
+  "title": "Switch — Cấu hình ACL (Access Control List) nâng cao",
+  "body": "Switch — Cấu hình ACL (Access Control List) nâng cao\nHạng mục gốc: Cấu hình ACL (Access Control List) nâng cao; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Luật quyết định luồng mạng được phép/từ chối theo nguồn, đích, dịch vụ và ngữ cảnh.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nMa trận luồng nguồn/đích/port, zone, user, lịch, yêu cầu log.\nQuy trình bổ sung:\n1. Tạo address/service objects đúng subnet và port.\n2. Tạo luật từ cụ thể đến tổng quát theo cơ chế hãng; chọn đúng ingress/egress, action và lịch.\n3. Gắn profile bảo mật và NAT chỉ khi thiết kế yêu cầu; bật log cần thiết.\n4. Thử luồng được phép và luồng phải chặn; xem hit count/log để tìm luật che khuất.\nNghiệm thu: Chỉ các luồng đã duyệt được thông; kiểm thử deny đạt; log truy vết đúng policy.\nRollback: Disable luật mới và phục hồi thứ tự luật/object cũ; không mở any-any để xử lý tạm.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Switch — Cấu hình ACL (Access Control List) nâng cao",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_row": 33,
+    "source_cell": "C33",
+    "service": "it_configuration",
+    "item_id": "IT-Switch-033",
+    "device_family": "Switch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

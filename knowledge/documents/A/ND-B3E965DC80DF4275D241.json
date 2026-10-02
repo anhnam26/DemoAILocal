@@ -1,0 +1,35 @@
+{
+  "id": "ND-B3E965DC80DF4275D241",
+  "title": "Downtime",
+  "body": "Downtime\nĐịnh nghĩa: Cut-over chuyển dịch vụ sang hệ mới; rollback đưa về trạng thái đã kiểm chứng khi tiêu chí không đạt.\nĐầu vào: Mapping cổng cũ/mới, config lab-tested, downtime tối đa, test cases, người quyết định.\nCách thực hiện:\n1. Chốt change plan và điểm go/no-go, backup cả hai phía.\n2. Chuẩn bị thiết bị mới/lab, đối chiếu policy/NAT/route/VPN/license.\n3. Trong cửa sổ đã duyệt, chuyển cáp/route theo từng bước có timestamp.\n4. Chạy test nghiệp vụ và HA; nếu quá ngưỡng hoặc test trọng yếu lỗi, rollback cáp/config theo bản trước và kiểm tra lại.\nKiểm tra: Bộ test có pass/fail/bằng chứng; thời gian gián đoạn được đo; khách hàng xác nhận.\nRollback: Trả cáp/route/config về thiết bị cũ, xác nhận ứng dụng phục hồi; ghi lỗi và lập kế hoạch thử lại.\nXuất hiện: 2. Khảo sát thông tin!B16",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Downtime",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ chuyển đổi cấu hình - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Khảo sát thông tin",
+    "source_cell": "B16",
+    "service": "configuration_migration",
+    "term": "Downtime",
+    "recipe_id": "cutover"
+  },
+  "service": "configuration_migration",
+  "content_kind": "concept"
+}

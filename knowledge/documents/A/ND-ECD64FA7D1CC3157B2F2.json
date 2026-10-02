@@ -1,0 +1,35 @@
+{
+  "id": "ND-ECD64FA7D1CC3157B2F2",
+  "title": "Proxy",
+  "body": "Proxy\nĐịnh nghĩa: Thu thập chỉ số qua collector tại nhiều site rồi chuyển về trung tâm.\nĐầu vào: Site/host map, proxy version/capacity, TLS, buffer và đường truyền.\nCách thực hiện:\n1. Đặt collector ở site đúng phạm vi và đồng bộ giờ.\n2. Cấu hình TLS/auth, gán host cho collector, chọn active/passive theo sản phẩm.\n3. Kiểm tra dữ liệu về trung tâm và buffer khi mất WAN.\n4. Test phục hồi đường truyền, tránh duplicate và giới hạn backlog.\nKiểm tra: Site mất WAN không mất dữ liệu ngoài dung lượng buffer; collector đúng host.\nRollback: Chuyển host về collector cũ và dừng proxy mới có kiểm soát.\nXuất hiện: FortiGate!C47; Monitoring!C25",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Proxy",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C47",
+    "service": "it_configuration",
+    "term": "Proxy",
+    "recipe_id": "distributed"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

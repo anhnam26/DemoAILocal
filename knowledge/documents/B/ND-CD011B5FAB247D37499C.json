@@ -1,0 +1,36 @@
+{
+  "id": "ND-CD011B5FAB247D37499C",
+  "title": "FortiGate — Tích hợp LDAP/Active Directory",
+  "body": "FortiGate — Tích hợp LDAP/Active Directory\nHạng mục gốc: Tích hợp LDAP/Active Directory; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Directory lưu danh tính/nhóm; LDAP truy vấn directory, AD là hệ thống directory của Microsoft.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nServer/domain, base DN, bind account quyền đọc, CA, group mapping.\nQuy trình bổ sung:\n1. Kiểm tra DNS, giờ và đường tới domain controller.\n2. Khai báo LDAP/LDAPS và kiểm tra certificate; dùng tài khoản bind riêng trong kho bí mật.\n3. Map nhóm directory sang nhóm quyền/VPN; không cấp quyền toàn domain mặc định.\n4. Test user đúng/sai nhóm và kiểm tra log; nếu join domain, xác nhận computer object/OU.\nNghiệm thu: Xác thực và phân quyền đúng nhóm; lỗi directory không mở quyền ngoài thiết kế.\nRollback: Phục hồi mapping/server trước; dùng quản trị cục bộ khẩn cấp khi directory lỗi.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "FortiGate — Tích hợp LDAP/Active Directory",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_row": 42,
+    "source_cell": "C42",
+    "service": "it_configuration",
+    "item_id": "IT-FortiGate-042",
+    "device_family": "FortiGate"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

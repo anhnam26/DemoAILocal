@@ -1,0 +1,35 @@
+{
+  "id": "ND-00238EABD5812BB05F20",
+  "title": "DHCP Server",
+  "body": "DHCP Server\nĐịnh nghĩa: DHCP cấp tham số mạng; relay chuyển yêu cầu tới server ở subnet khác.\nĐầu vào: Pool, gateway, DNS, lease, exclusion/reservation hoặc IP DHCP server đích.\nCách thực hiện:\n1. Xác nhận mỗi subnet chỉ có DHCP có chủ đích; loại trừ IP tĩnh.\n2. Chọn server hoặc relay theo thiết kế; tạo scope và option đúng subnet.\n3. Với relay, đặt server đích và kiểm tra route/policy hai chiều.\n4. Renew lease trên máy thử; đối chiếu IP, mask, gateway, DNS và bản ghi lease.\nKiểm tra: Không cấp trùng IP; client nhận đúng option; relay đến đúng server.\nRollback: Tắt scope/relay mới, khôi phục scope cũ; kiểm soát lease còn hiệu lực.\nXuất hiện: Thông tin lên Bom!B16; Thông tin lên Bom!C16",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "DHCP Server",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B16",
+    "service": "fortigate_configuration",
+    "term": "DHCP Server",
+    "recipe_id": "dhcp"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

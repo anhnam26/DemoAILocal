@@ -1,0 +1,35 @@
+{
+  "id": "ND-D60DA522B0C25928FCEB",
+  "title": "BOM",
+  "body": "BOM\nĐịnh nghĩa: BOM liệt kê hạng mục thiết bị/license/dịch vụ; BOQ định lượng; mã nội bộ không mặc nhiên là SKU hãng.\nĐầu vào: Yêu cầu đã chọn, unit, quantity, model, license term, bảng giá được cấp.\nCách thực hiện:\n1. Chuyển từng yêu cầu thành dòng hạng mục có mã và source reference.\n2. Tách phần cứng/license/công cấu hình, ghi đơn vị và số lượng có căn cứ.\n3. Đánh dấu optional/TBD với yêu cầu chưa xác nhận; để giá null khi chưa có bảng giá.\n4. Đối chiếu tổng số lượng và phạm vi SOW rồi duyệt báo giá.\nKiểm tra: Không tính trùng; không bịa giá/SKU; từng dòng truy được về nhu cầu.\nRollback: Tạo revision BOM sửa, giữ lịch sử và hủy giá trị dự thảo chưa duyệt.\nXuất hiện: 2. Checklist khảo sát!B33; 2. Checklist khảo sát!C33",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "BOM",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_cell": "B33",
+    "service": "consulting",
+    "term": "BOM",
+    "recipe_id": "bom"
+  },
+  "service": "consulting",
+  "content_kind": "concept"
+}

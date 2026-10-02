@@ -1,0 +1,36 @@
+{
+  "id": "ND-A82F4F5C6F2C18A473B0",
+  "title": "Switch — Cấu hình Inter-VLAN Routing trên switch Layer 3",
+  "body": "Switch — Cấu hình Inter-VLAN Routing trên switch Layer 3\nHạng mục gốc: Cấu hình Inter-VLAN Routing trên switch Layer 3; gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Định tuyến giữa VLAN qua gateway lớp 3.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nVLAN/subnet, vị trí gateway, ACL, DHCP relay, route upstream.\nQuy trình bổ sung:\n1. Bật chức năng routing nếu platform/license cho phép.\n2. Tạo SVI/routed interface cho từng VLAN, gán gateway không trùng.\n3. Khai báo route lên upstream và đường về; cấu hình relay/ACL theo ma trận.\n4. Test liên VLAN được phép và bị cấm từ client.\nNghiệm thu: Gateway đúng; route hai chiều; cách ly bằng ACL hoạt động.\nRollback: Khôi phục gateway/route trước; tránh hai gateway cùng IP.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "Switch — Cấu hình Inter-VLAN Routing trên switch Layer 3",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_row": 27,
+    "source_cell": "C27",
+    "service": "it_configuration",
+    "item_id": "IT-Switch-027",
+    "device_family": "Switch"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

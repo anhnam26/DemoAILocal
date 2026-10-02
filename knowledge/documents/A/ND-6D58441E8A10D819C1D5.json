@@ -1,0 +1,38 @@
+{
+  "id": "ND-6D58441E8A10D819C1D5",
+  "title": "DoS",
+  "body": "DoS\nĐịnh nghĩa: Kiểm soát lưu lượng bất thường gây cạn tài nguyên bằng ngưỡng/rate limit.\nĐầu vào: Baseline connection/packet rate, dịch vụ đích, ngưỡng và whitelist.\nCách thực hiện:\n1. Đo peak hợp lệ trước đặt threshold.\n2. Tạo DoS policy trên ingress và địa chỉ/dịch vụ đúng phạm vi.\n3. Chạy monitor, điều chỉnh threshold theo dữ liệu.\n4. Test có kiểm soát trong lab, bật block khi được duyệt và giám sát.\nKiểm tra: Chặn bất thường test; không làm rớt peak hợp lệ.\nRollback: Tắt action block mới và phục hồi threshold trước.\nXuất hiện: Thông tin lên Bom!B50",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "DoS",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B50",
+    "service": "fortigate_configuration",
+    "term": "DoS",
+    "recipe_id": "dos"
+  },
+  "service": "fortigate_configuration",
+  "duplicate_sources": [
+    "ND-3B244C19660F182F7BB3"
+  ],
+  "content_kind": "concept"
+}

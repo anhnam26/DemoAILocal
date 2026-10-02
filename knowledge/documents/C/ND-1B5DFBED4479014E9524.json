@@ -1,0 +1,35 @@
+{
+  "id": "ND-1B5DFBED4479014E9524",
+  "title": "rma: Thời gian nhận thiết bị thay thế",
+  "body": "rma: Thời gian nhận thiết bị thay thế\nCâu hỏi/mô tả gốc: Thời gian mong muốn nhận thiết bị thay thế sau khi được hãng phê duyệt bảo hành? (<=4h hay NBD...). Vui lòng mô tả chi tiết yêu cầu.\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Thời gian mong muốn nhận thiết bị thay thế sau khi được hãng phê duyệt bảo hành? (<=4h hay NBD...). Vui lòng mô tả chi tiết yêu cầu.. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: RMA là quy trình hãng cho phép trả/thay thiết bị; NBD là ngày làm việc kế tiếp theo điều kiện dịch vụ cụ thể.\nCách xử lý bổ sung:\n1. Tiếp nhận ticket, kiểm tra khách hàng/entitlement và phân biệt lỗi cấu hình/phần cứng.\n2. Thu bằng chứng chẩn đoán, mở case hãng và chờ xác nhận RMA.\n3. Xác nhận loại dịch vụ, thời điểm bắt đầu tính và lịch logistics; không mặc định 4h là thời gian khắc phục.\n4. Giao/thay hoặc gửi thiết bị, khôi phục config tương thích, kiểm thử/nghiệm thu; thu hồi thiết bị lỗi và đóng case.\nTiêu chí: Có mã hãng, serial cũ/mới, bằng chứng khôi phục/test và biên nhận thu hồi.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "rma: Thời gian nhận thiết bị thay thế",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ RMA - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_row": 15,
+    "source_cell": "row:15",
+    "service": "rma",
+    "requirement_id": "f2dd9499b43c4bc35923"
+  },
+  "service": "rma",
+  "content_kind": "survey"
+}

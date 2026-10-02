@@ -1,0 +1,24 @@
+{
+  "id": "KB-VPN",
+  "title": "VPN rớt định kỳ — bài học ẩn danh",
+  "body": "Tình huống tổng hợp DEMO không gắn khách: Log cho thấy chu kỳ đàm phán lại trùng thời điểm mất kết nối; chưa đủ căn cứ để quy lỗi đường truyền. Kiểm tra: Kiểm lifetime, proposal, route và thời gian hệ thống hai đầu; so sánh log cùng múi giờ. Bài học: Theo dõi ổn định sau change và lưu cấu hình trước/sau. Nêu giả thuyết rõ, chỉ kết luận khi có log/test. Chuyển trưởng nhóm nếu ảnh hưởng nhiều site.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

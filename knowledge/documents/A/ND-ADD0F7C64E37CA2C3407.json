@@ -1,0 +1,35 @@
+{
+  "id": "ND-ADD0F7C64E37CA2C3407",
+  "title": "EtherChannel",
+  "body": "EtherChannel\nĐịnh nghĩa: Gộp nhiều liên kết thành giao diện logic có thương lượng.\nĐầu vào: Port member, tốc độ, LACP mode, VLAN/MTU, topology một hoặc nhiều chassis.\nCách thực hiện:\n1. Kiểm tra hai đầu cùng khả năng và tốc độ.\n2. Tạo aggregate, thêm port và cấu hình LACP mode phù hợp cả hai đầu.\n3. Đưa VLAN/IP/policy lên aggregate theo hướng dẫn nền tảng.\n4. Kiểm tra member bundled và thử mất một member; đo phân phối nhiều luồng.\nKiểm tra: Aggregate up, thành viên đúng; mất một link không cắt toàn bộ dịch vụ.\nRollback: Trả port/cáp về topology cũ; tránh để song song link không chống loop.\nXuất hiện: Switch!C26",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "EtherChannel",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Switch",
+    "source_cell": "C26",
+    "service": "it_configuration",
+    "term": "EtherChannel",
+    "recipe_id": "lacp"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

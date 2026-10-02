@@ -1,0 +1,35 @@
+{
+  "id": "ND-7AEF14C71A5F15A14C9B",
+  "title": "Site",
+  "body": "Site\nĐịnh nghĩa: Nền tảng quản lý tập trung thiết bị, cấu hình và thay đổi theo nhóm/site.\nĐầu vào: Inventory, phiên bản tương thích, IP quản lý, license, nhóm/site.\nCách thực hiện:\n1. Kiểm tra routing/certificate và phiên bản được quản lý.\n2. Thêm thiết bị bằng serial/IP và xác nhận tin cậy tại hai đầu.\n3. Import cấu hình hiện hành, gán group/site/ADOM đúng; đối chiếu diff trước mọi push.\n4. Thử backup và thao tác đọc; chưa triển khai template rộng khi chưa test pilot.\nKiểm tra: Đủ thiết bị đúng group; trạng thái synchronized; không ghi đè cấu hình ngoài ý muốn.\nRollback: Dừng push, khôi phục revision và gỡ thiết bị mới khỏi nhóm sai.\nXuất hiện: 1. Thong tin KH!A15",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Site",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vũ hỗ trợ kỹ thuật - Khảo sát thông tin.xlsx",
+    "source_sheet": "1. Thong tin KH",
+    "source_cell": "A15",
+    "service": "remote_support",
+    "term": "Site",
+    "recipe_id": "manager"
+  },
+  "service": "remote_support",
+  "content_kind": "concept"
+}

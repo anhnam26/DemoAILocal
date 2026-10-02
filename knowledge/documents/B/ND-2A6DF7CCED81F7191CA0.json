@@ -1,0 +1,36 @@
+{
+  "id": "ND-2A6DF7CCED81F7191CA0",
+  "title": "NAS — Cấu hình iSCSI Target (cấp storage cho host khác)",
+  "body": "NAS — Cấu hình iSCSI Target (cấp storage cho host khác)\nHạng mục gốc: Cấu hình iSCSI Target (cấp storage cho host khác); gói theo checklist này: Nâng cao.\nĐịnh nghĩa: Truy cập lưu trữ khối qua IP; initiator kết nối target và LUN được cấp.\nĐiều kiện: Xác nhận model, firmware, license và thiết kế đúng phiên bản; có người phụ trách, cửa sổ thay đổi, backup kiểm chứng và console/kênh dự phòng. Các bước dưới là hướng dẫn bổ sung cần kỹ sư duyệt; không phải cấu hình đã triển khai cho khách hàng.\nStorage VLAN/IP, IQN, LUN, CHAP nếu dùng, multipath.\nQuy trình bổ sung:\n1. Tách luồng storage và kiểm tra MTU end-to-end.\n2. Tạo target/LUN mapping và allowlist initiator, cấu hình CHAP trong kho bí mật.\n3. Kết nối initiator, rescan và bật multipath phù hợp.\n4. Test đọc/ghi trên LUN thử và mất một đường; không format nhầm LUN.\nNghiệm thu: Host đúng thấy đúng LUN; I/O ổn định; host khác bị chặn.\nRollback: Disconnect LUN mới sau khi dừng I/O, phục hồi mapping/target cũ.\nTham khảo bổ sung:",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "it_configuration",
+  "provenance": {
+    "category": "it_configuration",
+    "document_type": "it_configuration",
+    "title": "NAS — Cấu hình iSCSI Target (cấp storage cho host khác)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "NAS",
+    "source_row": 24,
+    "source_cell": "C24",
+    "service": "it_configuration",
+    "item_id": "IT-NAS-024",
+    "device_family": "NAS"
+  },
+  "service": "it_configuration",
+  "content_kind": "procedure"
+}

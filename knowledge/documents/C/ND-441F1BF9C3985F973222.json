@@ -1,0 +1,35 @@
+{
+  "id": "ND-441F1BF9C3985F973222",
+  "title": "consulting: Triển khai",
+  "body": "consulting: Triển khai\nCâu hỏi/mô tả gốc: Sau khi hoàn thành tư vấn/thiết kế, khách hàng có dự kiến thuê đơn vị tiếp tục triển khai không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Sau khi hoàn thành tư vấn/thiết kế, khách hàng có dự kiến thuê đơn vị tiếp tục triển khai không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Thu thập hiện trạng có bằng chứng để chốt phạm vi và thiết kế.\nCách xử lý bổ sung:\n1. Ghi mục tiêu, site, người dùng và dịch vụ quan trọng.\n2. Thu inventory, config đã che bí mật, IP/VLAN/route và license; đối chiếu thông tin tại chỗ khi cần.\n3. Ghi thiếu/mâu thuẫn kèm người xác nhận, không tự điền như dữ liệu thật.\n4. Lập báo cáo hiện trạng, nhu cầu và giả định để khách hàng xác nhận.\nTiêu chí: Mỗi yêu cầu có nguồn; thiếu dữ liệu được liệt kê; phạm vi được xác nhận.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "consulting: Triển khai",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch khảo sát tư vấn - Thông tin khảo sát.xlsx",
+    "source_sheet": "2. Checklist khảo sát",
+    "source_row": 37,
+    "source_cell": "row:37",
+    "service": "consulting",
+    "requirement_id": "915af0e113cc973531ce"
+  },
+  "service": "consulting",
+  "content_kind": "survey"
+}

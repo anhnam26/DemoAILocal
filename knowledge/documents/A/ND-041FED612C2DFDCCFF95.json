@@ -1,0 +1,35 @@
+{
+  "id": "ND-041FED612C2DFDCCFF95",
+  "title": "Security Hardening",
+  "body": "Security Hardening\nĐịnh nghĩa: Giảm bề mặt tấn công theo baseline đúng sản phẩm/phiên bản, có ngoại lệ được ghi.\nĐầu vào: Benchmark phù hợp version, danh sách dịch vụ cần giữ, backup, owner.\nCách thực hiện:\n1. Đo baseline và chọn profile phù hợp vai trò server.\n2. Áp từng nhóm: account, dịch vụ, firewall, audit, cập nhật và quyền file.\n3. Kiểm tra ứng dụng sau từng nhóm, ghi ngoại lệ có lý do và thời hạn.\n4. Chạy đánh giá lại và bàn giao bằng chứng; không tuyên bố đạt chuẩn chỉ từ checklist.\nKiểm tra: Các mục áp dụng đạt kiểm tra; ngoại lệ được duyệt; dịch vụ nghiệp vụ không lỗi.\nRollback: Phục hồi policy/service đã ghi trước, khôi phục OS/config backup khi cần.\nXuất hiện: Server!C28",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Security Hardening",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_cell": "C28",
+    "service": "it_configuration",
+    "term": "Security Hardening",
+    "recipe_id": "hardening"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

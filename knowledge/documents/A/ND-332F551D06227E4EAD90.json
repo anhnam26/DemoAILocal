@@ -1,0 +1,35 @@
+{
+  "id": "ND-332F551D06227E4EAD90",
+  "title": "ADVPN",
+  "body": "ADVPN\nĐịnh nghĩa: IPsec hub-spoke có khả năng tạo shortcut trực tiếp giữa spoke khi nền tảng hỗ trợ.\nĐầu vào: Topology hub/spoke, IP pools, routing, version và scale.\nCách thực hiện:\n1. Kiểm tra mẫu triển khai tương ứng phiên bản và các tunnel cơ sở.\n2. Cấu hình vai trò hub/spoke và cơ chế discovery/shortcut theo guide.\n3. Thiết lập routing/filter phù hợp, không trộn tham số từ các thế hệ ADVPN khác nhau.\n4. Test luồng spoke-spoke, shortcut và fallback qua hub.\nKiểm tra: Shortcut hình thành đúng; route không loop; mất shortcut vẫn có đường đã thiết kế.\nRollback: Tắt shortcut mới và quay về hub-spoke IPsec baseline.\nXuất hiện: Thông tin lên Bom!B35",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "ADVPN",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B35",
+    "service": "fortigate_configuration",
+    "term": "ADVPN",
+    "recipe_id": "advpn"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

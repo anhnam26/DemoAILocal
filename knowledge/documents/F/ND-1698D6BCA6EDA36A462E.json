@@ -1,0 +1,34 @@
+{
+  "id": "ND-1698D6BCA6EDA36A462E",
+  "title": "Lập BOM dịch vụ cấu hình FortiGate",
+  "body": "Lập BOM dịch vụ cấu hình FortiGate\nNguồn Thông tin lên Bom có dấu X/Mặc định cho nhiều mục cơ bản; đây không phải số lượng hoặc giá. Mã FG-SVC là mã nội bộ dự thảo, không phải SKU hãng. Tách survey_input khỏi service_line. Giá, tiền tệ, số lượng thực để null khi chưa có xác nhận. SD-WAN cơ bản nằm trong nhóm cơ bản ở workbook khảo sát, nhưng checklist IT xếp SD-WAN nhiều WAN vào nâng cao: giữ phạm vi từng nguồn và yêu cầu chốt gói. File có ví dụ 50 người dùng nhưng 30 PC + 20 laptop + 10 mobile = 60 thiết bị; không đồng nhất người với thiết bị.",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "bom_rules",
+  "provenance": {
+    "category": "bom_rules",
+    "document_type": "bom_rules",
+    "title": "Lập BOM dịch vụ cấu hình FortiGate",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 3,
+    "source_cell": "C3",
+    "service": "fortigate_configuration"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "reference"
+}

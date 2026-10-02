@@ -1,0 +1,35 @@
+{
+  "id": "ND-0E86E3E2B505DA8AFA4F",
+  "title": "Log Ingestion Monitoring",
+  "body": "Log Ingestion Monitoring\nĐịnh nghĩa: Đo độ trễ, throughput, queue/drop và tài nguyên để phát hiện điểm nghẽn.\nĐầu vào: Baseline, chỉ số/đơn vị, ngưỡng, kỳ lấy mẫu và nguồn dữ liệu.\nCách thực hiện:\n1. Thu baseline giờ thường/cao điểm.\n2. Cấu hình dashboard throughput/latency/queue/capacity; với log thêm EPS, parse failures và lag.\n3. Tạo alert có thời gian duy trì.\n4. Test tải có kiểm soát và đối chiếu số liệu ở nguồn/đích.\nKiểm tra: Phát hiện nghẽn trước mất dữ liệu; chỉ số đúng đơn vị; có lịch sử so sánh.\nRollback: Giảm sampling/tắt rule gây tải, phục hồi template trước.\nXuất hiện: Log!C27",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Log Ingestion Monitoring",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Log",
+    "source_cell": "C27",
+    "service": "it_configuration",
+    "term": "Log Ingestion Monitoring",
+    "recipe_id": "performance"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

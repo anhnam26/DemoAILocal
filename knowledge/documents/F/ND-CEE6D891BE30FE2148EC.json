@@ -1,0 +1,30 @@
+{
+  "id": "ND-CEE6D891BE30FE2148EC",
+  "title": "rma_copy_title",
+  "body": "rma_copy_title\nFile RMA dùng tiêu đề checklist cho thuê và các nhãn nhu cầu thuê; bản nguồn giữ nguyên, bảng chuẩn hóa xác định service=rma.\nVị trí: Dịch vụ RMA - Khảo sát thông tin.xlsx / cả 2 sheet",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "data_quality",
+  "provenance": {
+    "category": "data_quality",
+    "document_type": "data_quality",
+    "title": "rma_copy_title",
+    "provenance": "authored_review",
+    "review_status": "draft_engineer_review",
+    "source_file": "data_quality.json"
+  },
+  "service": "",
+  "content_kind": "reference"
+}

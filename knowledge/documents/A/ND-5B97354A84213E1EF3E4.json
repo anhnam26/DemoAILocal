@@ -1,0 +1,35 @@
+{
+  "id": "ND-5B97354A84213E1EF3E4",
+  "title": "Threat Analytics",
+  "body": "Threat Analytics\nĐịnh nghĩa: Dashboard hiển thị chỉ số; báo cáo tổng hợp theo thời gian, phạm vi và định nghĩa đo.\nĐầu vào: Nguồn dữ liệu, timezone, nhóm được xem, kỳ báo cáo, tiêu chí.\nCách thực hiện:\n1. Kiểm tra dữ liệu nguồn và cách tính từng chỉ số.\n2. Tạo dashboard/report với bộ lọc site/device/time và quyền truy cập.\n3. Nếu định kỳ, đặt lịch/định dạng/người nhận theo thỏa thuận.\n4. Đối chiếu một kỳ mẫu với log thô; kiểm tra dữ liệu thiếu và gửi thử.\nKiểm tra: Số liệu đối chiếu được; đúng phạm vi/thời gian/người nhận.\nRollback: Tắt lịch mới, phục hồi filter/template cũ và gửi bản sửa nếu có sai số.\nXuất hiện: FortiAnalyzer!C21",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Threat Analytics",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiAnalyzer",
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "term": "Threat Analytics",
+    "recipe_id": "report"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

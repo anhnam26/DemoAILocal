@@ -1,0 +1,26 @@
+{
+  "id": "R-1AAAC27DDC-E02173F7",
+  "title": "Managed Service.docx",
+  "body": "Dịch vụ Quản trị, Vận hành & Bảo trì Hệ thống CNTT\n\nCyberAnt cung cấp dịch vụ quản trị, vận hành và bảo trì hệ thống CNTT nhằm giúp doanh nghiệp duy trì hạ tầng luôn hoạt động ổn định, an toàn và liên tục. Với đội ngũ kỹ sư giàu kinh nghiệm cùng quy trình vận hành chuẩn hóa, chúng tôi chủ động giám sát, xử lý sự cố, bảo trì định kỳ và tối ưu hệ thống, giúp giảm thiểu rủi ro, nâng cao hiệu suất và tối ưu chi phí vận hành.\n\nĐội ngũ Kỹ sư Chuyên gia\n\nDịch vụ được thực hiện bởi đội ngũ kỹ sư giàu kinh nghiệm trong triển khai và vận hành hệ thống CNTT.\n\nSở hữu các chứng chỉ chuyên môn quốc tế từ các hãng công nghệ và an toàn thông tin hàng đầu.\n\nHỗ trợ khách hàng theo quy trình vận hành chuyên nghiệp và cam kết SLA.\n\nQuản lý Cấu hình & Thay đổi\n\nThiết lập, chuẩn hóa và tối ưu cấu hình hệ thống theo yêu cầu của khách hàng.\n\nQuản lý và cập nhật các chính sách Firewall, Security Policy, VPN, NAT, Routing, SD-WAN và các tính năng bảo mật khác.\n\nThực hiện kiểm soát, ghi nhận và lưu vết toàn bộ thay đổi cấu hình theo quy trình Change Management.\n\n*Không bao gồm thiết kế mới hoặc thay đổi kiến trúc tổng thể của hệ thống.\n\nHỗ trợ Xử lý Sự cố\n\nTiếp nhận, phân tích và xử lý các sự cố kỹ thuật theo SLA đã cam kết.\n\nPhối hợp với hãng hoặc nhà cung cấp liên quan để xử lý các sự cố phức tạp.\n\nKhôi phục dịch vụ trong thời gian ngắn nhất nhằm giảm thiểu ảnh hưởng đến hoạt động của doanh nghiệp.\n\nBảo trì Định kỳ\n\nLập kế hoạch và triển khai nâng cấp Firmware, Security Patch và các bản cập nhật theo khuyến nghị của nhà sản xuất.\n\nThực hiện đánh giá rủi ro nhằm hạn chế tối đa thời gian gián đoạn dịch vụ.\n\nSao lưu cấu hình định kỳ theo chính sách của khách hàng và lưu trữ an toàn để sẵn sàng khôi phục khi cần.\n\nKiểm tra định kỳ tình trạng hoạt động của thiết bị, cấu hình và hiệu năng hệ thống.\n\nĐánh giá mức độ an toàn, tuân thủ các Best Practices của nhà sản xuất.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "DataReal",
+    "location": "Khối 1; Khối 2; Khối 3; Khối 4; Khối 5; Khối 6; Khối 7; Khối 8; Khối 9; Khối 10; Khối 11; Khối 12; Khối 13; Khối 14; Khối 15; Khối 16; Khối 17; Khối 18; Khối 19; Khối 20; Khối 21",
+    "sha256": "1aaac27ddcc414a0de1fbe9e1763bb7de79850985b05c7f0c40e0ce393a830db"
+  },
+  "service": "Managed Service.docx",
+  "content_kind": "reference"
+}

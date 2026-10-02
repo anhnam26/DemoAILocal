@@ -1,0 +1,35 @@
+{
+  "id": "ND-159E5B7CA714E1063138",
+  "title": "rma: Yêu cầu xuất hóa đơn / hợp đồng",
+  "body": "rma: Yêu cầu xuất hóa đơn / hợp đồng\nCâu hỏi/mô tả gốc: Yêu cầu về pháp lý, hóa đơn GTGT\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Yêu cầu về pháp lý, hóa đơn GTGT. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: SI là đơn vị tích hợp; EU là khách hàng sử dụng cuối; MST mã số thuế; PO đơn đặt hàng; invoice hóa đơn.\nCách xử lý bổ sung:\n1. Thu trường định danh từ người có thẩm quyền, giữ SI và EU thành vai trò riêng.\n2. Đối chiếu mã báo giá/PO, phạm vi SOW và BBNT.\n3. Chuyển bộ phận kinh doanh/kế toán xác nhận giá, thuế và hóa đơn.\n4. Ghi ô chưa có là null/chờ xác nhận; không tự sinh MST/giá/điều khoản như sự thật.\nTiêu chí: Pháp nhân/đầu mối có nguồn; tài liệu thương mại nhất quán; không nhầm SI/EU.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "rma: Yêu cầu xuất hóa đơn / hợp đồng",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ RMA - Khảo sát thông tin.xlsx",
+    "source_sheet": "2. Checklist Yeu cau",
+    "source_row": 25,
+    "source_cell": "row:25",
+    "service": "rma",
+    "requirement_id": "c67c830e78c02d04c8f0"
+  },
+  "service": "rma",
+  "content_kind": "survey"
+}

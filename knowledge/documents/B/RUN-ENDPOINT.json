@@ -1,0 +1,24 @@
+{
+  "id": "RUN-ENDPOINT",
+  "title": "Triển khai bảo vệ endpoint — runbook kỹ sư",
+  "body": "Checklist DEMO Triển khai bảo vệ endpoint. Trước triển khai: xác minh model/firmware/license và scope Tối đa 50 máy Windows trong 01 tenant; sao lưu; kiểm tài khoản dự phòng; lab và phê duyệt change. Thao tác theo thứ tự: Kiểm danh sách máy; pilot agent; policy; rollout; báo cáo. Xác nhận thành công bằng: Danh sách agent; policy; hướng dẫn xử lý cảnh báo. Dừng nếu mất truy cập quản trị hoặc ứng dụng trọng yếu không đạt UAT; quay lui theo bản sao đã kiểm. Thu log có mốc giờ; che bí mật; không chạy lệnh không đúng phiên bản. Owner: trưởng nhóm kỹ thuật.",
+  "group": "B",
+  "category": "Cấu hình & xử lý sự cố",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "reference",
+  "provenance": {
+    "source": "legacy_demo",
+    "note": "Kiến thức tham khảo biên soạn; cần rà soát trước áp dụng."
+  },
+  "content_kind": "reference"
+}

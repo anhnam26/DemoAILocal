@@ -1,0 +1,35 @@
+{
+  "id": "ND-3EB02E4299BE994017B0",
+  "title": "Availability",
+  "body": "Availability\nĐịnh nghĩa: Availability đo thời gian đáp ứng theo định nghĩa; response là phản hồi ban đầu, resolution là xử lý, hai mốc khác nhau.\nĐầu vào: Giờ dịch vụ, timezone/lịch lễ, severity, mốc start/stop/pause và ngoại lệ.\nCách thực hiện:\n1. Thống nhất định nghĩa chỉ số và nguồn timestamp.\n2. Cấu hình calendar, mức ưu tiên và ngưỡng theo hợp đồng, không lấy ví dụ làm cam kết.\n3. Tính availability = thời gian khả dụng / thời gian thuộc phạm vi sau ngoại lệ hợp lệ.\n4. Đối chiếu ticket/outage mẫu với báo cáo và phê duyệt.\nKiểm tra: Mẫu tính có thể tái lập; tách response/resolution; maintenance xử lý đúng hợp đồng.\nRollback: Sửa định nghĩa và tính lại báo cáo có lưu phiên bản.\nXuất hiện: FortiGate!B33; FortiGate!B34; FortiManager!C24; FortiNAC!C26; FortiAnalyzer!C25; Server!C21; Server!C29; Firewall!B25; NAS!C21; SAN!C23; Manager!C26; Log!C23; Monitoring!C23; Monitoring!C24",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Availability",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "B33",
+    "service": "it_configuration",
+    "term": "Availability",
+    "recipe_id": "availability"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "ND-CB4805660E5F53502928",
+  "title": "duplicate_stt",
+  "body": "duplicate_stt\nCó STT thiếu/nhảy hoặc trùng (ví dụ Managed Service STT 11). ID dùng file/sheet/dòng vật lý thay vì STT.\nVị trí: Checklist IT và các checklist dịch vụ",
+  "group": "F",
+  "category": "Chất lượng dữ liệu & quy tắc",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "data_quality",
+  "provenance": {
+    "category": "data_quality",
+    "document_type": "data_quality",
+    "title": "duplicate_stt",
+    "provenance": "authored_review",
+    "review_status": "draft_engineer_review",
+    "source_file": "data_quality.json"
+  },
+  "service": "",
+  "content_kind": "reference"
+}

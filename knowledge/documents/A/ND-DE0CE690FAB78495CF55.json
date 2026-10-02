@@ -1,0 +1,35 @@
+{
+  "id": "ND-DE0CE690FAB78495CF55",
+  "title": "Security Fabric",
+  "body": "Security Fabric\nĐịnh nghĩa: Tích hợp thiết bị/dịch vụ để trao đổi thông tin bảo mật và điều phối.\nĐầu vào: Danh sách thiết bị/cloud tenant, quyền tối thiểu, certificate/token, version.\nCách thực hiện:\n1. Kiểm tra tương thích và luồng dữ liệu được phép.\n2. Tạo connector với danh tính quyền đọc tối thiểu trước; xác minh tin cậy hai đầu.\n3. Map object/tag vào policy có phạm vi; kiểm tra refresh/sync.\n4. Test mất connector và hành vi giữ/xóa object; giám sát lỗi.\nKiểm tra: Nguồn dữ liệu đúng tenant; đồng bộ đúng; không cấp quyền quá mức.\nRollback: Disable connector/action mới, thu hồi token thử và phục hồi policy/object trước.\nXuất hiện: Thông tin lên Bom!A52",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Security Fabric",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "A52",
+    "service": "fortigate_configuration",
+    "term": "Security Fabric",
+    "recipe_id": "fabric"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

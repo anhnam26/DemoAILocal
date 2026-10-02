@@ -1,0 +1,35 @@
+{
+  "id": "ND-EFF0545B8AF40BEB67E4",
+  "title": "SAML",
+  "body": "SAML\nĐịnh nghĩa: Trao đổi assertion danh tính giữa IdP và SP để đăng nhập liên kết.\nĐầu vào: IdP/SP metadata, entity ID, ACS URL, certificate, claim/group và giờ.\nCách thực hiện:\n1. Đăng ký ứng dụng SP tại IdP và nhập metadata hai bên.\n2. Map claim user/group đúng; kiểm tra certificate và đồng bộ giờ.\n3. Gắn auth profile vào dịch vụ thử, giới hạn nhóm được dùng.\n4. Test login/logout, user sai nhóm và chứng chỉ hết hạn trong lab.\nKiểm tra: Đăng nhập đúng nhóm; assertion sai bị từ chối; có audit.\nRollback: Khôi phục metadata/certificate trước và giữ tài khoản khẩn cấp.\nXuất hiện: Thông tin lên Bom!B31; Thông tin lên Bom!C31; Thông tin lên Bom!B54",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SAML",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_cell": "B31",
+    "service": "fortigate_configuration",
+    "term": "SAML",
+    "recipe_id": "saml"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "concept"
+}

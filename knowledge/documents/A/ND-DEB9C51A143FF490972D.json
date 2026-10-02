@@ -1,0 +1,35 @@
+{
+  "id": "ND-DEB9C51A143FF490972D",
+  "title": "SAN",
+  "body": "SAN\nĐịnh nghĩa: SAN cung cấp lưu trữ khối; multipath tạo nhiều đường tới cùng LUN để dự phòng/cân bằng.\nĐầu vào: Host HCL, WWPN/IQN, paths, driver/DSM, chính sách path hãng khuyến nghị.\nCách thực hiện:\n1. Đối chiếu zoning/LUN masking và network storage.\n2. Cài/bật multipath stack đúng OS và driver được hỗ trợ.\n3. Rescan, xác nhận nhiều đường cùng nhận một device ID, chọn path policy đúng hãng.\n4. Test mất từng đường trong bảo trì, theo dõi I/O và path recovery.\nKiểm tra: Không hiện LUN trùng; I/O liên tục khi mất một path; path phục hồi.\nRollback: Trả path policy/driver theo kế hoạch, không tháo tất cả đường đang ghi.\nXuất hiện: Server!C23; NAS!B24; SAN!A1; SAN!C21",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "SAN",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_cell": "C23",
+    "service": "it_configuration",
+    "term": "SAN",
+    "recipe_id": "multipath"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

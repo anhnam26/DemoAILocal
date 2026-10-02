@@ -1,0 +1,35 @@
+{
+  "id": "ND-7A728EF9AD52ACE9EDAA",
+  "title": "fortigate_configuration: Cấu hình SD-WAN cơ bản (Cho traffic đi Internet)",
+  "body": "fortigate_configuration: Cấu hình SD-WAN cơ bản (Cho traffic đi Internet)\nCâu hỏi/mô tả gốc: Chỉ cấu hình SD-WAN zone Internet + SLA + SD-WAN rule cơ bản.\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Chỉ cấu hình SD-WAN zone Internet + SLA + SD-WAN rule cơ bản.. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Interface là cổng logic/vật lý; WAN nối ngoài, LAN nội bộ, DMZ tách dịch vụ; zone nhóm interface cùng chính sách.\nSD-WAN chọn đường theo chính sách và sức khỏe đường truyền; SLA trong SD-WAN là ngưỡng đo chất lượng.\nCách xử lý bổ sung:\n1. Đối chiếu nhãn cáp và cổng; giữ console khi đổi IP quản lý.\n2. Tạo zone nếu thiết kế yêu cầu; gán interface, địa chỉ và role WAN/LAN/DMZ.\n3. Chỉ bật giao thức quản trị trên mạng quản trị; kiểm tra link và MTU với đầu đối diện.\n4. Kiểm tra ARP, ping gateway và route; lưu sơ đồ cổng sau thay đổi.\n5. Đo từng WAN và xác nhận route/policy hiện tại.\n6. Tạo zone/members, khai báo gateway và health check tới đích đại diện.\n7. Tạo rule theo ứng dụng/địa chỉ/dịch vụ, ngưỡng SLA và phương thức chọn đường.\n8. Với hub-spoke, xác nhận tunnel/route từng site trước khi gắn rule; thử mất từng WAN và phục hồi.\nTiêu chí: Không trùng IP; link up; đúng zone và subnet; truy cập quản trị đúng nguồn.\nLuồng đi đúng WAN; chuyển đường đúng ngưỡng; không bất đối xứng ngoài thiết kế.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Cấu hình SD-WAN cơ bản (Cho traffic đi Internet)",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 25,
+    "source_cell": "row:25",
+    "service": "fortigate_configuration",
+    "requirement_id": "38a2b83b3bccccc66050"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

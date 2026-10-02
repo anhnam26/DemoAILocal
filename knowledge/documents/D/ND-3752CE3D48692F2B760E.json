@@ -1,0 +1,32 @@
+{
+  "id": "ND-3752CE3D48692F2B760E",
+  "title": "SOW đề xuất fortigate_configuration: Chuẩn bị & thay đổi",
+  "body": "SOW đề xuất fortigate_configuration: Chuẩn bị & thay đổi\nĐầu ra đề xuất: Backup, version/license tương thích, change plan\nCác bước:\n1. Sao lưu cấu hình và image cần phục hồi; xác minh backup đọc được.\n2. Kiểm tra ma trận hỗ trợ tính năng/license và lộ trình nâng cấp đúng model; không tự chọn bản mới nhất.\n3. Tải image từ hãng, kiểm tra checksum; nâng cấp theo từng bước được hỗ trợ.\n4. Sau mỗi lần khởi động, kiểm tra interface, route, policy, VPN, HA và log; cập nhật driver tương thích nếu là server.\n5. Tạo change record với phạm vi, rủi ro, dependency và backup.\n6. Đặt người lập/người duyệt tách vai trò; cấu hình approval matrix nếu nền tảng hỗ trợ.\n7. Gửi duyệt, sửa khi bị từ chối; chỉ triển khai bản đã duyệt.\n8. Ghi thời điểm, kết quả test, rollback nếu vượt ngưỡng và đóng change.\nNghiệm thu: Đúng version; không lỗi chuyển đổi cấu hình; bộ test dịch vụ đạt; có biên bản downtime.\nCó audit trail; không bỏ qua approval; bản thực thi trùng bản được duyệt.\nRollback: Dừng khi không tương thích; phục hồi image và backup cùng phiên bản theo hướng dẫn hãng, không nạp mù config mới vào firmware cũ.\nThực hiện rollback của change và mở lại đánh giá; không xóa dấu vết.\nĐây là SOW bổ sung dự thảo; chưa có giờ công, giá hoặc SLA cam kết. Cần chốt trách nhiệm và ngoài phạm vi.",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_sow",
+  "provenance": {
+    "category": "service_sow",
+    "document_type": "service_sow",
+    "title": "SOW đề xuất fortigate_configuration: Chuẩn bị & thay đổi",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "service_sow_templates.json",
+    "source_cell": "fortigate_configuration-SOW-03",
+    "service": "fortigate_configuration"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "reference"
+}

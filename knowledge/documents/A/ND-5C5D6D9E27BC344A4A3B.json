@@ -1,0 +1,35 @@
+{
+  "id": "ND-5C5D6D9E27BC344A4A3B",
+  "title": "Remote Management",
+  "body": "Remote Management\nĐịnh nghĩa: Giao diện quản trị phần cứng ngoài băng, hoạt động độc lập OS.\nĐầu vào: IP/VLAN quản trị, license console, tài khoản và certificate.\nCách thực hiện:\n1. Kết nối cổng quản trị vào mạng riêng.\n2. Đặt IP/gateway/DNS, đổi tài khoản mặc định và giới hạn nguồn truy cập.\n3. Cài certificate/firmware tương thích, bật cảnh báo phần cứng.\n4. Test remote console và virtual media; không power-cycle sản xuất ngoài cửa sổ.\nKiểm tra: Console truy cập từ mạng cho phép; phần cứng và alert được nhìn thấy.\nRollback: Trả IP/ACL/tài khoản quản trị trước qua console tại chỗ.\nXuất hiện: Server!C19",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Remote Management",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Server",
+    "source_cell": "C19",
+    "service": "it_configuration",
+    "term": "Remote Management",
+    "recipe_id": "oob"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

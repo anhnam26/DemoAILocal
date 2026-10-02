@@ -1,0 +1,35 @@
+{
+  "id": "ND-BE931637A66ACABF3D53",
+  "title": "DMZ",
+  "body": "DMZ\nĐịnh nghĩa: Interface là cổng logic/vật lý; WAN nối ngoài, LAN nội bộ, DMZ tách dịch vụ; zone nhóm interface cùng chính sách.\nĐầu vào: Sơ đồ cổng/cáp, IP/mask/gateway, tốc độ/duplex, VLAN và quyền quản trị.\nCách thực hiện:\n1. Đối chiếu nhãn cáp và cổng; giữ console khi đổi IP quản lý.\n2. Tạo zone nếu thiết kế yêu cầu; gán interface, địa chỉ và role WAN/LAN/DMZ.\n3. Chỉ bật giao thức quản trị trên mạng quản trị; kiểm tra link và MTU với đầu đối diện.\n4. Kiểm tra ARP, ping gateway và route; lưu sơ đồ cổng sau thay đổi.\nKiểm tra: Không trùng IP; link up; đúng zone và subnet; truy cập quản trị đúng nguồn.\nRollback: Trả IP/zone/cáp về sơ đồ ban đầu qua console.\nXuất hiện: FortiGate!C18; Firewall!C16",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "DMZ",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "FortiGate",
+    "source_cell": "C18",
+    "service": "it_configuration",
+    "term": "DMZ",
+    "recipe_id": "interface"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

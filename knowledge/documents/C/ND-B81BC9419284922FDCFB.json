@@ -1,0 +1,35 @@
+{
+  "id": "ND-B81BC9419284922FDCFB",
+  "title": "fortigate_configuration: Switch Core / Distribution hiện có:",
+  "body": "fortigate_configuration: Switch Core / Distribution hiện có:\nCâu hỏi/mô tả gốc: Model? Có hỗ trợ 802.1Q VLAN / TRUNK không?\nTrả lời thực trong nguồn: CHƯA CÓ. Lựa chọn thực: CHƯA XÁC NHẬN.\nCách thu thập: Ghi câu trả lời cho: Model? Có hỗ trợ 802.1Q VLAN / TRUNK không?. Tách giá trị, đơn vị, bằng chứng, người xác nhận và trạng thái. Ô chưa trả lời giữ null; lựa chọn mẫu X/Yes không chứng minh khách hàng đã ký.\nGiải thích bổ sung: Phân đoạn mạng lớp 2 theo VLAN ID; 802.1Q gắn thẻ VLAN trên liên kết dùng chung.\nCổng trunk truyền nhiều VLAN; native/untagged VLAN phải khớp hai đầu.\nCách xử lý bổ sung:\n1. Tạo VLAN trên thiết bị và sub-interface trên gateway nếu gateway đặt tại đó.\n2. Gán VLAN ID, tên, IP/mask cho sub-interface theo IP plan.\n3. Đồng bộ allowed VLAN và native VLAN giữa hai đầu uplink; tránh nhầm tagged/untagged.\n4. Cấu hình DHCP/policy liên quan và thử client của từng VLAN.\n5. So sánh cấu hình cả hai đầu liên kết.\n6. Đặt trunk/tagged và danh sách VLAN tối thiểu; đồng bộ native VLAN.\n7. Kiểm tra VLAN quản trị trước khi áp thay đổi từ xa.\n8. Test từng VLAN qua trunk, MAC table và lỗi tag.\nTiêu chí: Client vào đúng VLAN, lấy đúng IP; VLAN bị tách theo policy; uplink truyền đúng tag.\nCác VLAN cho phép đi qua; VLAN ngoài danh sách bị chặn; không mất quản trị.",
+  "group": "C",
+  "category": "Khảo sát & phạm vi dịch vụ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "service_requirements",
+  "provenance": {
+    "category": "service_requirements",
+    "document_type": "service_requirements",
+    "title": "fortigate_configuration: Switch Core / Distribution hiện có:",
+    "provenance": "source_item_with_authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
+    "source_sheet": "Thông tin lên Bom",
+    "source_row": 8,
+    "source_cell": "row:8",
+    "service": "fortigate_configuration",
+    "requirement_id": "5d9e109b3bfa4146b49e"
+  },
+  "service": "fortigate_configuration",
+  "content_kind": "survey"
+}

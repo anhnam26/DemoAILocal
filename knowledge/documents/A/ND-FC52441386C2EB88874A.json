@@ -1,0 +1,35 @@
+{
+  "id": "ND-FC52441386C2EB88874A",
+  "title": "Network Topology Mapping",
+  "body": "Network Topology Mapping\nĐịnh nghĩa: Sơ đồ quan hệ thiết bị/cổng từ discovery và dữ liệu inventory.\nĐầu vào: Subnet được quét, SNMP/LLDP/CDP quyền đọc, site map.\nCách thực hiện:\n1. Giới hạn discovery vào mạng được phép.\n2. Thu inventory và neighbor, gộp thiết bị theo ID ổn định.\n3. Đối chiếu sơ đồ tự động với nhãn cáp/as-built, sửa liên kết thiếu bằng bằng chứng.\n4. Tạo lịch refresh và lưu phiên bản.\nKiểm tra: Sơ đồ có port/site đúng; không quét ngoài scope; thay đổi được ghi nhận.\nRollback: Tắt discovery mới, phục hồi sơ đồ phiên bản trước.\nXuất hiện: Monitoring!C21",
+  "group": "A",
+  "category": "Khái niệm & thuật ngữ",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "draft_engineer_review",
+  "data_type": "glossary",
+  "provenance": {
+    "category": "glossary",
+    "document_type": "glossary",
+    "title": "Network Topology Mapping",
+    "provenance": "authored_guidance",
+    "review_status": "draft_engineer_review",
+    "source_file": "Checklist_Cau_hinh_IT.xlsx",
+    "source_sheet": "Monitoring",
+    "source_cell": "C21",
+    "service": "it_configuration",
+    "term": "Network Topology Mapping",
+    "recipe_id": "topology"
+  },
+  "service": "it_configuration",
+  "content_kind": "concept"
+}

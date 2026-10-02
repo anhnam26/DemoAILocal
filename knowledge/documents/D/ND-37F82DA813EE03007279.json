@@ -1,0 +1,32 @@
+{
+  "id": "ND-37F82DA813EE03007279",
+  "title": "Workflow Cho thuê thiết bị",
+  "body": "Workflow Cho thuê thiết bị\nTiếp nhận thông tin → [Tiếp tục] → Khảo sát nhu cầu/Tư vấn\nKhảo sát nhu cầu/Tư vấn → [Tiếp tục] → Báo giá & Ký hợp đồng\nBáo giá & Ký hợp đồng → [Tiếp tục] → Chuẩn bị thiết bị\nChuẩn bị thiết bị → [Tiếp tục] → Bàn giao thiết bị\nBàn giao thiết bị → [Tiếp tục] → Tư vấn vận hành\nTư vấn vận hành → [Tiếp tục] → Gia hạn/Nâng cấp\nGia hạn/Nâng cấp → [Tiếp tục] → Kết thúc hợp đồng\nKết thúc hợp đồng → [Tiếp tục] → Thu hồi thiết bị\nThu hồi thiết bị → [Tiếp tục] → Đóng case",
+  "group": "D",
+  "category": "Quy trình & triển khai",
+  "roles": [
+    "member",
+    "admin"
+  ],
+  "customer": null,
+  "version": "knowledge-1",
+  "status": "approved",
+  "valid_from": "2026-01-01",
+  "valid_to": "2099-12-31",
+  "owner": "Kho tri thức chung",
+  "knowledge_type": "theory",
+  "review_status": "source_transcribed",
+  "data_type": "workflow",
+  "provenance": {
+    "category": "workflow",
+    "document_type": "workflow",
+    "title": "Workflow Cho thuê thiết bị",
+    "provenance": "source",
+    "review_status": "source_transcribed",
+    "source_file": "CBA Services Work Flow (1).pdf",
+    "source_page": 7,
+    "workflow_id": "WF-07"
+  },
+  "service": "",
+  "content_kind": "workflow"
+}
