@@ -67,6 +67,11 @@ xác minh kỹ thuật. Loader chặn đường dẫn ngoài corpus, thiếu/ext
 lỗi trước sync. Danh mục manifest quyết định xóa có chủ đích, giữ upload riêng và
 status retired khi nguồn đổi. Startup không tự sync.
 
+Liên kết dịch vụ/loại bằng chứng được dựng trong chỉ mục, không thêm bảng hoặc
+sửa payload nguồn. Chat lưu coverage/packing/audience trong JSON diagnostics.
+Coverage không xác minh ngữ nghĩa hoặc thay nhãn duyệt kỹ thuật. Audit nguồn và
+DB read-only có chọn đường dẫn rõ ràng: xem `docs/SERVICE_RAG.md`.
+
 ## Phần chưa thực hiện
 
 Không tự đổi chính sách mật khẩu/member, thêm hồ sơ mới/CRM, chuẩn hóa toàn bộ

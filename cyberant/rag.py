@@ -3,6 +3,7 @@ import hashlib,json,re,unicodedata,threading
 from functools import lru_cache
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
+from cyberant import service_evidence
 
 GROUPS={'A':'Khái niệm & thuật ngữ','B':'Cấu hình & xử lý sự cố','C':'Khảo sát & phạm vi dịch vụ',
         'D':'Quy trình & triển khai','E':'An toàn thông tin','F':'Chất lượng dữ liệu & quy tắc'}
@@ -49,7 +50,7 @@ _INDEX_LOCK=threading.RLock()
 
 @lru_cache(maxsize=1)
 def _index(encoded):
-    docs=[chunk for d in json.loads(encoded) for chunk in chunks(d)]
+    docs=[service_evidence.link(chunk) for d in json.loads(encoded) for chunk in chunks(d)]
     texts=[search_text(d) for d in docs]
     v=TfidfVectorizer(analyzer='char_wb',ngram_range=(3,5),dtype=np.float32,max_features=50000)
     w=TfidfVectorizer(ngram_range=(1,2),dtype=np.float32,max_features=40000)
@@ -81,6 +82,11 @@ def search_text(d):
 
 def intent(question):
     q=norm(question)
+    sow=bool(re.search(r'\b(sow|statement of work|pham vi cong viec)\b',q))
+    bom=bool(re.search(r'\b(bom|bill of materials|danh muc vat tu)\b',q))
+    # A definition remains cheap; artifacts/multi-part requests have dedicated routing.
+    if (sow or bom) and not (re.search(r'\b(la gi|dinh nghia)\b',q) and not service_evidence.resolve_services(q)):
+        return 'sow_bom' if sow and bom else 'sow' if sow else 'bom'
     for name,terms in [('troubleshooting',('loi','khong duoc','chan doan','su co','khong truy cap')),
                        ('survey',('khao sat','thu thap','can chuan bi')),
                        ('procedure',('cac buoc','quy trinh','cau hinh','trien khai','rollback')),
@@ -92,7 +98,8 @@ def budgets(question,input_cap,output_cap):
     kind=intent(question)
     # Input remains a conservative byte proxy, explicitly not a model tokenizer.
     input_target,output_target={'concept':(8000,1000),'comparison':(14000,1800),
-        'survey':(14000,1800),'procedure':(18000,2400),'troubleshooting':(18000,2400)}[kind]
+        'survey':(14000,1800),'procedure':(18000,2400),'troubleshooting':(18000,2400),
+        'sow':(18000,2400),'bom':(14000,1800),'sow_bom':(18000,2400)}[kind]
     return min(input_cap,input_target),min(output_cap,output_target)
 
 VENDORS=r'\b(?:forti\w*|cisco|juniper|aruba|mikrotik|huawei|ubiquiti|palo alto|meraki|ios|nx-os|junos|routeros)\b'
@@ -142,6 +149,27 @@ def retrieve(question, documents, top_k=6):
     threshold=max(.10,float(scores.max())*.28)
     candidates=[int(i) for i in np.argsort(scores)[::-1][:60] if scores[i]>=threshold]
     selected=[];counts={}
+    services=service_evidence.resolve_services(question)
+    required=service_evidence.requirements(question,kind)
+    if services and required:
+        # Linked evidence may be lexically weak; never expand beyond allowed documents.
+        linked=[i for i,d in enumerate(docs) if d.get('service_id') in services
+                and d.get('data_type')!='glossary']
+        if not linked:
+            return [],dict(groups=[],candidates=len(docs),routing='local',service_ids=services,
+                           coverage=service_evidence.coverage(question,kind,[]),
+                           corpus_coverage=service_evidence.coverage(question,kind,docs))
+        candidates=linked
+        uncovered={(s,f) for s in services for f in required}
+        while candidates and len(selected)<top_k:
+            def coverage_rank(i):
+                d=docs[i];pairs={(d['service_id'],f) for f in d['evidence_facets']}
+                gain=sum(1+.1*(len(required)-required.index(f)) for s,f in pairs&uncovered)
+                return gain,float(scores[i]),-len(d['body']),d['id']
+            i=max(candidates,key=coverage_rank)
+            if coverage_rank(i)[0]==0:break
+            candidates.remove(i);selected.append(i);counts[docs[i]['id']]=1
+            uncovered-={(docs[i]['service_id'],f) for f in docs[i]['evidence_facets']}
     while candidates and len(selected)<top_k:
         def rank(i):
             similarity=max((float((words[i]@words[j].T).toarray()[0,0]) for j in selected),default=0)
@@ -150,21 +178,45 @@ def retrieve(question, documents, top_k=6):
         if counts.get(docs[i]['id'],0)>=2:continue
         selected.append(i);counts[docs[i]['id']]=counts.get(docs[i]['id'],0)+1
     found=[{**docs[i],'score':round(float(scores[i]),4)} for i in selected]
-    return found,dict(groups=list(dict.fromkeys(d.get('group','F') for d in found)),candidates=len(docs),routing='local')
+    return found,dict(groups=list(dict.fromkeys(d.get('group','F') for d in found)),candidates=len(docs),routing='local',
+                      service_ids=services,coverage=service_evidence.coverage(question,kind,found),
+                      corpus_coverage=service_evidence.coverage(question,kind,docs))
 
-def pack(question,found,budget):
+def system_prompt(question,audience='auto'):
+    return SYSTEM+service_evidence.guidance(question,intent(question),audience)
+
+def pack(question,found,budget,audience='auto',diagnostics=None):
     def render(items):
         context='\n\n'.join(f"[{d['id']}] {d['title']} ({d.get('review_status','reference')})\n{d['body']}" for d in items)
-        return [{'role':'system','content':SYSTEM},{'role':'user','content':'NGUỒN:\n'+context+'\n\nCÂU HỎI: '+question}]
+        coverage=service_evidence.coverage(question,intent(question),items)
+        missing='\n'.join(f"{s['service_id']}: "+', '.join(service_evidence.FACET_LABELS[f] for f in s['missing'])
+                          for s in coverage['services'] if s['missing'])
+        gap=('\n\nCHẨN ĐOÁN BAO PHỦ: Chưa có loại bằng chứng sau trong NGUỒN gửi model (không chứng minh toàn kho thiếu):\n'
+             +missing+'\nKhông tự điền phần thiếu hoặc suy ra đủ căn cứ chỉ vì có loại bằng chứng khác.') if missing else ''
+        return [{'role':'system','content':system_prompt(question,audience)},{'role':'user','content':'NGUỒN:\n'+context+gap+'\n\nCÂU HỎI: '+question}]
     def count(messages):return sum(estimate_tokens(m['content'])+16 for m in messages)+64
     if count(render([]))>budget:raise ValueError('Câu hỏi vượt ngân sách đầu vào; hãy rút gọn câu hỏi hoặc tăng RAG_INPUT_TOKENS.')
-    selected=[];seen=set()
-    for d in found:
+    selected=[];seen=set();remaining=list(found);omitted=[]
+    required=service_evidence.requirements(question,intent(question))
+    services=service_evidence.resolve_services(question)
+    uncovered={(s,f) for s in services for f in required}
+    while remaining:
+        def priority(d):
+            pairs={(service_evidence.service_id(d),f) for f in service_evidence.facets(d)}
+            return sum(1+.1*(len(required)-required.index(f)) for s,f in pairs&uncovered)
+        d=max(remaining,key=priority);remaining.remove(d)
         # Deduplicate complete evidence only: never delete a warning or a step.
-        folded=norm(d['body'].strip())
-        if folded in seen or count(render(selected+[d]))>budget:continue
+        # Same wording in distinct versions/services is not interchangeable evidence.
+        folded=(d['body'].strip(),service_evidence.service_id(d),d.get('review_status'),d.get('version'))
+        reason='duplicate' if folded in seen else 'budget' if count(render(selected+[d]))>budget else None
+        if reason:
+            omitted.append(dict(id=d['id'],chunk=d.get('chunk',1),reason=reason));continue
         selected.append(d);seen.add(folded)
+        uncovered-={(service_evidence.service_id(d),f) for f in service_evidence.facets(d)}
     messages=render(selected)
+    if diagnostics is not None:
+        diagnostics.update(omitted=omitted,coverage=service_evidence.coverage(question,intent(question),selected),
+                           audience=service_evidence.audience(question,audience))
     return messages,selected,count(messages)
 
 def fingerprint(documents):

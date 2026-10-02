@@ -89,7 +89,9 @@ khách hàng. Upload TXT/MD/PDF có text chờ admin duyệt.
 
 Sửa nguồn phải cập nhật checksum/danh mục trong manifest. Thiếu/hỏng nguồn làm
 đồng bộ thất bại trước khi ghi; đồng bộ bằng chức năng admin, không tự chạy startup.
-RAG chọn tối đa 6 đoạn theo cấu hình, không gửi cả kho/toàn bộ lịch sử.
+RAG chọn tối đa 6 đoạn theo cấu hình, không gửi cả kho/toàn bộ lịch sử. SOW/BOM
+ưu tiên bằng chứng cùng dịch vụ; chọn cách trình bày Sales/Kỹ sư, không đổi quyền.
+Xem `docs/SERVICE_RAG.md` về coverage, audit read-only và đánh giá offline.
 `RAG_INPUT_BYTES` là byte UTF-8, **không phải tokenizer**; tên cũ `RAG_INPUT_TOKENS`
 vẫn hỗ trợ. Usage provider là số liệu thực. Kiểm ID trích dẫn không chứng minh
 ngữ nghĩa câu trả lời. Không tự retry/đổi model. Usage chưa rõ phải đối soát.

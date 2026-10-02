@@ -9,10 +9,11 @@ from pydantic import BaseModel,Field
 from pypdf import PdfReader
 import io
 from contextlib import asynccontextmanager
+from typing import Literal
 from cyberant import accounts,config,token_usage,runtime_lock
 from cyberant import conversations,quality_feedback
-APP_VERSION='2026.10.02-separated-data-1'
-PROMPT_VERSION='scope-2'
+APP_VERSION='2026.10.02-service-evidence-1'
+PROMPT_VERSION='service-evidence-1'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
 from cyberant import admin_system,rag,model_provider,storage
@@ -90,6 +91,7 @@ def create_app():
         question:str=Field(min_length=2,max_length=1500)
         conversation_id:str|None=Field(default=None,max_length=64)
         model:str|None=Field(default=None,min_length=1,max_length=200)
+        audience:Literal['auto','sales','engineering']='auto'
     class ModelInput(BaseModel):
         model:str=Field(min_length=1,max_length=200)
     Feedback=quality_feedback.Feedback
@@ -161,7 +163,7 @@ def create_app():
         except ValueError as e:raise HTTPException(400,str(e))
         usage={};estimated=0;calls=0;found=[];used=[];review=True
         finish=None;output=0;budget=0;reservation=None;retrieved_count=0;citation_status='not_checked'
-        retrieved_sources=[];citation_errors=[]
+        retrieved_sources=[];citation_errors=[];packing={}
         # No record lookup or invented customer identity; this costs zero API calls.
         if re.search(r'\b(crm-|contract-|quote-|ticket-|cong no|ho so khach|ten khach hang|khach hang thuc|dien thoai khach)',rag.norm(effective)):
             answer='Kho này chỉ giữ tài liệu lý thuyết và biểu mẫu trống; không lưu hồ sơ, liên hệ, hợp đồng hay công nợ khách hàng.'
@@ -175,7 +177,7 @@ def create_app():
                 retrieved_count=len(found)
                 retrieved_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found]
                 budget,output=rag.budgets(effective,cfg['input_budget'],cfg['output_budget']);parallel=cfg['parallel']
-                try:messages,found,estimated=rag.pack(effective,found,budget)
+                try:messages,found,estimated=rag.pack(effective,found,budget,data.audience,packing)
                 except ValueError as e:raise HTTPException(400,str(e))
                 if not found:
                     answer='Ngân sách đầu vào chưa đủ để chứa đoạn nguồn. Hãy rút gọn câu hỏi hoặc tăng RAG_INPUT_TOKENS.';mode='Thiếu ngân sách'
@@ -232,13 +234,16 @@ def create_app():
                  usage=usage,model=cfg['model'],api_calls=calls,finish_reason=finish,output_token_limit=output,
                  citation_status=citation_status,grounding_verified=False,
                  diagnostics=dict(app_version=APP_VERSION,prompt_version=PROMPT_VERSION,
-                     prompt_hash=hashlib.sha256(rag.SYSTEM.encode()).hexdigest(),effective_query=effective,
+                     prompt_hash=hashlib.sha256(rag.system_prompt(effective,data.audience).encode()).hexdigest(),effective_query=effective,
                      retrieved_sources=retrieved_sources,sent_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found],
                      input_budget=budget,estimated_input=estimated,output_budget=output,usage_record_id=reservation,
-                     usage=usage,finish_reason=finish,citation_errors=citation_errors,
+                      usage=usage,finish_reason=finish,citation_errors=citation_errors,packing=packing,
+                      requested_audience=data.audience,
                      scope=rag.scope(effective),device_details_required=rag.intent(effective)=='procedure' and rag.scope(effective)=='generic'),
                  retrieval={**routing,'intent':rag.intent(effective),'retrieved_chunks':retrieved_count,'selected_chunks':len(found),
-                            'omitted_chunks':retrieved_count-len(found),'estimated_input_tokens':estimated,'token_estimator':'UTF-8 byte proxy; not a tokenizer'})
+                             'packed_coverage':packing.get('coverage'),'omissions':packing.get('omitted',[]),
+                             'omitted_chunks':retrieved_count-len(found),'estimated_input_tokens':estimated,
+                             'estimated_input_bytes':estimated,'token_estimator':'UTF-8 byte proxy; not a tokenizer'})
         with connect() as c:
             cur=c.execute('INSERT INTO chats(session,question,result,ts,user_id,conversation_id) VALUES(?,?,?,?,?,?)',(u['token'],q,json.dumps(out,ensure_ascii=False),now(),u['id'],conversation_id));out['chat_id']=cur.lastrowid
             c.execute("UPDATE conversations SET title=CASE WHEN title='Cuộc trò chuyện mới' THEN ? ELSE title END,updated=? WHERE id=?",(q[:100],now(),conversation_id))

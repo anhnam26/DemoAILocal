@@ -2,7 +2,20 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let currentConversation=null;
 let currentUser=null,documents=[],health={},busy=false,company={records:[],counts:{}};
+// Presentation preference only: never changes permissions or the shared corpus.
+const audienceLabel=document.createElement('label');
+audienceLabel.className='chat-audience';audienceLabel.textContent='Trả lời cho ';
+const audienceSelect=document.createElement('select');audienceSelect.id='chat-audience';
+audienceSelect.setAttribute('aria-label','Đối tượng câu trả lời');
+for(const [value,label] of [['auto','Tự nhận diện'],['sales','Sales'],['engineering','Kỹ sư']]){
+  const option=document.createElement('option');option.value=value;option.textContent=label;audienceSelect.append(option);
+}
+audienceLabel.append(audienceSelect);$('#chat-form .composer-bottom').prepend(audienceLabel);
 async function api(path,options={}){
+  if(path==='/chat'&&typeof options.body==='string'){
+    const body=JSON.parse(options.body);body.audience=audienceSelect.value;
+    options={...options,body:JSON.stringify(body)};
+  }
   let r;try{r=await fetch('/api'+path,{...options,headers:options.body instanceof FormData?{}:{'Content-Type':'application/json',...options.headers}})}
   catch{throw Error('Mất kết nối máy chủ. Kiểm tra mạng; yêu cầu có thể đã được xử lý. Hệ thống không tự gửi lại.')}
   if(r.status===401&&currentUser){currentUser=null;location.reload();throw Error('Phiên đăng nhập đã hết hạn.')}
@@ -26,6 +39,7 @@ async function copyAnswer(message){
 function toast(s){$('#toast').textContent=s;$('#toast').classList.remove('hidden');setTimeout(()=>$('#toast').classList.add('hidden'),5000)}
 let modelSaving=false,modelVersion=0;
 function updateChatControls(){
+  audienceSelect.disabled=busy||conversationLoading;
   $('#chat-model').disabled=busy||modelSaving||conversationLoading||!health.allowed_models?.length;
   $('#send').disabled=busy||modelSaving||conversationLoading||!health.configured||!$('#chat-model').value;
   $('#new-chat').disabled=busy||conversationLoading;

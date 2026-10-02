@@ -136,6 +136,18 @@ class WorkspaceUI(unittest.TestCase):
         self.assertGreaterEqual(used, 120)
         self.assertEqual(member.delete('/api/conversations/' + new_id).status_code, 200)
         self.assertEqual(member.get('/api/account/usage').json()['used_tokens'], used)
+        # Role is presentation only, mock provider remains the only generation path.
+        invalid=member.post('/api/chat',json=dict(question='SOW BOM Managed Service',audience='admin'))
+        self.assertEqual(invalid.status_code,422)
+        service=member.post('/api/chat',json=dict(question='SOW BOM Managed Service',audience='engineering'))
+        self.assertEqual(service.status_code,200,service.text)
+        result=service.json()
+        self.assertEqual(result['retrieval']['intent'],'sow_bom')
+        self.assertEqual(result['diagnostics']['packing']['audience'],'engineering')
+        self.assertEqual(result['api_calls'],1)
+        self.assertFalse(result['grounding_verified'])
+        self.assertEqual(result['retrieval']['packed_coverage']['verification'],'evidence_types_only_not_entailment')
+        member.delete('/api/conversations/'+result['conversation_id'])
         with self.module.connect() as c:
             c.execute("UPDATE users SET monthly_token_limit=0 WHERE username='member'")
         before = self.provider_calls
@@ -378,8 +390,12 @@ class WorkspaceUI(unittest.TestCase):
             expect(page.locator('#history-search')).to_have_value('')
             page.locator('#chat-model').select_option(MODELS[0])
             page.wait_for_function('()=>!modelSaving')
+            expect(page.locator('#chat-audience')).to_be_visible()
+            page.locator('#chat-audience').select_option('sales')
             page.locator('#question').fill('RMA là gì?')
-            page.locator('#send').click()
+            with page.expect_request(lambda request: request.url.endswith('/api/chat') and request.method=='POST') as request:
+                page.locator('#send').click()
+            self.assertEqual(request.value.post_data_json['audience'],'sales')
             expect(page.locator('.inline-citation').first).to_be_visible(timeout=30000)
             page.wait_for_function('()=>!busy && !historyLoading')
             expect(page.locator('[aria-current=true]')).to_contain_text('RMA là gì?')
