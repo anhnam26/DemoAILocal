@@ -39,6 +39,8 @@ def main(argv=None):
             os.umask(0o077)
         else:
             security=config.security()
+            if security['mode']=='development' and args.host not in ('127.0.0.1','localhost','::1'):
+                raise ValueError('Development must bind loopback; configure lan/production for network access')
         # Validate dependencies/config before opening a listener.
         import importlib
         for dependency in ('uvicorn','fastapi','httpx','numpy','sklearn','pypdf','python_multipart'):

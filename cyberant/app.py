@@ -1,6 +1,6 @@
 from pathlib import Path
 from datetime import date,datetime,timezone
-import asyncio, hashlib, json, re, secrets, sqlite3, time
+import asyncio, hashlib, json, re, secrets, time
 import httpx
 from fastapi import FastAPI,HTTPException,Request,Response,UploadFile,File,Form
 from fastapi.responses import FileResponse
@@ -14,7 +14,8 @@ from cyberant import conversations,quality_feedback
 APP_VERSION='2026.10.02-separated-data-1'
 PROMPT_VERSION='scope-2'
 from cyberant.generation import GenerationGate
-from cyberant import admin_system,rag,model_provider,sync_knowledge,storage
+from cyberant.http_limits import BodyLimitMiddleware
+from cyberant import admin_system,rag,model_provider,storage
 
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -43,6 +44,7 @@ async def lifespan(application):
 
 app=FastAPI(title='CyberAnt Knowledge',docs_url=None,redoc_url=None,openapi_url=None,lifespan=lifespan)
 app.mount('/static',StaticFiles(directory=ROOT/'static'),name='static')
+app.add_middleware(BodyLimitMiddleware)
 
 @app.middleware('http')
 async def request_guard(request,call_next):

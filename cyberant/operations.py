@@ -96,6 +96,8 @@ def _export(snapshot, destination):
 
 def initialize(target):
     target = _new_destination(target)
+    from cyberant import model_provider
+    if not model_provider.models():raise ValueError('Configure at least one MODEL before initialization')
     with tempfile.TemporaryDirectory(prefix='.cyberant-init-', dir=target.parent) as temp:
         temp = Path(temp)
         snapshot = temp / 'seed.sqlite3'

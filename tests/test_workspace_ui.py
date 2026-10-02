@@ -102,6 +102,7 @@ class WorkspaceUI(unittest.TestCase):
         member, admin = self.client(), self.client('admin')
         response = member.get('/')
         self.assertIn("script-src 'self'", response.headers['content-security-policy'])
+        self.assertEqual(member.get('/api/ready').json()['status'],'ready')
         self.assertNotIn('unsafe-inline', response.headers['content-security-policy'])
         self.assertEqual(member.get('/static/Logo.png').content, (ROOT / 'static' / 'Logo.png').read_bytes())
         self.assertEqual(member.get('/Logo.png').status_code, 404)
