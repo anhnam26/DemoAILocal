@@ -18,6 +18,7 @@ def port_number(value):
 
 
 def main(argv=None):
+    if os.name=='posix':os.umask(0o077)
     # Resolve relative APP_DATA_DIR consistently even when launched from elsewhere.
     os.chdir(ROOT)
     from cyberant import config

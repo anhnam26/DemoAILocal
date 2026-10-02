@@ -50,6 +50,10 @@ def validate(root, integrity=False):
                 tables = {r[0] for r in c.execute("SELECT name FROM sqlite_master WHERE type='table'")}
                 if not set(STORES[name]) <= tables:
                     raise ValueError('Missing tables: ' + name)
+                if name in ('auth','users'):
+                    table,expected=('accounts',AUTH_COLUMNS) if name=='auth' else ('profiles',PROFILE_COLUMNS)
+                    columns=tuple(r[1] for r in c.execute('PRAGMA table_info('+table+')'))
+                    if columns!=expected:raise ValueError('Unexpected column layout: '+name)
                 if integrity and c.execute('PRAGMA integrity_check').fetchone()[0] != 'ok':
                     raise ValueError('Database integrity failure: ' + name)
     except (OSError, KeyError, TypeError, sqlite3.Error) as exc:
