@@ -54,6 +54,10 @@ def validate(root, integrity=False):
                     raise ValueError('Database integrity failure: ' + name)
     except (OSError, KeyError, TypeError, sqlite3.Error) as exc:
         raise ValueError('Data not initialized. Run operations init/migrate into a NEW directory; check APP_DATA_DIR.') from exc
+    with connect(root) as c:
+        mismatched=c.execute('''SELECT COUNT(*) FROM accounts a LEFT JOIN profiles p ON a.id=p.id WHERE p.id IS NULL''').fetchone()[0]
+        mismatched+=c.execute('''SELECT COUNT(*) FROM profiles p LEFT JOIN accounts a ON a.id=p.id WHERE a.id IS NULL''').fetchone()[0]
+        if mismatched:raise ValueError('Account/profile links are inconsistent; restore a complete data set')
     return manifest
 
 

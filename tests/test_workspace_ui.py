@@ -103,6 +103,8 @@ class WorkspaceUI(unittest.TestCase):
         response = member.get('/')
         self.assertIn("script-src 'self'", response.headers['content-security-policy'])
         self.assertEqual(member.get('/api/ready').json()['status'],'ready')
+        oversized=member.post('/api/login',content=iter([b'x'*1_100_000,b'x'*1_100_000]),headers={'Content-Type':'application/json'})
+        self.assertEqual(oversized.status_code,413)
         self.assertNotIn('unsafe-inline', response.headers['content-security-policy'])
         self.assertEqual(member.get('/static/Logo.png').content, (ROOT / 'static' / 'Logo.png').read_bytes())
         self.assertEqual(member.get('/Logo.png').status_code, 404)

@@ -2,10 +2,6 @@
 from starlette.responses import PlainTextResponse
 
 
-class BodyTooLarge(Exception):
-    pass
-
-
 class BodyLimitMiddleware:
     def __init__(self, app, limit=2_100_000):
         self.app=app
@@ -14,25 +10,24 @@ class BodyLimitMiddleware:
     async def __call__(self, scope, receive, send):
         if scope['type']!='http':
             return await self.app(scope,receive,send)
-        total=0
-        started=False
-
-        async def limited_receive():
-            nonlocal total
+        # Validate BEFORE framework body parsing/side effects. Raising from receive
+        # inside FastAPI can otherwise be converted to 400 by its JSON parser.
+        body=bytearray()
+        while True:
             message=await receive()
-            if message['type']=='http.request':
-                total+=len(message.get('body',b''))
-                if total>self.limit:raise BodyTooLarge()
-            return message
+            if message['type']=='http.disconnect':return
+            body.extend(message.get('body',b''))
+            if len(body)>self.limit:
+                await PlainTextResponse('Request too large',413)(scope,receive,send)
+                return
+            if not message.get('more_body',False):break
+        delivered=False
 
-        async def tracked_send(message):
-            nonlocal started
-            if message['type']=='http.response.start':started=True
-            await send(message)
+        async def replay():
+            nonlocal delivered
+            if not delivered:
+                delivered=True
+                return {'type':'http.request','body':bytes(body),'more_body':False}
+            return await receive()
 
-        try:
-            await self.app(scope,limited_receive,tracked_send)
-        except BodyTooLarge:
-            if started:raise
-            response=PlainTextResponse('Request too large',413)
-            await response(scope,receive,send)
+        await self.app(scope,replay,send)
