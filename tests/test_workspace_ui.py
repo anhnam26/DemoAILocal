@@ -80,7 +80,7 @@ class WorkspaceUI(unittest.TestCase):
             time.sleep(.1)
         if not cls.server.started:
             raise RuntimeError('Isolated test server failed to start')
-        cls.artifacts = ROOT / 'artifacts' / 'ui-review'
+        cls.artifacts = Path(cls.temp.name) / 'ui-review'
         cls.artifacts.mkdir(parents=True, exist_ok=True)
 
     @classmethod

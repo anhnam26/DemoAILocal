@@ -32,12 +32,13 @@ theo đối tượng, không chỉ hash prompt nền.
 
 ## Kiểm tra read-only
 
-Ví dụ Windows (thay đường dẫn tương ứng trên Linux):
+Ví dụ Windows dùng Python đã cài trên máy, không cần venv (thay đường dẫn
+tương ứng trên Linux). Không tự cài/nâng cấp thư viện nếu thiếu dependency:
 
 ```powershell
-& 'D:\TestSystem\.venv\Scripts\python.exe' -B 'D:\TestSystem\tools\audit_service_sources.py' --source-dir 'D:\TestSystem\data'
-& 'D:\TestSystem\.venv\Scripts\python.exe' -B 'D:\TestSystem\tools\audit_service_sources.py' --runtime-db 'D:\TestSystem\data\app.sqlite3'
-& 'D:\TestSystem\.venv\Scripts\python.exe' -B 'D:\TestSystem\tools\audit_service_sources.py' --evaluate
+& 'C:\Users\anhna\AppData\Local\Microsoft\WindowsApps\python3.13.exe' -B 'D:\TestSystem\tools\audit_service_sources.py' --source-dir 'D:\TestSystem\data'
+& 'C:\Users\anhna\AppData\Local\Microsoft\WindowsApps\python3.13.exe' -B 'D:\TestSystem\tools\audit_service_sources.py' --runtime-db 'D:\TestSystem\data\app.sqlite3'
+& 'C:\Users\anhna\AppData\Local\Microsoft\WindowsApps\python3.13.exe' -B 'D:\TestSystem\tools\audit_service_sources.py' --evaluate
 ```
 
 Công cụ in JSON ra stdout, không ghi file, không import app, không init/migrate/

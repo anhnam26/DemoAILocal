@@ -10,9 +10,9 @@ bằng **Linux + Miniconda + Cloudflare Quick Tunnel**, không Docker/GPU/model 
 - `knowledge/manifest.json` + `knowledge/documents/A…F/`: nguồn tri thức/checksum.
 - `main.py`, `start.sh`: entrypoint và launcher Conda.
 - `deploy/`: service Linux, reverse proxy tùy chọn.
-- `tools/`: đóng gói server và chuyển nguồn tri thức cũ.
+- `tools/`: đóng gói server và audit tri thức read-only.
 - `tests/`: kiểm thử offline, không gọi model thật.
-- `docs/`: hướng dẫn hiện tại; `docs/archive/` là báo cáo lịch sử, không dùng để cài đặt.
+- `docs/`: hướng dẫn vận hành hiện tại.
 
 ## Bắt đầu trên Linux
 
@@ -115,6 +115,14 @@ Không upload toàn bộ folder làm web root.
 - `docs/DATA_LAYOUT.md`: cấu trúc dữ liệu, giao dịch và migration.
 - `SECURITY.md`: phạm vi bảo vệ.
 
-Windows dùng phát triển: venv + `Start-App.ps1`/`Stop-App.ps1`.
+Windows dùng Python 3.13 có sẵn trên máy, không tạo venv hoặc tự cài thư viện:
+
+```powershell
+& 'D:\TestSystem\Start-App.ps1' -Python 'C:\Users\anhna\AppData\Local\Microsoft\WindowsApps\python3.13.exe'
+& 'D:\TestSystem\Stop-App.ps1'
+```
+
+VS Code được cấu hình dùng interpreter này. Hướng dẫn Conda/Linux ở trên chỉ
+áp dụng cho triển khai Linux riêng, không áp dụng cho môi trường Windows hiện tại.
 Đổi `APP_DATA_DIR` sang dữ liệu đã init/migrate trước khi chạy. DB cũ tại
 `data/app.sqlite3` được giữ nguyên, không tự chuyển đổi.
