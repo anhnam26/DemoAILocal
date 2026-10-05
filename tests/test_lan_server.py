@@ -1,14 +1,13 @@
 """LAN security and removed tunnel CLI; isolated stores, no provider generation."""
 import contextlib
 import io
-from pathlib import Path
-import tempfile
+import subprocess
+import sys
+import textwrap
 import unittest
 from unittest.mock import patch
-from fastapi.testclient import TestClient
 import main
-from cyberant import config,operations
-from cyberant.app import create_app
+from cyberant import config
 
 
 class LanServerTests(unittest.TestCase):
@@ -35,6 +34,14 @@ class LanServerTests(unittest.TestCase):
                 with self.assertRaises(ValueError):config.security()
 
     def test_lan_login_host_origin_and_existing_data(self):
+        # The browser suite requires cyberant.app not to be imported in its process.
+        code=textwrap.dedent('''\
+        from pathlib import Path
+        import tempfile
+        from unittest.mock import patch
+        from fastapi.testclient import TestClient
+        from cyberant import config,operations
+        from cyberant.app import create_app
         with tempfile.TemporaryDirectory(prefix='cyberant-lan-') as temp:
             data=Path(temp)/'data'
             values=dict(APP_ENV='lan',APP_HOST='192.168.1.100',APP_PORT='8088',
@@ -43,17 +50,20 @@ class LanServerTests(unittest.TestCase):
             with patch('cyberant.config.env',return_value=values):
                 operations.initialize(data)
                 security=config.security()
-                self.assertFalse(security['secure_cookie']);self.assertEqual(security['mode'],'lan')
+                assert not security['secure_cookie'] and security['mode']=='lan'
                 with TestClient(create_app(),base_url='http://192.168.1.100:8088') as client:
-                    self.assertEqual(client.get('/api/ready').status_code,200)
-                    self.assertEqual(client.get('/api/conversations').status_code,401)
-                    self.assertEqual(client.get('/',headers={'host':'attacker.example'}).status_code,400)
-                    self.assertEqual(client.post('/api/login',headers={'origin':'http://192.168.1.101:8088'},json={'username':'admin','password':'Offline-LAN-password'}).status_code,403)
+                    assert client.get('/api/ready').status_code==200
+                    assert client.get('/api/conversations').status_code==401
+                    assert client.get('/',headers={'host':'attacker.example'}).status_code==400
+                    assert client.post('/api/login',headers={'origin':'http://192.168.1.101:8088'},json={'username':'admin','password':'Offline-LAN-password'}).status_code==403
                     login=client.post('/api/login',headers={'origin':values['APP_ORIGINS']},json={'username':'admin','password':'Offline-LAN-password'})
-                    self.assertEqual(login.status_code,200)
-                    self.assertIn('httponly',login.headers['set-cookie'].lower())
-                    self.assertNotIn('; secure',login.headers['set-cookie'].lower())
-                    self.assertEqual(client.get('/api/conversations').status_code,200)
+                    assert login.status_code==200
+                    assert 'httponly' in login.headers['set-cookie'].lower()
+                    assert '; secure' not in login.headers['set-cookie'].lower()
+                    assert client.get('/api/conversations').status_code==200
+        ''')
+        result=subprocess.run([sys.executable,'-B','-c',code],cwd=config.ROOT,capture_output=True,text=True,timeout=60)
+        self.assertEqual(result.returncode,0,result.stderr)
 
 
 if __name__=='__main__':unittest.main()
