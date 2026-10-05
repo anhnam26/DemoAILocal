@@ -1,13 +1,46 @@
-# CyberAnt — chạy server trong mạng nội bộ
+# CyberAnt — server theo `.env`, LAN hoặc HTTPS chia sẻ tạm thời
 
 FastAPI, HTML/CSS/JavaScript thuần, RAG trên CPU và OpenRouter. Chạy trực tiếp
 bằng **Python trên Linux hoặc Windows**, không Docker/GPU/model local. Thiết bị trong
-mạng LAN/Wi-Fi được phép mở trình duyệt tới IP server và đăng nhập. Không tạo link
-public/tunnel. `python main.py` không bắt buộc Conda.
+mạng LAN/Wi-Fi được phép mở trình duyệt tới IP server và đăng nhập. Linux có thêm
+**Cloudflare Quick Tunnel opt-in** qua `bash start.sh --share`; mặc định không
+mở tunnel. `python main.py` không bắt buộc Conda.
 
 > Gói private có `.env` và sáu database chứa API key, tài khoản, lịch sử, không mã
 > hóa: chỉ chuyển qua kênh riêng, không upload public. Server vẫn cần Internet/API
 > key hợp lệ để gọi OpenRouter. LAN không biến AI thành mô hình offline.
+
+## Server đã có `.env` và dữ liệu
+
+Nếu chỉ cập nhật code, **giữ nguyên `.env`, data và backup server**, không giải
+nén ZIP private cũ đè lên. Xem `docs/DEPLOYMENT.md`, mục 6. Không init/migrate lại.
+
+```bash
+cd /home/cba/Chatbot2/TestSystem  # dùng vị trí project thật trên server
+bash start.sh                   # chạy thường theo cấu hình server
+# Hoặc, sau khi dừng phiên thường và đã cài cloudflared:
+bash start.sh --share
+# Nếu QUIC bị chặn:
+bash start.sh --share --share-protocol http2
+```
+
+Launcher giữ environment Conda đang active; nếu chưa active thì tìm environment
+`cyberant` đã có. `CONDA_ENV_NAME` chỉ định environment khác một cách chủ động.
+Không tạo environment, cài package hoặc khởi tạo database tự động.
+
+Mặc định Python đọc `.env` ở root project, dù gọi script từ thư mục khác.
+`APP_ENV_FILE` chỉ dùng khi cần file external đã tồn tại. Thứ tự host/port:
+**CLI → process environment → `.env` → mặc định**. Không `source .env` trong Bash,
+không in API key; bỏ process override cũ không mong muốn trước khi chạy.
+
+Chạy thường vẫn áp dụng validation: `development` chỉ bind loopback;
+`APP_HOST=0.0.0.0` cần `lan` hoặc `production` phù hợp. LAN chỉ chấp nhận origins
+private/loopback, không IP public HTTP; production bắt buộc HTTPS.
+
+Share giữ port, data, tài khoản, model/quota/usage; chỉ override bảo mật **runtime**
+sang loopback + production + đúng HTTPS Host/Origin vừa tạo, không sửa `.env`.
+Đăng nhập vẫn bắt buộc. Xem `docs/PUBLIC_SHARE.md` về quyền file, cloudflared,
+dọn process và giới hạn Quick Tunnel. Chỉ dùng cho chia sẻ tạm thời được phép.
 
 ## Cấu trúc
 

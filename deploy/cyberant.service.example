@@ -12,6 +12,10 @@ ExecStart=/home/YOUR_LINUX_USER/miniconda3/envs/cyberant/bin/python /opt/cyberan
 Environment=APP_ENV_FILE=/etc/cyberant/cyberant.env
 # Use APP_ENV=lan, your private APP_HOST/APP_ORIGINS, and a subnet-scoped firewall.
 # Point APP_ENV_FILE to the private .env you actually configured. One instance only.
+# Optional temporary public sharing: append --share to ExecStart after installing cloudflared.
+# Share overrides only runtime bind/security/origin; Public URL appears after startup in journal.
+# Quick Tunnel has no SLA and changes URL on recreation. For share set Restart=no
+# if you do not want systemd to restart after failures and publish a different URL.
 Environment=PYTHONUNBUFFERED=1
 Environment=PYTHONDONTWRITEBYTECODE=1
 Restart=on-failure

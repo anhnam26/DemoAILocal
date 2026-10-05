@@ -39,6 +39,7 @@ bash start.sh --share --cloudflared /usr/bin/cloudflared
 ```
 
 Script tìm/activate Conda `cyberant`; có thể đặt `CONDA_EXE` hoặc `CONDA_ENV_NAME`.
+Nếu Conda đã active và không đặt CONDA_ENV_NAME, giữ nguyên interpreter đó.
 Không root, không cần mở port app inbound cho chế độ share. Port lấy từ APP_PORT
 (hoặc CLI override rõ ràng), không bị ép thành 8088. API key/model/quota/RAG và
 APP_DATA_DIR/APP_BACKUP_DIR vẫn theo cấu hình. Chỉ override runtime APP_HOST thành

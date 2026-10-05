@@ -14,8 +14,13 @@
   để giao dịch attached dùng super-journal. Không NFS/multiple replicas.
 - Không tự retry yêu cầu AI có phí. Usage không rõ giữ ngân sách chờ đối soát.
 
-Chạy trong LAN tin cậy, chỉ mở firewall cho subnet cần dùng, không port forwarding
-hoặc tunnel public. HTTP LAN không mã hóa. Giới hạn theo subnet không nhận biết
+Chạy thường trong LAN tin cậy, chỉ mở firewall cho subnet cần dùng, không port forwarding.
+Linux `--share` là opt-in công khai tạm thời: cần quyền chia sẻ dữ liệu, cloudflared
+chính thức, tài khoản Linux thường và config/DB owner-only. App bind loopback,
+cookie Secure, exact HTTPS Host/Origin, vẫn cần đăng nhập; không sửa `.env`.
+URL ngẫu nhiên không phải mật khẩu, Cloudflare mang lưu lượng web, không SLA.
+Không chạy đồng thời service/LAN/share cùng data; xem `docs/PUBLIC_SHARE.md`.
+HTTP LAN không mã hóa. Giới hạn theo subnet không nhận biết
 SSID Wi-Fi; cần VLAN/ACL mạng nếu muốn chỉ một SSID. OpenRouter/provider vẫn xử lý
 câu hỏi/ngữ cảnh qua Internet. Chỉ chia sẻ dữ liệu được
 phép và được đơn vị quản lý chấp thuận. Chưa SSO/MFA, kiểm PII tự động hoặc pentest.

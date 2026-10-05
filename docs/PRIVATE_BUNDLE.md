@@ -34,13 +34,16 @@ python -m cyberant.operations check
 python main.py
 ```
 
-Mặc định gói hiện tại vẫn chạy loopback http://127.0.0.1:8088; đăng nhập bằng tài
-khoản hiện có, session cũ không dùng được. Internet, key hợp lệ và số dư/rate
+Gói giữ cấu hình mạng của `.env` nguồn, không tự sửa mode/host/origins thành
+loopback hoặc cấu hình LAN mới. Nếu nguồn là development+0.0.0.0 hoặc LAN chứa
+IP public HTTP, chuẩn hóa cấu hình máy đích theo README trước chạy thường.
+Đăng nhập bằng tài khoản hiện có, session cũ không dùng được. Internet, key hợp lệ và số dư/rate
 limit provider vẫn cần cho generation. Có .env/DB không thay thế Python/dependency.
 Muốn các thiết bị cùng LAN/Wi-Fi truy cập, làm theo README: APP_ENV=lan,
 APP_HOST là IP LAN server và APP_ORIGINS chứa đúng URL IP:port, firewall chỉ
-cho subnet tin cậy. Không mở port forwarding/tunnel. ZIP giữ loopback vì chưa
-biết IP máy đích; chỉ sửa mạng trong .env máy đích, không thay API key/dữ liệu.
+cho subnet tin cậy. Không mở port forwarding. Chỉ sửa mạng trong .env máy đích,
+không thay API key/dữ liệu. Linux có thể chọn `bash start.sh --share` sau khi
+chuẩn bị cloudflared/quyền file theo `PUBLIC_SHARE.md`; không cần ghi URL tạm vào .env.
 Linux/systemd/firewall cần kiểm trên máy đích; `python main.py` không yêu cầu Conda.
 
 Gói source-only mặc định vẫn không có secret/DB, dùng cho cài mới hoặc cập nhật

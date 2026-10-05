@@ -1,4 +1,4 @@
-# Triển khai trực tiếp — server LAN
+# Triển khai trực tiếp — `.env` server, LAN hoặc chia sẻ HTTPS tạm thời
 
 Không Docker. Ví dụ source `/opt/cyberant`; cấu hình `/etc/cyberant/cyberant.env`;
 dữ liệu `/var/lib/cyberant`; backup `/var/backups/cyberant`. Thay đường dẫn/user
@@ -30,6 +30,9 @@ chmod 600 /etc/cyberant/cyberant.env
 ```
 
 `APP_ENV_FILE` là biến môi trường launcher, không đặt nó trong chính file config.
+Nếu không đặt biến này, đọc `.env` ở root source, không phụ thuộc working directory.
+Không copy `.env.example` đè server có sẵn, không `source .env` trong shell.
+Khi file không tồn tại/mode không hợp lệ, sửa cấu hình thật thay vì dùng network defaults.
 Process env ghi đè file. CLI host/port ghi đè process/file. `APP_DATA_DIR` tương
 đối được giải theo source root; production nên dùng tuyệt đối. `APP_BACKUP_DIR`
 không nằm trong source. Không cấp group/other đọc DB/config/backup.
@@ -107,6 +110,25 @@ Giữ IP server ổn định bằng DHCP reservation. systemd dừng nhóm app; 
 request đang chạy. Không kill -9 trừ khẩn cấp; usage có thể chuyển uncertain.
 Nginx chỉ là ví dụ tùy chọn cho HTTPS nội bộ, không bắt buộc cho LAN tin cậy.
 
+### Chia sẻ công khai tạm thời trên Linux
+
+Sau khi dừng service/instance cũ, kiểm `cloudflared --version`, quyền .env/data,
+tài khoản admin và dùng đúng environment đã có:
+
+```bash
+cd /home/cba/Chatbot2/TestSystem  # thay bằng source root thật
+bash start.sh --share
+# Hoặc nếu QUIC bị chặn:
+bash start.sh --share --share-protocol http2
+```
+
+Không cần đổi APP_ORIGINS sang URL ngẫu nhiên trước chạy. Runtime share override
+bind/security/origin nhưng giữ port/API key/model/data/quota/usage của server.
+Không mở port app inbound; chỉ gửi link khi đã thấy `Public URL` và đăng nhập.
+Xem `PUBLIC_SHARE.md`. Quick Tunnel không SLA, không cho production ổn định.
+Nếu chọn service share, thêm --share vào ExecStart và có thể --share-protocol http2;
+cân nhắc Restart=no vì on-failure sẽ tạo URL mới. Dừng service trước chạy manual.
+
 ## 5. Backup/restore
 
 Admin có nút sao lưu tạo bộ DB/manifest/checksum tại `APP_BACKUP_DIR`. Khóa ghi
@@ -127,6 +149,32 @@ Thử restore định kỳ vào thư mục cách ly; sao lưu off-host mã hóa 
 Rotation backup/log cần đặt theo nhu cầu đơn vị, không tự xóa bản cũ trong source.
 
 ## 6. Cập nhật và rollback
+
+**Với server đang có dữ liệu:** dùng source-only, không dùng private ZIP snapshot
+để upgrade. Không chuyển `.env` máy Windows, `data`, logs, PID/lock hoặc backup lên
+đè server. Giữ nguyên file server và APP_ENV_FILE đang sử dụng.
+
+Patch tối thiểu cho share cần cập nhật đồng bộ `main.py`, `start.sh`,
+`cyberant/config.py`, và thêm `cyberant/public_share.py`; chép docs mới nếu cần.
+Giữ provider fixes hiện có: `cyberant/provider_errors.py`, `cyberant/model_provider.py`,
+`cyberant/app.py`. Nếu server trước checkpoint provider, nâng source-only đồng bộ
+thay vì chỉ thêm share rồi bỏ mất diagnostics. Dependency lock không đổi trong đợt này.
+
+Trình tự trên server (không xóa/reinitialize runtime):
+
+1. Chờ AI xong, dừng phiên Ctrl+C hoặc service. Backup cấu hình và bộ DB bằng
+   operations backup vào đích private mới; giữ source cũ để rollback.
+2. Chép code mới; không rsync --delete và không copy .env.example đè .env.
+3. Kiểm Python hiện có, chạy `python -m cyberant.operations check` ở source root
+   bằng cùng environment/config; `bash -n start.sh`; `cloudflared --version` nếu share.
+4. Chạy thường hoặc share, không hai phiên. Kiểm ready/login/lịch sử/quyền/models/
+   quota/usage; tránh gọi chat trả phí chỉ để smoke test. Với share dùng HTTPS URL mới.
+
+Nếu cấu hình hiện tại là `APP_ENV=development`, `APP_HOST=0.0.0.0`, muốn LAN:
+chỉ đổi mode thành lan và APP_ORIGINS thành các **URL private/loopback thật**.
+Giữ port và bind hiện có nếu firewall phù hợp (hoặc bind đúng IP private để hẹp hơn);
+loại IP public HTTP khỏi origins. Không xóa origins validation. Nếu muốn public,
+chọn --share thay vì mở HTTP public. Không khẳng định .env máy dev trùng .env server.
 
 1. Đợi request xong, backup bộ dữ liệu/cấu hình, giữ code/lockfile cũ.
 2. Dừng service. Cập nhật source-only; không rsync --delete vào data/config.
