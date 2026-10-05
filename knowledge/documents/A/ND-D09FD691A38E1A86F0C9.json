@@ -15,14 +15,14 @@
   "valid_to": "2099-12-31",
   "owner": "Kho tri thức chung",
   "knowledge_type": "theory",
-  "review_status": "draft_engineer_review",
+  "review_status": "accepted",
   "data_type": "glossary",
   "provenance": {
     "category": "glossary",
     "document_type": "glossary",
     "title": "DLP",
     "provenance": "authored_guidance",
-    "review_status": "draft_engineer_review",
+    "review_status": "accepted",
     "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
     "source_sheet": "Thông tin lên Bom",
     "source_cell": "B48",
@@ -31,5 +31,12 @@
     "recipe_id": "dlp"
   },
   "service": "fortigate_configuration",
-  "content_kind": "concept"
+  "content_kind": "concept",
+  "review_decision": {
+    "previous_status": "draft_engineer_review",
+    "accepted_at": "2026-10-05T05:30:54.222123+00:00",
+    "authority": "user_request",
+    "reason": "User approved bulk acceptance of all draft knowledge for use; not deployment verification",
+    "scope": "knowledge_use_not_deployment_verification"
+  }
 }

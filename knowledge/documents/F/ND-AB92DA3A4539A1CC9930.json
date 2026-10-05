@@ -15,16 +15,23 @@
   "valid_to": "2099-12-31",
   "owner": "Kho tri thức chung",
   "knowledge_type": "theory",
-  "review_status": "draft_engineer_review",
+  "review_status": "accepted",
   "data_type": "data_quality",
   "provenance": {
     "category": "data_quality",
     "document_type": "data_quality",
     "title": "package_scope_conflict",
     "provenance": "authored_review",
-    "review_status": "draft_engineer_review",
+    "review_status": "accepted",
     "source_file": "data_quality.json"
   },
   "service": "",
-  "content_kind": "reference"
+  "content_kind": "reference",
+  "review_decision": {
+    "previous_status": "draft_engineer_review",
+    "accepted_at": "2026-10-05T05:30:54.222123+00:00",
+    "authority": "user_request",
+    "reason": "User approved bulk acceptance of all draft knowledge for use; not deployment verification",
+    "scope": "knowledge_use_not_deployment_verification"
+  }
 }

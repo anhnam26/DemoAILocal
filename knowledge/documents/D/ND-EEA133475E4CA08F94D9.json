@@ -15,14 +15,14 @@
   "valid_to": "2099-12-31",
   "owner": "Kho tri thức chung",
   "knowledge_type": "theory",
-  "review_status": "draft_engineer_review",
+  "review_status": "accepted",
   "data_type": "migration_sow",
   "provenance": {
     "category": "migration_sow",
     "document_type": "migration_sow",
     "title": "Đi dây cáp nguồn, đấu nối PDU trực tiếp + UPS",
     "provenance": "source_estimate_with_authored_guidance",
-    "review_status": "draft_engineer_review",
+    "review_status": "accepted",
     "source_file": "Dịch vụ chuyển đổi cấu hình - Thời gian ước tính.xlsx",
     "source_sheet": "DV Chuyển đổi - Thời gian",
     "source_row": 22,
@@ -30,5 +30,12 @@
     "service": "configuration_migration"
   },
   "service": "configuration_migration",
-  "content_kind": "reference"
+  "content_kind": "reference",
+  "review_decision": {
+    "previous_status": "draft_engineer_review",
+    "accepted_at": "2026-10-05T05:30:54.222123+00:00",
+    "authority": "user_request",
+    "reason": "User approved bulk acceptance of all draft knowledge for use; not deployment verification",
+    "scope": "knowledge_use_not_deployment_verification"
+  }
 }

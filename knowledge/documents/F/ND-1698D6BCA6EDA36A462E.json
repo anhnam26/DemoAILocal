@@ -15,14 +15,14 @@
   "valid_to": "2099-12-31",
   "owner": "Kho tri thức chung",
   "knowledge_type": "theory",
-  "review_status": "draft_engineer_review",
+  "review_status": "accepted",
   "data_type": "bom_rules",
   "provenance": {
     "category": "bom_rules",
     "document_type": "bom_rules",
     "title": "Lập BOM dịch vụ cấu hình FortiGate",
     "provenance": "authored_guidance",
-    "review_status": "draft_engineer_review",
+    "review_status": "accepted",
     "source_file": "Dịch vụ Cấu hình FortiGate - Khảo sát thông tin.xlsx",
     "source_sheet": "Thông tin lên Bom",
     "source_row": 3,
@@ -30,5 +30,12 @@
     "service": "fortigate_configuration"
   },
   "service": "fortigate_configuration",
-  "content_kind": "reference"
+  "content_kind": "reference",
+  "review_decision": {
+    "previous_status": "draft_engineer_review",
+    "accepted_at": "2026-10-05T05:30:54.222123+00:00",
+    "authority": "user_request",
+    "reason": "User approved bulk acceptance of all draft knowledge for use; not deployment verification",
+    "scope": "knowledge_use_not_deployment_verification"
+  }
 }

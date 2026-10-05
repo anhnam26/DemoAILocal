@@ -87,7 +87,7 @@ class ServiceRagTests(unittest.TestCase):
         self.assertIn('ĐỐI TƯỢNG KỸ SƯ',rag.system_prompt('Kỹ sư lập '+q))
         self.assertEqual(rag.system_prompt('DNS là gì?','sales'),rag.SYSTEM)
         with self.assertRaises(ValueError):service_evidence.audience(q,'admin')
-        draft=next(d for d in self.documents if d.get('review_status')=='draft_engineer_review')
+        draft={**self.documents[0],'review_status':'draft_engineer_review'}
         linked=service_evidence.link(draft)
         self.assertEqual(linked['review_status'],draft['review_status'])
         self.assertEqual(linked['body'],draft['body']);self.assertNotIn('service_id',draft)

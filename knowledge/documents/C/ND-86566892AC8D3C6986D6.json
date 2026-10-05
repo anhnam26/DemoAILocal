@@ -15,14 +15,14 @@
   "valid_to": "2099-12-31",
   "owner": "Kho tri thức chung",
   "knowledge_type": "theory",
-  "review_status": "draft_engineer_review",
+  "review_status": "accepted",
   "data_type": "service_requirements",
   "provenance": {
     "category": "service_requirements",
     "document_type": "service_requirements",
     "title": "managed_service: Tích hợp Ticket System",
     "provenance": "source_item_with_authored_guidance",
-    "review_status": "draft_engineer_review",
+    "review_status": "accepted",
     "source_file": "Dịch vụ Managed Service - Khảo sát thông tin.xlsx",
     "source_sheet": "2. Checklist Yêu cầu",
     "source_row": 22,
@@ -31,5 +31,12 @@
     "requirement_id": "6560810378715a72c90c"
   },
   "service": "managed_service",
-  "content_kind": "survey"
+  "content_kind": "survey",
+  "review_decision": {
+    "previous_status": "draft_engineer_review",
+    "accepted_at": "2026-10-05T05:30:54.222123+00:00",
+    "authority": "user_request",
+    "reason": "User approved bulk acceptance of all draft knowledge for use; not deployment verification",
+    "scope": "knowledge_use_not_deployment_verification"
+  }
 }
