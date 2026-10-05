@@ -1,8 +1,14 @@
+# Optional INTERNAL HTTPS, not part of the direct LAN HTTP quickstart.
+# Replace IP/name/certificate paths; clients must trust the internal certificate.
+# Restrict 443/80 to the intended subnet in the server firewall, no router forwarding.
+# Backend: loopback listener, APP_ENV=production, exact HTTPS APP_ORIGINS below.
 server {
-    listen 443 ssl;
-    server_name knowledge.example.com;
-    ssl_certificate /etc/letsencrypt/live/knowledge.example.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/knowledge.example.com/privkey.pem;
+    listen 192.168.1.100:443 ssl;
+    server_name cyberant.internal;
+    ssl_certificate /etc/cyberant/tls/fullchain.pem;
+    ssl_certificate_key /etc/cyberant/tls/privkey.pem;
+    allow 192.168.1.0/24;
+    deny all;
     client_max_body_size 2m;
     location / {
         proxy_pass http://127.0.0.1:8088;
@@ -16,7 +22,7 @@ server {
     }
 }
 server {
-    listen 80;
-    server_name knowledge.example.com;
+    listen 192.168.1.100:80;
+    server_name cyberant.internal;
     return 301 https://$host$request_uri;
 }

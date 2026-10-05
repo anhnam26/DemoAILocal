@@ -10,9 +10,8 @@ User=YOUR_LINUX_USER
 WorkingDirectory=/opt/cyberant
 ExecStart=/home/YOUR_LINUX_USER/miniconda3/envs/cyberant/bin/python /opt/cyberant/main.py
 Environment=APP_ENV_FILE=/etc/cyberant/cyberant.env
-# Add --share to ExecStart for a NEW temporary Cloudflare URL on every restart.
-# Read the URL via journalctl -u cyberant. cloudflared must be on the service PATH
-# or pass --cloudflared /absolute/path/cloudflared. Never run concurrent instances.
+# Use APP_ENV=lan, your private APP_HOST/APP_ORIGINS, and a subnet-scoped firewall.
+# Point APP_ENV_FILE to the private .env you actually configured. One instance only.
 Environment=PYTHONUNBUFFERED=1
 Environment=PYTHONDONTWRITEBYTECODE=1
 Restart=on-failure

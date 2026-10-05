@@ -60,7 +60,7 @@ tốn phí, usage không rõ giữ uncertain. Không tự gọi completion tiế
 Queue tối đa 180s, cả giai đoạn provider tối đa 240s, mỗi call vẫn timeout 180s.
 Timeout tổng trả 504 và bảo toàn usage đã ghi/uncertain; không retry tự động.
 Ví dụ Nginx/systemd 480s và graceful shutdown 460s dành chỗ cho local overhead;
-Quick Tunnel/client có thể timeout sớm hơn và cần kiểm trên đường truyền thật.
+Browser/client có thể timeout sớm hơn và cần kiểm trên đường truyền LAN thật.
 
 Test dùng cấu hình/DB tạm và mocked OpenRouter, không đọc .env hoặc gọi AI thật.
 Chạy suite workspace riêng process. Kiểm tra live có phí cần được thực hiện riêng;

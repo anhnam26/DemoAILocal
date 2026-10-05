@@ -1,4 +1,4 @@
-# Triển khai trực tiếp — Linux/Miniconda
+# Triển khai trực tiếp — server LAN
 
 Không Docker. Ví dụ source `/opt/cyberant`; cấu hình `/etc/cyberant/cyberant.env`;
 dữ liệu `/var/lib/cyberant`; backup `/var/backups/cyberant`. Thay đường dẫn/user
@@ -9,7 +9,7 @@ theo server thực tế. Các thư mục chứa dữ liệu phải thuộc user 
 Nếu dùng ZIP **private có .env/database**, đọc `PRIVATE_BUNDLE.md`: database đã
 khởi tạo, không init/migrate lại. Các bước source-only bên dưới dành cho gói sạch.
 
-1. Tạo user Linux không đặc quyền. Không chạy app/tunnel bằng root.
+1. Tạo user Linux không đặc quyền. Không chạy app bằng root.
 2. Chép gói source-only từ `tools/package_server.py`, không copy toàn bộ máy dev.
 3. Dùng Python environment hiện có (Conda nếu đã được cấu hình):
 
@@ -54,7 +54,7 @@ python -m cyberant.operations check
 ```
 
 Đích không được tồn tại. Nếu user service không ghi được `/var/lib`, admin hệ điều
-hành chuẩn bị parent/quyền trước, không chạy migration bằng root rồi mở share.
+hành chuẩn bị parent/quyền trước, không chạy migration/app bằng root.
 Migration giữ nguồn, nâng schema trên staging, đối chiếu hash/số lượng, bảo toàn
 bảng cũ trong archive và thu hồi phiên. Không sync corpus mới âm thầm khi migrate.
 Đọc `migration-report.json`, kiểm tài khoản/quota/nguồn upload/retired sau chuyển.
@@ -74,29 +74,26 @@ Server sẽ báo lỗi nếu layout/schema thiếu, không tự tạo DB trống
 
 ## 3. Chạy
 
-Chạy loopback riêng tư để kiểm tra:
+Luồng private ZIP và cấu hình LAN/firewall chi tiết ở README. Dùng Python hiện có:
 
 ```bash
-bash /opt/cyberant/start.sh
+cd /opt/cyberant
+python main.py
 ```
 
-Config development dùng origin loopback; LAN phải đặt `APP_ENV=lan`, private IP
-origins và `APP_HOST=0.0.0.0`, giới hạn firewall mạng tin cậy. HTTP LAN không mã hóa.
-Chia sẻ public tạm thời theo `PUBLIC_SHARE.md`:
-
-```bash
-bash /opt/cyberant/start.sh --share
-```
-
-Không mở port inbound, không dùng origin wildcard. Không chạy service/manual cùng
+Config development dùng loopback; LAN đặt APP_ENV=lan, APP_HOST là IP LAN server,
+APP_ORIGINS đúng URL IP:port, firewall chỉ cho subnet cần dùng vào port. HTTP LAN
+không mã hóa, app không nhận biết SSID. Không port forwarding/tunnel public hoặc
+origin wildcard. start.sh chỉ là launcher Conda có sẵn, không bắt buộc.
+Không chạy service/manual cùng
 lúc trên một thư mục data. Luôn một worker, local disk, DELETE journals.
 
 ## 4. Service chạy nền
 
 Sửa `/opt/cyberant/deploy/cyberant.service.example`: user, WorkingDirectory,
-Python Conda tuyệt đối, APP_ENV_FILE. Thêm `--share --cloudflared /absolute/path/cloudflared`
-vào ExecStart nếu muốn public tạm thời. Service dùng Python env trực tiếp, không
-cần activate Conda và không tự install dependencies.
+Python hiện có tuyệt đối, APP_ENV_FILE trỏ config thật (.env gói hoặc external file).
+Service đọc cùng LAN config, dùng Python env trực tiếp, không cần activate Conda
+và không tự install dependencies. Không chạy nhiều instance.
 
 ```bash
 sudo cp /opt/cyberant/deploy/cyberant.service.example /etc/systemd/system/cyberant.service
@@ -106,9 +103,9 @@ sudo journalctl -u cyberant -n 100 --no-pager
 sudo systemctl stop cyberant
 ```
 
-Mỗi restart share có URL mới. systemd dừng cả nhóm app/tunnel; timeout stop đủ cho
+Giữ IP server ổn định bằng DHCP reservation. systemd dừng nhóm app; timeout stop đủ cho
 request đang chạy. Không kill -9 trừ khẩn cấp; usage có thể chuyển uncertain.
-Nginx chỉ tùy chọn cho HTTPS tên miền ổn định, không bắt buộc cho Quick Tunnel.
+Nginx chỉ là ví dụ tùy chọn cho HTTPS nội bộ, không bắt buộc cho LAN tin cậy.
 
 ## 5. Backup/restore
 
@@ -143,5 +140,5 @@ Rotation backup/log cần đặt theo nhu cầu đơn vị, không tự xóa b�
 ## Giới hạn xác minh
 
 Kiểm thử phát triển chạy Windows/Python 3.13 với provider giả. Linux Conda, quyền
-POSIX, systemd và đường đi public Cloudflare phải smoke test trên server thật.
-Quick Tunnel không SLA, không phù hợp yêu cầu URL cố định hoặc production lớn.
+POSIX, systemd, firewall/subnet và truy cập Wi-Fi phải smoke test trên server thật.
+Chạy LAN không thay chứng minh an toàn mạng hoặc HTTPS khi cần.

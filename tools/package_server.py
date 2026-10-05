@@ -11,10 +11,10 @@ import zipfile
 ROOT=Path(__file__).resolve().parents[1]
 FILES=('main.py','start.sh','requirements.txt','requirements-lock.txt','.env.example',
        'README.md','SECURITY.md','deploy/cyberant.service.example','deploy/nginx.conf.example',
-       'docs/DEPLOYMENT.md','docs/DATA_LAYOUT.md','docs/PUBLIC_SHARE.md',
+       'docs/DEPLOYMENT.md','docs/DATA_LAYOUT.md',
          'docs/SERVICE_RAG.md','docs/CONVERSATION_WEB.md','docs/KNOWLEDGE_ACCEPTANCE.md','docs/CONFIGURATION_GUIDES.md','docs/PRIVATE_BUNDLE.md')
 MODULES=('__init__','accounts','admin_system','app','config','conversations','generation',
-         'http_limits','legacy','model_provider','operations','public_share','quality_feedback',
+         'http_limits','legacy','model_provider','operations','quality_feedback',
          'rag','runtime_lock','service_evidence','storage','sync_knowledge','token_usage','web_search')
 ASSETS=('index.html','Logo.png','answer-renderer.js','app.js','conversations.js','feedback.js',
         'login-aurora.js','management.js','theme.js','conversation-web.css','management.css',
