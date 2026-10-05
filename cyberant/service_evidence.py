@@ -47,7 +47,7 @@ def resolve_services(question):
     services=[key for key,terms in SERVICES.items() if any(contains(q,t) for t in terms)]
     # "FortiGate" inside a migration is the device, not a second configuration service.
     if 'configuration_migration' not in services and 'fortigate_configuration' not in services:
-        if contains(q,'fortigate') and re.search(r'\b(bom|sow|cau hinh)\b',q):
+        if (contains(q,'fortigate') or (contains(q,'fortinet') and contains(q,'firewall'))) and re.search(r'\b(bom|sow|cau hinh)\b',q):
             services.append('fortigate_configuration')
     if 'configuration_migration' in services:
         services=[s for s in services if s!='fortigate_configuration']

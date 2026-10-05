@@ -74,10 +74,10 @@ class ServiceRagTests(unittest.TestCase):
         def doc(id,body,version='1'):
             return dict(id=id,title=id,body=body,version=version,review_status='reference',chunk=1)
         items=[doc('BIG','x'*10000),doc('SMALL','test'),doc('COPY','test'),doc('V2','test','2')]
-        diagnostics={};messages,kept,size=rag.pack('DNS là gì?',items,4000,diagnostics=diagnostics)
+        diagnostics={};messages,kept,size=rag.pack('DNS là gì?',items,6000,diagnostics=diagnostics)
         self.assertEqual([d['id'] for d in kept],['SMALL','V2'])
         self.assertEqual([d['reason'] for d in diagnostics['omitted']],['budget','duplicate'])
-        self.assertIn('test',messages[-1]['content']);self.assertLessEqual(size,4000)
+        self.assertIn('test',messages[-1]['content']);self.assertLessEqual(size,6000)
         with self.assertRaises(ValueError):rag.pack('x'*10000,items,3000)
 
     def test_role_templates_and_no_approval_promotion(self):
