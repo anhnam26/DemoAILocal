@@ -41,7 +41,9 @@ class InstanceLock:
 
 def acquire(data_dir):
     directory = Path(data_dir).resolve()
-    directory.mkdir(parents=True, exist_ok=True, mode=0o700)
+    # Init/migrate prepare directories explicitly; a typo must never create runtime.
+    if not directory.is_dir():
+        raise ValueError('Data directory does not exist. Check APP_DATA_DIR; initialize or restore explicitly.')
     path = directory / '.app-instance.lock'
     if path not in _LOCKS:
         _LOCKS[path] = InstanceLock(path)

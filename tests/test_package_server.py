@@ -41,6 +41,9 @@ class PackageTests(unittest.TestCase):
                           ['-m','cyberant.operations','check'],['main.py','--help']):
             result=subprocess.run([sys.executable,'-B',*arguments],cwd=extracted,env=env,capture_output=True,text=True,timeout=60)
             self.assertEqual(result.returncode,0,result.stderr)
+        code="from fastapi.testclient import TestClient;from cyberant.app import app\nwith TestClient(app) as c:\n assert c.get('/api/ready').json()['status']=='ready'\n r=c.post('/api/login',json={'username':'admin','password':'Offline-release-password'});assert r.status_code==200,r.text\n assert c.get('/').status_code==200\n assert c.get('/api/conversations').status_code==200\n"
+        result=subprocess.run([sys.executable,'-B','-c',code],cwd=extracted,env=env,capture_output=True,text=True,timeout=60)
+        self.assertEqual(result.returncode,0,result.stderr)
         with self.assertRaises(ValueError):release.package(archive,self.root)
 
     def test_checksum_missing_extra_and_escape(self):

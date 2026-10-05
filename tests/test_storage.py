@@ -11,7 +11,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from cyberant import accounts, config, operations, storage, sync_knowledge, token_usage
+from cyberant import accounts, config, operations, storage, sync_knowledge, token_usage, runtime_lock
 
 
 class StorageTests(unittest.TestCase):
@@ -134,6 +134,9 @@ class StorageTests(unittest.TestCase):
         target = self.root / 'must-not-exist'
         code = "import os;os.environ['APP_DATA_DIR']=" + repr(str(target)) + ";import cyberant.app"
         subprocess.run([sys.executable, '-B', '-c', code], check=True, cwd=config.ROOT)
+        self.assertFalse(target.exists())
+        with self.assertRaisesRegex(ValueError,'does not exist'):
+            runtime_lock.acquire(target)
         self.assertFalse(target.exists())
         storage.paths(self.data)['archive'].unlink()
         with self.assertRaises((RuntimeError, ValueError)):
