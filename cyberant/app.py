@@ -153,12 +153,8 @@ def create_app():
 
     async def answer_chat(data,req,u,conversation_id):
         start=time.monotonic();q=data.question.strip();allowed=docs_for(u);effective=q
-        with connect() as c:
-            previous=c.execute('SELECT question,result FROM chats WHERE conversation_id=? AND user_id=? ORDER BY id DESC LIMIT 1',(conversation_id,u['id'])).fetchone()
-        if previous:
-            prior=json.loads(previous['result']);ids={d['id'] for d in allowed}
-            if all(d['id'] in ids for d in prior.get('sources',[])):
-                effective=rag.followup(q,prior.get('effective_query',previous['question']))
+        history=conversations.context(connect,u,conversation_id,allowed)
+        if history:effective=rag.followup(q,history[-1]['effective_query'])
         try:cfg=model_provider.settings(data.model)
         except ValueError as e:raise HTTPException(400,str(e))
         usage={};estimated=0;calls=0;found=[];used=[];review=True
@@ -177,7 +173,7 @@ def create_app():
                 retrieved_count=len(found)
                 retrieved_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found]
                 budget,output=rag.budgets(effective,cfg['input_budget'],cfg['output_budget']);parallel=cfg['parallel']
-                try:messages,found,estimated=rag.pack(effective,found,budget,data.audience,packing)
+                try:messages,found,estimated=rag.pack(effective,found,budget,data.audience,packing,history=history)
                 except ValueError as e:raise HTTPException(400,str(e))
                 if not found:
                     answer='Ngân sách đầu vào chưa đủ để chứa đoạn nguồn. Hãy rút gọn câu hỏi hoặc tăng RAG_INPUT_TOKENS.';mode='Thiếu ngân sách'

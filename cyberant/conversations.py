@@ -50,6 +50,24 @@ def messages(connect,u,id,docs_for,before=None):
         result.append(dict(**d,question=r['question'],chat_id=r['id'],ts=r['ts'],conversation_id=id))
     return dict(messages=result,has_more=more,next_before=rows[-1]['id'] if rows else None)
 
+def context(connect,u,id,documents,limit=80):
+    """Only this owner's conversation; revoked/changed evidence never enters prompts."""
+    allowed={d['id']:hashlib.sha256(d['body'].encode()).hexdigest() for d in documents}
+    with connect() as c:
+        if not c.execute('SELECT 1 FROM conversations WHERE id=? AND user_id=?',(id,u['id'])).fetchone():
+            raise HTTPException(404,'Không tìm thấy cuộc trò chuyện của tài khoản này.')
+        rows=c.execute('SELECT id,question,result FROM chats WHERE conversation_id=? AND user_id=? ORDER BY id DESC LIMIT ?',
+                       (id,u['id'],limit)).fetchall()
+    result=[]
+    for row in reversed(rows):
+        prior=json.loads(row['result'])
+        if any(s['id'] not in allowed or s.get('source_digest')!=allowed[s['id']] for s in prior.get('sources',[])):
+            continue
+        if prior.get('citation_status')=='invalid':continue
+        result.append(dict(chat_id=row['id'],question=row['question'],answer=prior['answer'],
+                           effective_query=prior.get('effective_query',row['question']),sources=prior.get('sources',[])))
+    return result
+
 def install(app,connect,user,docs_for,now,active_conversations,audit):
     router=APIRouter()
     @router.get('/api/conversations')
