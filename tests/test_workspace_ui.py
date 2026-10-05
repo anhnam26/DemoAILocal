@@ -172,7 +172,8 @@ class WorkspaceUI(unittest.TestCase):
                 usage['web_annotations']=[dict(type='url_citation',url_citation=dict(url='https://docs.example.com/dns',title='DNS docs',content='DNS maps domain names to IP addresses.'))]
                 return 'lookup prose is not evidence',usage,'stop'
             text=messages[-1]['content']
-            if '[WEB-1]' in text:return 'DNS sử dụng tên miền [WEB-1].',usage,'stop'
+            web_id=re.search(r'\[(WEB-[A-Za-z0-9_-]+)\]',text)
+            if web_id:return 'DNS sử dụng tên miền ['+web_id[1]+'].',usage,'stop'
             match=re.search(r'\[([A-Z0-9-]+)\]',text)
             return ('Giải thích nội bộ ['+match[1]+'].' if match else 'Giải thích nguyên lý chung.'),usage,'stop'
         with patch('cyberant.model_provider.complete',side_effect=fake):
@@ -188,7 +189,7 @@ class WorkspaceUI(unittest.TestCase):
             self.assertIn(first.json()['chat_id'],second.json()['diagnostics']['packing']['history_sent'])
             # A lexical match does not imply enough evidence; model can request one lookup.
             async def missing(messages,settings,max_tokens):
-                if not settings.get('web_lookup') and '[WEB-1]' not in messages[-1]['content']:
+                if not settings.get('web_lookup') and not re.search(r'\[WEB-[A-Za-z0-9_-]+\]',messages[-1]['content']):
                     return 'Chưa có dữ kiện cần thiết. [NEED_WEB]',dict(prompt_tokens=80,completion_tokens=40,total_tokens=120),'stop'
                 return await fake(messages,settings,max_tokens)
             with patch('cyberant.model_provider.complete',side_effect=missing):
@@ -237,6 +238,30 @@ class WorkspaceUI(unittest.TestCase):
                     self.assertEqual(missing.json()['web_status'],'no_valid_sources')
                     self.assertNotIn('Unverified fresh fact',missing.json()['answer'])
             member.delete('/api/conversations/'+cv);member.delete('/api/conversations/'+new)
+
+    def test_01c_provider_timeout_and_omitted_web_no_extra_call(self):
+        member=self.client();cv=member.post('/api/conversations').json()['id']
+        usage=dict(prompt_tokens=80,completion_tokens=40,total_tokens=120)
+        async def timeout(messages,settings,max_tokens):raise TimeoutError('offline total deadline')
+        with patch('cyberant.model_provider.complete',side_effect=timeout):
+            result=member.post('/api/chat',json=dict(question='RMA là gì?',conversation_id=cv))
+            self.assertEqual(result.status_code,504,result.text)
+        with self.module.connect() as c:
+            self.assertGreater(c.execute("SELECT COUNT(*) FROM token_usage WHERE status='uncertain'").fetchone()[0],0)
+        seen=[]
+        async def omitted(messages,settings,max_tokens):
+            seen.append(settings)
+            if settings.get('web_lookup'):
+                return 'lookup',usage|dict(web_annotations=[dict(type='url_citation',url_citation=dict(url='https://docs.example.com/dns',content='x'*3000,title='x'*200))]),'stop'
+            return 'Chưa đủ dữ kiện [NEED_WEB]',usage,'stop'
+        # A 3KB atomic excerpt cannot fit the reserved web budget (<=2666 bytes).
+        with patch('cyberant.model_provider.complete',side_effect=omitted):
+            result=member.post('/api/chat',json=dict(question='DNS là gì?',conversation_id=cv))
+            self.assertEqual(result.status_code,200,result.text)
+            self.assertEqual(result.json()['web_status'],'budget_omitted')
+            self.assertEqual(result.json()['api_calls'],2)
+            self.assertEqual(len(seen),2)
+        member.delete('/api/conversations/'+cv)
 
     def test_05_password_permissions_and_admin_reset(self):
         member, admin = self.client(), self.client('admin')

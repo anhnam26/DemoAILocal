@@ -57,7 +57,7 @@ def main(argv=None):
 
     settings = uvicorn.Config(
         'cyberant.app:app', host=args.host, port=args.port, workers=1,
-        proxy_headers=False, timeout_graceful_shutdown=400,
+        proxy_headers=False, timeout_graceful_shutdown=460,
     )
     # Bind before importing app: a duplicate start must not run DB crash recovery.
     try:

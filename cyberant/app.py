@@ -12,8 +12,8 @@ from contextlib import asynccontextmanager
 from typing import Literal
 from cyberant import accounts,config,token_usage,runtime_lock
 from cyberant import conversations,quality_feedback
-APP_VERSION='2026.10.05-conversation-web-1'
-PROMPT_VERSION='conversation-web-1'
+APP_VERSION='2026.10.05-cleanup-web-2'
+PROMPT_VERSION='conversation-web-2'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
 from cyberant import admin_system,rag,model_provider,storage,web_search
@@ -159,21 +159,27 @@ def create_app():
         try:cfg=model_provider.settings(data.model)
         except ValueError as e:raise HTTPException(400,str(e))
         usage={};estimated=0;calls=0;found=[];used=[];review=True
+        provider_deadline=None
         finish=None;output=0;budget=0;reservation=None;retrieved_count=0;citation_status='not_checked'
         retrieved_sources=[];citation_errors=[];packing={};web=[];web_state='not_needed';usages=[];usage_records=[]
         async def invoke(messages,settings,limit,input_size):
             nonlocal calls,reservation
+            remaining=provider_deadline-time.monotonic()
+            if remaining<=0:raise HTTPException(504,'Đã hết thời gian xử lý tổng. Không tự gọi lại; kiểm tra usage trước khi gửi lại.')
             fresh=user(req)
             reservation,limit=token_usage.reserve(connect,fresh['id'],cfg['model'],input_size,limit,min_output_tokens=limit)
             usage_records.append(reservation)
             try:
                 token_usage.mark_sent(connect,reservation);calls+=1
-                text,measured,reason=await model_provider.complete(messages,settings,limit)
+                async with asyncio.timeout(remaining):
+                    text,measured,reason=await model_provider.complete(messages,settings,limit)
                 token_usage.settle(connect,reservation,measured);usages.append(measured)
                 return text,measured,reason
             except model_provider.InvalidCompletion as e:
                 token_usage.settle(connect,reservation,e.usage);usages.append(e.usage)
                 raise HTTPException(503,'Model không trả nội dung; usage đã được ghi nhận nếu có.')
+            except TimeoutError:
+                raise HTTPException(504,'Đã hết thời gian xử lý tổng. Lượt đã gửi có thể tính phí; kiểm tra usage trước khi gửi lại.')
             except httpx.HTTPStatusError as e:
                 status=e.response.status_code
                 token_usage.settle(connect,reservation,rejected=status in (400,401,402,403,404,422,429))
@@ -206,6 +212,7 @@ def create_app():
             if lookup and not web_cfg['enabled']:web_state='disabled'
             elif lookup and not query:web_state='public_query_required'
             await LOCK.enter(cfg['parallel'])
+            provider_deadline=time.monotonic()+240
             try:
                 if lookup and query and web_cfg['enabled']:
                     lookup_messages=web_search.messages(query)
@@ -231,7 +238,7 @@ def create_app():
                             messages,found,estimated=rag.pack(effective,found,budget,data.audience,packing,history=history,web=web)
                             web=[d for d in web if d['id'] in packing['web_sent']]
                             if not web:web_state='budget_omitted'
-                            answer,_,finish=await invoke(messages,cfg,output,estimated)
+                            if web:answer,_,finish=await invoke(messages,cfg,output,estimated)
                 answer=answer.replace('[NEED_WEB]','').strip()
                 usage=web_search.aggregate(usages)
                 answer=re.sub(r'<think\b[^>]*>.*?(?:</think>|$)','',answer,flags=re.S|re.I).strip()
@@ -241,6 +248,8 @@ def create_app():
                 # Never allow a generated hyperlink to masquerade as a returned web source.
                 urls=set(re.findall(r'https?://[^\s<>\]\)]+',answer))
                 allowed_urls={d['url'] for d in web}
+                allowed_urls.update(url for d in found if d['id'] in used
+                                    for url in re.findall(r'https?://[^\s<>\]\)]+',d['body']) if web_search.safe_url(url))
                 unknown_urls=urls-allowed_urls
                 mode='OpenRouter + RAG' if used else 'Kiến thức chung / ngữ cảnh'
                 if web:mode='OpenRouter + Internet'+(' + RAG' if used else '')
@@ -253,7 +262,7 @@ def create_app():
                 elif cited:citation_status='ids_valid_not_entailment_checked'
                 else:
                     citation_status='general_knowledge_unverified';review=True
-                    if web_search.fresh(q):
+                    if web_search.requires_evidence(q):
                         answer='Chưa có trích dẫn hợp lệ để xác minh thông tin cập nhật trong câu hỏi này. Hãy cung cấp nguồn chính thức hoặc truy vấn công khai cụ thể để tra cứu.'
                         mode='Thiếu nguồn cập nhật';citation_status='abstained'
                     else:answer+='\n\nLưu ý: phản hồi dựa trên kiến thức chung hoặc ngữ cảnh hội thoại, chưa được đối chiếu nguồn trích dẫn.'

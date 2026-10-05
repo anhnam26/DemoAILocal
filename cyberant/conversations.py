@@ -1,5 +1,5 @@
 """Persistent conversations owned by accounts, independent of login sessions."""
-import json,secrets,hashlib
+import json,secrets,hashlib,re
 from fastapi import APIRouter,HTTPException,Request,Query
 
 def init(connect):
@@ -65,7 +65,14 @@ def context(connect,u,id,documents,limit=80):
         if any(s['id'] not in allowed or s.get('source_digest')!=allowed[s['id']] for s in dependencies):
             continue
         if prior.get('citation_status')=='invalid':continue
-        result.append(dict(chat_id=row['id'],question=row['question'],answer=prior['answer'],
+        # Old citations are historical mappings, not fresh evidence for this turn.
+        from cyberant import web_search
+        answer=prior['answer']
+        for s in prior.get('web_sources',[]):
+            if isinstance(s,dict) and isinstance(s.get('id'),str) and web_search.safe_url(s.get('url')):
+                answer=answer.replace('['+s['id']+']','(nguồn web lịch sử: '+s['url']+'; tra cứu '+str(s.get('retrieved_at','không rõ'))+'; chưa tra cứu lại)')
+        answer=re.sub(r'\[WEB-[A-Za-z0-9_-]+\]','(nguồn web lịch sử không có ánh xạ; chưa xác minh)',answer)
+        result.append(dict(chat_id=row['id'],question=row['question'],answer=answer,
                            effective_query=prior.get('effective_query',row['question']),sources=dependencies))
     return result
 

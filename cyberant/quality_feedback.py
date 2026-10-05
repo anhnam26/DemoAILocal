@@ -21,6 +21,8 @@ def snapshot(c,chat):
         username=owner['username'] if owner else None,name=owner['name'] if owner else None,
         chat_id=chat['id'],conversation_id=chat['conversation_id'],chat_ts=chat['ts'],
         **{key:result.get(key) for key in ('model','usage','sources','diagnostics','citation_status','finish_reason','mode')},
+        context_sources=result.get('context_sources',[]),web_sources=result.get('web_sources',[]),
+        web_status=result.get('web_status'),api_calls=result.get('api_calls'),
         metadata_missing=[key for key in ('model','usage','diagnostics','citation_status','finish_reason') if key not in result])
 
 def init(connect):
@@ -46,9 +48,10 @@ def init(connect):
         c.execute("INSERT INTO quality_migrations VALUES('legacy_feedback')")
 
 def safe_snapshot(data,allowed):
-    sources=(data.get('sources') or [])+data.get('context_sources',[])
+    sources=(data.get('sources') or [])+(data.get('context_sources') or [])
     if any(s['id'] not in allowed or s.get('source_digest',allowed.get(s['id']))!=allowed.get(s['id']) for s in sources):
-        data={**data,'answer':'Nguồn đã thay đổi, thu hồi hoặc hết hiệu lực.','sources':[],'source_redacted':True}
+        data={**data,'answer':'Nguồn đã thay đổi, thu hồi hoặc hết hiệu lực.','sources':[],
+              'context_sources':[],'web_sources':[],'source_redacted':True}
     return data
 
 def submit(connect,u,data,now,docs_for):

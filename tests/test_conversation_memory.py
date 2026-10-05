@@ -2,7 +2,7 @@
 import hashlib,json,sqlite3,unittest
 from contextlib import contextmanager
 from fastapi import HTTPException
-from cyberant import conversations,rag
+from cyberant import conversations,rag,quality_feedback
 
 class MemoryTests(unittest.TestCase):
     def test_pairs_order_budget_and_topic_change(self):
@@ -32,5 +32,23 @@ class MemoryTests(unittest.TestCase):
         items=conversations.context(connect,dict(id='u'),'a',[dict(id='D',body='valid')])
         self.assertEqual([i['chat_id'] for i in items],[1,5])
         with self.assertRaises(HTTPException):conversations.context(connect,dict(id='u'),'c',[])
+
+    def test_web_history_mapping_and_feedback_dependencies(self):
+        db=sqlite3.connect(':memory:');self.addCleanup(db.close);db.row_factory=sqlite3.Row
+        db.executescript('CREATE TABLE conversations(id TEXT,user_id TEXT); CREATE TABLE chats(id INTEGER,conversation_id TEXT,user_id TEXT,question TEXT,result TEXT,ts TEXT); CREATE TABLE users(id TEXT,username TEXT,name TEXT);')
+        db.execute("INSERT INTO conversations VALUES('a','u')")
+        db.execute("INSERT INTO users VALUES('u','fixture','Fixture')")
+        prior=dict(answer='Old fact [WEB-1].',sources=[],context_sources=[dict(id='D',source_digest=hashlib.sha256(b'valid').hexdigest())],
+                   web_sources=[dict(id='WEB-1',url='https://docs.example.com/old',retrieved_at='2026-10-01')])
+        db.execute('INSERT INTO chats VALUES(?,?,?,?,?,?)',(1,'a','u','Q',json.dumps(prior),'now'))
+        @contextmanager
+        def connect():yield db
+        history=conversations.context(connect,dict(id='u'),'a',[dict(id='D',body='valid')])
+        self.assertNotIn('[WEB-1]',history[0]['answer']);self.assertIn('https://docs.example.com/old',history[0]['answer'])
+        self.assertIn('chưa tra cứu lại',history[0]['answer'])
+        snap=quality_feedback.snapshot(db,db.execute('SELECT * FROM chats').fetchone())
+        self.assertEqual(snap['context_sources'],prior['context_sources']);self.assertEqual(snap['web_sources'],prior['web_sources'])
+        redacted=quality_feedback.safe_snapshot(snap,{})
+        self.assertTrue(redacted['source_redacted']);self.assertEqual(redacted['web_sources'],[])
 
 if __name__=='__main__':unittest.main()

@@ -36,7 +36,14 @@ tiêu đề và thời điểm tra cứu, không mở qua API tài liệu nội 
 
 `WEB_SEARCH_ENABLED=true`, `WEB_SEARCH_MAX_RESULTS=3` (1–5),
 `WEB_SEARCH_OUTPUT_TOKENS=1000` (256–1600). Đặt enabled=false để tắt web.
-Trích dẫn `[WEB-n]` phải nằm trong evidence đã gửi, URL tự sinh ngoài danh sách
+Trích dẫn `[WEB-ID]` có định danh theo lượt/nguồn, phải nằm trong evidence đã gửi.
+Lịch sử chuyển citation web cũ thành URL/thời điểm có nhãn chưa tra cứu lại, không
+cho mã WEB-1 cũ trở thành bằng chứng của lượt mới. Snapshot feedback giữ cả nguồn
+phụ thuộc và web; thu hồi nguồn phụ thuộc cũng che câu trả lời trong phản hồi.
+Packing dành tối đa 1/3 ngân sách cho web trước lịch sử/nguồn nội bộ; không gọi
+tổng hợp lần hai nếu mọi web evidence bị loại do ngân sách.
+Query tự động giữ mã CVE/phiên bản đúng cấu trúc, không giữ thông báo lỗi tự do.
+URL tự sinh ngoài danh sách (hoặc URL thực trong nguồn nội bộ đã trích)
 không được chấp nhận. Nội dung web có thể sai hoặc chứa prompt injection; system
 prompt yêu cầu coi nó là dữ liệu, không phải chỉ dẫn, nhưng đây không là bảo đảm tuyệt đối.
 
@@ -50,6 +57,11 @@ Web/provider lỗi trả lỗi rõ, không giả vờ tìm kiếm thành công; 
 tốn phí, usage không rõ giữ uncertain. Không tự gọi completion tiếp nếu lookup lỗi.
 
 ## Kiểm thử
+Queue tối đa 180s, cả giai đoạn provider tối đa 240s, mỗi call vẫn timeout 180s.
+Timeout tổng trả 504 và bảo toàn usage đã ghi/uncertain; không retry tự động.
+Ví dụ Nginx/systemd 480s và graceful shutdown 460s dành chỗ cho local overhead;
+Quick Tunnel/client có thể timeout sớm hơn và cần kiểm trên đường truyền thật.
+
 Test dùng cấu hình/DB tạm và mocked OpenRouter, không đọc .env hoặc gọi AI thật.
 Chạy suite workspace riêng process. Kiểm tra live có phí cần được thực hiện riêng;
 việc API/plugin đang hoạt động trên model cụ thể chưa được chứng minh bằng test offline.

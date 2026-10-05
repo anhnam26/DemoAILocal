@@ -18,7 +18,7 @@ Environment=PYTHONDONTWRITEBYTECODE=1
 Restart=on-failure
 RestartSec=5
 KillSignal=SIGTERM
-TimeoutStopSec=420
+TimeoutStopSec=480
 UMask=0077
 NoNewPrivileges=true
 PrivateTmp=true

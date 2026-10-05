@@ -23,11 +23,33 @@ class WebTests(unittest.TestCase):
             annotation('http://unsafe.example/a'),annotation('https://127.0.0.1/a'),annotation('https://localhost/a'),
             annotation('https://x.example/a',None),annotation('https://user:pass@x.example/a'),annotation('https://docs.example.com/b')])
         evidence=web_search.evidence(usage,3)
-        self.assertEqual([e['id'] for e in evidence],['WEB-1','WEB-2'])
+        self.assertEqual(len(evidence),2)
+        self.assertTrue(all(e['id'].startswith('WEB-') for e in evidence))
+        self.assertNotEqual(evidence[0]['id'],web_search.evidence(usage,3)[0]['id'])
         self.assertFalse(web_search.safe_url('javascript:alert(1)'))
+        self.assertEqual(web_search.evidence(dict(web_annotations=123),3),[])
         diagnostics={};messages,_,size=rag.pack('DNS là gì?',[],8000,diagnostics=diagnostics,web=evidence)
-        self.assertIn('WEB-1',messages[-1]['content']);self.assertLessEqual(size,8000)
-        self.assertEqual(diagnostics['web_sent'],['WEB-1','WEB-2'])
+        self.assertIn(evidence[0]['id'],messages[-1]['content']);self.assertLessEqual(size,8000)
+        self.assertEqual(diagnostics['web_sent'],[e['id'] for e in evidence])
+
+    def test_public_identifiers_and_web_reserved_budget(self):
+        query=web_search.public_query('FortiGate firmware 7.4.3 CVE-2026-12345 client SECRET 10.1.2.3')
+        self.assertIn('version 7.4.3',query);self.assertIn('cve-2026-12345',query)
+        self.assertNotIn('SECRET',query);self.assertNotIn('10.1.2.3',query)
+        web=[dict(id='WEB-test',title='DNS',url='https://docs.example.com',body='evidence'*20)]
+        docs=[dict(id='D',title='DNS',group='A',body='internal '*1000)]
+        diagnostics={}
+        _,_,size=rag.pack('DNS là gì?',docs,8000,diagnostics=diagnostics,web=web)
+        self.assertEqual(diagnostics['web_sent'],['WEB-test']);self.assertLessEqual(size,8000)
+        self.assertTrue(web_search.requires_evidence('Lệnh cấu hình firmware'))
+
+    def test_malformed_provider_payload(self):
+        real=httpx.AsyncClient
+        for payload in ([],dict(usage=['bad'],choices=[]),dict(usage={'prompt_tokens':10},choices=[dict(message=dict(content=''))])):
+            def client(**kwargs):return real(transport=httpx.MockTransport(lambda request:httpx.Response(200,json=payload)),**kwargs)
+            with patch('cyberant.model_provider.httpx.AsyncClient',side_effect=client):
+                with self.assertRaises(model_provider.InvalidCompletion):
+                    asyncio.run(model_provider.complete([],dict(model='test',api_key='fake',url='https://openrouter.ai/api/v1'),100))
 
     def test_payload_and_annotations_without_network(self):
         seen=[]

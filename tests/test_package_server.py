@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 from tools import package_server as release
 
@@ -64,6 +65,11 @@ class PackageTests(unittest.TestCase):
         try:path.symlink_to(target)
         except OSError as exc:self.skipTest('Symlink creation unavailable: '+str(exc))
         with self.assertRaisesRegex(ValueError,'Symlink'):release.release_files(self.root)
+
+    def test_symlink_parent_guard_without_os_privilege(self):
+        original=Path.is_symlink
+        with patch.object(Path,'is_symlink',lambda path: path==self.root/'static' or original(path)):
+            with self.assertRaisesRegex(ValueError,'Symlink'):release.release_files(self.root)
 
 
 if __name__=='__main__':unittest.main()

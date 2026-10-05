@@ -81,7 +81,9 @@ async def complete(messages,s,max_tokens):
     async with httpx.AsyncClient(timeout=httpx.Timeout(180,connect=15),trust_env=False) as client:
         response=await client.post(s['url']+'/chat/completions',headers=headers(s),json=payload)
         response.raise_for_status();data=response.json()
+    if not isinstance(data,dict):raise InvalidCompletion({})
     usage=data.get('usage') or {}
+    if not isinstance(usage,dict):usage={}
     usage={k:usage[k] for k in ('prompt_tokens','completion_tokens','total_tokens','cost','prompt_tokens_details','completion_tokens_details') if k in usage}
     usage['generation_id']=data.get('id')
     try:
