@@ -1,5 +1,11 @@
 # SOW/BOM và bằng chứng theo dịch vụ
 
+> Cập nhật 2026-10-05: nội dung baseline/chi phí dưới đây ghi kết quả phiên cũ.
+> Runtime hiện là layout split `D:\TestSystem\data`; 1.100 draft đã accepted theo
+> quyết định user. Ngân sách mới và retrieval cấu hình xem CONFIGURATION_GUIDES.md;
+> acceptance/backup xem KNOWLEDGE_ACCEPTANCE.md. Các số 18.000/2.400 và trạng thái
+> draft trong báo cáo cũ không còn là cấu hình hiện hành.
+
 ## Phạm vi triển khai
 
 - Liên kết dịch vụ trong chỉ mục bằng `cyberant/service_evidence.py`: service ID

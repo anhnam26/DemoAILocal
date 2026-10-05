@@ -14,7 +14,8 @@ class WebTests(unittest.TestCase):
         self.assertFalse(web_search.should_search('DNS là gì?',[]))
         self.assertFalse(web_search.should_search('Giải thích phần 2',[]))
         self.assertTrue(web_search.should_search('CVE FortiGate mới nhất',[]))
-        self.assertFalse(web_search.should_search('Cấu hình DNS',[dict(id='D')]))
+        self.assertFalse(web_search.should_search('Cấu hình DNS Server',[dict(id='D',title='DNS')]))
+        self.assertTrue(web_search.should_search('Cấu hình DNS',[dict(id='D',title='DNS')]))
 
     def test_extractive_evidence_urls_and_budget(self):
         def annotation(url,content='Official excerpt'):

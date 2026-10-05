@@ -98,6 +98,26 @@ class WorkspaceUI(unittest.TestCase):
         self.assertEqual(response.status_code, 200, response.text)
         return client
 
+    def test_detailed_configuration_truncation_and_continuation(self):
+        member=self.client();id=member.post('/api/conversations').json()['id'];seen=[]
+        async def detailed(messages,settings,max_tokens):
+            seen.append((messages,max_tokens))
+            source_id=re.search(r'\[([A-Z0-9-]+)\]',messages[-1]['content']).group(1)
+            return ('## Préparation\nHướng dẫn giả lập có nguồn ['+source_id+'].',
+                    dict(prompt_tokens=100,completion_tokens=200,total_tokens=300),'length')
+        with patch('cyberant.model_provider.complete',side_effect=detailed):
+            response=member.post('/api/chat',json=dict(question='Cấu hình firewall Fortinet',conversation_id=id))
+            self.assertEqual(response.status_code,200,response.text);out=response.json()
+            self.assertEqual(out['output_token_limit'],8000);self.assertEqual(out['api_calls'],1)
+            self.assertTrue(out['truncated']);self.assertIn('Tiếp tục hướng dẫn ở trên',out['answer'])
+            self.assertFalse(out['retrieval']['configuration_coverage']['missing'])
+            self.assertLessEqual(out['diagnostics']['estimated_input'],64000)
+            again=member.post('/api/chat',json=dict(question='Tiếp tục hướng dẫn ở trên',conversation_id=id))
+            self.assertEqual(again.status_code,200,again.text)
+            self.assertTrue(again.json()['diagnostics']['packing']['history_sent'])
+            self.assertTrue(any(m['role']=='assistant' and 'Hướng dẫn giả lập' in m['content'] for m in seen[-1][0]))
+        self.assertIn('CÂU HỎI TỔNG THỂ',seen[0][0][0]['content'])
+
     def test_01_api_permissions_history_and_citations(self):
         member, admin = self.client(), self.client('admin')
         response = member.get('/')
@@ -192,7 +212,7 @@ class WorkspaceUI(unittest.TestCase):
                 if not settings.get('web_lookup') and not re.search(r'\[WEB-[A-Za-z0-9_-]+\]',messages[-1]['content']):
                     return 'Chưa có dữ kiện cần thiết. [NEED_WEB]',dict(prompt_tokens=80,completion_tokens=40,total_tokens=120),'stop'
                 return await fake(messages,settings,max_tokens)
-            with patch('cyberant.model_provider.complete',side_effect=missing):
+            with patch('cyberant.model_provider.complete',side_effect=missing),patch('cyberant.web_search.should_search',return_value=False):
                 fallback=member.post('/api/chat',json=dict(question='Cấu hình DNS chi tiết',conversation_id=cv))
                 self.assertEqual(fallback.status_code,200,fallback.text)
                 self.assertEqual(fallback.json()['api_calls'],3)
@@ -254,8 +274,9 @@ class WorkspaceUI(unittest.TestCase):
             if settings.get('web_lookup'):
                 return 'lookup',usage|dict(web_annotations=[dict(type='url_citation',url_citation=dict(url='https://docs.example.com/dns',content='x'*3000,title='x'*200))]),'stop'
             return 'Chưa đủ dữ kiện [NEED_WEB]',usage,'stop'
-        # A 3KB atomic excerpt cannot fit the reserved web budget (<=2666 bytes).
-        with patch('cyberant.model_provider.complete',side_effect=omitted):
+        # Explicit small input cap: a 3KB atomic excerpt cannot fit <=2666 bytes.
+        small={**self.module.config.env(),'RAG_INPUT_BYTES':'8000'}
+        with patch('cyberant.model_provider.complete',side_effect=omitted),patch('cyberant.config.env',return_value=small):
             result=member.post('/api/chat',json=dict(question='DNS là gì?',conversation_id=cv))
             self.assertEqual(result.status_code,200,result.text)
             self.assertEqual(result.json()['web_status'],'budget_omitted')

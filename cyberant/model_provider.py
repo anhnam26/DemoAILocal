@@ -56,10 +56,32 @@ def settings(model=None):
     values=config.env();available=models()
     selected=model or (available[0] if available else '')
     if selected and selected not in available:raise ValueError('Model tài khoản không còn trong danh sách .env; liên hệ quản trị.')
+    input_budget=config.integer('RAG_INPUT_BYTES',values.get('RAG_INPUT_TOKENS',64000),2048,64000)
+    output_budget=config.integer('RAG_OUTPUT_TOKENS',8000,64,8192)
+    limits=model_limits(values.get('RAG_MODEL_LIMITS','{}')).get(selected)
+    if limits:
+        output_budget=min(output_budget,limits['output_tokens'])
+        # Local UTF-8 proxy plus margin, not a guarantee about remote tokenizers.
+        input_budget=min(input_budget,limits['context_tokens']-output_budget-1024)
+        if input_budget<2048:raise ValueError('Model context quá nhỏ cho ngân sách output; giảm RAG_OUTPUT_TOKENS.')
     return dict(mode='openrouter',api_key=values.get('OPENROUTER_API_KEY') or values.get('API_KEY',''),model=selected,
-                url='https://openrouter.ai/api/v1',input_budget=config.integer('RAG_INPUT_BYTES',values.get('RAG_INPUT_TOKENS',18000),2048,32000),
-                output_budget=config.integer('RAG_OUTPUT_TOKENS',2400,64,8192),top_k=config.integer('RAG_TOP_K',6,2,12),
+                url='https://openrouter.ai/api/v1',input_budget=input_budget,
+                output_budget=output_budget,top_k=config.integer('RAG_TOP_K',24,2,24),
+                model_limits=limits,model_limits_configured=bool(limits),
                 parallel=config.integer('API_PARALLEL',4,1,16))
+
+def model_limits(raw):
+    try:
+        values=json.loads(raw)
+        if not isinstance(values,dict):raise ValueError()
+        for model,limits in values.items():
+            if not isinstance(model,str) or not isinstance(limits,dict):raise ValueError()
+            for key in ('context_tokens','output_tokens'):
+                value=limits[key]
+                if isinstance(value,bool) or not isinstance(value,int) or value<64:raise ValueError()
+            if limits['output_tokens']>=limits['context_tokens']:raise ValueError()
+        return values
+    except (ValueError,TypeError,KeyError):raise ValueError('RAG_MODEL_LIMITS phải là JSON model -> context_tokens/output_tokens hợp lệ.')
 
 def public_settings():
     s=settings()

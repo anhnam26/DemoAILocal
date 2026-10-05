@@ -12,8 +12,8 @@ from contextlib import asynccontextmanager
 from typing import Literal
 from cyberant import accounts,config,token_usage,runtime_lock
 from cyberant import conversations,quality_feedback
-APP_VERSION='2026.10.05-cleanup-web-2'
-PROMPT_VERSION='conversation-web-2'
+APP_VERSION='2026.10.05-knowledge-guides-3'
+PROMPT_VERSION='accepted-configuration-3'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
 from cyberant import admin_system,rag,model_provider,storage,web_search
@@ -194,12 +194,13 @@ def create_app():
             answer='Kho này chỉ giữ tài liệu lý thuyết và biểu mẫu trống; không lưu hồ sơ, liên hệ, hợp đồng hay công nợ khách hàng.'
             routing={'groups':[],'routing':'local','candidates':0};mode='Không có dữ liệu khách hàng'
         else:
-            found,routing=await asyncio.to_thread(rag.retrieve,effective,allowed,cfg['top_k'])
+            retrieval_cap=rag.retrieval_limit(effective,cfg['top_k'])
+            found,routing=await asyncio.to_thread(rag.retrieve,effective,allowed,retrieval_cap)
             if history and rag.is_followup(q):
                 prior_ids={s['id'] for h in history[-6:] for s in h['sources']}
                 present={d['id'] for d in found}
                 prior_chunks=[chunk for d in allowed if d['id'] in prior_ids-present for chunk in rag.chunks(d)]
-                found=(prior_chunks+found)[:cfg['top_k']]
+                found=(prior_chunks+found)[:retrieval_cap]
             retrieved_count=len(found)
             retrieved_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found]
             budget,output=rag.budgets(effective,cfg['input_budget'],cfg['output_budget'])
@@ -270,7 +271,10 @@ def create_app():
                     answer+='\n\nTra cứu Internet: '+{'public_query_required':'chưa có truy vấn công khai an toàn; bạn có thể nhập truy vấn riêng trong mục tra cứu web.',
                         'disabled':'đang bị tắt trong cấu hình.','no_valid_sources':'không nhận được đoạn nguồn và URL hợp lệ; không coi phản hồi là đã được web xác minh.',
                         'budget_omitted':'đã tìm được nguồn nhưng ngân sách đầu vào không đủ chứa đoạn nguồn; không coi phản hồi là đã được web xác minh.'}[web_state]
-                if finish=='length':answer+='\n\nLưu ý: phản hồi chạm giới hạn đầu ra; nội dung có thể chưa đầy đủ.'
+                if finish=='length' and citation_status!='invalid':
+                    answer+='\n\n**Câu trả lời bị cắt do giới hạn output.** Gửi “Tiếp tục hướng dẫn ở trên” để yêu cầu phần tiếp theo trong cuộc trò chuyện này; lượt tiếp theo dùng quota riêng. Hệ thống không tự gọi lại.'
+                if history and rag.is_followup(q) and history[-1]['chat_id'] not in packing.get('history_sent',[]):
+                    answer+='\n\nNgữ cảnh trả lời trước không vừa ngân sách đầu vào; hãy nêu mục cần tiếp tục hoặc trích đoạn liên quan. Không thể coi lượt này là phần nối tiếp đầy đủ.'
             finally:LOCK.leave()
         fresh=user(req);fresh_docs={d['id']:d for d in docs_for(fresh)}
         sent_history=set(packing.get('history_sent',[]))
@@ -285,12 +289,14 @@ def create_app():
                  elapsed=round(time.monotonic()-start,2),citations_verified=bool(used or web),effective_query=effective,
                  usage=usage,model=cfg['model'],api_calls=calls,finish_reason=finish,output_token_limit=output,
                  citation_status=citation_status,grounding_verified=False,
+                  truncated=finish=='length',
                  diagnostics=dict(app_version=APP_VERSION,prompt_version=PROMPT_VERSION,
                      prompt_hash=hashlib.sha256(rag.system_prompt(effective,data.audience).encode()).hexdigest(),effective_query=effective,
                      retrieved_sources=retrieved_sources,sent_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found],
                       input_budget=budget,estimated_input=estimated,output_budget=output,usage_record_id=reservation,usage_record_ids=usage_records,
                       usage=usage,finish_reason=finish,citation_errors=citation_errors,packing=packing,
                       requested_audience=data.audience,
+                       model_limits=cfg.get('model_limits'),model_limits_configured=cfg.get('model_limits_configured',False),
                      scope=rag.scope(effective),device_details_required=rag.intent(effective)=='procedure' and rag.scope(effective)=='generic'),
                  retrieval={**routing,'intent':rag.intent(effective),'retrieved_chunks':retrieved_count,'selected_chunks':len(found),
                              'packed_coverage':packing.get('coverage'),'omissions':packing.get('omitted',[]),

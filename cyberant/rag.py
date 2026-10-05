@@ -119,10 +119,17 @@ def intent(question):
 def budgets(question,input_cap,output_cap):
     kind=intent(question)
     # Input remains a conservative byte proxy, explicitly not a model tokenizer.
-    input_target,output_target={'concept':(8000,1000),'comparison':(14000,1800),
-        'survey':(14000,1800),'procedure':(18000,2400),'troubleshooting':(18000,2400),
-        'sow':(18000,2400),'bom':(14000,1800),'sow_bom':(18000,2400)}[kind]
+    input_target,output_target={'concept':(12000,1500),'comparison':(48000,6000),
+        'survey':(32000,4000),'procedure':(32000,4000),'troubleshooting':(32000,4000),
+        'sow':(48000,6000),'bom':(32000,4000),'sow_bom':(48000,6000)}[kind]
+    profile=configuration(question)
+    if profile and profile['broad']:input_target,output_target=64000,8000
     return min(input_cap,input_target),min(output_cap,output_target)
+
+def retrieval_limit(question,cap):
+    profile=configuration(question)
+    target=24 if profile and profile['broad'] else 12 if intent(question) in ('procedure','troubleshooting','survey','bom') else 18 if intent(question) in ('sow','sow_bom','comparison') else 6
+    return min(cap,target)
 
 VENDORS=r'\b(?:forti\w*|cisco|juniper|aruba|mikrotik|huawei|ubiquiti|palo alto|meraki|ios|nx-os|junos|routeros)\b'
 def scope(question):return 'device_specific' if re.search(VENDORS,norm(question)) else 'generic'
@@ -167,7 +174,7 @@ def configuration(question):
     return dict(topic=topic,broad=broad,required=list(TOPIC_FACETS[topic]) if broad else [])
 
 def configuration_facets(doc):
-    title=norm(doc['title'])
+    title=norm(doc.get('title',''))
     return {facet for facet,pattern in CONFIG_FACETS.items() if re.search(pattern,title)}
 
 def configuration_coverage(profile,docs):
@@ -253,12 +260,15 @@ def retrieve(question, documents, top_k=6):
                   and d.get('data_type')!='glossary']
         if relevant:
             candidates=relevant
+            focus={f for f,p in CONFIG_FACETS.items() if re.search(p,q)} if not profile['broad'] else set()
+            if focus:
+                candidates=[i for i in candidates if configuration_facets(docs[i])&focus
+                            or configuration_facets(docs[i])&{'preparation','validation'}]
             for i in candidates:
                 if docs[i].get('data_type')=='service_requirements':scores[i]*=.35
                 if docs[i].get('data_type')=='bom_rules':scores[i]*=.1
                 if docs[i].get('data_type')=='it_configuration':scores[i]+=.3
                 if not profile['broad']:
-                    focus={f for f,p in CONFIG_FACETS.items() if re.search(p,q)}
                     scores[i]+=.45*len(configuration_facets(docs[i])&focus)
             uncovered=set(profile['required'])
             while uncovered and candidates and len(selected)<top_k:
@@ -337,7 +347,9 @@ def pack(question,found,budget,audience='auto',diagnostics=None,history=None,web
         added=count(render([]))-before
         if added>web_cap:kept_web.pop()
         else:web_cap-=added
-    kept_history=select_history(question,history,min(budget//3,max(0,budget-count(render([])))))
+    # A detailed previous answer should remain usable for explicit continuation.
+    history_cap=budget//2 if is_followup(question) else budget//3
+    kept_history=select_history(question,history,min(history_cap,max(0,budget-count(render([])))))
     selected=[];seen=set();remaining=list(found);omitted=[]
     profile=configuration(question)
     required=[] if profile else service_evidence.requirements(question,intent(question))

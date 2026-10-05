@@ -1,5 +1,7 @@
 """Offline broad/narrow retrieval, unknown facts and bounded detailed guidance."""
 import unittest
+from unittest.mock import patch
+from cyberant import model_provider,web_search
 from cyberant import rag,service_evidence,sync_knowledge
 
 
@@ -56,6 +58,32 @@ class ConfigurationGuides(unittest.TestCase):
         self.assertIn('không phải chứng nhận triển khai',prompt)
         self.assertIn('Không lấy ô trống làm lý do từ chối',prompt)
         self.assertIn('Không tạo lệnh cụ thể',prompt)
+
+    def test_adaptive_budgets_and_model_caps(self):
+        cases=[('DNS là gì?',(12000,1500),6),('Cấu hình NAT FortiGate',(32000,4000),12),
+               ('Cấu hình firewall Fortinet',(64000,8000),24),('SOW BOM Managed Service',(48000,6000),18)]
+        for q,budget,k in cases:
+            self.assertEqual(rag.budgets(q,64000,8000),budget)
+            self.assertEqual(rag.retrieval_limit(q,24),k)
+            self.assertLessEqual(rag.budgets(q,9000,1000)[0],9000)
+            self.assertLessEqual(rag.budgets(q,9000,1000)[1],1000)
+        with patch('cyberant.config.env',return_value=dict(OPENROUTER_MODEL='test',RAG_MODEL_LIMITS='{"test":{"context_tokens":16000,"output_tokens":4000}}')):
+            s=model_provider.settings('test')
+            self.assertEqual(s['output_budget'],4000);self.assertEqual(s['input_budget'],10976)
+        for raw in ('[]','{"test":{}}','{"test":{"context_tokens":1000,"output_tokens":2000}}'):
+            with self.assertRaises(ValueError):model_provider.model_limits(raw)
+
+    def test_gap_web_lookup_and_detailed_continuation(self):
+        q='Cấu hình firewall Fortinet'
+        partial=[dict(id='D',title='Firewall policy',body='Policy')]
+        self.assertTrue(web_search.should_search(q,partial))
+        found,_=rag.retrieve(q,self.documents,24)
+        self.assertFalse(web_search.should_search(q,found))
+        prior=dict(chat_id=10,question=q,answer='Chi tiết '*2000,sources=[])
+        effective=rag.followup('Tiếp tục hướng dẫn ở trên',q)
+        diag={};messages,_,size=rag.pack(effective,found,64000,history=[prior],diagnostics=diag)
+        self.assertIn(10,diag['history_sent']);self.assertLessEqual(size,64000)
+        self.assertIn(prior['answer'],[m['content'] for m in messages])
 
 
 if __name__=='__main__':unittest.main()

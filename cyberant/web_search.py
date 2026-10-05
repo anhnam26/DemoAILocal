@@ -45,6 +45,10 @@ def fresh(question):
 def should_search(question,found,explicit=None):
     if explicit or fresh(question):return True
     if rag.is_followup(question):return False
+    profile=rag.configuration(question)
+    if profile and profile['broad']:
+        # The presence of one source is not coverage of a whole configuration.
+        return bool(rag.configuration_coverage(profile,found)['missing'])
     # Stable concepts can be explained without pretending that a search occurred.
     return not found and rag.intent(question)!='concept'
 
