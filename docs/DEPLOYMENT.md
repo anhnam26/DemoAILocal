@@ -6,6 +6,9 @@ theo server thực tế. Các thư mục chứa dữ liệu phải thuộc user 
 
 ## 1. Chuẩn bị
 
+Nếu dùng ZIP **private có .env/database**, đọc `PRIVATE_BUNDLE.md`: database đã
+khởi tạo, không init/migrate lại. Các bước source-only bên dưới dành cho gói sạch.
+
 1. Tạo user Linux không đặc quyền. Không chạy app/tunnel bằng root.
 2. Chép gói source-only từ `tools/package_server.py`, không copy toàn bộ máy dev.
 3. Dùng Python environment hiện có (Conda nếu đã được cấu hình):
