@@ -85,5 +85,15 @@ class ConfigurationGuides(unittest.TestCase):
         self.assertIn(10,diag['history_sent']);self.assertLessEqual(size,64000)
         self.assertIn(prior['answer'],[m['content'] for m in messages])
 
+    def test_missing_titles_and_dns_gap_routing(self):
+        untitled=[dict(id='D',body='DNS guidance')]
+        broad=rag.configuration('Cấu hình DNS')
+        self.assertTrue(broad['broad'])
+        self.assertEqual(rag.configuration_facets(untitled[0]),set())
+        self.assertEqual(rag.configuration_coverage(broad,untitled)['missing'],broad['required'])
+        self.assertTrue(web_search.should_search('Cấu hình DNS',untitled))
+        self.assertFalse(rag.configuration('Cấu hình DNS Server')['broad'])
+        self.assertFalse(web_search.should_search('Cấu hình DNS Server',untitled))
+
 
 if __name__=='__main__':unittest.main()

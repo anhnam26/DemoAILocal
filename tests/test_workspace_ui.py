@@ -117,6 +117,17 @@ class WorkspaceUI(unittest.TestCase):
             self.assertTrue(again.json()['diagnostics']['packing']['history_sent'])
             self.assertTrue(any(m['role']=='assistant' and 'Hướng dẫn giả lập' in m['content'] for m in seen[-1][0]))
         self.assertIn('CÂU HỎI TỔNG THỂ',seen[0][0][0]['content'])
+        latest=again.json()['chat_id'];older=out['chat_id']
+        with self.module.connect() as c:
+            previous=json.loads(c.execute('SELECT result FROM chats WHERE id=?',(latest,)).fetchone()[0])
+            previous['answer']='Oversized previous answer '*5000
+            c.execute('UPDATE chats SET result=? WHERE id=?',(json.dumps(previous),latest))
+        with patch('cyberant.model_provider.complete',side_effect=detailed):
+            omitted=member.post('/api/chat',json=dict(question='Tiếp tục hướng dẫn ở trên',conversation_id=id))
+        self.assertEqual(omitted.status_code,200,omitted.text)
+        payload=omitted.json();sent=payload['diagnostics']['packing']['history_sent']
+        self.assertIn(older,sent);self.assertNotIn(latest,sent)
+        self.assertIn('Ngữ cảnh trả lời trước không vừa ngân sách',payload['answer'])
 
     def test_01_api_permissions_history_and_citations(self):
         member, admin = self.client(), self.client('admin')
