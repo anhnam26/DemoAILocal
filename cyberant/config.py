@@ -57,5 +57,5 @@ def data_dir():
     return (path if path.is_absolute() else ROOT/path).resolve()
 
 def backup_dir():
-    path=Path(env().get('APP_BACKUP_DIR',str(data_dir()/'backups'))).expanduser()
+    path=Path(env().get('APP_BACKUP_DIR',str(ROOT.parent/'CyberAnt-private'/'backups'))).expanduser()
     return (path if path.is_absolute() else ROOT/path).resolve()

@@ -2,6 +2,15 @@
 
 Layout v1: `layout.json` và sáu kho SQLite dưới APP_DATA_DIR:
 
+Windows local chỉ dùng một thư mục `data/`, ignored bởi Git. Không giữ database
+legacy, tài liệu DOCX/XLSX/PDF gốc hoặc `initial-accounts.json` trong runtime.
+Backup mặc định ở `CyberAnt-private/backups` cạnh source root, không dưới data;
+server luôn đặt APP_BACKUP_DIR tuyệt đối bên ngoài source. Tài liệu biên soạn và
+legacy giữ riêng trong kho riêng tư để phục hồi/đối chiếu, không đóng gói release.
+Đổi vị trí data phải dừng app, backup/restore thử và đối chiếu hash mọi bảng trước.
+Không merge database đã có ghi riêng. Process env ghi đè .env: xóa override cũ
+trước khi chạy launcher, tránh trỏ vào data-v1 không còn tồn tại.
+
 | Kho | Bảng |
 |---|---|
 | auth | accounts, sessions, login_attempts, token_usage, usage_migrations |

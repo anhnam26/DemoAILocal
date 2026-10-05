@@ -20,8 +20,8 @@ Ví dụ source `/opt/cyberant`, config `/etc/cyberant/cyberant.env`. Thay đư�
 bằng vị trí thực tế. Không chạy app bằng root, không ghi đè config/dữ liệu đang dùng.
 
 ```bash
-conda create -n cyberant python=3.14 pip -y
-conda activate cyberant
+# Dùng Python environment đã có trên server; không tạo environment mới tự động.
+python --version
 cd /opt/cyberant
 python -m pip install -r /opt/cyberant/requirements-lock.txt
 export APP_ENV_FILE=/etc/cyberant/cyberant.env
@@ -65,6 +65,12 @@ URL thay đổi mỗi lần chạy, không SLA, request AI dài có thể timeou
 Không mở cổng 8088 ra Internet. Có thể chạy nền bằng service mẫu.
 
 ## Dữ liệu không còn nằm trong một tệp
+
+Windows local dùng duy nhất `data/` (Git ignored), backup ngoài project. Nếu terminal
+còn `$env:APP_DATA_DIR` trỏ `data-v1`, chạy `Remove-Item Env:APP_DATA_DIR` trước.
+`Start-App.ps1`/`Stop-App.ps1` đọc cùng config với backend; start kiểm integrity và
+`/api/ready`, PID/log ở thư mục data đã chọn. Stop chỉ đúng process, nhưng terminate
+trên Windows: chờ AI hoàn tất trước. Không chép `.env` hoặc toàn bộ data vào ZIP source.
 
 Các đường dẫn dưới `APP_DATA_DIR`:
 
