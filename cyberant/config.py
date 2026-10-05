@@ -3,6 +3,8 @@ import os
 from pathlib import Path
 from urllib.parse import urlsplit
 ROOT=Path(__file__).resolve().parents[1]
+# Set only by the foreground share lifecycle, never loaded from .env.
+_public_share_origin=None
 
 def env():
     values={}
@@ -44,6 +46,10 @@ def security():
                 if not any(ip in ipaddress.ip_network(n) for n in networks):raise ValueError('LAN origin must be a private or loopback address')
     if production and any(not x.startswith('https://') for x in origins):raise ValueError('Production requires HTTPS APP_ORIGINS')
     hosts={urlsplit(x).hostname for x in origins}|{'localhost','127.0.0.1'}
+    if _public_share_origin is not None:
+        if mode!='production' or origins!=[_public_share_origin]:
+            raise ValueError('Public share requires its exact production HTTPS origin')
+        hosts={urlsplit(_public_share_origin).hostname}
     return dict(production=production,server=mode!='development',mode=mode,origins=origins,hosts=hosts,secure_cookie=production)
 
 def env_path():

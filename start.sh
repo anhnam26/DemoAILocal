@@ -18,6 +18,12 @@ if [[ "${1:-}" == '--help' ]]; then
         'Never installs dependencies or initializes/migrates data.'
     exit 0
 fi
+# Keep an already active interpreter unless an environment is explicitly requested.
+if [[ -n "${CONDA_PREFIX:-}" && -z "${CONDA_ENV_NAME:-}" ]]; then
+    [[ -x "$CONDA_PREFIX/bin/python" ]] || fail 'Active Conda environment has no Python executable.'
+    export PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+    exec "$CONDA_PREFIX/bin/python" "$ROOT/main.py" "$@"
+fi
 CONDA_BIN="${CONDA_EXE:-}"
 if [[ -z "$CONDA_BIN" ]]; then CONDA_BIN="$(type -P conda || true)"; fi
 if [[ -z "$CONDA_BIN" ]]; then

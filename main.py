@@ -23,8 +23,11 @@ def main(argv=None):
     os.chdir(ROOT)
     from cyberant import config
 
-    values = config.env()
     parser = argparse.ArgumentParser(description='CyberAnt web UI and OpenRouter API server')
+    try:
+        values = config.env()
+    except (OSError, ValueError) as exc:
+        parser.exit(1, f'Invalid application configuration: {exc}\n')
     parser.add_argument('--host', default=values.get('APP_HOST', '127.0.0.1'))
     parser.add_argument('--port', type=port_number, default=values.get('APP_PORT', '8088'))
     parser.add_argument('--share', action='store_true', help='Linux: temporary Cloudflare HTTPS URL using existing data/config')

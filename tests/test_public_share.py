@@ -4,6 +4,7 @@ import contextlib
 import io
 import os
 import signal
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -72,6 +73,27 @@ class PublicShareTests(unittest.TestCase):
             with self.assertRaises(SystemExit):main.main(['--share'])
         serve.assert_not_called();lock.assert_not_called()
 
+    def test_duplicate_data_lock_closes_listener_without_tunnel(self):
+        listener=MagicMock()
+        with patch('cyberant.config.env',return_value={'APP_PORT':'9234','MODEL':'test/offline'}),patch('cyberant.public_share.preflight',return_value='installed'),patch('main.socket.create_server',return_value=listener),patch('cyberant.runtime_lock.acquire',side_effect=RuntimeError('already running')),patch('cyberant.public_share.serve') as serve,contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):main.main(['--share'])
+        listener.close.assert_called_once();serve.assert_not_called()
+
+    def test_bash_preserves_active_environment_and_forwards_options(self):
+        bash=Path('C:/Program Files/Git/bin/bash.exe') if os.name=='nt' else Path(shutil.which('bash') or '/missing')
+        if not bash.is_file():self.skipTest('Bash unavailable')
+        with tempfile.TemporaryDirectory(prefix='cyberant-bash-') as temp:
+            root=Path(temp);binary=root/'bin/python';binary.parent.mkdir()
+            binary.write_text('#!/bin/sh\nprintf "cwd=%s\\nconfig=%s\\n" "$PWD" "$APP_ENV_FILE"\nprintf "arg=%s\\n" "$@"\n',encoding='utf8')
+            binary.chmod(0o700)
+            environment=os.environ.copy();environment.pop('CONDA_ENV_NAME',None)
+            environment.update(CONDA_PREFIX=root.as_posix(),APP_ENV_FILE='server-private.env')
+            result=subprocess.run([str(bash),str(config.ROOT/'start.sh'),'--share','--share-protocol','http2','--port','9345'],cwd=root,env=environment,capture_output=True,text=True,timeout=15)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertIn('config=server-private.env',result.stdout)
+            self.assertIn('arg=--share\narg=--share-protocol\narg=http2\narg=--port\narg=9345',result.stdout)
+            self.assertIn('TestSystem',result.stdout) if os.name=='nt' else self.assertIn(config.ROOT.name,result.stdout)
+
     def test_tunnel_command_filters_secrets_drains_logs_and_cleans_up(self):
         process=MagicMock();process.poll.return_value=None
         process.stdout=io.StringIO('secret raw credentials\nhttps://safe-test.trycloudflare.com |\nRegistered tunnel connection\n')
@@ -138,7 +160,7 @@ class PublicShareTests(unittest.TestCase):
         self.assertNotIn('Public URL:',output.getvalue());tunnel.close.assert_called_once()
 
     def test_serve_preserves_file_and_other_settings_restores_env_on_exit(self):
-        for failure in (None,'start','app','dead','cancel'):
+        for failure in (None,'start','app','dead','cancel','url'):
             with self.subTest(failure=failure),tempfile.TemporaryDirectory() as temp:
                 envfile=Path(temp)/'server.env'
                 original=b'APP_ENV=development\nAPP_HOST=0.0.0.0\nAPP_PORT=9234\nAPI_KEY=offline-secret\nMODEL=test/offline\nAPP_DATA_DIR=data\n'
@@ -147,6 +169,7 @@ class PublicShareTests(unittest.TestCase):
                 tunnel.start.return_value='https://safe-test.trycloudflare.com'
                 tunnel.cancelled=threading.Event();tunnel.process.poll.return_value=1 if failure=='dead' else None
                 if failure=='start':tunnel.start.side_effect=RuntimeError('start failed')
+                if failure=='url':tunnel.start.return_value='https://safe-test.trycloudflare.com.attacker.example'
                 if failure=='cancel':tunnel.cancelled.set()
                 server=MagicMock(started=False,should_exit=False)
                 def run(**kwargs):
@@ -154,6 +177,7 @@ class PublicShareTests(unittest.TestCase):
                     self.assertEqual(values['API_KEY'],'offline-secret');self.assertEqual(values['MODEL'],'test/offline')
                     self.assertEqual(values['APP_PORT'],'9234');self.assertEqual(values['APP_DATA_DIR'],'data')
                     self.assertEqual(security['origins'],[tunnel.start.return_value]);self.assertTrue(security['secure_cookie'])
+                    self.assertEqual(security['hosts'],{'safe-test.trycloudflare.com'})
                     if failure=='app':raise RuntimeError('app failed')
                     if failure!='dead':server.started=True
                     deadline=time.monotonic()+2
@@ -162,9 +186,10 @@ class PublicShareTests(unittest.TestCase):
                 with patch.dict(os.environ,{'APP_ENV_FILE':str(envfile)},clear=True),patch('cyberant.public_share.QuickTunnel',return_value=tunnel),contextlib.redirect_stdout(io.StringIO()) as output:
                     before=dict(os.environ)
                     if failure:
-                        with self.assertRaises(KeyboardInterrupt if failure=='cancel' else RuntimeError):public_share.serve(server,object(),'installed',9234,'auto')
+                        with self.assertRaises(KeyboardInterrupt if failure=='cancel' else ValueError if failure=='url' else RuntimeError):public_share.serve(server,object(),'installed',9234,'auto')
                     else:public_share.serve(server,object(),'installed',9234,'auto')
                     self.assertEqual(dict(os.environ),before)
+                    self.assertIsNone(config._public_share_origin)
                 self.assertEqual(envfile.read_bytes(),original);tunnel.__exit__.assert_called_once()
                 self.assertEqual('Public URL:' in output.getvalue(),failure is None)
 
@@ -179,11 +204,12 @@ class PublicShareTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             origin='https://safe-test.trycloudflare.com'
             values=dict(APP_ENV='production',APP_ORIGINS=origin,APP_DATA_DIR=str(Path(temp)/'data'),MODEL='test/offline',API_KEY='offline',BOOTSTRAP_ADMIN_PASSWORD='Offline-share-password')
-            with patch('cyberant.config.env',return_value=values):
+            with patch('cyberant.config.env',return_value=values),patch('cyberant.config._public_share_origin',origin):
                 operations.initialize(Path(values['APP_DATA_DIR']))
                 with TestClient(create_app(),base_url=origin) as client:
                     assert client.get('/api/conversations').status_code==401
                     assert client.get('/',headers={'host':'other.trycloudflare.com'}).status_code==400
+                    assert client.get('/',headers={'host':'localhost'}).status_code==400
                     assert client.post('/api/login',headers={'origin':'https://other.trycloudflare.com'},json={'username':'admin','password':'Offline-share-password'}).status_code==403
                     response=client.post('/api/login',headers={'origin':origin},json={'username':'admin','password':'Offline-share-password'})
                     assert response.status_code==200

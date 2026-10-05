@@ -160,6 +160,7 @@ def serve(server, listener, executable, port, protocol):
     from cyberant import config
     overrides = {'APP_ENV': 'production', 'APP_HOST': '127.0.0.1', 'APP_PORT': str(port)}
     previous = {key: os.environ.get(key) for key in (*overrides, 'APP_ORIGINS')}
+    previous_origin = config._public_share_origin
     finished = threading.Event()
     failed = threading.Event()
     monitor = None
@@ -168,7 +169,10 @@ def serve(server, listener, executable, port, protocol):
     try:
         with QuickTunnel(executable, port, protocol) as tunnel:
             url = tunnel.start()
+            if URL_PATTERN.fullmatch(url) is None:
+                raise ValueError('Tunnel did not return a valid HTTPS Quick Tunnel origin.')
             os.environ.update(overrides, APP_ORIGINS=url)
+            config._public_share_origin = url
             config.security()
             if tunnel.cancelled.is_set():
                 raise KeyboardInterrupt
@@ -208,6 +212,7 @@ def serve(server, listener, executable, port, protocol):
                 raise RuntimeError('Sharing session failed; see the startup/shutdown message above.')
     finally:
         finished.set()
+        config._public_share_origin = previous_origin
         for key, value in previous.items():
             if value is None:
                 os.environ.pop(key, None)
