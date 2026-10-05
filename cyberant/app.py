@@ -16,7 +16,7 @@ APP_VERSION='2026.10.05-knowledge-guides-3'
 PROMPT_VERSION='accepted-configuration-3'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
-from cyberant import admin_system,rag,model_provider,storage,web_search
+from cyberant import admin_system,rag,model_provider,storage,web_search,provider_errors
 
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -169,6 +169,11 @@ def create_app():
             fresh=user(req)
             reservation,limit=token_usage.reserve(connect,fresh['id'],cfg['model'],input_size,limit,min_output_tokens=limit)
             usage_records.append(reservation)
+            call_start=time.monotonic()
+            def provider_failure(error):
+                failure,detail=provider_errors.failure(error,cfg['model'],'web_lookup' if settings.get('web_lookup') else 'completion',reservation,time.monotonic()-call_start)
+                audit('model_error',u['role'],detail)
+                return failure
             try:
                 token_usage.mark_sent(connect,reservation);calls+=1
                 async with asyncio.timeout(remaining):
@@ -177,17 +182,15 @@ def create_app():
                 return text,measured,reason
             except model_provider.InvalidCompletion as e:
                 token_usage.settle(connect,reservation,e.usage);usages.append(e.usage)
-                raise HTTPException(503,'Model không trả nội dung; usage đã được ghi nhận nếu có.')
-            except TimeoutError:
-                raise HTTPException(504,'Đã hết thời gian xử lý tổng. Lượt đã gửi có thể tính phí; kiểm tra usage trước khi gửi lại.')
+                raise provider_failure(e) from None
+            except TimeoutError as e:
+                raise provider_failure(e) from None
             except httpx.HTTPStatusError as e:
                 status=e.response.status_code
                 token_usage.settle(connect,reservation,rejected=status in (400,401,402,403,404,422,429))
-                audit('model_error',u['role'],str(status))
-                raise HTTPException(503,{401:'API key không hợp lệ.',402:'OpenRouter không đủ số dư.',429:'Nhà cung cấp đang giới hạn lượt gọi.'}.get(status,'Model hoặc web từ chối yêu cầu. Không tự gọi lại.'))
-            except (httpx.HTTPError,ValueError,KeyError,TypeError,IndexError):
-                audit('model_error',u['role'],'provider_failure')
-                raise HTTPException(503,'Không nhận được phản hồi hợp lệ từ OpenRouter. Hệ thống không tự gọi lại.')
+                raise provider_failure(e) from None
+            except (httpx.HTTPError,ValueError,KeyError,TypeError,IndexError) as e:
+                raise provider_failure(e) from None
             finally:token_usage.settle(connect,reservation)
         # No record lookup or invented customer identity; this costs zero API calls.
         if re.search(r'\b(crm-|contract-|quote-|ticket-|cong no|ho so khach|ten khach hang|khach hang thuc|dien thoai khach)',rag.norm(effective)):

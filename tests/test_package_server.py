@@ -31,6 +31,7 @@ class PackageTests(unittest.TestCase):
             self.assertNotIn('.env',names);self.assertNotIn('static/junk.js',names)
             self.assertNotIn('cyberant/demo.py',names);self.assertNotIn('knowledge/evaluation_services.json',names)
             self.assertNotIn('cyberant/public_share.py',names);self.assertNotIn('docs/PUBLIC_SHARE.md',names)
+            self.assertIn('cyberant/provider_errors.py',names)
             self.assertFalse(any(n.startswith(('data/','tests/','tools/')) for n in names))
             extracted=self.base/'extracted';z.extractall(extracted)
         env=os.environ.copy()

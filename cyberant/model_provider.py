@@ -92,8 +92,8 @@ def headers(s):
     return {'Authorization':'Bearer '+s['api_key'],'X-Title':'CyberAnt Knowledge'}
 
 class InvalidCompletion(ValueError):
-    def __init__(self,usage):
-        super().__init__('Model không trả nội dung hợp lệ');self.usage=usage
+    def __init__(self,usage,reason='empty_content'):
+        super().__init__('Model không trả nội dung hợp lệ');self.usage=usage;self.reason=reason
 
 async def complete(messages,s,max_tokens):
     payload=dict(model=s['model'],messages=messages,temperature=0.1,max_tokens=max_tokens,reasoning={'enabled':False})
@@ -103,7 +103,7 @@ async def complete(messages,s,max_tokens):
     async with httpx.AsyncClient(timeout=httpx.Timeout(180,connect=15),trust_env=False) as client:
         response=await client.post(s['url']+'/chat/completions',headers=headers(s),json=payload)
         response.raise_for_status();data=response.json()
-    if not isinstance(data,dict):raise InvalidCompletion({})
+    if not isinstance(data,dict):raise InvalidCompletion({},'invalid_response')
     usage=data.get('usage') or {}
     if not isinstance(usage,dict):usage={}
     usage={k:usage[k] for k in ('prompt_tokens','completion_tokens','total_tokens','cost','prompt_tokens_details','completion_tokens_details') if k in usage}
@@ -111,6 +111,7 @@ async def complete(messages,s,max_tokens):
     try:
         choice=data['choices'][0];answer=choice['message']['content']
         usage['web_annotations']=choice['message'].get('annotations',[])
-        if not isinstance(answer,str) or not answer.strip():raise ValueError()
-    except (KeyError,IndexError,TypeError,ValueError):raise InvalidCompletion(usage)
+    except (KeyError,IndexError,TypeError,AttributeError):raise InvalidCompletion(usage,'invalid_response')
+    if not isinstance(answer,str):raise InvalidCompletion(usage,'invalid_response')
+    if not answer.strip():raise InvalidCompletion(usage)
     return answer,usage,choice.get('finish_reason')
