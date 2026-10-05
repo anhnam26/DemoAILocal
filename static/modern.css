@@ -1,4 +1,5 @@
 /* Shared ocean palette; loaded last to preserve existing management layouts. */
+@import url('/static/conversation-web.css');
 :root{color-scheme:light;--paper:#f8fafc;--surface:#fff;--surface-soft:#eef3f7;--sidebar-bg:#eaf1f6;--ink:#17374c;--muted:#526a7c;--border:#d5e1e9;--navy:#123e59;--orange:#be5000;--accent:#c65300;--accent-soft:#fff0e3;--hover:#e1ebf2;--danger:#b02b32;--shadow:0 20px 65px #123c5914;--login-bg:linear-gradient(145deg,#e2f0f6,#f4f8fb 55%,#d5e9f1)}
 :root[data-theme=dark]{color-scheme:dark;--paper:#0c1925;--surface:#122333;--surface-soft:#192e40;--sidebar-bg:#101f2d;--ink:#e1ebf3;--muted:#a0b4c6;--border:#2b4256;--navy:#b4d8f0;--orange:#ffad6b;--accent:#ffad6b;--accent-soft:#3d2c22;--hover:#213b50;--danger:#ff969b;--shadow:0 20px 65px #0003;--login-bg:linear-gradient(145deg,#07131f,#102d43 60%,#12374a)}
 body{background:var(--paper);color:var(--ink)}

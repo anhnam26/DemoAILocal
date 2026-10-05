@@ -28,6 +28,9 @@ class MemoryTests(unittest.TestCase):
         def connect():yield db
         items=conversations.context(connect,dict(id='u'),'a',[dict(id='D',body='valid')])
         self.assertEqual([i['chat_id'] for i in items],[1,5])
+        db.execute('INSERT INTO chats VALUES(?,?,?,?,?)',(6,'a','u','summary',json.dumps(dict(answer='old derived answer',sources=[],context_sources=[dict(id='D',source_digest='old')]))))
+        items=conversations.context(connect,dict(id='u'),'a',[dict(id='D',body='valid')])
+        self.assertEqual([i['chat_id'] for i in items],[1,5])
         with self.assertRaises(HTTPException):conversations.context(connect,dict(id='u'),'c',[])
 
 if __name__=='__main__':unittest.main()

@@ -75,6 +75,8 @@ class InvalidCompletion(ValueError):
 
 async def complete(messages,s,max_tokens):
     payload=dict(model=s['model'],messages=messages,temperature=0.1,max_tokens=max_tokens,reasoning={'enabled':False})
+    if s.get('web_lookup'):
+        payload['plugins']=[dict(id='web',engine='exa',max_results=s.get('web_max_results',3))]
     # Never retry a billable request automatically.
     async with httpx.AsyncClient(timeout=httpx.Timeout(180,connect=15),trust_env=False) as client:
         response=await client.post(s['url']+'/chat/completions',headers=headers(s),json=payload)
@@ -84,6 +86,7 @@ async def complete(messages,s,max_tokens):
     usage['generation_id']=data.get('id')
     try:
         choice=data['choices'][0];answer=choice['message']['content']
+        usage['web_annotations']=choice['message'].get('annotations',[])
         if not isinstance(answer,str) or not answer.strip():raise ValueError()
     except (KeyError,IndexError,TypeError,ValueError):raise InvalidCompletion(usage)
     return answer,usage,choice.get('finish_reason')

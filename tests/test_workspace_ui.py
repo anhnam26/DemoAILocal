@@ -163,6 +163,81 @@ class WorkspaceUI(unittest.TestCase):
         self.assertEqual(member.post('/api/logout').status_code, 200)
         self.assertEqual(member.get('/api/me').status_code, 401)
 
+    def test_01b_memory_general_web_and_errors(self):
+        member=self.client();seen=[]
+        async def fake(messages,settings,max_tokens):
+            seen.append((messages,settings))
+            usage=dict(prompt_tokens=80,completion_tokens=40,total_tokens=120,cost=.001)
+            if settings.get('web_lookup'):
+                usage['web_annotations']=[dict(type='url_citation',url_citation=dict(url='https://docs.example.com/dns',title='DNS docs',content='DNS maps domain names to IP addresses.'))]
+                return 'lookup prose is not evidence',usage,'stop'
+            text=messages[-1]['content']
+            if '[WEB-1]' in text:return 'DNS sử dụng tên miền [WEB-1].',usage,'stop'
+            match=re.search(r'\[([A-Z0-9-]+)\]',text)
+            return ('Giải thích nội bộ ['+match[1]+'].' if match else 'Giải thích nguyên lý chung.'),usage,'stop'
+        with patch('cyberant.model_provider.complete',side_effect=fake):
+            cv=member.post('/api/conversations').json()['id']
+            first=member.post('/api/chat',json=dict(question='RMA là gì?',conversation_id=cv))
+            self.assertEqual(first.status_code,200,first.text)
+            # Reopen with a fresh session; memory must survive, no client-side answer needed.
+            reopened=self.client()
+            self.assertEqual(len(reopened.get('/api/conversations/'+cv).json()['messages']),1)
+            second=reopened.post('/api/chat',json=dict(question='Giải thích phần 2',conversation_id=cv))
+            self.assertEqual(second.status_code,200,second.text)
+            self.assertTrue(any(m['role']=='assistant' and 'Giải thích nội bộ' in m['content'] for m in seen[-1][0]))
+            self.assertIn(first.json()['chat_id'],second.json()['diagnostics']['packing']['history_sent'])
+            # A lexical match does not imply enough evidence; model can request one lookup.
+            async def missing(messages,settings,max_tokens):
+                if not settings.get('web_lookup') and '[WEB-1]' not in messages[-1]['content']:
+                    return 'Chưa có dữ kiện cần thiết. [NEED_WEB]',dict(prompt_tokens=80,completion_tokens=40,total_tokens=120),'stop'
+                return await fake(messages,settings,max_tokens)
+            with patch('cyberant.model_provider.complete',side_effect=missing):
+                fallback=member.post('/api/chat',json=dict(question='Cấu hình DNS chi tiết',conversation_id=cv))
+                self.assertEqual(fallback.status_code,200,fallback.text)
+                self.assertEqual(fallback.json()['api_calls'],3)
+                self.assertNotIn('NEED_WEB',fallback.json()['answer'])
+                self.assertEqual(len(fallback.json()['web_sources']),1)
+            new=member.post('/api/conversations').json()['id']
+            with patch('cyberant.rag.retrieve',return_value=([],dict(groups=[],routing='local',candidates=0))):
+                general=member.post('/api/chat',json=dict(question='Quang hợp là gì?',conversation_id=new))
+                self.assertEqual(general.status_code,200,general.text)
+                self.assertEqual(general.json()['api_calls'],1)
+                self.assertEqual(general.json()['citation_status'],'general_knowledge_unverified')
+                self.assertFalse(any(m['role']=='assistant' for m in seen[-1][0]))
+                web=member.post('/api/chat',json=dict(question='DNS cập nhật mới nhất cho khách hàng SECRET',web_query='DNS official documentation',conversation_id=new))
+                self.assertEqual(web.status_code,200,web.text)
+                result=web.json();self.assertEqual(result['api_calls'],2)
+                self.assertEqual(result['usage']['total_tokens'],240)
+                self.assertEqual(len(result['diagnostics']['usage_record_ids']),2)
+                self.assertEqual(result['web_sources'][0]['url'],'https://docs.example.com/dns')
+                lookup=seen[-2][0]
+                self.assertEqual(lookup[-1]['content'],'DNS official documentation')
+                self.assertNotIn('SECRET',str(lookup));self.assertNotIn('Giải thích nguyên lý',str(lookup))
+                saved=member.get('/api/conversations/'+new).json()['messages'][-1]
+                self.assertEqual(saved['web_sources'],result['web_sources'])
+                before=len(seen)
+                async def fail(messages,settings,max_tokens):
+                    seen.append((messages,settings));raise httpx.ConnectError('offline')
+                with patch('cyberant.model_provider.complete',side_effect=fail):
+                    error=member.post('/api/chat',json=dict(question='DNS mới nhất',conversation_id=new))
+                    self.assertEqual(error.status_code,503,error.text)
+                    self.assertEqual(len(seen),before+1)
+                async def invalid(messages,settings,max_tokens):
+                    return 'Nguồn bịa [FAKE-1].',dict(prompt_tokens=80,completion_tokens=40,total_tokens=120),'stop'
+                with patch('cyberant.model_provider.complete',side_effect=invalid):
+                    bad=member.post('/api/chat',json=dict(question='Quang hợp là gì?',conversation_id=new))
+                    self.assertEqual(bad.status_code,200,bad.text)
+                    self.assertEqual(bad.json()['citation_status'],'invalid')
+                    self.assertNotIn('Nguồn bịa',bad.json()['answer'])
+                async def no_sources(messages,settings,max_tokens):
+                    return 'Unverified fresh fact',dict(prompt_tokens=80,completion_tokens=40,total_tokens=120),'stop'
+                with patch('cyberant.model_provider.complete',side_effect=no_sources):
+                    missing=member.post('/api/chat',json=dict(question='DNS mới nhất',conversation_id=new))
+                    self.assertEqual(missing.status_code,200,missing.text)
+                    self.assertEqual(missing.json()['web_status'],'no_valid_sources')
+                    self.assertNotIn('Unverified fresh fact',missing.json()['answer'])
+            member.delete('/api/conversations/'+cv);member.delete('/api/conversations/'+new)
+
     def test_05_password_permissions_and_admin_reset(self):
         member, admin = self.client(), self.client('admin')
         member_session = self.client()
@@ -391,6 +466,15 @@ class WorkspaceUI(unittest.TestCase):
             page.locator('#chat-model').select_option(MODELS[0])
             page.wait_for_function('()=>!modelSaving')
             expect(page.locator('#chat-audience')).to_be_visible()
+            page.locator('.web-search-controls summary').click()
+            expect(page.get_by_label('Truy vấn công khai để tra cứu Internet')).to_be_visible()
+            page.evaluate("""()=>appendAnswer({answer:'Web source [WEB-1]',sources:[],web_sources:[
+                {id:'WEB-1',title:'Official docs',url:'https://docs.example.com/dns',retrieved_at:'2026-10-05'},
+                {id:'WEB-X',title:'unsafe',url:'javascript:alert(1)'}],mode:'Internet',elapsed:0,chat_id:0})""")
+            expect(page.locator('.web-source')).to_have_count(1)
+            expect(page.locator('.web-source')).to_have_attribute('href','https://docs.example.com/dns')
+            expect(page.locator('.web-source')).to_have_attribute('rel','noopener noreferrer')
+            page.evaluate("()=>document.querySelector('.message.assistant').remove()")
             page.locator('#chat-audience').select_option('sales')
             page.locator('#question').fill('RMA là gì?')
             with page.expect_request(lambda request: request.url.endswith('/api/chat') and request.method=='POST') as request:

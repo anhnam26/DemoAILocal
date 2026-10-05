@@ -46,7 +46,7 @@ def init(connect):
         c.execute("INSERT INTO quality_migrations VALUES('legacy_feedback')")
 
 def safe_snapshot(data,allowed):
-    sources=data.get('sources') or []
+    sources=(data.get('sources') or [])+data.get('context_sources',[])
     if any(s['id'] not in allowed or s.get('source_digest',allowed.get(s['id']))!=allowed.get(s['id']) for s in sources):
         data={**data,'answer':'Nguồn đã thay đổi, thu hồi hoặc hết hiệu lực.','sources':[],'source_redacted':True}
     return data

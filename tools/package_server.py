@@ -7,7 +7,7 @@ ROOT=Path(__file__).resolve().parents[1]
 FILES=('main.py','start.sh','requirements.txt','requirements-lock.txt','.env.example',
        'README.md','SECURITY.md','deploy/cyberant.service.example','deploy/nginx.conf.example',
        'docs/DEPLOYMENT.md','docs/DATA_LAYOUT.md','docs/PUBLIC_SHARE.md',
-       'docs/SERVICE_RAG.md','tools/audit_service_sources.py')
+       'docs/SERVICE_RAG.md','docs/CONVERSATION_WEB.md','tools/audit_service_sources.py')
 
 
 def main():

@@ -46,7 +46,7 @@ def messages(connect,u,id,docs_for,before=None):
     more=len(rows)>100;rows=rows[:100];allowed={d['id']:hashlib.sha256(d['body'].encode()).hexdigest() for d in docs_for(u,shared=True)};result=[]
     for r in reversed(rows):
         d=json.loads(r['result'])
-        if any(s['id'] not in allowed or s.get('source_digest',allowed.get(s['id']))!=allowed.get(s['id']) for s in d['sources']):d.update(answer='Nguồn đã thay đổi, thu hồi hoặc hết hiệu lực. Hãy hỏi lại từ nguồn hiện tại.',sources=[],needs_review=True,citations_verified=False)
+        if any(s['id'] not in allowed or s.get('source_digest',allowed.get(s['id']))!=allowed.get(s['id']) for s in d['sources']+d.get('context_sources',[])):d.update(answer='Nguồn đã thay đổi, thu hồi hoặc hết hiệu lực. Hãy hỏi lại từ nguồn hiện tại.',sources=[],web_sources=[],needs_review=True,citations_verified=False)
         result.append(dict(**d,question=r['question'],chat_id=r['id'],ts=r['ts'],conversation_id=id))
     return dict(messages=result,has_more=more,next_before=rows[-1]['id'] if rows else None)
 
@@ -61,11 +61,12 @@ def context(connect,u,id,documents,limit=80):
     result=[]
     for row in reversed(rows):
         prior=json.loads(row['result'])
-        if any(s['id'] not in allowed or s.get('source_digest')!=allowed[s['id']] for s in prior.get('sources',[])):
+        dependencies=prior.get('sources',[])+prior.get('context_sources',[])
+        if any(s['id'] not in allowed or s.get('source_digest')!=allowed[s['id']] for s in dependencies):
             continue
         if prior.get('citation_status')=='invalid':continue
         result.append(dict(chat_id=row['id'],question=row['question'],answer=prior['answer'],
-                           effective_query=prior.get('effective_query',row['question']),sources=prior.get('sources',[])))
+                           effective_query=prior.get('effective_query',row['question']),sources=dependencies))
     return result
 
 def install(app,connect,user,docs_for,now,active_conversations,audit):

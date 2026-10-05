@@ -1,0 +1,5 @@
+.web-search-controls { margin-top: 8px; padding: 8px 12px; color: var(--muted); font-size: 12px; }
+.web-search-controls summary { cursor: pointer; }
+.web-search-controls small { display: block; margin: 8px 0; }
+.web-search-controls input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--paper); color: var(--ink); }
+.web-source { color: var(--accent); overflow-wrap: anywhere; margin-right: 8px; }

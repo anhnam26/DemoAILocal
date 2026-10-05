@@ -113,6 +113,7 @@ Không upload toàn bộ folder làm web root.
 - `docs/DEPLOYMENT.md`: cài đặt, service, cập nhật, backup/rollback.
 - `docs/PUBLIC_SHARE.md`: Quick Tunnel, quyền riêng tư, giới hạn.
 - `docs/DATA_LAYOUT.md`: cấu trúc dữ liệu, giao dịch và migration.
+- `docs/CONVERSATION_WEB.md`: bộ nhớ trong chat, kiến thức chung, nguồn Internet và phí.
 - `SECURITY.md`: phạm vi bảo vệ.
 
 Windows dùng Python 3.13 có sẵn trên máy, không tạo venv hoặc tự cài thư viện:

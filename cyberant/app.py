@@ -12,11 +12,11 @@ from contextlib import asynccontextmanager
 from typing import Literal
 from cyberant import accounts,config,token_usage,runtime_lock
 from cyberant import conversations,quality_feedback
-APP_VERSION='2026.10.02-service-evidence-1'
-PROMPT_VERSION='service-evidence-1'
+APP_VERSION='2026.10.05-conversation-web-1'
+PROMPT_VERSION='conversation-web-1'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
-from cyberant import admin_system,rag,model_provider,storage
+from cyberant import admin_system,rag,model_provider,storage,web_search
 
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -92,6 +92,7 @@ def create_app():
         conversation_id:str|None=Field(default=None,max_length=64)
         model:str|None=Field(default=None,min_length=1,max_length=200)
         audience:Literal['auto','sales','engineering']='auto'
+        web_query:str|None=Field(default=None,min_length=2,max_length=300)
     class ModelInput(BaseModel):
         model:str=Field(min_length=1,max_length=200)
     Feedback=quality_feedback.Feedback
@@ -159,80 +160,126 @@ def create_app():
         except ValueError as e:raise HTTPException(400,str(e))
         usage={};estimated=0;calls=0;found=[];used=[];review=True
         finish=None;output=0;budget=0;reservation=None;retrieved_count=0;citation_status='not_checked'
-        retrieved_sources=[];citation_errors=[];packing={}
+        retrieved_sources=[];citation_errors=[];packing={};web=[];web_state='not_needed';usages=[];usage_records=[]
+        async def invoke(messages,settings,limit,input_size):
+            nonlocal calls,reservation
+            fresh=user(req)
+            reservation,limit=token_usage.reserve(connect,fresh['id'],cfg['model'],input_size,limit,min_output_tokens=limit)
+            usage_records.append(reservation)
+            try:
+                token_usage.mark_sent(connect,reservation);calls+=1
+                text,measured,reason=await model_provider.complete(messages,settings,limit)
+                token_usage.settle(connect,reservation,measured);usages.append(measured)
+                return text,measured,reason
+            except model_provider.InvalidCompletion as e:
+                token_usage.settle(connect,reservation,e.usage);usages.append(e.usage)
+                raise HTTPException(503,'Model không trả nội dung; usage đã được ghi nhận nếu có.')
+            except httpx.HTTPStatusError as e:
+                status=e.response.status_code
+                token_usage.settle(connect,reservation,rejected=status in (400,401,402,403,404,422,429))
+                audit('model_error',u['role'],str(status))
+                raise HTTPException(503,{401:'API key không hợp lệ.',402:'OpenRouter không đủ số dư.',429:'Nhà cung cấp đang giới hạn lượt gọi.'}.get(status,'Model hoặc web từ chối yêu cầu. Không tự gọi lại.'))
+            except (httpx.HTTPError,ValueError,KeyError,TypeError,IndexError):
+                audit('model_error',u['role'],'provider_failure')
+                raise HTTPException(503,'Không nhận được phản hồi hợp lệ từ OpenRouter. Hệ thống không tự gọi lại.')
+            finally:token_usage.settle(connect,reservation)
         # No record lookup or invented customer identity; this costs zero API calls.
         if re.search(r'\b(crm-|contract-|quote-|ticket-|cong no|ho so khach|ten khach hang|khach hang thuc|dien thoai khach)',rag.norm(effective)):
             answer='Kho này chỉ giữ tài liệu lý thuyết và biểu mẫu trống; không lưu hồ sơ, liên hệ, hợp đồng hay công nợ khách hàng.'
             routing={'groups':[],'routing':'local','candidates':0};mode='Không có dữ liệu khách hàng'
         else:
             found,routing=await asyncio.to_thread(rag.retrieve,effective,allowed,cfg['top_k'])
-            mode='OpenRouter + RAG'
-            if not found:
-                answer='Kho tri thức chưa có đủ căn cứ. Hãy nêu rõ dịch vụ, thiết bị hoặc nội dung cần tìm.';mode='Thiếu căn cứ';citation_status='no_evidence'
-            else:
-                retrieved_count=len(found)
-                retrieved_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found]
-                budget,output=rag.budgets(effective,cfg['input_budget'],cfg['output_budget']);parallel=cfg['parallel']
-                try:messages,found,estimated=rag.pack(effective,found,budget,data.audience,packing,history=history)
-                except ValueError as e:raise HTTPException(400,str(e))
-                if not found:
-                    answer='Ngân sách đầu vào chưa đủ để chứa đoạn nguồn. Hãy rút gọn câu hỏi hoặc tăng RAG_INPUT_TOKENS.';mode='Thiếu ngân sách'
+            if history and rag.is_followup(q):
+                prior_ids={s['id'] for h in history[-6:] for s in h['sources']}
+                present={d['id'] for d in found}
+                prior_chunks=[chunk for d in allowed if d['id'] in prior_ids-present for chunk in rag.chunks(d)]
+                found=(prior_chunks+found)[:cfg['top_k']]
+            retrieved_count=len(found)
+            retrieved_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found]
+            budget,output=rag.budgets(effective,cfg['input_budget'],cfg['output_budget'])
+            try:
+                web_cfg=web_search.settings();model_provider.headers(cfg)
+                messages,packed,estimated=rag.pack(effective,found,budget,data.audience,packing,history=history)
+            except ValueError as e:raise HTTPException(400,str(e))
+            query=web_search.public_query(q,data.web_query)
+            lookup=web_search.should_search(q,found,data.web_query)
+            if lookup and not web_cfg['enabled']:web_state='disabled'
+            elif lookup and not query:web_state='public_query_required'
+            await LOCK.enter(cfg['parallel'])
+            try:
+                if lookup and query and web_cfg['enabled']:
+                    lookup_messages=web_search.messages(query)
+                    lookup_size=sum(rag.estimate_tokens(m['content'])+16 for m in lookup_messages)+64
+                    _,web_usage,_=await invoke(lookup_messages,{**cfg,'web_lookup':True,'web_max_results':web_cfg['max_results']},web_cfg['output_tokens'],lookup_size)
+                    web=web_search.evidence(web_usage,web_cfg['max_results'])
+                    web_state='sources_returned' if web else 'no_valid_sources'
+                messages,found,estimated=rag.pack(effective,found,budget,data.audience,packing,history=history,web=web)
+                web=[d for d in web if d['id'] in packing['web_sent']]
+                if web_state=='sources_returned' and not web:web_state='budget_omitted'
+                answer,_,finish=await invoke(messages,cfg,output,estimated)
+                need_web='[NEED_WEB]' in answer or answer.strip()=='Kho tri thức chưa có đủ căn cứ để trả lời câu hỏi này.'
+                if need_web and web_state=='not_needed':
+                    if not web_cfg['enabled']:web_state='disabled'
+                    elif not query:web_state='public_query_required'
+                    else:
+                        lookup_messages=web_search.messages(query)
+                        lookup_size=sum(rag.estimate_tokens(m['content'])+16 for m in lookup_messages)+64
+                        _,web_usage,_=await invoke(lookup_messages,{**cfg,'web_lookup':True,'web_max_results':web_cfg['max_results']},web_cfg['output_tokens'],lookup_size)
+                        web=web_search.evidence(web_usage,web_cfg['max_results'])
+                        web_state='sources_returned' if web else 'no_valid_sources'
+                        if web:
+                            messages,found,estimated=rag.pack(effective,found,budget,data.audience,packing,history=history,web=web)
+                            web=[d for d in web if d['id'] in packing['web_sent']]
+                            if not web:web_state='budget_omitted'
+                            answer,_,finish=await invoke(messages,cfg,output,estimated)
+                answer=answer.replace('[NEED_WEB]','').strip()
+                usage=web_search.aggregate(usages)
+                answer=re.sub(r'<think\b[^>]*>.*?(?:</think>|$)','',answer,flags=re.S|re.I).strip()
+                ids={d['id'] for d in found+web};cited=set(re.findall(r'\[([A-Za-z0-9_-]+)\]',answer))
+                used=list(dict.fromkeys(d['id'] for d in found if d['id'] in cited))
+                web=[d for d in web if d['id'] in cited]
+                # Never allow a generated hyperlink to masquerade as a returned web source.
+                urls=set(re.findall(r'https?://[^\s<>\]\)]+',answer))
+                allowed_urls={d['url'] for d in web}
+                unknown_urls=urls-allowed_urls
+                mode='OpenRouter + RAG' if used else 'Kiến thức chung / ngữ cảnh'
+                if web:mode='OpenRouter + Internet'+(' + RAG' if used else '')
+                review=not used or bool(web) or finish=='length' or any(d.get('review_status')=='draft_engineer_review' for d in found)
+                review=review or any(t in rag.norm(q) for t in ('cau hinh','sla','gia','rollback','lenh'))
+                if cited-ids or unknown_urls:
+                    citation_errors=['unknown_source_ids'] if cited-ids else ['unknown_urls']
+                    answer='Chưa xác thực được nguồn trích dẫn. Hệ thống không hiển thị nội dung có nguồn không hợp lệ và không tự gọi lại. Hãy bổ sung tài liệu hoặc nêu truy vấn công khai rõ hơn.'
+                    used=[];web=[];review=True;mode='Chưa xác thực trích dẫn';citation_status='invalid'
+                elif cited:citation_status='ids_valid_not_entailment_checked'
                 else:
-                    # Validate config before reserving; all accounting uses the database owner/model.
-                    try:model_provider.headers(cfg)
-                    except ValueError as e:raise HTTPException(503,str(e))
-                    await LOCK.enter(parallel)
-                    reservation=None
-                    try:
-                        fresh=user(req)
-                        reservation,output=token_usage.reserve(connect,fresh['id'],cfg['model'],estimated,output,min_output_tokens=output)
-                        token_usage.mark_sent(connect,reservation)
-                        calls=1
-                        answer,usage,finish=await model_provider.complete(messages,cfg,output)
-                        token_usage.settle(connect,reservation,usage)
-
-                        answer=re.sub(r'<think\b[^>]*>.*?(?:</think>|$)','',answer,flags=re.S|re.I).strip()
-                        ids={d['id'] for d in found};cited=set(re.findall(r'\[([A-Za-z0-9_-]+)\]',answer))
-                        used=[d['id'] for d in found if d['id'] in cited];used=list(dict.fromkeys(used))
-                        review=finish=='length' or any(d.get('review_status')=='draft_engineer_review' for d in found)
-                        review=review or any(t in rag.norm(q) for t in ('cau hinh','sla','gia','rollback','lenh'))
-                        abstention='Kho tri thức chưa có đủ căn cứ để trả lời câu hỏi này.'
-                        if answer.strip()==abstention:
-                            used=[];review=True;mode='Thiếu căn cứ';citation_status='abstained'
-                        elif not cited or not cited.issubset(ids):
-                            citation_errors=['missing_citations'] if not cited else ['unknown_source_ids']
-                            answer='Chưa xác thực được mã trích dẫn của câu trả lời. Hệ thống không hiển thị nội dung chưa đạt kiểm tra và không tự gọi lại. Bạn có thể nêu rõ phạm vi hoặc bổ sung tài liệu liên quan.'
-                            used=[];review=True;mode='Chưa xác thực trích dẫn';citation_status='invalid'
-                        else:citation_status='ids_valid_not_entailment_checked'
-                        if finish=='length':
-                            answer+='\n\nLưu ý: phản hồi đã chạm giới hạn đầu ra; nội dung có thể chưa đầy đủ.'
-                    except model_provider.InvalidCompletion as e:
-                        token_usage.settle(connect,reservation,e.usage)
-                        raise HTTPException(503,'Model không trả nội dung; usage đã được ghi nhận nếu nhà cung cấp trả về.')
-                    except httpx.HTTPStatusError as e:
-                        status=e.response.status_code
-                        token_usage.settle(connect,reservation,rejected=status in (400,401,402,403,404,422,429))
-                        audit('model_error',u['role'],str(status))
-                        detail={401:'API key không hợp lệ.',402:'Tài khoản OpenRouter không đủ số dư.',429:'Nhà cung cấp đang giới hạn lượt gọi.'}.get(status,'Model từ chối yêu cầu; kiểm tra model và cấu hình ngân sách.')
-                        raise HTTPException(503,detail)
-                    except (httpx.HTTPError,ValueError,KeyError,TypeError,IndexError):
-                        audit('model_error',u['role'],'provider_failure')
-                        raise HTTPException(503,'Không nhận được phản hồi hợp lệ. Kiểm tra cấu hình model hoặc kết nối OpenRouter. Hệ thống không tự gọi lại.')
-                    finally:
-                        if reservation:token_usage.settle(connect,reservation)
-                        LOCK.leave()
+                    citation_status='general_knowledge_unverified';review=True
+                    if web_search.fresh(q):
+                        answer='Chưa có trích dẫn hợp lệ để xác minh thông tin cập nhật trong câu hỏi này. Hãy cung cấp nguồn chính thức hoặc truy vấn công khai cụ thể để tra cứu.'
+                        mode='Thiếu nguồn cập nhật';citation_status='abstained'
+                    else:answer+='\n\nLưu ý: phản hồi dựa trên kiến thức chung hoặc ngữ cảnh hội thoại, chưa được đối chiếu nguồn trích dẫn.'
+                if web_state in ('public_query_required','disabled','no_valid_sources','budget_omitted'):
+                    answer+='\n\nTra cứu Internet: '+{'public_query_required':'chưa có truy vấn công khai an toàn; bạn có thể nhập truy vấn riêng trong mục tra cứu web.',
+                        'disabled':'đang bị tắt trong cấu hình.','no_valid_sources':'không nhận được đoạn nguồn và URL hợp lệ; không coi phản hồi là đã được web xác minh.',
+                        'budget_omitted':'đã tìm được nguồn nhưng ngân sách đầu vào không đủ chứa đoạn nguồn; không coi phản hồi là đã được web xác minh.'}[web_state]
+                if finish=='length':answer+='\n\nLưu ý: phản hồi chạm giới hạn đầu ra; nội dung có thể chưa đầy đủ.'
+            finally:LOCK.leave()
         fresh=user(req);fresh_docs={d['id']:d for d in docs_for(fresh)}
+        sent_history=set(packing.get('history_sent',[]))
+        if any(s['id'] not in fresh_docs or s.get('source_digest')!=source(fresh_docs[s['id']])['source_digest']
+               for h in history if h['chat_id'] in sent_history for s in h['sources']):
+            raise HTTPException(409,'Nguồn trong ngữ cảnh đã thay đổi trong lúc xử lý; hãy hỏi lại.')
         if any(d['id'] not in fresh_docs or source(d)['source_digest']!=source(fresh_docs[d['id']])['source_digest'] for d in found if d['id'] in used):
             raise HTTPException(409,'Nguồn đã thay đổi trong lúc xử lý; hãy hỏi lại.')
         source_docs={d['id']:d for d in found if d['id'] in used}
-        out=dict(answer=answer,sources=[source(d) for d in source_docs.values()],needs_review=review,mode=mode,
-                 elapsed=round(time.monotonic()-start,2),citations_verified=bool(used),effective_query=effective,
+        dependencies={s['id']:dict(id=s['id'],source_digest=s['source_digest']) for h in history if h['chat_id'] in sent_history for s in h['sources']}
+        out=dict(answer=answer,sources=[source(d) for d in source_docs.values()],context_sources=list(dependencies.values()),web_sources=[{k:d[k] for k in ('id','title','url','retrieved_at')} for d in web],web_status=web_state,needs_review=review,mode=mode,
+                 elapsed=round(time.monotonic()-start,2),citations_verified=bool(used or web),effective_query=effective,
                  usage=usage,model=cfg['model'],api_calls=calls,finish_reason=finish,output_token_limit=output,
                  citation_status=citation_status,grounding_verified=False,
                  diagnostics=dict(app_version=APP_VERSION,prompt_version=PROMPT_VERSION,
                      prompt_hash=hashlib.sha256(rag.system_prompt(effective,data.audience).encode()).hexdigest(),effective_query=effective,
                      retrieved_sources=retrieved_sources,sent_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found],
-                     input_budget=budget,estimated_input=estimated,output_budget=output,usage_record_id=reservation,
+                      input_budget=budget,estimated_input=estimated,output_budget=output,usage_record_id=reservation,usage_record_ids=usage_records,
                       usage=usage,finish_reason=finish,citation_errors=citation_errors,packing=packing,
                       requested_audience=data.audience,
                      scope=rag.scope(effective),device_details_required=rag.intent(effective)=='procedure' and rag.scope(effective)=='generic'),
