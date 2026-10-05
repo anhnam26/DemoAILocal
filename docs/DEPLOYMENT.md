@@ -137,6 +137,84 @@ Rotation backup/log cần đặt theo nhu cầu đơn vị, không tự xóa b�
    phiên bản. Usage phát sinh sau backup cần đối soát OpenRouter; restore không
    hoàn lại chi phí provider. Không dùng code cũ ghi vào bộ DB mới.
 
+## 7. Chat lỗi OpenRouter (503/504)
+
+`GET /api/model` hoặc `/api/ready` trả 200 chỉ xác nhận trạng thái nội bộ, không
+kiểm kết nối/key/model OpenRouter. Dòng access log `POST /api/chat ... 503` không
+phải nguyên nhân gốc và không nhất thiết là HTTP 503 do OpenRouter trả về.
+
+Khi lỗi, chat hiển thị **Mã lỗi**; tìm cùng `error_id` trong dòng JSON có
+`event="provider_failure"` trên terminal chạy app hoặc journal của service:
+
+```bash
+sudo journalctl -u cyberant -n 100 --no-pager
+```
+
+Log chỉ chứa loại exception, model, stage (`completion`/`web_lookup`), thời gian,
+HTTP status nếu có và ID bản ghi usage; cùng metadata lưu trong audit. Không ghi
+API key, cookie, prompt, raw exception hoặc response body. Giữ log nội bộ vì vẫn
+có metadata vận hành. Không bật debug HTTP/raw headers để tìm lỗi.
+
+| `kind` | Cách kiểm tra |
+|---|---|
+| `connection_error` | Kết nối thất bại; kiểm DNS, chứng chỉ TLS/giờ server, outbound TCP 443, proxy bắt buộc |
+| `http_timeout` | Connect/read/write/pool timeout (HTTP ứng dụng 504); xem `exception_type`, thời gian và trạng thái mạng/provider |
+| `transport_error` | Gửi/nhận bị ngắt hoặc lỗi giao thức; kiểm đường mạng, proxy và provider |
+| `deadline_exceeded` | Hết thời gian tổng cho các stage (HTTP ứng dụng 504), không tự tăng timeout hoặc gửi lại |
+| `invalid_json` | Phản hồi không đọc được thành JSON; kiểm provider/gateway, không log raw body |
+| `invalid_response` | JSON/cấu trúc nội dung không hợp lệ; kiểm model/provider, usage vẫn được giữ nếu có |
+| `empty_content` | Model không trả nội dung, có thể vẫn tính token/phí; kiểm usage |
+| `http_status` | Xem `http_status`: 401 key, 402 số dư, 429 giới hạn; các status khác cần kiểm model/provider |
+
+Kiểm HTTPS cơ bản trên **chính server**, bằng Python environment đang chạy app:
+
+```bash
+python -B -c "import httpx; r=httpx.get('https://openrouter.ai/api/v1/models', timeout=httpx.Timeout(20, connect=15), trust_env=False); print('HTTP:', r.status_code); print('Content-Type:', r.headers.get('content-type'))"
+```
+
+Lệnh GET catalog công khai không gửi key/prompt và không yêu cầu generation. HTTP
+200 chỉ chứng minh kết nối catalog tại thời điểm kiểm, không xác minh key, số dư
+hoặc model completion. Nếu lỗi, gửi loại exception cuối sau khi che secret.
+Ứng dụng dùng `trust_env=False`: không tự đọc proxy/CA từ environment. Nếu mạng
+bắt buộc proxy/TLS inspection, cần cấu hình có chủ đích sau khi xác minh; không
+tắt kiểm chứng TLS (`verify=False`) hoặc tự bật proxy toàn bộ.
+
+Không tự retry/đổi model. Lượt gửi thất bại có thể vẫn tính phí: kiểm usage và đối
+soát OpenRouter trước khi gửi lại; không tự giải phóng usage `uncertain`. Usage
+đã đo được vẫn ghi nhận kể cả nội dung rỗng/sai cấu trúc. Các HTTP rejection giữ
+chính sách settlement hiện có.
+
+### Cập nhật bản chẩn đoán vào server đang có dữ liệu
+
+Thay `/opt/cyberant` bằng **đường dẫn tuyệt đối** của app thật. Đợi chat hoàn tất,
+sao lưu dữ liệu/cấu hình theo mục 5 rồi dừng app (Ctrl+C nếu chạy `bash start.sh`,
+hoặc `systemctl stop` nếu dùng service). Giữ bản code cũ để rollback.
+
+Chuyển các file đã kiểm thử qua SSH/SFTP và cập nhật **cùng lúc**:
+
+- `/opt/cyberant/cyberant/app.py`
+- `/opt/cyberant/cyberant/model_provider.py`
+- `/opt/cyberant/cyberant/provider_errors.py` (file mới, bắt buộc)
+
+Đây là bản vá code, không đổi schema/dependency. Không chép `.env`, `data/` hoặc
+corpus từ một snapshot khác; không init/migrate. Nếu dùng ZIP source-only mới,
+giải nén vào thư mục staging riêng và chỉ lấy ba file trên, không đè toàn bộ app.
+Checkout đóng gói sau này cần cả allowlist mới trong `tools/package_server.py`.
+Chạy `python -B -m cyberant.operations check` khi app đã dừng, khởi động lại đúng
+environment/config cũ, kiểm ready/login. Bản vá giúp chẩn đoán, **không chứng minh
+đã sửa được nguyên nhân mạng/provider trên server thật**. Thử chat thật có phí
+do người vận hành quyết định; nếu lỗi, gửi dòng JSON cùng mã lỗi trong chat.
+
+### IP công cộng trong access log
+
+Các request IP công cộng trả 400 là request **đi vào ứng dụng**, không phải lỗi
+OpenRouter. Có thể bị Host guard từ chối, nhưng access log không xác nhận lý do.
+400 không thay firewall. Với launcher hiện tại `proxy_headers=False`, kiểm đường
+NAT/port forwarding/DMZ/tunnel/reverse proxy và firewall subnet nếu thấy IP ngoài
+LAN. Nếu dùng launcher khác/proxy headers, xác minh nguồn IP log trước khi kết
+luận. Không thêm IP công cộng vào origins để bỏ lỗi; outbound OpenRouter vẫn cần
+Internet trong khi inbound ứng dụng chỉ được phép từ LAN dự kiến.
+
 ## Giới hạn xác minh
 
 Kiểm thử phát triển chạy Windows/Python 3.13 với provider giả. Linux Conda, quyền

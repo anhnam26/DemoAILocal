@@ -209,7 +209,7 @@ trong gói; checkout có Start-App.ps1/Stop-App.ps1 chạy nền local, không t
 | Host denied / Origin denied | URL/IP/port khớp APP_ORIGINS; không dùng wildcard |
 | Thiếu layout/store | Đủ sáu DB/layout, APP_DATA_DIR đúng; không init đè data |
 | Data in use | Dừng instance cũ, một worker/một bộ DB |
-| UI chạy, AI lỗi | Internet, key/số dư/rate limit/model/quota; kiểm usage trước gửi lại |
+| UI chạy, AI lỗi | Xem mã lỗi trong chat và dòng JSON `provider_failure` trên terminal/journal; hướng dẫn phân loại ở docs/DEPLOYMENT.md mục 7; kiểm usage trước gửi lại |
 
 ## Cài mới hoặc dữ liệu legacy — không áp dụng cho private ZIP đã có DB
 
