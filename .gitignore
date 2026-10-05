@@ -2,6 +2,8 @@
 .env.*
 !.env.example
 /data/
+/data-v1/
+plan_action/
 .venv*/
 venv/
 __pycache__/
