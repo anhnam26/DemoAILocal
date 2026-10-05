@@ -30,7 +30,7 @@ class PackageTests(unittest.TestCase):
             names=z.namelist();self.assertEqual(len(names),count)
             self.assertNotIn('.env',names);self.assertNotIn('static/junk.js',names)
             self.assertNotIn('cyberant/demo.py',names);self.assertNotIn('knowledge/evaluation_services.json',names)
-            self.assertNotIn('cyberant/public_share.py',names);self.assertNotIn('docs/PUBLIC_SHARE.md',names)
+            self.assertIn('cyberant/public_share.py',names);self.assertIn('docs/PUBLIC_SHARE.md',names)
             self.assertIn('cyberant/provider_errors.py',names)
             self.assertFalse(any(n.startswith(('data/','tests/','tools/')) for n in names))
             extracted=self.base/'extracted';z.extractall(extracted)
@@ -102,7 +102,7 @@ class PackageTests(unittest.TestCase):
             expected={p.relative_to(self.root).as_posix() for p in release.release_files(self.root)}
             private={'.env','data/layout.json'}|{'data/'+p.relative_to(runtime).as_posix() for p in storage.paths(runtime).values()}
             self.assertEqual(set(z.namelist()),expected|private)
-            self.assertNotIn('cyberant/public_share.py',z.namelist());self.assertNotIn('docs/PUBLIC_SHARE.md',z.namelist())
+            self.assertIn('cyberant/public_share.py',z.namelist());self.assertIn('docs/PUBLIC_SHARE.md',z.namelist())
             self.assertEqual(z.read('.env').decode('utf8'),release.portable_env(original.decode('utf8')))
             self.assertIn('OPENROUTER_API_KEY=fake-offline-secret',z.read('.env').decode('utf8'))
             self.assertEqual(z.getinfo('.env').external_attr>>16,0o100600)

@@ -6,9 +6,13 @@ ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd -- "$ROOT"
 fail() { printf 'CyberAnt: %s\n' "$*" >&2; exit 1; }
 if [[ "${1:-}" == '--help' ]]; then
-    printf '%s\n' 'Usage: bash /absolute/path/start.sh [--host HOST] [--port PORT]' \
+    printf '%s\n' 'Usage: bash /absolute/path/start.sh [--host HOST] [--port PORT] [--share]' \
         'Host/port follow CLI, environment, then configuration (default loopback:8088).' \
+        'Reads project .env; never replaces your server configuration or data.' \
         'For LAN access, configure APP_ENV=lan and your private IP/origin in .env.' \
+        '--share: Linux Cloudflare Quick Tunnel, login required, new temporary HTTPS URL.' \
+        'Share keeps the configured port/data/model; runtime security uses loopback and exact HTTPS origin.' \
+        'Requires installed cloudflared; options: --cloudflared PATH --share-protocol auto|http2|quic.' \
         'Set CONDA_EXE to your conda executable if it is not on PATH.' \
         'APP_ENV_FILE can point to an external private config file.' \
         'Never installs dependencies or initializes/migrates data.'

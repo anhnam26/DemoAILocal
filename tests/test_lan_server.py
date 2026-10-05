@@ -1,4 +1,4 @@
-"""LAN security and removed tunnel CLI; isolated stores, no provider generation."""
+"""LAN security and opt-in tunnel CLI; isolated stores, no provider generation."""
 import contextlib
 import io
 import subprocess
@@ -11,8 +11,8 @@ from cyberant import config
 
 
 class LanServerTests(unittest.TestCase):
-    def test_removed_share_options_fail_before_listener(self):
-        for args in (['--share'],['--cloudflared','unused'],['--share-protocol','http2']):
+    def test_share_modifiers_require_share_before_listener(self):
+        for args in (['--cloudflared','unused'],['--share-protocol','http2'],['--share','--share-protocol','invalid']):
             with self.subTest(args=args),patch('main.socket.create_server') as listen:
                 with patch('cyberant.config.env',return_value={}),contextlib.redirect_stderr(io.StringIO()):
                     with self.assertRaises(SystemExit) as error:main.main(args)
@@ -20,7 +20,7 @@ class LanServerTests(unittest.TestCase):
         with patch('cyberant.config.env',return_value={}),contextlib.redirect_stdout(io.StringIO()) as output:
             with self.assertRaises(SystemExit) as error:main.main(['--help'])
         self.assertEqual(error.exception.code,0)
-        self.assertNotIn('--share',output.getvalue());self.assertNotIn('cloudflared',output.getvalue())
+        self.assertIn('--share',output.getvalue());self.assertIn('cloudflared',output.getvalue())
 
     def test_development_cannot_bind_lan(self):
         with patch('cyberant.config.env',return_value={'APP_ENV':'development'}),patch('main.socket.create_server') as listen:
