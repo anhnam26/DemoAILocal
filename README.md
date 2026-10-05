@@ -105,14 +105,19 @@ ngữ nghĩa câu trả lời. Không tự retry/đổi model. Usage chưa rõ p
 ## Kiểm thử và đóng gói
 
 ```bash
-python -m unittest discover -s /opt/cyberant/tests -v
-python /opt/cyberant/tools/package_server.py --output /tmp/cyberant-server.zip
+# Chạy từ checkout phát triển, không phải gói runtime giải nén:
+python -m unittest discover -s tests -v
+python tools/package_server.py --list
+python tools/package_server.py --output /tmp/cyberant-server.zip
 ```
 
 Test dùng dữ liệu tạm/provider giả lập. Browser cần Playwright/Chromium trong môi
 trường phát triển, không phải dependency runtime. Gói server dùng allowlist,
 không chứa `.env`, DB, log, `.git`, venv, test hoặc artifacts. DB/config chuyển riêng.
 Không upload toàn bộ folder làm web root.
+Gói runtime dùng danh sách module/static rõ ràng và corpus theo manifest/checksum;
+không kèm tools/test/evaluation fixtures. Audit trong SERVICE_RAG.md chạy từ checkout
+phát triển; không cần tải công cụ biên soạn lên server.
 
 ## Tài liệu
 

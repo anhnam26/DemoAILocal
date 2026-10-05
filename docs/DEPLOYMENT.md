@@ -8,17 +8,17 @@ theo server thực tế. Các thư mục chứa dữ liệu phải thuộc user 
 
 1. Tạo user Linux không đặc quyền. Không chạy app/tunnel bằng root.
 2. Chép gói source-only từ `tools/package_server.py`, không copy toàn bộ máy dev.
-3. Cài Miniconda và môi trường:
+3. Dùng Python environment hiện có (Conda nếu đã được cấu hình):
 
 ```bash
-conda create -n cyberant python=3.14 pip -y
-conda activate cyberant
+python --version
+python -c "import sys; print(sys.executable)"
 cd /opt/cyberant
 python -m pip install -r /opt/cyberant/requirements-lock.txt
 ```
 
-Lockfile nhắm Python 3.14/Linux x86_64; cần kiểm trên server đích (không dùng venv
-Windows). Tạo config từ mẫu khi chưa có, giữ API key/model cũ. Chỉ đổi cấu hình
+Phiên phát triển đã kiểm trên Python 3.13/Windows; lockfile cần kiểm trên server
+Linux đích. Không tạo environment mới tự động. Tạo config từ mẫu khi chưa có, giữ API key/model cũ. Chỉ đổi cấu hình
 được yêu cầu. Cài mới MODEL mặc định phải có giá trị để cấp quyền cho admin.
 
 ```bash
@@ -34,6 +34,11 @@ không nằm trong source. Không cấp group/other đọc DB/config/backup.
 ## 2. Chuyển DB cũ hoặc init mới — chọn đúng một
 
 ### Chuyển dữ liệu hiện có
+
+Nếu đã dùng layout v1 (sáu kho), không migrate lại database legacy. Dừng app,
+`operations backup --target <NEW private backup>` trên máy nguồn, chuyển toàn bộ
+bộ backup qua SSH/SFTP rồi `operations restore --source <backup> --target /var/lib/cyberant`.
+Chạy check và đối chiếu tài khoản/chat/usage. Các lệnh migrate bên dưới chỉ cho DB gộp cũ.
 
 Dừng nhận request/chờ AI xong, dừng instance cũ. Lấy SQLite snapshot bằng backup
 API cũ hoặc SQLite backup API; không copy riêng DB đang ghi WAL. Chuyển qua SSH/SFTP
@@ -134,6 +139,6 @@ Rotation backup/log cần đặt theo nhu cầu đơn vị, không tự xóa b�
 
 ## Giới hạn xác minh
 
-Kiểm thử phát triển chạy Windows/Python 3.14 với provider giả. Linux Conda, quyền
+Kiểm thử phát triển chạy Windows/Python 3.13 với provider giả. Linux Conda, quyền
 POSIX, systemd và đường đi public Cloudflare phải smoke test trên server thật.
 Quick Tunnel không SLA, không phù hợp yêu cầu URL cố định hoặc production lớn.
