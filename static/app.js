@@ -17,6 +17,10 @@ const webSummary=document.createElement('summary');webSummary.textContent='Tra c
 const webNotice=document.createElement('small');webNotice.textContent='Chỉ nhập truy vấn công khai, không chứa mật khẩu, thông tin khách hàng hoặc dữ liệu nội bộ. Truy vấn được gửi tới dịch vụ tìm kiếm và có thể phát sinh phí.';
 const webInput=document.createElement('input');webInput.type='text';webInput.maxLength=300;webInput.placeholder='Ví dụ: FortiGate official SSL VPN documentation';webInput.setAttribute('aria-label','Truy vấn công khai để tra cứu Internet');
 webDetails.append(webNotice,webInput);$('#chat-form').append(webDetails);
+const urlLabel=document.createElement('label');urlLabel.textContent='URL công khai cần đọc (mỗi dòng một URL, tối đa 3)';
+const urlInput=document.createElement('textarea');urlInput.rows=2;urlInput.maxLength=6200;urlInput.placeholder='https://…';urlInput.setAttribute('aria-label','URL công khai cần đọc');
+const urlPrivacy=document.createElement('small');urlPrivacy.textContent='Chỉ HTTPS công khai. Không gửi link nội bộ, link có token bí mật hoặc yêu cầu đăng nhập. Server truy cập link; nội dung được gửi tới model. URL trong câu hỏi cũng sẽ được đọc.';
+urlLabel.append(urlInput,urlPrivacy);webDetails.append(urlLabel);
 const fileControls=document.createElement('div');fileControls.className='chat-files';
 const fileLabel=document.createElement('label');fileLabel.textContent='Đính kèm file riêng cho chat (tối đa 10 MB/file)';
 const chatFiles=document.createElement('input');chatFiles.type='file';chatFiles.multiple=true;chatFiles.accept='.txt,.md,.csv,.pdf,.docx,.xlsx,.pptx';chatFiles.setAttribute('aria-label','Đính kèm tài liệu');
@@ -52,6 +56,7 @@ chatFiles.onchange=async()=>{
 async function api(path,options={}){
   if(path==='/chat'&&typeof options.body==='string'){
     const body=JSON.parse(options.body);body.audience=audienceSelect.value;
+    if(urlInput.value.trim()){body.urls=urlInput.value.split(/\n/).map(x=>x.trim()).filter(Boolean);urlInput.value=''}
     if(webInput.value.trim()){body.web_query=webInput.value.trim();webInput.value=''}
     options={...options,body:JSON.stringify(body)};
   }
@@ -78,6 +83,7 @@ async function copyAnswer(message){
 function toast(s){$('#toast').textContent=s;$('#toast').classList.remove('hidden');setTimeout(()=>$('#toast').classList.add('hidden'),5000)}
 let modelSaving=false,modelVersion=0;
 function updateChatControls(){
+  urlInput.disabled=busy||fileBusy||conversationLoading;
   chatFiles.disabled=busy||fileBusy||conversationLoading;
   attachedList.querySelectorAll('button').forEach(b=>b.disabled=busy||fileBusy||conversationLoading);
   webInput.disabled=busy||conversationLoading;

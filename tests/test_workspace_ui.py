@@ -129,6 +129,20 @@ class WorkspaceUI(unittest.TestCase):
         self.assertIn(older,sent);self.assertNotIn(latest,sent)
         self.assertIn('Ngữ cảnh trả lời trước không vừa ngân sách',payload['answer'])
 
+    def test_direct_url_sources_no_paid_search(self):
+        from unittest.mock import AsyncMock
+        member=self.client();cv=member.post('/api/conversations').json()['id']
+        async def answer(messages,settings,max_tokens):
+            self.assertFalse(settings.get('web_lookup'));self.assertIn('Official public fact',str(messages))
+            return 'Public fact [WEB-direct].',dict(prompt_tokens=10,completion_tokens=10,total_tokens=20),'stop'
+        report=dict(url='https://example.com/doc',title='Official',units=1,warnings=[],sources=[dict(id='WEB-direct',title='Official',body='Official public fact',url='https://example.com/doc',retrieved_at='2026-10-09',review_status='external_unverified',chunk=1,version='web')])
+        with patch('cyberant.url_reader.read',AsyncMock(return_value=report)),patch('cyberant.model_provider.complete',side_effect=answer):
+            response=member.post('/api/chat',json=dict(question='Đọc https://example.com/doc',conversation_id=cv))
+        self.assertEqual(response.status_code,200,response.text);out=response.json()
+        self.assertEqual(out['api_calls'],1);self.assertEqual(out['url_reads'][0]['sent_units'],1)
+        self.assertEqual(out['web_sources'][0]['url'],'https://example.com/doc')
+        self.assertEqual(member.post('/api/chat',json=dict(question='Read URL',conversation_id=cv,urls=['https://127.0.0.1'])).status_code,400)
+
     def test_chat_file_browser(self):
         try:
             from playwright.sync_api import sync_playwright,expect

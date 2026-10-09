@@ -339,7 +339,7 @@ def pack(question,found,budget,audience='auto',diagnostics=None,history=None,web
     def count(messages):return sum(estimate_tokens(m['content'])+16 for m in messages)+64
     if count(render([]))>budget:raise ValueError('Câu hỏi vượt ngân sách đầu vào; hãy rút gọn câu hỏi hoặc tăng RAG_INPUT_TOKENS.')
     # Reserve at most 1/3 for external evidence before history/internal chunks.
-    web_cap=min(budget//3,max(0,budget-count(render([]))))
+    web_cap=min(budget*2//3 if any(d.get('direct_url') for d in web) else budget//3,max(0,budget-count(render([]))))
     for d in web:
         before=count(render([]));kept_web.append(d)
         added=count(render([]))-before

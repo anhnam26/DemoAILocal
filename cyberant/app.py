@@ -16,7 +16,7 @@ APP_VERSION='2026.10.05-knowledge-guides-3'
 PROMPT_VERSION='accepted-configuration-3'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
-from cyberant import admin_system,rag,model_provider,storage,web_search,provider_errors,service_evidence,attachments,document_extractors
+from cyberant import admin_system,rag,model_provider,storage,web_search,provider_errors,service_evidence,attachments,document_extractors,url_reader
 
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -94,6 +94,7 @@ def create_app():
         model:str|None=Field(default=None,min_length=1,max_length=200)
         audience:Literal['auto','sales','engineering']='auto'
         web_query:str|None=Field(default=None,min_length=2,max_length=300)
+        urls:list[str]=Field(default_factory=list,max_length=3)
     class ModelInput(BaseModel):
         model:str=Field(min_length=1,max_length=200)
     Feedback=quality_feedback.Feedback
@@ -196,6 +197,13 @@ def create_app():
         finish=None;output=0;budget=0;reservation=None;retrieved_count=0;citation_status='not_checked'
         retrieved_sources=[];citation_errors=[];packing={};web=[];web_state='not_needed';usages=[];usage_records=[]
         artifacts=service_evidence.artifacts(effective,rag.intent(effective),allowed)
+        requested_urls=list(dict.fromkeys(data.urls+re.findall(r'https://[^\s<>]+',q)))
+        requested_urls=[url.rstrip('.,;)') for url in requested_urls]
+        if len(requested_urls)>3:raise HTTPException(400,'Tối đa 3 URL mỗi lượt.')
+        for url in requested_urls:
+            try:url_reader.validate_url(url)
+            except ValueError as e:raise HTTPException(400,str(e)) from None
+        url_reports=[]
         async def invoke(messages,settings,limit,input_size):
             nonlocal calls,reservation
             remaining=provider_deadline-time.monotonic()
@@ -255,18 +263,34 @@ def create_app():
             except ValueError as e:raise HTTPException(400,str(e))
             query=web_search.public_query(q,data.web_query)
             lookup=web_search.should_search(q,found,data.web_query)
+            if requested_urls and not data.web_query:lookup=False
             if lookup and not web_cfg['enabled']:web_state='disabled'
             elif lookup and not query:web_state='public_query_required'
             await LOCK.enter(cfg['parallel'])
             provider_deadline=time.monotonic()+240
             try:
+                if requested_urls:
+                    url_deadline=time.monotonic()+90
+                    for url in requested_urls:
+                        try:
+                            remaining=url_deadline-time.monotonic()
+                            if remaining<=0:raise TimeoutError()
+                            async with asyncio.timeout(remaining):report=await url_reader.read(url)
+                            web.extend({**d,'direct_url':True} for d in report['sources'])
+                            url_reports.append(dict(url=report['url'],status='read',units=report['units'],warnings=report['warnings']))
+                        except (ValueError,httpx.HTTPError,OSError,TimeoutError,LookupError):
+                            url_reports.append(dict(url=url,status='unreadable',units=0,warnings=['Không đọc được URL: có thể bị chặn, yêu cầu đăng nhập, vượt giới hạn hoặc không an toàn.']))
+                    web_state='sources_returned' if web else 'no_valid_sources'
                 if lookup and query and web_cfg['enabled']:
                     lookup_messages=web_search.messages(query)
                     lookup_size=sum(rag.estimate_tokens(m['content'])+16 for m in lookup_messages)+64
                     _,web_usage,_=await invoke(lookup_messages,{**cfg,'web_lookup':True,'web_max_results':web_cfg['max_results']},web_cfg['output_tokens'],lookup_size)
-                    web=web_search.evidence(web_usage,web_cfg['max_results'])
+                    web+=web_search.evidence(web_usage,web_cfg['max_results'])
                     web_state='sources_returned' if web else 'no_valid_sources'
                 messages,found,estimated=rag.pack(effective,found,budget,data.audience,packing,history=history,web=web)
+                sent_web=set(packing['web_sent'])
+                for report in url_reports:
+                    report['sent_units']=sum(d['url']==report['url'] and d['id'] in sent_web for d in web)
                 web=[d for d in web if d['id'] in packing['web_sent']]
                 if web_state=='sources_returned' and not web:web_state='budget_omitted'
                 answer,_,finish=await invoke(messages,cfg,output,estimated)
@@ -338,7 +362,9 @@ def create_app():
         file_list=attachments.listing(connect,fresh,conversation_id)
         for f in file_list:
             if f['warnings']:answer+='\n\n**Lưu ý trích xuất '+f['name']+':** '+' '.join(f['warnings'])
-        out=dict(answer=answer,file_coverage=dict(available_units=len(file_units),sent_units=len(sent_files)),evidence_items=[dict(id=d['id'],title=d['title'],body=d['body'],service_id=d['service_id'],version=d['version'],review_status=d.get('review_status'),source_location=d['source_location']) for d in artifacts],
+        for report in url_reports:
+            answer+='\n\n**Đọc URL:** '+report['status']+f" · {report.get('sent_units',0)}/{report['units']} phần gửi model. "+' '.join(report['warnings'])
+        out=dict(answer=answer,url_reads=url_reports,file_coverage=dict(available_units=len(file_units),sent_units=len(sent_files)),evidence_items=[dict(id=d['id'],title=d['title'],body=d['body'],service_id=d['service_id'],version=d['version'],review_status=d.get('review_status'),source_location=d['source_location']) for d in artifacts],
                  artifact_coverage=dict(available=len(artifacts),displayed=len(artifacts),sent_to_model=sum(d['id'] in {p['id'] for p in found} for d in artifacts),verification='record_completeness_not_factual_verification'),
                  sources=[source(d) for d in source_docs.values()],context_sources=list(dependencies.values()),web_sources=[{k:d[k] for k in ('id','title','url','retrieved_at')} for d in web],web_status=web_state,needs_review=review,mode=mode,
                  elapsed=round(time.monotonic()-start,2),citations_verified=bool(used or web),effective_query=effective,

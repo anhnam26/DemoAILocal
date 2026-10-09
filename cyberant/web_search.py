@@ -6,8 +6,8 @@ from cyberant import config,rag
 
 def settings():
     enabled=config.env().get('WEB_SEARCH_ENABLED','true').lower() in ('true','1','yes')
-    return dict(enabled=enabled,max_results=config.integer('WEB_SEARCH_MAX_RESULTS',3,1,5),
-                output_tokens=config.integer('WEB_SEARCH_OUTPUT_TOKENS',1000,256,1600))
+    return dict(enabled=enabled,max_results=config.integer('WEB_SEARCH_MAX_RESULTS',5,1,10),
+                output_tokens=config.integer('WEB_SEARCH_OUTPUT_TOKENS',1600,256,4000))
 
 def safe_url(value):
     if not isinstance(value,str) or len(value)>2048 or any(c.isspace() for c in value):return False
@@ -73,9 +73,9 @@ def evidence(usage,max_results):
         # Use provider-returned extractive source text, not the lookup model's prose.
         content=citation.get('content')
         if not isinstance(content,str) or not content.strip():continue
-        source_id='WEB-'+hashlib.sha256((stamp+'\n'+url+'\n'+content[:3000]).encode()).hexdigest()[:20]
+        source_id='WEB-'+hashlib.sha256((stamp+'\n'+url+'\n'+content[:12000]).encode()).hexdigest()[:20]
         seen.add(url);items.append(dict(id=source_id,title=str(citation.get('title') or url)[:200],
-            body=content[:3000],url=url,retrieved_at=stamp,review_status='external_unverified',chunk=1,version='web'))
+            body=content[:12000],url=url,retrieved_at=stamp,review_status='external_unverified',chunk=1,version='web'))
         if len(items)>=max_results:break
     return items
 

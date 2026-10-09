@@ -55,6 +55,7 @@ def _export(snapshot, destination):
                 connections[name].execute('INSERT INTO ' + table + ' VALUES(' + ','.join('?' for _ in columns) + ')',
                                           tuple(row[col] for col in columns))
         known = {table: name for name, tables in storage.STORES.items() for table in tables}
+        known.update(attachments='conversations',attachment_schema='conversations')
         report = {'tables': {}, 'archived_tables': [], 'sessions_revoked': 0}
         for table, sql in source.execute("SELECT name,sql FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"):
             if table == 'users':
