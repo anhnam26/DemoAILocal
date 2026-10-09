@@ -101,6 +101,25 @@ APP_DATA_DIR sang đích sau xác minh, `operations check`, restart và kiểm o
 API/browser/backup. Không init/legacy migrate/restore mù đè data đang chạy. Rollback
 giữ code/data pair cũ; dữ liệu phát sinh sau chuyển đích cần bảo toàn riêng.
 
+**Lỗi upload “File chat chưa được nâng cấp schema”:** cập nhật code hoặc restart
+không tự tạo bảng đính kèm trên dữ liệu cũ. Cần hoàn tất bước nâng cấp và chuyển
+`APP_DATA_DIR` ở trên; không dùng `init` để thay dữ liệu có sẵn. File bị từ chối
+ở bước này chưa được đọc hay gửi tới model: sau chuyển dữ liệu, tải lại file.
+
+Ví dụ PowerShell, sau khi đã dừng ứng dụng và từ `D:\TestSystem`:
+
+```powershell
+python -B -m cyberant.operations backup --target "D:\CyberAnt-private\backups\pre-chat-files"
+python -B -m cyberant.operations upgrade-attachments --target "D:\CyberAnt-private\runtime-chat-files"
+```
+
+Hai đích phải chưa tồn tại. Sau khi đối chiếu dữ liệu cũ trên bản nâng cấp, đặt
+`APP_DATA_DIR=D:\CyberAnt-private\runtime-chat-files` trong `.env` (giữ các cấu hình
+khác), chạy `python -B -m cyberant.operations check`, rồi khởi động ứng dụng.
+Khi thẻ file hiện số phần đã chọn và preview có nội dung, câu hỏi tiếp theo dùng
+các phần đó làm evidence gửi tới model; không cần chép nội dung vào textarea.
+Upload/preview tự nó không gọi model. PDF scan/ảnh chưa có OCR.
+
 ## Đọc URL và search Internet
 
 URL trong câu hỏi hoặc trường URL công khai (tối đa 3/lượt). Chỉ HTTPS cổng 443
