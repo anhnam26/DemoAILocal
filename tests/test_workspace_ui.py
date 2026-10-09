@@ -105,7 +105,7 @@ class WorkspaceUI(unittest.TestCase):
             source_id=re.search(r'\[([A-Z0-9-]+)\]',messages[-1]['content']).group(1)
             return ('## Préparation\nHướng dẫn giả lập có nguồn ['+source_id+'].',
                     dict(prompt_tokens=100,completion_tokens=200,total_tokens=300),'length')
-        with patch('cyberant.model_provider.complete',side_effect=detailed):
+        with patch('cyberant.model_provider.complete',side_effect=detailed),patch('cyberant.config.env',return_value={**self.module.config.env(),'RAG_INPUT_BYTES':'64000','RAG_OUTPUT_TOKENS':'8000','RAG_TOP_K':'24'}):
             response=member.post('/api/chat',json=dict(question='Cấu hình firewall Fortinet',conversation_id=id))
             self.assertEqual(response.status_code,200,response.text);out=response.json()
             self.assertEqual(out['output_token_limit'],8000);self.assertEqual(out['api_calls'],1)
@@ -122,7 +122,7 @@ class WorkspaceUI(unittest.TestCase):
             previous=json.loads(c.execute('SELECT result FROM chats WHERE id=?',(latest,)).fetchone()[0])
             previous['answer']='Oversized previous answer '*5000
             c.execute('UPDATE chats SET result=? WHERE id=?',(json.dumps(previous),latest))
-        with patch('cyberant.model_provider.complete',side_effect=detailed):
+        with patch('cyberant.model_provider.complete',side_effect=detailed),patch('cyberant.config.env',return_value={**self.module.config.env(),'RAG_INPUT_BYTES':'64000','RAG_OUTPUT_TOKENS':'8000','RAG_TOP_K':'24'}):
             omitted=member.post('/api/chat',json=dict(question='Tiếp tục hướng dẫn ở trên',conversation_id=id))
         self.assertEqual(omitted.status_code,200,omitted.text)
         payload=omitted.json();sent=payload['diagnostics']['packing']['history_sent']

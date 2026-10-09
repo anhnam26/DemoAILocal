@@ -14,7 +14,7 @@ class ServiceRagTests(unittest.TestCase):
         for question,expected in cases.items():
             with self.subTest(question=question):self.assertEqual(rag.intent(question),expected)
         self.assertEqual(rag.budgets('SOW BOM Managed Service',9000,1200),(9000,1200))
-        self.assertEqual(rag.budgets('BOM là gì?',18000,2400),(12000,1500))
+        self.assertEqual(rag.budgets('BOM là gì?',18000,2400),(18000,2400))
 
     def test_service_resolution_and_legacy_links(self):
         self.assertEqual(service_evidence.resolve_services('Chuyển đổi cấu hình FortiGate, SOW'),['configuration_migration'])

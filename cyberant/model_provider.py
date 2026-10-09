@@ -56,8 +56,8 @@ def settings(model=None):
     values=config.env();available=models()
     selected=model or (available[0] if available else '')
     if selected and selected not in available:raise ValueError('Model tài khoản không còn trong danh sách .env; liên hệ quản trị.')
-    input_budget=config.integer('RAG_INPUT_BYTES',values.get('RAG_INPUT_TOKENS',64000),2048,64000)
-    output_budget=config.integer('RAG_OUTPUT_TOKENS',8000,64,8192)
+    input_budget=config.integer('RAG_INPUT_BYTES',values.get('RAG_INPUT_TOKENS',192000),2048,2000000)
+    output_budget=config.integer('RAG_OUTPUT_TOKENS',16000,64,131072)
     limits=model_limits(values.get('RAG_MODEL_LIMITS','{}')).get(selected)
     if limits:
         output_budget=min(output_budget,limits['output_tokens'])
@@ -66,9 +66,22 @@ def settings(model=None):
         if input_budget<2048:raise ValueError('Model context quá nhỏ cho ngân sách output; giảm RAG_OUTPUT_TOKENS.')
     return dict(mode='openrouter',api_key=values.get('OPENROUTER_API_KEY') or values.get('API_KEY',''),model=selected,
                 url='https://openrouter.ai/api/v1',input_budget=input_budget,
-                output_budget=output_budget,top_k=config.integer('RAG_TOP_K',24,2,24),
+                output_budget=output_budget,top_k=config.integer('RAG_TOP_K',48,2,256),
                 model_limits=limits,model_limits_configured=bool(limits),
+                reasoning=reasoning_settings(values),
                 parallel=config.integer('API_PARALLEL',4,1,16))
+
+def reasoning_settings(values):
+    mode=values.get('RAG_REASONING','auto').lower()
+    if mode not in ('auto','enabled','disabled'):raise ValueError('RAG_REASONING phải là auto, enabled hoặc disabled.')
+    if mode=='disabled':return {'enabled':False}
+    result={'exclude':True}
+    if mode=='enabled':result['enabled']=True
+    effort=values.get('RAG_REASONING_EFFORT','').strip()
+    if effort:
+        if effort not in ('minimal','low','medium','high'):raise ValueError('RAG_REASONING_EFFORT không hợp lệ.')
+        result['effort']=effort
+    return result
 
 def model_limits(raw):
     try:
@@ -96,7 +109,9 @@ class InvalidCompletion(ValueError):
         super().__init__('Model không trả nội dung hợp lệ');self.usage=usage;self.reason=reason
 
 async def complete(messages,s,max_tokens):
-    payload=dict(model=s['model'],messages=messages,temperature=0.1,max_tokens=max_tokens,reasoning={'enabled':False})
+    # Auto lets the provider use its supported default; do not force temperature
+    # on models which reject it. Reasoning is never rendered as answer content.
+    payload=dict(model=s['model'],messages=messages,max_tokens=max_tokens,reasoning=s.get('reasoning',{'exclude':True}))
     if s.get('web_lookup'):
         payload['plugins']=[dict(id='web',engine='exa',max_results=s.get('web_max_results',3))]
     # Never retry a billable request automatically.

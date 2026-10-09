@@ -135,8 +135,8 @@ def evaluate(cases,documents):
     results=[]
     for case in cases:
         if case.get('stage')!='offline':continue
-        q=case['question'];found,routing=rag.retrieve(q,documents,6)
-        budget,output=rag.budgets(q,18000,2400);packing={}
+        q=case['question'];found,routing=rag.retrieve(q,documents,rag.retrieval_limit(q,48))
+        budget,output=rag.budgets(q,192000,16000);packing={}
         _,kept,size=rag.pack(q,found,budget,case.get('audience','auto'),packing)
         ids={d['id'] for d in kept};types={d.get('data_type') for d in kept}
         available={(s['service_id'],f) for s in routing.get('corpus_coverage',{}).get('services',[]) for f in s['present']}

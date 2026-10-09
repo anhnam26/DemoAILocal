@@ -119,16 +119,12 @@ def intent(question):
 def budgets(question,input_cap,output_cap):
     kind=intent(question)
     # Input remains a conservative byte proxy, explicitly not a model tokenizer.
-    input_target,output_target={'concept':(12000,1500),'comparison':(48000,6000),
-        'survey':(32000,4000),'procedure':(32000,4000),'troubleshooting':(32000,4000),
-        'sow':(48000,6000),'bom':(32000,4000),'sow_bom':(48000,6000)}[kind]
-    profile=configuration(question)
-    if profile and profile['broad']:input_target,output_target=64000,8000
+    input_target,output_target=(min(input_cap,32000),min(output_cap,4000)) if kind=='concept' else (input_cap,output_cap)
     return min(input_cap,input_target),min(output_cap,output_target)
 
 def retrieval_limit(question,cap):
     profile=configuration(question)
-    target=24 if profile and profile['broad'] else 12 if intent(question) in ('procedure','troubleshooting','survey','bom') else 18 if intent(question) in ('sow','sow_bom','comparison') else 6
+    target=cap if intent(question)!='concept' else 6
     return min(cap,target)
 
 VENDORS=r'\b(?:forti\w*|cisco|juniper|aruba|mikrotik|huawei|ubiquiti|palo alto|meraki|ios|nx-os|junos|routeros)\b'

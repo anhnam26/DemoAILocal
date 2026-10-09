@@ -60,8 +60,8 @@ class ConfigurationGuides(unittest.TestCase):
         self.assertIn('Không tạo lệnh cụ thể',prompt)
 
     def test_adaptive_budgets_and_model_caps(self):
-        cases=[('DNS là gì?',(12000,1500),6),('Cấu hình NAT FortiGate',(32000,4000),12),
-               ('Cấu hình firewall Fortinet',(64000,8000),24),('SOW BOM Managed Service',(48000,6000),18)]
+        cases=[('DNS là gì?',(32000,4000),6),('Cấu hình NAT FortiGate',(64000,8000),24),
+               ('Cấu hình firewall Fortinet',(64000,8000),24),('SOW BOM Managed Service',(64000,8000),24)]
         for q,budget,k in cases:
             self.assertEqual(rag.budgets(q,64000,8000),budget)
             self.assertEqual(rag.retrieval_limit(q,24),k)
