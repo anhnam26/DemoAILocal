@@ -1,4 +1,4 @@
-import json,tempfile,time,unittest
+import hashlib,json,tempfile,time,unittest
 from pathlib import Path
 from unittest.mock import patch
 from fastapi import HTTPException
@@ -50,3 +50,18 @@ class Attachments(unittest.TestCase):
         for i in range(10):attachments.save(self.connect,self.u,self.cv,'a.txt',b'Test',parsed,self.now)
         with self.assertRaises(HTTPException) as ctx:attachments.save(self.connect,self.u,self.cv,'a.txt',b'Test',parsed,self.now)
         self.assertEqual(ctx.exception.status_code,413)
+
+    def test_structured_evidence_and_legacy_digest(self):
+        structure=dict(kind='worksheet_row',sheet='Quote',row=2,hidden_row=True,
+                       cells=[dict(address='B2',raw='6',interpreted=dict(type='number',value='6'))])
+        parsed=dict(units=[dict(location='Sheet Quote · hàng 2',body='B2: 6',structure=structure)],warnings=[],extraction_version=2)
+        attachments.save(self.connect,self.u,self.cv,'quote.xlsx',b'synthetic',parsed,self.now)
+        legacy=dict(units=[dict(location='old',body='Old text')],warnings=[])
+        attachments.save(self.connect,self.u,self.cv,'old.txt',b'Old text',legacy,self.now)
+        docs=attachments.documents(self.connect,self.u,self.cv)
+        structured=next(d for d in docs if d['version']=='extract-2');old=next(d for d in docs if d['version']=='extract-1')
+        self.assertEqual(structured['extraction_structure'],structure)
+        self.assertIn('hidden_row',structured['body']);self.assertEqual(structured['extracted_text'],'B2: 6')
+        self.assertEqual(structured['source_digest'],hashlib.sha256(structured['body'].encode()).hexdigest())
+        self.assertEqual(old['body'],'Old text');self.assertEqual(old['source_digest'],hashlib.sha256(b'Old text').hexdigest())
+        with self.assertRaises(HTTPException):attachments.documents(self.connect,dict(id='other'),self.cv)

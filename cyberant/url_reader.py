@@ -111,5 +111,6 @@ async def read(url):
             title=name;parsed=await document_extractors.extract_async(raw,'document.txt')
         else:raise ValueError('URL không trả HTML/text/PDF hoặc Office được hỗ trợ.')
         stamp=datetime.now(timezone.utc).isoformat();prefix='WEB-'+hashlib.sha256((stamp+final).encode()).hexdigest()[:20]
-        sources=[dict(id=prefix+'-'+str(i),title=title+' · '+unit['location'],body=unit['body'],url=final,retrieved_at=stamp,review_status='external_unverified',chunk=1,version='web') for i,unit in enumerate(parsed['units'],1)]
+        sources=[dict(id=prefix+'-'+str(i),title=title+' · '+unit['location'],body=document_extractors.evidence_body(unit),
+                      extraction_structure=unit.get('structure'),url=final,retrieved_at=stamp,review_status='external_unverified',chunk=1,version='web') for i,unit in enumerate(parsed['units'],1)]
         return dict(url=final,title=title,sources=sources,warnings=parsed['warnings'],units=len(sources))

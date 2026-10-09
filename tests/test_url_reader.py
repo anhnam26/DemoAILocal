@@ -1,7 +1,7 @@
 import asyncio,unittest
 from unittest.mock import AsyncMock,patch
 import httpx
-from cyberant import url_reader
+from cyberant import url_reader,document_extractors
 
 
 class URLReader(unittest.TestCase):
@@ -19,6 +19,16 @@ class URLReader(unittest.TestCase):
             self.assertEqual(await backend.connect_tcp('example.com',443),'stream')
             backend.backend.connect_tcp.assert_awaited_once_with('8.8.8.8',443,None,None,None)
             with self.assertRaises(ValueError):await backend.connect_tcp('evil.com',443)
+        asyncio.run(run())
+
+    def test_structured_public_document_evidence(self):
+        parsed=dict(units=[dict(location='Sheet Quote · hàng 2',body='B2: 6',structure=dict(kind='worksheet_row',hidden_row=True))],warnings=[],extraction_version=2)
+        async def run():
+            with patch('cyberant.url_reader.download',AsyncMock(return_value=('https://example.com/file.xlsx','application/octet-stream',b'synthetic'))),patch('cyberant.document_extractors.extract_async',AsyncMock(return_value=parsed)):
+                result=await url_reader.read('https://example.com/file.xlsx')
+                source=result['sources'][0]
+                self.assertEqual(source['body'],document_extractors.evidence_body(parsed['units'][0]))
+                self.assertTrue(source['extraction_structure']['hidden_row'])
         asyncio.run(run())
 
     def test_mixed_dns_is_rejected(self):

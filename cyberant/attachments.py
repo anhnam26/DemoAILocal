@@ -1,5 +1,6 @@
 """Owner/conversation-scoped files stored atomically with extracted units."""
 import hashlib,json,secrets
+from cyberant.document_extractors import evidence_body
 from datetime import date
 from fastapi import HTTPException
 
@@ -61,10 +62,12 @@ def documents(connect,u,conversation_id):
     for row in rows:
         parsed=json.loads(row['extracted'])
         for i,unit in enumerate(parsed['units'],1):
-            docs.append(dict(id=row['id']+'-'+str(i),attachment_id=row['id'],title=row['name']+' · '+unit['location'],body=unit['body'],
-                category='File hội thoại',version='extract-1',owner='Người tải lên',valid_to='2099-12-31',valid_from=date.today().isoformat(),
+            body=evidence_body(unit)
+            docs.append(dict(id=row['id']+'-'+str(i),attachment_id=row['id'],title=row['name']+' · '+unit['location'],body=body,
+                category='File hội thoại',version='extract-'+str(parsed.get('extraction_version',1)),owner='Người tải lên',valid_to='2099-12-31',valid_from=date.today().isoformat(),
                 status='approved',review_status='user_provided_unverified',group='F',knowledge_type='theory',
-                provenance=dict(file=row['name'],location=unit['location'],file_digest=row['digest']),source_digest=hashlib.sha256(unit['body'].encode()).hexdigest()))
+                extraction_structure=unit.get('structure'),extracted_text=unit['body'],
+                provenance=dict(file=row['name'],location=unit['location'],file_digest=row['digest']),source_digest=hashlib.sha256(body.encode()).hexdigest()))
     return docs
 
 
