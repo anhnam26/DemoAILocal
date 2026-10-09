@@ -166,6 +166,12 @@ function appendAnswer(data){
     const section=document.createElement('section');section.className='message-text source-appendix';
     const heading=document.createElement('h3');heading.textContent=`Dữ liệu nguồn đầy đủ: ${data.evidence_items.length} bản ghi`;section.append(heading);
     const note=document.createElement('p');note.textContent='Nội dung nguồn bên dưới được hiển thị nguyên vẹn, độc lập với phần tổng hợp AI. Không tự trở thành báo giá hoặc cam kết; giữ riêng từng phiên bản/phạm vi.';section.append(note);
+    const table=document.createElement('table'),header=document.createElement('tr');
+    for(const label of ['Dịch vụ','Bản ghi nguồn','Phiên bản','Nguồn gốc']){const th=document.createElement('th');th.textContent=label;header.append(th)}
+    const thead=document.createElement('thead');thead.append(header);table.append(thead);
+    const tbody=document.createElement('tbody');
+    for(const item of data.evidence_items){const row=document.createElement('tr');for(const value of [item.service_id,`${item.title} [${item.id}]`,item.version,Object.values(item.source_location||{}).join(' · ')]){const cell=document.createElement('td');cell.textContent=value;row.append(cell)}tbody.append(row)}
+    table.append(tbody);const scroll=document.createElement('div');scroll.className='table-scroll';scroll.append(table);section.append(scroll);
     for(const item of data.evidence_items){
       const title=document.createElement('h4');title.textContent=`${item.service_id} · ${item.title} [${item.id}] · ${item.version} · ${item.review_status||''}`;
       const location=document.createElement('small');location.textContent=Object.entries(item.source_location||{}).map(([k,v])=>`${k}: ${v}`).join(' · ');

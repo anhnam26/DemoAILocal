@@ -16,6 +16,7 @@ def initialize(c):
 
 
 def available(c):
+    if 'conversations' not in {r[1] for r in c.execute('PRAGMA database_list')}:return False
     if not c.execute("SELECT 1 FROM conversations.sqlite_master WHERE type='table' AND name='attachment_schema'").fetchone():return False
     row=c.execute('SELECT version FROM attachment_schema').fetchone()
     return bool(row and row[0]==SCHEMA_VERSION)
@@ -33,6 +34,8 @@ def save(connect,u,conversation_id,name,raw,extracted,now):
     id='FILE-'+secrets.token_hex(12).upper()
     with connect() as c:
         c.execute('BEGIN IMMEDIATE');require(c);owner(c,u,conversation_id)
+        account=c.execute('SELECT active FROM users WHERE id=?',(u['id'],)).fetchone()
+        if not account or not account['active']:raise HTTPException(403,'Tài khoản không còn hoạt động.')
         count,size=c.execute('SELECT COUNT(*),COALESCE(SUM(length(raw)+length(CAST(extracted AS BLOB))),0) FROM attachments WHERE user_id=? AND conversation_id=?',(u['id'],conversation_id)).fetchone()
         total=c.execute('SELECT COALESCE(SUM(length(raw)+length(CAST(extracted AS BLOB))),0) FROM attachments WHERE user_id=?',(u['id'],)).fetchone()[0]
         encoded=json.dumps(extracted,ensure_ascii=False);cost=len(raw)+len(encoded.encode('utf8'))

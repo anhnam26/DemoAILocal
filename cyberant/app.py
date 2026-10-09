@@ -293,6 +293,7 @@ def create_app():
             except ValueError as e:raise HTTPException(400,str(e))
             query=web_search.public_query(q,data.web_query)
             lookup=web_search.should_search(q,found,data.web_query)
+            if file_docs and not data.web_query:lookup=False
             if requested_urls and not data.web_query:lookup=False
             if lookup and not web_cfg['enabled']:web_state='disabled'
             elif lookup and not query:web_state='public_query_required'
@@ -328,7 +329,7 @@ def create_app():
                 await progress('Đang phân tích nguồn và tổng hợp câu trả lời')
                 answer,_,finish=await invoke(messages,cfg,output,estimated)
                 need_web='[NEED_WEB]' in answer or answer.strip()=='Kho tri thức chưa có đủ căn cứ để trả lời câu hỏi này.'
-                if need_web and web_state=='not_needed':
+                if need_web and web_state=='not_needed' and not file_docs and not requested_urls:
                     if not web_cfg['enabled']:web_state='disabled'
                     elif not query:web_state='public_query_required'
                     else:
@@ -399,7 +400,7 @@ def create_app():
         for report in url_reports:
             answer+='\n\n**Đọc URL:** '+report['status']+f" · {report.get('sent_units',0)}/{report['units']} phần gửi model. "+' '.join(report['warnings'])
         out=dict(answer=answer,url_reads=url_reports,file_coverage=dict(available_units=len(file_units),sent_units=len(sent_files)),evidence_items=[dict(id=d['id'],title=d['title'],body=d['body'],service_id=d['service_id'],version=d['version'],review_status=d.get('review_status'),source_location=d['source_location']) for d in artifacts],
-                 artifact_coverage=dict(available=len(artifacts),displayed=len(artifacts),sent_to_model=sum(d['id'] in {p['id'] for p in found} for d in artifacts),verification='record_completeness_not_factual_verification'),
+                 artifact_coverage=dict(available=len(artifacts),displayed=len(artifacts),available_ids=[dict(id=d['id'],version=d['version'],digest=source(d)['source_digest']) for d in artifacts],sent_ids=list(dict.fromkeys(d['id'] for d in found if d['id'] in {a['id'] for a in artifacts})),sent_to_model=sum(d['id'] in {p['id'] for p in found} for d in artifacts),verification='record_completeness_not_factual_verification'),
                  sources=[source(d) for d in source_docs.values()],context_sources=list(dependencies.values()),web_sources=[{k:d[k] for k in ('id','title','url','retrieved_at')} for d in web],web_status=web_state,needs_review=review,mode=mode,
                  elapsed=round(time.monotonic()-start,2),citations_verified=bool(used or web),effective_query=effective,
                  usage=usage,model=cfg['model'],api_calls=calls,finish_reason=finish,output_token_limit=output,
