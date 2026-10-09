@@ -71,6 +71,25 @@ def documents(connect,u,conversation_id):
     return docs
 
 
+def preview(connect,u,conversation_id,id,offset=0):
+    """Owner-only, bounded preview; selection is per request, never persisted."""
+    with connect() as c:
+        owner(c,u,conversation_id);require(c)
+        row=c.execute('SELECT name,extracted FROM attachments WHERE id=? AND user_id=? AND conversation_id=?',(id,u['id'],conversation_id)).fetchone()
+    if not row:raise HTTPException(404,'Không có file thuộc hội thoại này.')
+    parsed=json.loads(row['extracted']);units=parsed['units']
+    items=[dict(id=id+'-'+str(i+1),location=unit['location'],body=unit['body'],structure=unit.get('structure')) for i,unit in enumerate(units) if offset<=i<offset+20]
+    return dict(name=row['name'],extraction_version=parsed.get('extraction_version',1),warnings=parsed['warnings'],
+                total=len(units),offset=offset,next_offset=offset+20 if offset+20<len(units) else None,items=items)
+
+
+def scoped(documents,ids):
+    if ids is None:return documents
+    selected=set(ids);available={d['id'] for d in documents if d.get('attachment_id')}
+    if len(ids)>20000 or not selected<=available:raise HTTPException(400,'Phạm vi file không hợp lệ hoặc không thuộc hội thoại này.')
+    return [d for d in documents if not d.get('attachment_id') or d['id'] in selected]
+
+
 def delete(connect,u,conversation_id,id):
     with connect() as c:
         c.execute('BEGIN IMMEDIATE');require(c);owner(c,u,conversation_id)

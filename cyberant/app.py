@@ -95,6 +95,7 @@ def create_app():
         audience:Literal['auto','sales','engineering']='auto'
         web_query:str|None=Field(default=None,min_length=2,max_length=300)
         urls:list[str]=Field(default_factory=list,max_length=3)
+        file_unit_ids:list[str]|None=Field(default=None,max_length=20000)
     class ModelInput(BaseModel):
         model:str=Field(min_length=1,max_length=200)
     Feedback=quality_feedback.Feedback
@@ -154,6 +155,11 @@ def create_app():
 
     @app.get('/api/conversations/{id}/attachments')
     def list_files(id:str,req:Request):return dict(items=attachments.listing(connect,user(req),id))
+
+    @app.get('/api/conversations/{id}/attachments/{file_id}/preview')
+    def preview_file(id:str,file_id:str,req:Request,offset:int=0):
+        if offset<0 or offset>2000:raise HTTPException(400,'Vị trí preview không hợp lệ.')
+        return attachments.preview(connect,user(req),id,file_id,offset)
 
     @app.post('/api/conversations/{id}/attachments')
     async def upload_file(id:str,req:Request,file:UploadFile=File(...)):
@@ -216,7 +222,8 @@ def create_app():
             callback=getattr(req.state,'chat_progress',None)
             if callback:await callback(stage)
         await progress('Đang đọc file và kiểm tra nguồn nội bộ')
-        start=time.monotonic();q=data.question.strip();allowed=docs_for(u)+attachments.documents(connect,u,conversation_id);effective=q
+        start=time.monotonic();q=data.question.strip();all_allowed=docs_for(u)+attachments.documents(connect,u,conversation_id);effective=q
+        allowed=attachments.scoped(all_allowed,data.file_unit_ids)
         history=conversations.context(connect,u,conversation_id,allowed)
         if history:effective=rag.followup(q,history[-1]['effective_query'])
         try:cfg=model_provider.settings(data.model)
@@ -408,6 +415,7 @@ def create_app():
         sent_files={d['id'] for d in found if d.get('attachment_id')};file_units=[d for d in allowed if d.get('attachment_id')]
         if file_units and len(sent_files)<len(file_units):answer+=f'\n\n**Phạm vi file:** gửi model {len(sent_files)}/{len(file_units)} phần trích xuất; chưa thể coi là đọc toàn bộ file trong lượt này.'
         file_list=attachments.listing(connect,fresh,conversation_id)
+        if data.file_unit_ids is not None:answer+=f'\n\n**Phạm vi được chọn:** {len(file_units)} phần file; các phần khác và lịch sử phụ thuộc phần bị loại không được gửi trong lượt này.'
         sent_artifact_ids={d['id'] for d in found}&{d['id'] for d in artifacts}
         if artifacts and len(sent_artifact_ids)<len(artifacts):
             answer+=f'\n\n**Phạm vi SOW/BOM:** gửi model {len(sent_artifact_ids)}/{len(artifacts)} bản ghi. Phụ lục nguồn hiển thị đủ bản ghi, nhưng phần AI tổng hợp chưa thể coi là đầy đủ hoặc đã xác minh nội dung.'
@@ -415,7 +423,7 @@ def create_app():
             if f['warnings']:answer+='\n\n**Lưu ý trích xuất '+f['name']+':** '+' '.join(f['warnings'])
         for report in url_reports:
             answer+='\n\n**Đọc URL:** '+report['status']+f" · {report.get('sent_units',0)}/{report['units']} phần gửi model. "+' '.join(report['warnings'])
-        out=dict(answer=answer,url_reads=url_reports,file_coverage=dict(available_units=len(file_units),sent_units=len(sent_files)),evidence_items=[dict(id=d['id'],title=d['title'],body=d['body'],service_id=d['service_id'],version=d['version'],review_status=d.get('review_status'),source_location=d['source_location']) for d in artifacts],
+        out=dict(answer=answer,url_reads=url_reports,file_scope=dict(selected_ids=data.file_unit_ids,total_units=sum(bool(d.get('attachment_id')) for d in all_allowed)),file_coverage=dict(available_units=len(file_units),sent_units=len(sent_files)),evidence_items=[dict(id=d['id'],title=d['title'],body=d['body'],service_id=d['service_id'],version=d['version'],review_status=d.get('review_status'),source_location=d['source_location']) for d in artifacts],
                  artifact_coverage=dict(available=len(artifacts),displayed=len(artifacts),available_ids=[dict(id=d['id'],version=d['version'],digest=source(d)['source_digest']) for d in artifacts],sent_ids=list(dict.fromkeys(d['id'] for d in found if d['id'] in {a['id'] for a in artifacts})),sent_to_model=sum(d['id'] in {p['id'] for p in found} for d in artifacts),verification='record_completeness_not_factual_verification'),
                  sources=[source(d) for d in source_docs.values()],context_sources=list(dependencies.values()),web_sources=[{k:d[k] for k in ('id','title','url','retrieved_at')} for d in web],web_status=web_state,needs_review=review,mode=mode,
                  elapsed=round(time.monotonic()-start,2),citations_verified=bool(used or web),effective_query=effective,

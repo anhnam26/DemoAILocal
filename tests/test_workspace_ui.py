@@ -193,7 +193,13 @@ class WorkspaceUI(unittest.TestCase):
             expect(page.locator('.chat-files')).to_contain_text('browser-file.txt')
             expect(page.locator('.chat-files')).to_contain_text('1 phần đọc được')
             expect(page.locator('#send')).to_be_enabled()
-            page.locator('.chat-files button').click()
+            page.get_by_role('button',name='Preview / chọn phạm vi',exact=True).click()
+            expect(page.locator('#document-modal')).to_be_visible()
+            expect(page.locator('#modal-body')).to_contain_text('Fixture browser file quantity 2')
+            page.get_by_role('button',name='Bỏ chọn toàn bộ file',exact=True).click()
+            expect(page.locator('#modal-body input[type=checkbox]')).not_to_be_checked()
+            page.locator('#close-modal').click()
+            page.locator('.chat-files').get_by_role('button',name='Xóa file',exact=True).click()
             expect(page.locator('.chat-files')).not_to_contain_text('browser-file.txt')
             self.assertEqual(errors,[]);context.close();browser.close()
 
@@ -202,6 +208,7 @@ class WorkspaceUI(unittest.TestCase):
         uploaded=member.post('/api/conversations/'+cv+'/attachments',files={'file':('bom.txt',b'Company part: SWITCH-TEST. Quantity: 2. Private fixture.')})
         self.assertEqual(uploaded.status_code,200,uploaded.text);file_id=uploaded.json()['id']
         self.assertEqual(admin.get('/api/conversations/'+cv+'/attachments').status_code,404)
+        self.assertEqual(admin.get('/api/conversations/'+cv+'/attachments/'+file_id+'/preview').status_code,404)
         self.assertEqual(admin.delete('/api/conversations/'+cv+'/attachments/'+file_id).status_code,404)
         seen=[]
         async def file_answer(messages,settings,max_tokens):

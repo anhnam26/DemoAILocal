@@ -65,3 +65,17 @@ class Attachments(unittest.TestCase):
         self.assertEqual(structured['source_digest'],hashlib.sha256(structured['body'].encode()).hexdigest())
         self.assertEqual(old['body'],'Old text');self.assertEqual(old['source_digest'],hashlib.sha256(b'Old text').hexdigest())
         with self.assertRaises(HTTPException):attachments.documents(self.connect,dict(id='other'),self.cv)
+        id=structured['attachment_id']
+        self.assertEqual(attachments.preview(self.connect,self.u,self.cv,id)['items'][0]['structure'],structure)
+        with self.assertRaises(HTTPException):attachments.preview(self.connect,dict(id='other'),self.cv,id)
+        self.assertEqual(attachments.scoped(docs,[]),[])
+
+    def test_preview_pages_and_scope_validation(self):
+        parsed=dict(units=[dict(location=f'row{i}',body='same') for i in range(25)],warnings=[])
+        id=attachments.save(self.connect,self.u,self.cv,'large.txt',b'synthetic',parsed,self.now)
+        first=attachments.preview(self.connect,self.u,self.cv,id);second=attachments.preview(self.connect,self.u,self.cv,id,20)
+        self.assertEqual(len(first['items']),20);self.assertEqual(first['next_offset'],20)
+        self.assertEqual(len(second['items']),5);self.assertIsNone(second['next_offset'])
+        docs=attachments.documents(self.connect,self.u,self.cv)
+        self.assertEqual(len(attachments.scoped(docs,[id+'-1',id+'-25'])),2)
+        with self.assertRaises(HTTPException):attachments.scoped(docs,['FILE-OTHER-1'])

@@ -223,7 +223,7 @@ def excel_units(z,tree,target,rels,texts,add,warnings):
             structure=dict(kind='worksheet_row',sheet=name,row=row_number,sheet_state=state,
                            hidden_row=row.get('hidden') in ('1','true'),filters=filters,tables=relevant,cells=cells)
             add(f'Sheet {name} · hàng {row_number}',' | '.join(lines),structure)
-        if state!='visible' or any(c['hidden'] for c in columns) or filters or root.findall(".//"+S+'row[@hidden="1"]'):
+        if state!='visible' or any(c['hidden'] for c in columns) or filters or any(row.get('hidden') in ('1','true') for row in root.findall(S+'sheetData/'+S+'row')):
             warnings.append('Excel: gồm dữ liệu ẩn/bộ lọc; không tự hiểu yêu cầu là chỉ hàng hiển thị, cần xác nhận phạm vi tính.')
         if not root.findall(S+'sheetData/'+S+'row'):
             add(f'Sheet {name} · không có hàng dữ liệu','Không có hàng dữ liệu được lưu trong sheet.',dict(kind='empty_sheet',sheet=name,sheet_state=state))

@@ -91,5 +91,28 @@ class ChatEvidenceIntegrity(unittest.TestCase):
         self.assertGreater(result['file_coverage']['sent_units'],0)
         self.assertEqual(result['citation_status'],'ids_valid_not_entailment_checked')
 
+    def test_preview_and_selected_scope_excludes_prior_dependencies(self):
+        id=self.save([dict(location='North',body='PRIVATE-NORTH-7319'),dict(location='South',body='PUBLIC-SOUTH-7319')])
+        preview=self.client.get(f'/api/conversations/{self.cv}/attachments/{id}/preview')
+        self.assertEqual(preview.status_code,200);self.assertEqual(preview.json()['total'],2)
+        self.assertEqual(preview.json()['items'][1]['id'],id+'-2')
+        self.ask('Đọc file đính kèm','PRIVATE-NORTH-7319')
+        sent=[]
+        async def complete(messages,settings,max_tokens):
+            sent.append(messages);return 'PUBLIC-SOUTH-7319',dict(prompt_tokens=10,completion_tokens=10,total_tokens=20),'stop'
+        with patch('cyberant.model_provider.complete',side_effect=complete):
+            bad=self.client.post('/api/chat',json=dict(question='Đọc file',conversation_id=self.cv,file_unit_ids=['FILE-OTHER-1']))
+            self.assertEqual(bad.status_code,400);self.assertEqual(sent,[])
+            response=self.client.post('/api/chat',json=dict(question='Tiếp tục đọc file',conversation_id=self.cv,file_unit_ids=[id+'-2']))
+        self.assertEqual(response.status_code,200,response.text)
+        self.assertNotIn('PRIVATE-NORTH-7319',str(sent));self.assertIn('PUBLIC-SOUTH-7319',str(sent))
+        self.assertEqual(response.json()['file_coverage'],dict(available_units=1,sent_units=1))
+        self.assertEqual(response.json()['file_scope']['total_units'],2)
+        self.assertEqual(response.json()['diagnostics']['packing']['history_sent'],[])
+        self.assertIn('Phạm vi được chọn',response.json()['answer'])
+        cv2=self.client.post('/api/conversations').json()['id']
+        self.assertEqual(self.client.get(f'/api/conversations/{cv2}/attachments/{id}/preview').status_code,404)
+        self.assertEqual(self.client.get(f'/api/conversations/{self.cv}/attachments/{id}/preview?offset=-1').status_code,400)
+
 
 if __name__=='__main__':unittest.main()

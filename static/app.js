@@ -27,17 +27,48 @@ const chatFiles=document.createElement('input');chatFiles.type='file';chatFiles.
 const attachedList=document.createElement('div');attachedList.setAttribute('aria-live','polite');fileLabel.append(chatFiles);fileControls.append(fileLabel,attachedList);$('#chat-form').append(fileControls);
 const filePrivacy=document.createElement('small');filePrivacy.textContent='File chỉ thuộc cuộc trò chuyện này. Nội dung được gửi tới model AI khi trả lời; chỉ tải dữ liệu bạn được phép chia sẻ với nhà cung cấp.';fileControls.prepend(filePrivacy);
 let fileBusy=false,chatController=null;
+let scopeConversation=null,attachmentFiles=[],excludedFileUnits=new Set();
+function selectedFileUnits(){return attachmentFiles.flatMap(f=>Array.from({length:f.units},(_,i)=>f.id+'-'+(i+1))).filter(id=>!excludedFileUnits.has(id))}
+async function previewFile(cv,file,offset=0){
+  if(busy||fileBusy||conversationLoading||currentConversation!==cv)return;
+  const data=await api('/conversations/'+cv+'/attachments/'+file.id+'/preview?offset='+offset);
+  if(currentConversation!==cv)return;
+  $('#modal-title').textContent='Preview: '+data.name;
+  $('#modal-meta').textContent=`extract-${data.extraction_version} · ${data.total} phần · checkbox chọn phạm vi lượt tiếp theo (không lưu server)`;
+  const panel=$('#modal-body');panel.replaceChildren();$('#modal-references').replaceChildren();
+  const warnings=document.createElement('p');warnings.textContent=data.warnings.join(' ');panel.append(warnings);
+  const all=document.createElement('button');all.type='button';all.textContent='Chọn toàn bộ file';
+  all.onclick=()=>{for(let i=1;i<=file.units;i++)excludedFileUnits.delete(file.id+'-'+i);previewFile(cv,file,offset).catch(e=>toast(e.message))};
+  const none=document.createElement('button');none.type='button';none.textContent='Bỏ chọn toàn bộ file';
+  none.onclick=()=>{for(let i=1;i<=file.units;i++)excludedFileUnits.add(file.id+'-'+i);previewFile(cv,file,offset).catch(e=>toast(e.message))};panel.append(all,none);
+  for(const unit of data.items){
+    const section=document.createElement('section'),label=document.createElement('label'),box=document.createElement('input');box.type='checkbox';box.checked=!excludedFileUnits.has(unit.id);
+    box.onchange=()=>{if(box.checked)excludedFileUnits.delete(unit.id);else excludedFileUnits.add(unit.id)};
+    label.append(box,document.createTextNode(unit.location+' · '+unit.id));const text=document.createElement('pre');text.textContent=unit.body;
+    section.append(label,text);
+    if(unit.structure){const details=document.createElement('details'),summary=document.createElement('summary'),metadata=document.createElement('pre');summary.textContent='Cấu trúc / kiểu / cảnh báo';metadata.textContent=JSON.stringify(unit.structure,null,2);details.append(summary,metadata);section.append(details)}
+    panel.append(section);
+  }
+  for(const [label,position] of [['Trang trước',offset?Math.max(0,offset-20):null],['Trang tiếp',data.next_offset]]){
+    const button=document.createElement('button');button.type='button';button.textContent=label;button.disabled=position===null;button.onclick=()=>previewFile(cv,file,position).catch(e=>toast(e.message));panel.append(button);
+  }
+  if(!$('#document-modal').open)$('#document-modal').showModal();
+}
 const stopChat=document.createElement('button');stopChat.type='button';stopChat.textContent='Dừng';stopChat.className='hidden';$('#chat-form .composer-bottom').append(stopChat);
 stopChat.onclick=()=>chatController?.abort();
 async function refreshAttachments(){
   attachedList.replaceChildren();if(!currentConversation)return;
   const cv=currentConversation,result=await api('/conversations/'+cv+'/attachments');if(cv!==currentConversation)return;
+  if(scopeConversation!==cv){scopeConversation=cv;excludedFileUnits.clear()}
+  attachmentFiles=result.items;
+  const valid=new Set(attachmentFiles.flatMap(f=>Array.from({length:f.units},(_,i)=>f.id+'-'+(i+1))));excludedFileUnits=new Set([...excludedFileUnits].filter(id=>valid.has(id)));
   for(const file of result.items){
     const row=document.createElement('div'),text=document.createElement('span'),remove=document.createElement('button');
     text.textContent=`${file.name} · ${file.units} phần đọc được${file.warnings.length?' · '+file.warnings.join(' '):''}`;
     remove.type='button';remove.textContent='Xóa file';remove.disabled=busy||fileBusy;
     remove.onclick=async()=>{if(busy||fileBusy)return;fileBusy=true;updateChatControls();try{await api('/conversations/'+cv+'/attachments/'+file.id,{method:'DELETE'});await refreshAttachments()}catch(e){toast(e.message)}finally{fileBusy=false;updateChatControls()}};
-    row.append(text,remove);attachedList.append(row);
+    const preview=document.createElement('button');preview.type='button';preview.textContent='Preview / chọn phạm vi';preview.disabled=busy||fileBusy;
+    preview.onclick=()=>previewFile(cv,file).catch(e=>toast(e.message));row.append(text,preview,remove);attachedList.append(row);
   }
 }
 chatFiles.onchange=async()=>{
@@ -58,6 +89,7 @@ chatFiles.onchange=async()=>{
 async function api(path,options={}){
   if(path==='/chat'&&typeof options.body==='string'){
     const body=JSON.parse(options.body);body.audience=audienceSelect.value;
+    if(scopeConversation===currentConversation&&excludedFileUnits.size)body.file_unit_ids=selectedFileUnits();
     if(urlInput.value.trim()){body.urls=urlInput.value.split(/\n/).map(x=>x.trim()).filter(Boolean);urlInput.value=''}
     if(webInput.value.trim()){body.web_query=webInput.value.trim();webInput.value=''}
     options={...options,body:JSON.stringify(body)};
