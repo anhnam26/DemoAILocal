@@ -34,8 +34,11 @@ lookup làm bằng chứng. Thiếu extractive content thì báo không có ngu�
 Nguồn web không được nhập vào kho hay nâng thành nguồn đã duyệt. UI hiển thị URL,
 tiêu đề và thời điểm tra cứu, không mở qua API tài liệu nội bộ.
 
-`WEB_SEARCH_ENABLED=true`, `WEB_SEARCH_MAX_RESULTS=3` (1–5),
-`WEB_SEARCH_OUTPUT_TOKENS=1000` (256–1600). Đặt enabled=false để tắt web.
+`WEB_SEARCH_ENABLED=true`, `WEB_SEARCH_MAX_RESULTS=5` (1–10),
+`WEB_SEARCH_OUTPUT_TOKENS=1600` (256–4000). Đặt enabled=false để tắt search plugin
+(không tắt direct URL do người dùng chỉ định). Cấu hình `.env` cũ vẫn giữ nguyên.
+Direct URL HTTPS có SSRF/DNS pinning, text/Office/PDF extraction, file riêng và
+SSE progress/cancellation xem [CHAT_CAPABILITIES.md](CHAT_CAPABILITIES.md).
 Trích dẫn `[WEB-ID]` có định danh theo lượt/nguồn, phải nằm trong evidence đã gửi.
 Lịch sử chuyển citation web cũ thành URL/thời điểm có nhãn chưa tra cứu lại, không
 cho mã WEB-1 cũ trở thành bằng chứng của lượt mới. Snapshot feedback giữ cả nguồn

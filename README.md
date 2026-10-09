@@ -44,6 +44,11 @@ dọn process và giới hạn Quick Tunnel. Chỉ dùng cho chia sẻ tạm th�
 
 ## Cấu trúc
 
+Chat mới: file riêng DOCX/XLSX/PPTX/PDF/CSV/TXT/MD, đọc HTTPS công khai, tiến trình
+và nút Dừng, danh mục SOW/BOM đầy đủ. Xem [docs/CHAT_CAPABILITIES.md](docs/CHAT_CAPABILITIES.md)
+cho giới hạn, privacy và **upgrade attachment schema vào đích mới**; code update
+không tự sửa DB/.env và không tự nâng ngân sách runtime.
+
 - `cyberant/`: backend, cấu hình, tài khoản, hội thoại, usage, tri thức, vận hành.
 - `static/`: giao diện và tài sản đang sử dụng.
 - `knowledge/manifest.json` + `knowledge/documents/A…F/`: nguồn tri thức/checksum.

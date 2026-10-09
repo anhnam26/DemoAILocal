@@ -19,10 +19,12 @@ Phiếu khảo sát có guidance vẫn dùng được, nhưng ưu tiên hướng
 
 | Loại | UTF-8 bytes input | Tokens output | Nguồn tối đa |
 |---|---:|---:|---:|
-| Khái niệm | 12000 | 1500 | 6 |
-| Hạng mục riêng | 32000 | 4000 | 12 |
-| Cấu hình tổng thể | 64000 | 8000 | 24 |
-| So sánh/SOW nhiều phần | 48000 | 6000 | 18 |
+| Khái niệm | tối đa 32000 | tối đa 4000 | 6 |
+| Chuyên môn/cấu hình/SOW/BOM | configured cap (default 192000) | configured cap (default 16000) | configured cap (default 48) |
+
+Mặc định code mới ngày 2026-10-09; `.env` cũ không tự cập nhật. Chi tiết file,
+URL, reasoning và migration tại [CHAT_CAPABILITIES.md](CHAT_CAPABILITIES.md).
+Catalog bên dưới là snapshot lịch sử, không giới hạn live đã nghiệm thu.
 
 Tất cả chịu trần RAG_INPUT_BYTES/RAG_OUTPUT_TOKENS/RAG_TOP_K. Input là byte
 proxy, không token chính xác; usage provider mới là số thực. Không tăng quota,
