@@ -231,6 +231,22 @@ class WorkspaceUI(unittest.TestCase):
             page.set_viewport_size({'width':1440,'height':900});page.locator('#question').fill('')
             page.evaluate("$('#toast').classList.add('hidden')")
             page.screenshot(path=str(ROOT/'plan_action'/'13-composer-normal.png'))
+            seen=[]
+            async def read_files(messages,settings,max_tokens):
+                seen.append(messages)
+                await asyncio.sleep(1)
+                source_id=re.search(r'\[(FILE-[A-Z0-9-]+)\]',messages[-1]['content']).group(1)
+                return 'File đã được đọc ['+source_id+'].',dict(prompt_tokens=20,completion_tokens=10,total_tokens=30),'stop'
+            with patch('cyberant.model_provider.complete',side_effect=read_files):
+                page.locator('#question').fill('Read the attached files')
+                page.locator('#send').click()
+                expect(page.locator('.thinking')).to_have_text('Đang phân tích nguồn và tổng hợp câu trả lời…')
+                self.assertEqual(page.locator('.thinking').evaluate("el=>getComputedStyle(el,'::after').content"),'none')
+                page.screenshot(path=str(ROOT/'plan_action'/'14-thinking-single-ellipsis.png'))
+                expect(page.locator('.message.assistant')).to_contain_text('File đã được đọc')
+                expect(page.locator('#send')).to_be_enabled()
+            self.assertEqual(len(seen),1)
+            self.assertIn('Good file',str(seen[0]));self.assertIn('Dropped text',str(seen[0]))
             self.assertEqual(errors,[]);context.close();browser.close()
 
     def test_chat_file_api_owner_context_and_deletion(self):
@@ -258,6 +274,41 @@ class WorkspaceUI(unittest.TestCase):
         member.post('/api/conversations/'+cv+'/attachments',files={'file':('new.txt',b'Content for deletion')})
         self.assertEqual(member.delete('/api/conversations/'+cv).status_code,200)
         with self.module.connect() as c:self.assertEqual(c.execute('SELECT COUNT(*) FROM attachments WHERE conversation_id=?',(cv,)).fetchone()[0],0)
+
+    def test_docx_pdf_upload_preview_and_model_input(self):
+        import io,zipfile
+        from pypdf import PdfWriter
+        from pypdf.generic import DictionaryObject,NameObject,DecodedStreamObject
+        from cyberant.document_extractors import W
+        word=io.BytesIO()
+        with zipfile.ZipFile(word,'w') as z:
+            z.writestr('word/document.xml',f'<w:document xmlns:w="{W[1:-1]}"><w:body><w:p><w:r><w:t>Registration fixture DOCX quantity 7</w:t></w:r></w:p></w:body></w:document>')
+        writer=PdfWriter();page=writer.add_blank_page(width=600,height=800)
+        font=DictionaryObject({NameObject('/Type'):NameObject('/Font'),NameObject('/Subtype'):NameObject('/Type1'),NameObject('/BaseFont'):NameObject('/Helvetica')})
+        page[NameObject('/Resources')]=DictionaryObject({NameObject('/Font'):DictionaryObject({NameObject('/F1'):writer._add_object(font)})})
+        stream=DecodedStreamObject();stream.set_data(b'BT /F1 12 Tf 50 700 Td (Resume fixture PDF experience 4 years) Tj ET')
+        page[NameObject('/Contents')]=writer._add_object(stream)
+        pdf=io.BytesIO();writer.write(pdf)
+        member=self.client();cv=member.post('/api/conversations').json()['id'];ids=[];seen=[]
+        for name,raw,text in [('registration.docx',word.getvalue(),'Registration fixture DOCX quantity 7'),('resume.pdf',pdf.getvalue(),'Resume fixture PDF experience 4 years')]:
+            uploaded=member.post('/api/conversations/'+cv+'/attachments',files={'file':(name,raw)})
+            self.assertEqual(uploaded.status_code,200,uploaded.text)
+            id=uploaded.json()['id'];ids.append(id)
+            preview=member.get('/api/conversations/'+cv+'/attachments/'+id+'/preview')
+            self.assertEqual(preview.status_code,200,preview.text)
+            self.assertIn(text,str(preview.json()['items']))
+        async def answer(messages,settings,max_tokens):
+            seen.append(messages)
+            return 'Registration 7 ['+ids[0]+'-1]. Experience 4 years ['+ids[1]+'-1].',dict(prompt_tokens=20,completion_tokens=10,total_tokens=30),'stop'
+        with patch('cyberant.model_provider.complete',side_effect=answer),patch('cyberant.url_reader.read') as read:
+            response=member.post('/api/chat',json=dict(question='Read both attached documents',conversation_id=cv))
+        self.assertEqual(response.status_code,200,response.text)
+        self.assertEqual(len(seen),1);read.assert_not_called()
+        self.assertIn('Registration fixture DOCX quantity 7',str(seen[0]))
+        self.assertIn('Resume fixture PDF experience 4 years',str(seen[0]))
+        self.assertEqual(response.json()['file_coverage'],{'available_units':2,'sent_units':2})
+        self.assertTrue(response.json()['citations_verified'])
+        self.assertEqual(member.delete('/api/conversations/'+cv).status_code,200)
 
     def test_complete_artifacts_survive_history_and_revoke(self):
         member=self.client();cv=member.post('/api/conversations').json()['id']
