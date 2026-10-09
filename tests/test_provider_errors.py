@@ -133,6 +133,7 @@ class ProviderErrorTests(unittest.TestCase):
                     assert response.status_code==200,response.text
                     assert complete.call_count==1
                     values['WEB_SEARCH_ENABLED']='1'
+                    values['WEB_SEARCH_PROVIDER_APPROVED']='1'
                     async def web_failure(*args):raise httpx.ConnectError(secret)
                     with patch('cyberant.model_provider.complete',side_effect=web_failure) as complete:
                         response=client.post('/api/chat',json=dict(question='DNS la gi?',web_query='DNS official documentation',conversation_id=cv))

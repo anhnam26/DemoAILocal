@@ -1,10 +1,52 @@
 """Public-query privacy, evidence validation and OpenRouter payload offline."""
-import asyncio,unittest
+import asyncio,unittest,tempfile,sqlite3
+from pathlib import Path
+from contextlib import contextmanager
+from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import patch
 import httpx
 from cyberant import model_provider,rag,web_search
 
 class WebTests(unittest.TestCase):
+    def test_disabled_by_default_and_approval_required(self):
+        for values in ({},{'WEB_SEARCH_ENABLED':'true'},{'WEB_SEARCH_PROVIDER_APPROVED':'true'}):
+            with patch('cyberant.config.env',return_value=values):self.assertFalse(web_search.settings()['enabled'])
+        with patch('cyberant.config.env',return_value={'WEB_SEARCH_ENABLED':'true','WEB_SEARCH_PROVIDER_APPROVED':'true','WEB_SEARCH_MAX_RESULTS':'10'}):
+            self.assertTrue(web_search.settings()['enabled']);self.assertEqual(web_search.settings()['max_results'],3)
+        for query in ('DNS password=abc','DNS https://example.com?token=abc','DNS client@example.com','DNS 10.1.2.3'):
+            self.assertIsNone(web_search.public_query('DNS',query))
+
+    def test_persistent_atomic_quotas_and_concurrency(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp)/'audit.sqlite3'
+            @contextmanager
+            def connect():
+                c=sqlite3.connect(path,timeout=10);c.row_factory=sqlite3.Row
+                try:
+                    c.execute('BEGIN IMMEDIATE')
+                    yield c;c.commit()
+                finally:c.close()
+            with connect() as c:c.execute('CREATE TABLE audit(id INTEGER PRIMARY KEY,ts TEXT,action TEXT,role TEXT,detail TEXT)')
+            cfg=dict(monthly=5,daily=3,per_user=2,parallel=1)
+            with ThreadPoolExecutor(max_workers=8) as pool:
+                ids=list(pool.map(lambda _:web_search.reserve(connect,'user',cfg),range(8)))
+            accepted=[i for i in ids if i is not None];self.assertEqual(len(accepted),1)
+            web_search.release(connect,accepted[0])
+            second=web_search.reserve(connect,'user',cfg);self.assertIsNotNone(second);web_search.release(connect,second)
+            self.assertIsNone(web_search.reserve(connect,'user',cfg))
+            # Fresh connections/server-independent counts persist after lease release.
+            third=web_search.reserve(connect,'other',cfg);self.assertIsNotNone(third);web_search.release(connect,third)
+            self.assertIsNone(web_search.reserve(connect,'third',cfg))
+            with connect() as c:
+                self.assertEqual(c.execute("SELECT COUNT(*) FROM audit WHERE action='web_search_reserve'").fetchone()[0],3)
+                self.assertNotIn('DNS',str(c.execute('SELECT detail FROM audit').fetchall()))
+
+    def test_task_presentation_not_account_role(self):
+        from cyberant import service_evidence
+        for q,wanted in [('Soạn email cho khách hàng về DNS','sales'),('Debug VPN và rollback','engineering'),('DNS là gì?','general'),('Báo giá và triển khai VPN','general')]:
+            self.assertEqual(service_evidence.audience(q),wanted)
+        self.assertIn('không suy đoán nghề nghiệp',rag.system_prompt('DNS là gì?'))
+
     def test_public_query_never_sends_private_text(self):
         query=web_search.public_query('Cấu hình VPN Cisco cho khách hàng ACME, IP 10.20.1.2, secret=ABC')
         self.assertEqual(query,'vpn cisco official documentation overview')

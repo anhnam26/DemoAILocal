@@ -6,7 +6,7 @@ from cyberant import url_reader,document_extractors
 
 class URLReader(unittest.TestCase):
     def test_urls_and_ips(self):
-        for url in ['http://example.com','https://127.0.0.1','https://example.com:444','https://user:pass@example.com','https://x.local','https://x.localhost','https://example.com\n/']:
+        for url in ['http://example.com','https://127.0.0.1','https://example.com:444','https://user:pass@example.com','https://x.local','https://x.localhost','https://example.com\n/','https://example.com/?access_token=abc','https://example.com/?X-Amz-Signature=abc','https://example.com/#token=abc']:
             with self.subTest(url=url),self.assertRaises(ValueError):url_reader.validate_url(url)
         for ip in ['127.0.0.1','10.0.0.1','169.254.169.254','::1','::ffff:8.8.8.8','224.0.0.1','0.0.0.0']:
             self.assertFalse(url_reader.public_ip(ip),ip)

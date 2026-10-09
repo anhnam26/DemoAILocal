@@ -5,9 +5,41 @@ from urllib.parse import urlsplit
 from cyberant import config,rag
 
 def settings():
-    enabled=config.env().get('WEB_SEARCH_ENABLED','true').lower() in ('true','1','yes')
-    return dict(enabled=enabled,max_results=config.integer('WEB_SEARCH_MAX_RESULTS',5,1,10),
-                output_tokens=config.integer('WEB_SEARCH_OUTPUT_TOKENS',1600,256,4000))
+    values=config.env()
+    enabled=all(values.get(key,'false').lower() in ('true','1','yes') for key in ('WEB_SEARCH_ENABLED','WEB_SEARCH_PROVIDER_APPROVED'))
+    return dict(enabled=enabled,max_results=min(3,config.integer('WEB_SEARCH_MAX_RESULTS',3,1,10)),
+                output_tokens=config.integer('WEB_SEARCH_OUTPUT_TOKENS',1000,256,4000),
+                daily=config.integer('WEB_SEARCH_DAILY_LIMIT',30,1,1000),
+                monthly=config.integer('WEB_SEARCH_MONTHLY_LIMIT',300,1,10000),
+                per_user=config.integer('WEB_SEARCH_USER_DAILY_LIMIT',5,1,100),
+                parallel=config.integer('WEB_SEARCH_PARALLEL',1,1,4))
+
+
+def reserve(connect,user_id,cfg):
+    """Atomic durable admission using the existing audit store; no query/secret logs.
+
+    Attempts count even on failure/cancel. Inflight leases expire after 300 seconds,
+    longer than the complete chat deadline. This is an application call cap, not a
+    provider currency cap; operators must still configure provider billing limits.
+    """
+    stamp=datetime.now(timezone.utc).isoformat();day=stamp[:10];month=stamp[:7]
+    with connect() as c:
+        rows=c.execute("SELECT ts,role,detail FROM audit WHERE action='web_search_reserve' AND ts>=?",(month,)).fetchall()
+        if len(rows)>=cfg['monthly']:return None
+        today=[r for r in rows if r['ts'].startswith(day)]
+        if len(today)>=cfg['daily'] or sum(r['role']==user_id for r in today)>=cfg['per_user']:return None
+        active=0
+        # Include a previous-month lease at UTC rollover; counts remain monthly.
+        pending=c.execute("SELECT ts FROM audit WHERE action='web_search_reserve' AND detail='pending' AND ts>=datetime(?,'-5 minutes')",(stamp,)).fetchall()
+        for row in pending:
+            if (datetime.fromisoformat(stamp)-datetime.fromisoformat(row['ts'])).total_seconds()<300:active+=1
+        if active>=cfg['parallel']:return None
+        result=c.execute("INSERT INTO audit(ts,action,role,detail) VALUES(?,'web_search_reserve',?,'pending')",(stamp,user_id))
+        return result.lastrowid
+
+
+def release(connect,reservation):
+    with connect() as c:c.execute("UPDATE audit SET detail='finished' WHERE id=? AND action='web_search_reserve'",(reservation,))
 
 def safe_url(value):
     if not isinstance(value,str) or len(value)>2048 or any(c.isspace() for c in value):return False
@@ -15,16 +47,32 @@ def safe_url(value):
         p=urlsplit(value);host=p.hostname
         if p.scheme!='https' or not host or p.username or p.password or p.port not in (None,443):return False
         if host=='localhost' or host.endswith(('.local','.internal')) or '.' not in host:return False
+        if secret_url(value):return False
         try:return ipaddress.ip_address(host).is_global
         except ValueError:return True
     except ValueError:return False
+
+
+def secret_url(value):
+    from urllib.parse import unquote,parse_qsl
+    try:
+        p=urlsplit(value)
+        # Shared URLs with credentials/signatures must not be sent to remote readers.
+        for key,_ in parse_qsl(p.query,keep_blank_values=True):
+            if re.search(r'(token|secret|password|passwd|credential|signature|api[-_]?key|auth|session|access[-_]?key|x-amz-|x-goog-)',key,re.I):return True
+        text=unquote(p.path+' '+p.query+' '+p.fragment)
+        return bool(re.search(r'\b(?:Bearer\s+|sk-[A-Za-z0-9_-]{12,}|eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.|(?:token|secret|password|api[-_]?key|auth)\s*[=:])',text,re.I))
+    except ValueError:return True
 
 def public_query(question,explicit=None):
     """Automatic search uses only recognized public topics, never arbitrary user text.
 
     An explicit query is user-confirmed public text. Do not infer it from chat.
     """
-    if explicit:return explicit.strip()
+    if explicit:
+        explicit=explicit.strip()
+        if len(explicit)>300 or re.search(r'(https?://|@|\b\d{1,3}(?:\.\d{1,3}){3}\b|token\s*[=:]|password|secret\s*[=:]|api[_-]?key|bearer|sk-[\w-]{12,})',explicit,re.I):return None
+        return explicit
     q=rag.norm(question)
     topics=['dns','dhcp','vlan','vpn','ssl vpn','ipsec','bgp','ospf','tcp','udp','ipv6','ipv4',
             'firewall','nat','ransomware','nist','owasp','cve','wifi','wi-fi','sd-wan','zero trust',
@@ -42,8 +90,11 @@ def public_query(question,explicit=None):
 def fresh(question):
     return bool(re.search(r'\b(moi nhat|hien nay|hien tai|cap nhat|hom nay|cve|lo hong|phien ban moi|latest|today)\b',rag.norm(question)))
 
+def search_requested(question):
+    return bool(re.search(r'\b(tim tren mang|tim tren web|tra cuu internet|tim kiem internet|search online|search the web|nguon chinh thuc)\b',rag.norm(question)))
+
 def should_search(question,found,explicit=None):
-    if explicit or fresh(question):return True
+    if explicit or fresh(question) or search_requested(question):return True
     if rag.is_followup(question):return False
     profile=rag.configuration(question)
     if profile and profile['broad']:

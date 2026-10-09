@@ -326,7 +326,7 @@ def retrieve(question, documents, top_k=6,route=True):
 def system_prompt(question,audience='auto'):
     service_evidence.audience(question,audience) # Validate even for technical templates.
     technical=configuration_guidance(question)
-    return SYSTEM+(technical or service_evidence.guidance(question,intent(question),audience))
+    return SYSTEM+service_evidence.presentation(question,audience)+(technical or service_evidence.guidance(question,intent(question),audience))
 
 def pack(question,found,budget,audience='auto',diagnostics=None,history=None,web=None):
     history=history or [];kept_history=[]

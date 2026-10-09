@@ -12,8 +12,8 @@ from contextlib import asynccontextmanager
 from typing import Literal
 from cyberant import accounts,config,token_usage,runtime_lock
 from cyberant import conversations,quality_feedback
-APP_VERSION='2026.10.09-chat-tools-2'
-PROMPT_VERSION='service-files-web-5'
+APP_VERSION='2026.10.09-chat-workspace-3'
+PROMPT_VERSION='service-files-web-6'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
 from cyberant import admin_system,rag,model_provider,storage,web_search,provider_errors,service_evidence,attachments,document_extractors,url_reader
@@ -240,6 +240,7 @@ def create_app():
             try:url_reader.validate_url(url)
             except ValueError as e:raise HTTPException(400,str(e)) from None
         url_reports=[]
+        page_reads=0;search_attempted=False
         async def invoke(messages,settings,limit,input_size):
             nonlocal calls,reservation
             remaining=provider_deadline-time.monotonic()
@@ -270,6 +271,32 @@ def create_app():
             except (httpx.HTTPError,ValueError,KeyError,TypeError,IndexError) as e:
                 raise provider_failure(e) from None
             finally:token_usage.settle(connect,reservation)
+        async def lookup_pages():
+            nonlocal page_reads,search_attempted,web_state
+            if search_attempted or page_reads>=3:return []
+            search_attempted=True
+            reservation=web_search.reserve(connect,u['id'],web_cfg)
+            if reservation is None:web_state='quota_exceeded';return []
+            try:
+                await progress('Đang tìm kiếm bằng chủ đề công khai')
+                lookup_messages=web_search.messages(query)
+                lookup_size=sum(rag.estimate_tokens(m['content'])+16 for m in lookup_messages)+64
+                _,web_usage,_=await invoke(lookup_messages,{**cfg,'web_lookup':True,'web_max_results':min(web_cfg['max_results'],3-page_reads)},web_cfg['output_tokens'],lookup_size)
+                pages=[]
+                # Result excerpts are discovery only. Grounding uses actual safe reads.
+                for candidate in web_search.evidence(web_usage,web_cfg['max_results']):
+                    if page_reads>=3:break
+                    page_reads+=1;url=candidate['url']
+                    try:
+                        await progress('Đang đọc trang từ kết quả tìm kiếm')
+                        async with asyncio.timeout(min(30,max(.01,provider_deadline-time.monotonic()))):report=await url_reader.read(url)
+                        pages.extend(report['sources'])
+                        url_reports.append(dict(url=report['url'],status='read',origin='search',units=report['units'],warnings=report['warnings']))
+                    except (ValueError,httpx.HTTPError,OSError,TimeoutError,LookupError):
+                        url_reports.append(dict(url=url,status='unreadable',origin='search',units=0,warnings=['Không đọc được trang tìm thấy; đoạn kết quả không được dùng làm bằng chứng.']))
+                web_state='sources_returned' if pages else 'no_valid_sources'
+                return pages
+            finally:web_search.release(connect,reservation)
         # No record lookup or invented customer identity; this costs zero API calls.
         if not any(d.get('attachment_id') for d in allowed) and re.search(r'\b(crm-|contract-|quote-|ticket-|cong no|ho so khach|ten khach hang|khach hang thuc|dien thoai khach)',rag.norm(effective)):
             answer='Kho này chỉ giữ tài liệu lý thuyết và biểu mẫu trống; không lưu hồ sơ, liên hệ, hợp đồng hay công nợ khách hàng.'
@@ -305,8 +332,7 @@ def create_app():
             except ValueError as e:raise HTTPException(400,str(e))
             query=web_search.public_query(q,data.web_query)
             lookup=web_search.should_search(q,found,data.web_query)
-            if file_docs and not data.web_query:lookup=False
-            if requested_urls and not data.web_query:lookup=False
+            if (file_docs or requested_urls) and not data.web_query and not web_search.search_requested(q):lookup=False
             if lookup and not web_cfg['enabled']:web_state='disabled'
             elif lookup and not query:web_state='public_query_required'
             await LOCK.enter(cfg['parallel'])
@@ -316,6 +342,7 @@ def create_app():
                     await progress('Đang đọc URL công khai được chỉ định')
                     url_deadline=time.monotonic()+90
                     for url in requested_urls:
+                        page_reads+=1
                         try:
                             remaining=url_deadline-time.monotonic()
                             if remaining<=0:raise TimeoutError()
@@ -326,12 +353,7 @@ def create_app():
                             url_reports.append(dict(url=url,status='unreadable',units=0,warnings=['Không đọc được URL: có thể bị chặn, yêu cầu đăng nhập, vượt giới hạn hoặc không an toàn.']))
                     web_state='sources_returned' if web else 'no_valid_sources'
                 if lookup and query and web_cfg['enabled']:
-                    await progress('Đang tìm kiếm Internet bằng truy vấn công khai')
-                    lookup_messages=web_search.messages(query)
-                    lookup_size=sum(rag.estimate_tokens(m['content'])+16 for m in lookup_messages)+64
-                    _,web_usage,_=await invoke(lookup_messages,{**cfg,'web_lookup':True,'web_max_results':web_cfg['max_results']},web_cfg['output_tokens'],lookup_size)
-                    web+=web_search.evidence(web_usage,web_cfg['max_results'])
-                    web_state='sources_returned' if web else 'no_valid_sources'
+                    web+=await lookup_pages()
                 messages,found,estimated=rag.pack(effective,found,budget,data.audience,packing,history=history,web=web)
                 sent_web=set(packing['web_sent'])
                 for report in url_reports:
@@ -345,11 +367,7 @@ def create_app():
                     if not web_cfg['enabled']:web_state='disabled'
                     elif not query:web_state='public_query_required'
                     else:
-                        lookup_messages=web_search.messages(query)
-                        lookup_size=sum(rag.estimate_tokens(m['content'])+16 for m in lookup_messages)+64
-                        _,web_usage,_=await invoke(lookup_messages,{**cfg,'web_lookup':True,'web_max_results':web_cfg['max_results']},web_cfg['output_tokens'],lookup_size)
-                        web=web_search.evidence(web_usage,web_cfg['max_results'])
-                        web_state='sources_returned' if web else 'no_valid_sources'
+                        web=await lookup_pages()
                         if web:
                             messages,found,estimated=rag.pack(effective,found,budget,data.audience,packing,history=history,web=web)
                             web=[d for d in web if d['id'] in packing['web_sent']]
@@ -384,9 +402,11 @@ def create_app():
                         answer='Chưa có trích dẫn hợp lệ để xác minh thông tin cập nhật trong câu hỏi này. Hãy cung cấp nguồn chính thức hoặc truy vấn công khai cụ thể để tra cứu.'
                         mode='Thiếu nguồn cập nhật';citation_status='abstained'
                     else:answer+='\n\nLưu ý: phản hồi dựa trên kiến thức chung hoặc ngữ cảnh hội thoại, chưa được đối chiếu nguồn trích dẫn.'
-                if web_state in ('public_query_required','disabled','no_valid_sources','budget_omitted'):
-                    answer+='\n\nTra cứu Internet: '+{'public_query_required':'chưa có truy vấn công khai an toàn; bạn có thể nhập truy vấn riêng trong mục tra cứu web.',
-                        'disabled':'đang bị tắt trong cấu hình.','no_valid_sources':'không nhận được đoạn nguồn và URL hợp lệ; không coi phản hồi là đã được web xác minh.',
+                if web_state in ('public_query_required','disabled','quota_exceeded','no_valid_sources','budget_omitted'):
+                    answer+='\n\nTra cứu Internet: '+{'public_query_required':'chưa xác định được chủ đề công khai an toàn; hãy nêu chủ đề hoặc gửi link chính thức trong tin nhắn.',
+                        'disabled':'chưa được bật và phê duyệt provider/chi phí trên server; có thể gửi link HTTPS công khai để đọc trực tiếp.',
+                        'quota_exceeded':'đã đạt hạn mức hoặc đang có lượt tra cứu khác; không tự gửi lại.',
+                        'no_valid_sources':'không đọc được trang nguồn hợp lệ; không coi đoạn kết quả tìm kiếm là bằng chứng.',
                         'budget_omitted':'đã tìm được nguồn nhưng ngân sách đầu vào không đủ chứa đoạn nguồn; không coi phản hồi là đã được web xác minh.'}[web_state]
                 if finish=='length' and citation_status!='invalid':
                     answer+='\n\n**Câu trả lời bị cắt do giới hạn output.** Gửi “Tiếp tục hướng dẫn ở trên” để yêu cầu phần tiếp theo trong cuộc trò chuyện này; lượt tiếp theo dùng quota riêng. Hệ thống không tự gọi lại.'
@@ -435,7 +455,7 @@ def create_app():
                      retrieved_sources=retrieved_sources,sent_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found],
                       input_budget=budget,estimated_input=estimated,output_budget=output,usage_record_id=reservation,usage_record_ids=usage_records,
                       usage=usage,finish_reason=finish,citation_errors=citation_errors,packing=packing,
-                      requested_audience=data.audience,
+                      requested_audience=data.audience,search_attempted=search_attempted,page_reads=page_reads,
                        model_limits=cfg.get('model_limits'),model_limits_configured=cfg.get('model_limits_configured',False),
                      scope=rag.scope(effective),device_details_required=rag.intent(effective)=='procedure' and rag.scope(effective)=='generic'),
                  retrieval={**routing,'intent':rag.intent(effective),'retrieved_chunks':retrieved_count,'selected_chunks':len(found),
