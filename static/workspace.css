@@ -1,6 +1,4 @@
 button{transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease,transform .16s ease}
-.chat-audience{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);white-space:nowrap}
-.chat-audience select{width:auto;max-width:135px;padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--paper);color:var(--ink)}
 button:not(:disabled):hover{box-shadow:0 0 0 2px #d8714040,0 5px 14px #1733441c;filter:brightness(.97)}
 button.primary:not(:disabled):hover,#send:not(:disabled):hover{background:#be4f22;color:white;box-shadow:0 4px 14px #a7462940}
 button.secondary:not(:disabled):hover,.answer-toolbar button:not(:disabled):hover,.message-footer button:not(:disabled):hover{background:#fff0e5;color:#783b1d;border-color:#c76638}

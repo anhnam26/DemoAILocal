@@ -14,7 +14,7 @@ async function openConversation(id,title='Cuộc trò chuyện'){
     const d=await api('/conversations/'+encodeURIComponent(id));currentConversation=id;
     displayConversation(d.messages);olderBefore=d.next_before;$('#older-messages').classList.toggle('hidden',!d.has_more);
     await refreshAttachments();
-    $('#question').value='';$('#conversation-title').textContent=title;switchView('chat');selectConversation();
+    $('#question').value='';resizeComposer();$('#conversation-title').textContent=title;switchView('chat');selectConversation();
     $('.chat-main').scrollTop=d.messages.length?$('.chat-main').scrollHeight:0;
     if(innerWidth<=600)setSidebar(true);
   }finally{conversationLoading=false;updateChatControls()}
@@ -29,7 +29,7 @@ async function startConversation(){
   try{
     const d=await api('/conversations',{method:'POST'});currentConversation=d.id;displayConversation([]);olderBefore=null;
     await refreshAttachments();
-    $('#question').value='';$('#older-messages').classList.add('hidden');$('#conversation-title').textContent='Cuộc trò chuyện mới';switchView('chat');
+    $('#question').value='';resizeComposer();$('#older-messages').classList.add('hidden');$('#conversation-title').textContent='Cuộc trò chuyện mới';switchView('chat');
     $('#history-search').value='';clearTimeout(historySearchTimer);selectConversation();
     if(innerWidth<=600)setSidebar(true);
     await loadConversations();
