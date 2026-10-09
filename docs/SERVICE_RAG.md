@@ -18,7 +18,8 @@
   giữ source location khi có trong metadata; không tự tạo revision chưa có.
 - Packing ưu tiên phần chưa có bằng chứng, giữ nguyên đoạn, ghi lý do bỏ nguồn.
 - API chat nhận `audience`: `auto` (mặc định), `sales`, `engineering`. Đây là lựa
-  chọn trình bày, không phải vai trò phân quyền. UI có lựa chọn tương ứng.
+  chọn trình bày, không phải vai trò phân quyền. UI luôn auto theo nhiệm vụ hiện tại;
+  ngữ cảnh nối tiếp hợp lệ dùng routing hiện có, không lấy profession từ tài khoản.
 - Prompt theo đối tượng, giữ cảnh báo draft, SKU/giá/SLA chưa xác nhận, man-hour
   khác downtime, dấu X khác số lượng và nguồn mâu thuẫn cần chốt phạm vi.
 

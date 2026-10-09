@@ -1,7 +1,22 @@
 # Chat: file riêng, đọc URL và SOW/BOM đầy đủ
 
-Phiên bản code `2026.10.09-chat-tools-2`. Giữ FastAPI/SQLite/JS/OpenRouter.
+Phiên bản code `2026.10.09-chat-workspace-3`. Giữ FastAPI/SQLite/JS/OpenRouter.
 Code được kiểm thử offline; chưa triển khai/migrate/restart dữ liệu đang chạy.
+
+## Workspace chat
+- Composer tự giãn tối đa 180px, Enter gửi/Shift+Enter xuống dòng, bảo vệ IME.
+  Không dropdown đối tượng hoặc form web; trình bày theo nhiệm vụ, không suy đoán nghề.
+- Nút + mở picker ẩn; file drop/picker chung pipeline. Không tự retry khi chưa rõ
+  server đã xử lý; lỗi từng file không hủy file thành công hoặc draft. Send/gợi ý,
+  đổi chat và xóa file bị chặn trong upload. Không kéo text/link thành file upload.
+- Thẻ file có số phần đã chọn và menu preview/phạm vi/xóa. Bỏ chọn cho lượt không
+  phải xóa khỏi chat; xóa có xác nhận và giữ cơ chế thu hồi nguồn. Không OCR/ảnh/voice.
+- Nguồn, usage và appendix nguyên văn thu gọn; warning thiếu nguồn/đọc không hết
+  vẫn nằm trong câu trả lời. SSE hiển thị stage thực, không giả streaming token.
+- Link HTTPS trực tiếp trong tin nhắn được đọc; chặn credential/query token/signature
+  và mẫu secret path/fragment trước network, redirect kiểm lại. Không phải DLP tuyệt
+  đối: chỉ gửi link công khai không chứa bí mật, kể cả URL opaque không nhận diện được.
+- Search mặc định tắt, cần approval provider/cost và quota server; xem CONVERSATION_WEB.
 
 ## SOW/BOM và trả lời chi tiết
 

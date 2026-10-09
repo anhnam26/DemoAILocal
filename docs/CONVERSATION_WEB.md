@@ -24,19 +24,33 @@ Nếu model báo thiếu bằng chứng bằng tín hiệu NEED_WEB sau lượt 
 một lookup rồi tổng hợp lại khi có evidence; không coi đây là retry lỗi provider.
 Truy vấn tự động chỉ ghép tên chủ đề công khai nhận diện được và mục đích chung;
 không gửi nguyên câu hỏi, lịch sử, tên khách hàng, IP hoặc tài liệu nội bộ vào search.
-Điều này giảm rò rỉ nhưng truy vấn có thể thiếu cụ thể. Người dùng có thể nhập truy
-vấn công khai riêng trong mục Tra cứu Internet; phải tránh dữ liệu nhạy cảm.
+Điều này giảm rò rỉ nhưng truy vấn có thể thiếu cụ thể. UI không còn form query/URL
+riêng: nêu chủ đề trong tin nhắn hoặc dán link công khai. API `web_query` tương thích
+cũ vẫn nhận text xác nhận công khai, chặn mẫu credential/email/IP/URL; không phải DLP.
 Không tự tạo truy vấn từ toàn bộ chat và không có bộ phân loại DLP tuyệt đối.
 
-Lookup riêng không chứa lịch sử/tri thức. Chỉ dùng đoạn `content` của provider
-`url_citation` cùng URL HTTPS hợp lệ làm evidence. Không dùng lời tóm tắt của model
-lookup làm bằng chứng. Thiếu extractive content thì báo không có nguồn hợp lệ.
+Lookup riêng không chứa lịch sử/tri thức. `url_citation` là bước tìm URL, không là
+bằng chứng. URL hợp lệ được đọc bằng reader DNS-pinned/redirect-validated; chỉ
+nội dung trang thực đọc được mới gửi model. Không dùng prose/snippet làm bằng chứng.
 Nguồn web không được nhập vào kho hay nâng thành nguồn đã duyệt. UI hiển thị URL,
 tiêu đề và thời điểm tra cứu, không mở qua API tài liệu nội bộ.
 
-`WEB_SEARCH_ENABLED=true`, `WEB_SEARCH_MAX_RESULTS=5` (1–10),
-`WEB_SEARCH_OUTPUT_TOKENS=1600` (256–4000). Đặt enabled=false để tắt search plugin
-(không tắt direct URL do người dùng chỉ định). Cấu hình `.env` cũ vẫn giữ nguyên.
+Search **mặc định tắt**. Cần cả `WEB_SEARCH_ENABLED=true` và
+`WEB_SEARCH_PROVIDER_APPROVED=true`, chỉ đặt sau khi operator xác nhận phí/key/quota
+OpenRouter/Exa. Chưa có provider miễn phí được xác nhận; không có paid fallback.
+Không thay `.env`; biến enabled cũ một mình không đủ để bật search.
+`WEB_SEARCH_MAX_RESULTS` mặc định 3 và bị chặn tối đa 3 dù config cũ lớn hơn;
+`WEB_SEARCH_OUTPUT_TOKENS=1000` (256–4000). Một search/lượt, tối đa 3 đọc trang chung
+cho direct URL và kết quả tìm kiếm; redirect chịu giới hạn riêng của reader.
+Quota atomic trong audit hiện có, không schema migration: mặc định
+`WEB_SEARCH_DAILY_LIMIT=30`, `WEB_SEARCH_MONTHLY_LIMIT=300`,
+`WEB_SEARCH_USER_DAILY_LIMIT=5`, `WEB_SEARCH_PARALLEL=1`. Failed/cancelled vẫn tính
+lượt, lease pending hết hạn sau 300s, release không giảm số lượt đã dùng. Counts UTC,
+tồn tại qua restart. Không log query/key trong reservation. Đây là quota call,
+**không bảo đảm trần tiền**: phải đặt billing limit provider; không xóa audit tháng
+hiện tại nếu muốn giữ quota. Single-process deployment như data layout hiện tại.
+Tắt search không tắt direct URL do người dùng chỉ định; direct URL không tính quota
+search nhưng chịu 3 reads/turn, generation gate/timeouts và SSRF protections.
 Direct URL HTTPS có SSRF/DNS pinning, text/Office/PDF extraction, file riêng và
 SSE progress/cancellation xem [CHAT_CAPABILITIES.md](CHAT_CAPABILITIES.md).
 Trích dẫn `[WEB-ID]` có định danh theo lượt/nguồn, phải nằm trong evidence đã gửi.
