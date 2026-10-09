@@ -16,7 +16,7 @@ APP_VERSION='2026.10.05-knowledge-guides-3'
 PROMPT_VERSION='accepted-configuration-3'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
-from cyberant import admin_system,rag,model_provider,storage,web_search,provider_errors,service_evidence
+from cyberant import admin_system,rag,model_provider,storage,web_search,provider_errors,service_evidence,attachments,document_extractors
 
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -61,7 +61,8 @@ def create_app():
         if origin and origin.rstrip('/') not in security['origins']:return Response('Origin denied',403)
         if request.method not in ('GET','HEAD','OPTIONS') and request.headers.get('sec-fetch-site')=='cross-site':return Response('Cross-site denied',403)
         length=request.headers.get('content-length')
-        if length and (not length.isdigit() or int(length)>2100000):return Response('Request too large',413)
+        body_limit=10_100_000 if re.fullmatch(r'/api/conversations/[a-f0-9]{24}/attachments',request.url.path) else 2_100_000
+        if length and (not length.isdigit() or int(length)>body_limit):return Response('Request too large',413)
         res=await call_next(request)
         res.headers['X-Content-Type-Options']='nosniff'
         res.headers['Content-Security-Policy']="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'"
@@ -88,7 +89,7 @@ def create_app():
 
     def source(d):return {**{k:d[k] for k in ('id','title','category','version','owner','valid_to')},'references':d.get('references',[]),'knowledge_type':d.get('knowledge_type','theory'),'group':d.get('group','F'),'review_status':d.get('review_status','reference'),'provenance':d.get('provenance',{}),'source_digest':d.get('source_digest') or hashlib.sha256(d['body'].encode()).hexdigest()}
     class Chat(BaseModel):
-        question:str=Field(min_length=2,max_length=1500)
+        question:str=Field(min_length=2,max_length=20000)
         conversation_id:str|None=Field(default=None,max_length=64)
         model:str|None=Field(default=None,min_length=1,max_length=200)
         audience:Literal['auto','sales','engineering']='auto'
@@ -137,10 +138,42 @@ def create_app():
     def document(id:str,req:Request):
         for d in docs_for(user(req),shared=True):
             if d['id']==id:return d
+        if id.startswith('FILE-'):
+            u=user(req)
+            with connect() as c:
+                if attachments.available(c):row=c.execute('SELECT conversation_id FROM attachments WHERE id=? AND user_id=?',(id.rsplit('-',1)[0],u['id'])).fetchone()
+                else:row=None
+            if row:
+                for d in attachments.documents(connect,u,row['conversation_id']):
+                    if d['id']==id:return d
         raise HTTPException(404,'Không tìm thấy tài liệu trong phạm vi được phép.')
     @app.post('/api/chat/reset')
     def reset_chat(req:Request):
         return dict(ok=True,conversation_id=conversations.create(connect,user(req),now))
+
+    @app.get('/api/conversations/{id}/attachments')
+    def list_files(id:str,req:Request):return dict(items=attachments.listing(connect,user(req),id))
+
+    @app.post('/api/conversations/{id}/attachments')
+    async def upload_file(id:str,req:Request,file:UploadFile=File(...)):
+        u=user(req);conversations.resolve(connect,u,id,now)
+        if id in ACTIVE_CONVERSATIONS:raise HTTPException(409,'Hội thoại đang trả lời; chờ trước khi đổi file.')
+        with connect() as c:attachments.require(c)
+        raw=await file.read(document_extractors.MAX_BYTES+1)
+        name=Path((file.filename or 'file').replace('\\','/')).name[:200]
+        try:parsed=await document_extractors.extract_async(raw,name)
+        except Exception:raise HTTPException(400,'Không đọc được file hoặc vượt giới hạn. Nhận UTF-8 TXT/MD/CSV, PDF text, DOCX/XLSX/PPTX; scan cần OCR, file cũ/mã hóa cần chuyển đổi.') from None
+        if id in ACTIVE_CONVERSATIONS:raise HTTPException(409,'Hội thoại vừa bắt đầu trả lời; tải lại sau.')
+        fresh=user(req);file_id=attachments.save(connect,fresh,id,name,raw,parsed,now)
+        audit('chat_file_upload',fresh['role'],file_id)
+        return dict(id=file_id,name=name,warnings=parsed['warnings'],units=len(parsed['units']))
+
+    @app.delete('/api/conversations/{id}/attachments/{file_id}')
+    def delete_file(id:str,file_id:str,req:Request):
+        u=user(req)
+        if id in ACTIVE_CONVERSATIONS:raise HTTPException(409,'Hội thoại đang trả lời; chờ trước khi đổi file.')
+        attachments.delete(connect,u,id,file_id);audit('chat_file_delete',u['role'],file_id)
+        return dict(ok=True)
 
     @app.post('/api/chat')
     async def chat(data:Chat,req:Request):
@@ -153,7 +186,7 @@ def create_app():
         finally:ACTIVE_CONVERSATIONS.discard(id)
 
     async def answer_chat(data,req,u,conversation_id):
-        start=time.monotonic();q=data.question.strip();allowed=docs_for(u);effective=q
+        start=time.monotonic();q=data.question.strip();allowed=docs_for(u)+attachments.documents(connect,u,conversation_id);effective=q
         history=conversations.context(connect,u,conversation_id,allowed)
         if history:effective=rag.followup(q,history[-1]['effective_query'])
         try:cfg=model_provider.settings(data.model)
@@ -200,6 +233,10 @@ def create_app():
         else:
             retrieval_cap=rag.retrieval_limit(effective,cfg['top_k'])
             found,routing=await asyncio.to_thread(rag.retrieve,effective,allowed,retrieval_cap)
+            file_docs=[d for d in allowed if d.get('attachment_id')]
+            if file_docs and sum(rag.estimate_tokens(d['body']) for d in file_docs)<=cfg['input_budget']//2:
+                file_chunks=[chunk for d in file_docs for chunk in rag.chunks(d)]
+                found=file_chunks+[d for d in found if not d.get('attachment_id')]
             if artifacts:
                 artifact_chunks=[chunk for d in artifacts for chunk in rag.chunks(d)]
                 artifact_ids={d['id'] for d in artifacts}
@@ -284,7 +321,7 @@ def create_app():
                 if history and rag.is_followup(q) and history[-1]['chat_id'] not in packing.get('history_sent',[]):
                     answer+='\n\nNgữ cảnh trả lời trước không vừa ngân sách đầu vào; hãy nêu mục cần tiếp tục hoặc trích đoạn liên quan. Không thể coi lượt này là phần nối tiếp đầy đủ.'
             finally:LOCK.leave()
-        fresh=user(req);fresh_docs={d['id']:d for d in docs_for(fresh)}
+        fresh=user(req);fresh_docs={d['id']:d for d in docs_for(fresh)+attachments.documents(connect,fresh,conversation_id)}
         sent_history=set(packing.get('history_sent',[]))
         if any(s['id'] not in fresh_docs or s.get('source_digest')!=source(fresh_docs[s['id']])['source_digest']
                for h in history if h['chat_id'] in sent_history for s in h['sources']):
@@ -296,7 +333,12 @@ def create_app():
         source_docs={d['id']:d for d in found if d['id'] in used}
         source_docs.update({d['id']:d for d in artifacts})
         dependencies={s['id']:dict(id=s['id'],source_digest=s['source_digest']) for h in history if h['chat_id'] in sent_history for s in h['sources']}
-        out=dict(answer=answer,evidence_items=[dict(id=d['id'],title=d['title'],body=d['body'],service_id=d['service_id'],version=d['version'],review_status=d.get('review_status'),source_location=d['source_location']) for d in artifacts],
+        sent_files={d['id'] for d in found if d.get('attachment_id')};file_units=[d for d in allowed if d.get('attachment_id')]
+        if file_units and len(sent_files)<len(file_units):answer+=f'\n\n**Phạm vi file:** gửi model {len(sent_files)}/{len(file_units)} phần trích xuất; chưa thể coi là đọc toàn bộ file trong lượt này.'
+        file_list=attachments.listing(connect,fresh,conversation_id)
+        for f in file_list:
+            if f['warnings']:answer+='\n\n**Lưu ý trích xuất '+f['name']+':** '+' '.join(f['warnings'])
+        out=dict(answer=answer,file_coverage=dict(available_units=len(file_units),sent_units=len(sent_files)),evidence_items=[dict(id=d['id'],title=d['title'],body=d['body'],service_id=d['service_id'],version=d['version'],review_status=d.get('review_status'),source_location=d['source_location']) for d in artifacts],
                  artifact_coverage=dict(available=len(artifacts),displayed=len(artifacts),sent_to_model=sum(d['id'] in {p['id'] for p in found} for d in artifacts),verification='record_completeness_not_factual_verification'),
                  sources=[source(d) for d in source_docs.values()],context_sources=list(dependencies.values()),web_sources=[{k:d[k] for k in ('id','title','url','retrieved_at')} for d in web],web_status=web_state,needs_review=review,mode=mode,
                  elapsed=round(time.monotonic()-start,2),citations_verified=bool(used or web),effective_query=effective,

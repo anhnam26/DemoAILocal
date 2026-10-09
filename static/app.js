@@ -1,4 +1,5 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+$('#question').maxLength=20000;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let currentConversation=null;
 let currentUser=null,documents=[],health={},busy=false;
@@ -16,6 +17,38 @@ const webSummary=document.createElement('summary');webSummary.textContent='Tra c
 const webNotice=document.createElement('small');webNotice.textContent='Chỉ nhập truy vấn công khai, không chứa mật khẩu, thông tin khách hàng hoặc dữ liệu nội bộ. Truy vấn được gửi tới dịch vụ tìm kiếm và có thể phát sinh phí.';
 const webInput=document.createElement('input');webInput.type='text';webInput.maxLength=300;webInput.placeholder='Ví dụ: FortiGate official SSL VPN documentation';webInput.setAttribute('aria-label','Truy vấn công khai để tra cứu Internet');
 webDetails.append(webNotice,webInput);$('#chat-form').append(webDetails);
+const fileControls=document.createElement('div');fileControls.className='chat-files';
+const fileLabel=document.createElement('label');fileLabel.textContent='Đính kèm file riêng cho chat (tối đa 10 MB/file)';
+const chatFiles=document.createElement('input');chatFiles.type='file';chatFiles.multiple=true;chatFiles.accept='.txt,.md,.csv,.pdf,.docx,.xlsx,.pptx';chatFiles.setAttribute('aria-label','Đính kèm tài liệu');
+const attachedList=document.createElement('div');attachedList.setAttribute('aria-live','polite');fileLabel.append(chatFiles);fileControls.append(fileLabel,attachedList);$('#chat-form').append(fileControls);
+const filePrivacy=document.createElement('small');filePrivacy.textContent='File chỉ thuộc cuộc trò chuyện này. Nội dung được gửi tới model AI khi trả lời; chỉ tải dữ liệu bạn được phép chia sẻ với nhà cung cấp.';fileControls.prepend(filePrivacy);
+let fileBusy=false;
+async function refreshAttachments(){
+  attachedList.replaceChildren();if(!currentConversation)return;
+  const cv=currentConversation,result=await api('/conversations/'+cv+'/attachments');if(cv!==currentConversation)return;
+  for(const file of result.items){
+    const row=document.createElement('div'),text=document.createElement('span'),remove=document.createElement('button');
+    text.textContent=`${file.name} · ${file.units} phần đọc được${file.warnings.length?' · '+file.warnings.join(' '):''}`;
+    remove.type='button';remove.textContent='Xóa file';remove.disabled=busy||fileBusy;
+    remove.onclick=async()=>{if(busy||fileBusy)return;fileBusy=true;updateChatControls();try{await api('/conversations/'+cv+'/attachments/'+file.id,{method:'DELETE'});await refreshAttachments()}catch(e){toast(e.message)}finally{fileBusy=false;updateChatControls()}};
+    row.append(text,remove);attachedList.append(row);
+  }
+}
+chatFiles.onchange=async()=>{
+  if(busy||fileBusy||conversationLoading)return;
+  const files=[...chatFiles.files];if(!files.length)return;
+  if(!currentConversation)await startConversation();
+  fileBusy=true;updateChatControls();
+  try{
+    for(const file of files){
+      if(file.size>10000000)throw Error('File '+file.name+' vượt 10 MB.');
+      attachedList.textContent='Đang tải và đọc '+file.name+'…';
+      const form=new FormData();form.append('file',file);
+      await api('/conversations/'+currentConversation+'/attachments',{method:'POST',body:form});
+    }
+    await refreshAttachments();toast('Đã đọc file. Nội dung chỉ thuộc hội thoại này và có thể được gửi tới model để trả lời.');
+  }catch(e){toast(e.message);await refreshAttachments().catch(()=>{})}finally{fileBusy=false;chatFiles.value='';updateChatControls()}
+};
 async function api(path,options={}){
   if(path==='/chat'&&typeof options.body==='string'){
     const body=JSON.parse(options.body);body.audience=audienceSelect.value;
@@ -45,11 +78,13 @@ async function copyAnswer(message){
 function toast(s){$('#toast').textContent=s;$('#toast').classList.remove('hidden');setTimeout(()=>$('#toast').classList.add('hidden'),5000)}
 let modelSaving=false,modelVersion=0;
 function updateChatControls(){
+  chatFiles.disabled=busy||fileBusy||conversationLoading;
+  attachedList.querySelectorAll('button').forEach(b=>b.disabled=busy||fileBusy||conversationLoading);
   webInput.disabled=busy||conversationLoading;
   audienceSelect.disabled=busy||conversationLoading;
   $('#chat-model').disabled=busy||modelSaving||conversationLoading||!health.allowed_models?.length;
-  $('#send').disabled=busy||modelSaving||conversationLoading||!health.configured||!$('#chat-model').value;
-  $('#new-chat').disabled=busy||conversationLoading;
+  $('#send').disabled=busy||fileBusy||modelSaving||conversationLoading||!health.configured||!$('#chat-model').value;
+  $('#new-chat').disabled=busy||fileBusy||conversationLoading;
   $('#question').disabled=conversationLoading;
   $('#older-messages').disabled=busy||conversationLoading;
 }
@@ -108,7 +143,7 @@ function showDoc(d){$('#modal-title').textContent=d.title;$('#modal-meta').textC
 async function loadAdmin(){const data=await api('/admin');window.adminDocs=data.documents;$('#admin-docs').innerHTML=data.documents.map(d=>`<div class="admin-row"><b>${esc(d.title)}</b><small>${esc(d.status)} · ${esc(d.roles.join(', '))}</small><button data-preview="${esc(d.id)}">Đọc</button>${d.status!=='approved'?`<button data-action="approve" data-id="${esc(d.id)}">Duyệt</button>`:`<button data-action="retire" data-id="${esc(d.id)}">Thu hồi</button>`}</div>`).join('');$('#audit-log').innerHTML=data.audit.map(r=>`<div><time>${esc(new Date(r.ts).toLocaleString('vi-VN'))}</time><b>${esc(r.action)}</b><span>${esc(r.role)} · ${esc(r.detail)}</span></div>`).join('')}
 document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;try{if(b.hasAttribute('data-copy-answer')){await copyAnswer(b.closest('.message'))}if(b.hasAttribute('data-save-answer')){const blob=new Blob([b.closest('.message').dataset.answer],{type:'text/markdown;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='CyberAnt-tra-loi-'+Date.now()+'.md';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}if(b.hasAttribute('data-collapse-answer')){const body=b.closest('.message').querySelector('.message-text'),closed=body.classList.toggle('hidden');b.setAttribute('aria-expanded',String(!closed));b.textContent=closed?'Mở câu trả lời':'Thu gọn'}if(b.dataset.view)switchView(b.dataset.view);if(b.dataset.question){switchView('chat');ask(b.dataset.question)};if(b.dataset.doc)showDoc(await api('/documents/'+encodeURIComponent(b.dataset.doc)));if(b.dataset.feedback){openFeedback(Number(b.dataset.chat),Number(b.dataset.feedback))}if(b.dataset.preview)showDoc(window.adminDocs.find(d=>d.id===b.dataset.preview));if(b.dataset.action){await api(`/admin/documents/${encodeURIComponent(b.dataset.id)}/${b.dataset.action}`,{method:'POST'});await loadAdmin();await loadDocuments();toast('Đã cập nhật trạng thái tài liệu')}}catch(err){toast(err.message)}});
 $('#logout').onclick=async()=>{try{await api('/logout',{method:'POST'});location.reload()}catch(e){toast(e.message)}};
-$('#chat-form').onsubmit=e=>{e.preventDefault();const q=$('#question').value.trim();if(q.length>=2)ask(q)};
+$('#chat-form').onsubmit=e=>{e.preventDefault();if(fileBusy)return;const q=$('#question').value.trim();if(q.length>=2)ask(q)};
 $('#question').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();$('#chat-form').requestSubmit()}};
 $('#doc-search').oninput=renderDocuments;$('#doc-category').onchange=renderDocuments;$('#close-modal').onclick=()=>$('#document-modal').close();$('#refresh-health').onclick=()=>{checkHealth();loadSystem(true).catch(e=>toast(e.message))};
 $('#upload-form').onsubmit=async e=>{e.preventDefault();const f=new FormData();f.append('file',$('#upload-file').files[0]);f.append('audience',$('#audience').value);try{await api('/admin/upload',{method:'POST',body:f});await loadAdmin();$('#upload-form').reset();toast('Tài liệu đang chờ duyệt; chưa được dùng để trả lời.')}catch(err){toast(err.message)}};

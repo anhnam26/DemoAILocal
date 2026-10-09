@@ -131,6 +131,6 @@ def digest_table(c, table):
     quoted = '"' + table.replace('"', '""') + '"'
     columns=sorted(r[1] for r in c.execute('PRAGMA table_info('+quoted+')'))
     projection=','.join('"'+col.replace('"','""')+'"' for col in columns)
-    rows = sorted(hashlib.sha256(json.dumps(tuple(row), ensure_ascii=False,
+    rows = sorted(hashlib.sha256(json.dumps(tuple({'blob_sha256':hashlib.sha256(v).hexdigest(),'bytes':len(v)} if isinstance(v,bytes) else v for v in row), ensure_ascii=False,
                   separators=(',', ':')).encode()).hexdigest() for row in c.execute('SELECT '+projection+' FROM ' + quoted))
     return {'count': len(rows), 'sha256': hashlib.sha256(''.join(rows).encode()).hexdigest()}

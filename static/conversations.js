@@ -8,11 +8,12 @@ function selectConversation(){
   $$('[data-conversation]').forEach(b=>{const active=b.dataset.conversation===currentConversation;b.setAttribute('aria-current',String(active));b.closest('.conversation-entry').classList.toggle('active',active)});
 }
 async function openConversation(id,title='Cuộc trò chuyện'){
-  if(busy||conversationLoading){toast('Chờ thao tác hiện tại hoàn tất trước khi đổi cuộc trò chuyện.');return}
+  if(busy||fileBusy||conversationLoading){toast('Chờ thao tác hiện tại hoàn tất trước khi đổi cuộc trò chuyện.');return}
   conversationLoading=true;updateChatControls();
   try{
     const d=await api('/conversations/'+encodeURIComponent(id));currentConversation=id;
     displayConversation(d.messages);olderBefore=d.next_before;$('#older-messages').classList.toggle('hidden',!d.has_more);
+    await refreshAttachments();
     $('#question').value='';$('#conversation-title').textContent=title;switchView('chat');selectConversation();
     $('.chat-main').scrollTop=d.messages.length?$('.chat-main').scrollHeight:0;
     if(innerWidth<=600)setSidebar(true);
@@ -23,10 +24,11 @@ async function resumeRecentConversation(){
   if(last)await openConversation(last.id,last.title);else{displayConversation([]);$('#conversation-title').textContent='Cuộc trò chuyện mới';$('#older-messages').classList.add('hidden')}
 }
 async function startConversation(){
-  if(busy||conversationLoading){toast('Chờ thao tác hiện tại hoàn tất trước khi mở cuộc trò chuyện mới.');return}
+  if(busy||fileBusy||conversationLoading){toast('Chờ thao tác hiện tại hoàn tất trước khi mở cuộc trò chuyện mới.');return}
   conversationLoading=true;updateChatControls();
   try{
     const d=await api('/conversations',{method:'POST'});currentConversation=d.id;displayConversation([]);olderBefore=null;
+    await refreshAttachments();
     $('#question').value='';$('#older-messages').classList.add('hidden');$('#conversation-title').textContent='Cuộc trò chuyện mới';switchView('chat');
     $('#history-search').value='';clearTimeout(historySearchTimer);selectConversation();
     if(innerWidth<=600)setSidebar(true);
@@ -109,12 +111,13 @@ $('#older-messages').onclick=async()=>{
 };
 document.addEventListener('click',async e=>{
   const b=e.target.closest('[data-delete-conversation]');if(!b)return;const id=b.dataset.deleteConversation;
-  if(busy||conversationLoading){toast('Chờ thao tác hiện tại hoàn tất rồi xóa.');return}
+  if(busy||fileBusy||conversationLoading){toast('Chờ thao tác hiện tại hoàn tất rồi xóa.');return}
   if(!confirm('Xóa cuộc trò chuyện “'+b.dataset.title+'” cùng tất cả câu hỏi, câu trả lời và phản hồi? Thao tác không có hoàn tác; bản sao lưu cũ không bị xóa.'))return;
   b.disabled=true;conversationLoading=true;updateChatControls();
   try{
     await api('/conversations/'+encodeURIComponent(id),{method:'DELETE'});
     if(currentConversation===id){currentConversation=null;displayConversation([]);olderBefore=null;$('#question').value='';$('#older-messages').classList.add('hidden');$('#conversation-title').textContent='Cuộc trò chuyện mới'}
     await loadConversations();toast('Đã xóa cuộc trò chuyện.');$('#refresh-history').focus();
+    await refreshAttachments();
   }catch(err){toast(err.message);b.disabled=false}finally{conversationLoading=false;updateChatControls()}
 });

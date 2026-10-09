@@ -10,7 +10,7 @@ import sqlite3
 import tempfile
 from contextlib import closing
 
-from cyberant import config, legacy, runtime_lock, storage, sync_knowledge
+from cyberant import config, legacy, runtime_lock, storage, sync_knowledge, attachments
 
 
 def _write_json(path, value):
@@ -79,6 +79,7 @@ def _export(snapshot, destination):
             c.commit()
         _write_json(destination / 'layout.json', {'version': storage.VERSION, 'stores': list(storage.STORES)})
         with storage.connect(destination) as c:
+            attachments.initialize(c)
             before, after = storage.digest_table(source, 'users'), storage.digest_table(c, 'users')
             if before != after:
                 raise ValueError('Account/profile comparison failed')
@@ -187,11 +188,23 @@ def restore(source, target):
         result.rename(target)
 
 
+def upgrade_attachments(root,target):
+    """Copy a consistent backup to a new directory; never mutate the source."""
+    lock=runtime_lock.acquire(root)
+    try:
+        backup(root,target)
+        with storage.connect(target) as c:attachments.initialize(c)
+        (Path(target)/'backup.json').unlink()
+        storage.validate(target,integrity=True)
+        return dict(status='upgraded',attachment_schema=attachments.SCHEMA_VERSION,target=str(Path(target).resolve()))
+    finally:lock.close()
+
+
 def main(argv=None):
     os.umask(0o077)
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
-    for name in ('init', 'migrate', 'backup', 'restore'):
+    for name in ('init', 'migrate', 'backup', 'restore','upgrade-attachments'):
         command = commands.add_parser(name)
         command.add_argument('--target', required=True, help='NEW, nonexistent destination directory')
         if name in ('migrate', 'restore'):
@@ -206,6 +219,8 @@ def main(argv=None):
         elif args.command == 'restore':
             restore(args.source, args.target)
             result = {'status': 'restored', 'sessions': 'revoked'}
+        elif args.command == 'upgrade-attachments':
+            result=upgrade_attachments(config.data_dir(),args.target)
         else:
             lock = runtime_lock.acquire(config.data_dir())
             try:

@@ -1,3 +1,7 @@
+.chat-files { margin-top: 8px; padding: 8px; overflow-wrap: anywhere; }
+.chat-files input { max-width: 100%; }
+.chat-files label { display: grid; gap: 6px; }
+.chat-files button { margin: 4px 8px; }
 .source-record { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; padding: 12px; border: 1px solid var(--border, #7775); border-radius: 8px; }
 .web-search-controls { margin-top: 8px; padding: 8px 12px; color: var(--muted); font-size: 12px; }
 .web-search-controls summary { cursor: pointer; }

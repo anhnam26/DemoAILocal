@@ -129,6 +129,51 @@ class WorkspaceUI(unittest.TestCase):
         self.assertIn(older,sent);self.assertNotIn(latest,sent)
         self.assertIn('Ngữ cảnh trả lời trước không vừa ngân sách',payload['answer'])
 
+    def test_chat_file_browser(self):
+        try:
+            from playwright.sync_api import sync_playwright,expect
+        except ImportError:self.skipTest('Optional Playwright not installed')
+        with sync_playwright() as p:
+            browser=self.browser(p);context=browser.new_context(viewport={'width':390,'height':844});page=context.new_page()
+            errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
+            page.goto(self.base);page.locator('#login-username').fill('member');page.locator('#login-password').fill(PASSWORD);page.locator('#login-submit').click()
+            expect(page.locator('#workspace')).to_be_visible()
+            expect(page.locator('#send')).to_be_enabled()
+            page.locator('#sidebar-toggle').click();page.locator('#new-chat').click()
+            expect(page.get_by_label('Đính kèm tài liệu',exact=True)).to_be_enabled()
+            page.get_by_label('Đính kèm tài liệu',exact=True).set_input_files({'name':'browser-file.txt','mimeType':'text/plain','buffer':b'Fixture browser file quantity 2'})
+            expect(page.locator('.chat-files')).to_contain_text('browser-file.txt')
+            expect(page.locator('.chat-files')).to_contain_text('1 phần đọc được')
+            expect(page.locator('#send')).to_be_enabled()
+            page.locator('.chat-files button').click()
+            expect(page.locator('.chat-files')).not_to_contain_text('browser-file.txt')
+            self.assertEqual(errors,[]);context.close();browser.close()
+
+    def test_chat_file_api_owner_context_and_deletion(self):
+        member=self.client();admin=self.client('admin');cv=member.post('/api/conversations').json()['id']
+        uploaded=member.post('/api/conversations/'+cv+'/attachments',files={'file':('bom.txt',b'Company part: SWITCH-TEST. Quantity: 2. Private fixture.')})
+        self.assertEqual(uploaded.status_code,200,uploaded.text);file_id=uploaded.json()['id']
+        self.assertEqual(admin.get('/api/conversations/'+cv+'/attachments').status_code,404)
+        self.assertEqual(admin.delete('/api/conversations/'+cv+'/attachments/'+file_id).status_code,404)
+        seen=[]
+        async def file_answer(messages,settings,max_tokens):
+            seen.append(messages);return 'Quantity 2 ['+file_id+'-1].',dict(prompt_tokens=10,completion_tokens=10,total_tokens=20),'stop'
+        with patch('cyberant.model_provider.complete',side_effect=file_answer):
+            response=member.post('/api/chat',json=dict(question='Read the attached file',conversation_id=cv))
+            self.assertEqual(response.status_code,200,response.text)
+            self.assertIn('SWITCH-TEST',str(seen[0]))
+            self.assertEqual(response.json()['file_coverage'],{'available_units':1,'sent_units':1})
+            follow=member.post('/api/chat',json=dict(question='Giải thích thêm ở trên',conversation_id=cv))
+            self.assertEqual(follow.status_code,200,follow.text)
+        self.assertEqual(member.get('/api/documents/'+file_id+'-1').status_code,200)
+        self.assertEqual(admin.get('/api/documents/'+file_id+'-1').status_code,404)
+        self.assertEqual(member.get('/api/conversations/'+cv).json()['messages'][0]['answer'],response.json()['answer'])
+        self.assertEqual(member.delete('/api/conversations/'+cv+'/attachments/'+file_id).status_code,200)
+        self.assertIn('Nguồn đã thay đổi',member.get('/api/conversations/'+cv).json()['messages'][0]['answer'])
+        member.post('/api/conversations/'+cv+'/attachments',files={'file':('new.txt',b'Content for deletion')})
+        self.assertEqual(member.delete('/api/conversations/'+cv).status_code,200)
+        with self.module.connect() as c:self.assertEqual(c.execute('SELECT COUNT(*) FROM attachments WHERE conversation_id=?',(cv,)).fetchone()[0],0)
+
     def test_complete_artifacts_survive_history_and_revoke(self):
         member=self.client();cv=member.post('/api/conversations').json()['id']
         result=member.post('/api/chat',json=dict(question='Toàn bộ SOW chuyển đổi cấu hình FortiGate',conversation_id=cv))

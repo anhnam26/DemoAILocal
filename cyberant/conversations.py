@@ -43,7 +43,8 @@ def messages(connect,u,id,docs_for,before=None):
     with connect() as c:
         if not c.execute('SELECT 1 FROM conversations WHERE id=? AND user_id=?',(id,u['id'])).fetchone():raise HTTPException(404,'Không tìm thấy cuộc trò chuyện của tài khoản này.')
         rows=c.execute('SELECT * FROM chats WHERE conversation_id=? AND user_id=? AND id<? ORDER BY id DESC LIMIT 101',(id,u['id'],before or 9223372036854775807)).fetchall()
-    more=len(rows)>100;rows=rows[:100];allowed={d['id']:hashlib.sha256(d['body'].encode()).hexdigest() for d in docs_for(u,shared=True)};result=[]
+    from cyberant import attachments
+    more=len(rows)>100;rows=rows[:100];allowed={d['id']:hashlib.sha256(d['body'].encode()).hexdigest() for d in docs_for(u,shared=True)+attachments.documents(connect,u,id)};result=[]
     for r in reversed(rows):
         d=json.loads(r['result'])
         if any(s['id'] not in allowed or s.get('source_digest',allowed.get(s['id']))!=allowed.get(s['id']) for s in d['sources']+d.get('context_sources',[])):d.update(answer='Nguồn đã thay đổi, thu hồi hoặc hết hiệu lực. Hãy hỏi lại từ nguồn hiện tại.',sources=[],web_sources=[],evidence_items=[],needs_review=True,citations_verified=False)
@@ -100,6 +101,8 @@ def install(app,connect,user,docs_for,now,active_conversations,audit):
             c.execute('DELETE FROM quality_reports WHERE chat_id IN (SELECT id FROM chats WHERE conversation_id=?)',(id,))
             c.execute('DELETE FROM feedback WHERE chat_id IN (SELECT id FROM chats WHERE conversation_id=?)',(id,))
             c.execute('DELETE FROM chats WHERE conversation_id=?',(id,))
+            from cyberant import attachments
+            if attachments.available(c):c.execute('DELETE FROM attachments WHERE conversation_id=? AND user_id=?',(id,u['id']))
             c.execute('UPDATE sessions SET conversation_id=NULL WHERE conversation_id=?',(id,))
             c.execute('DELETE FROM conversations WHERE id=? AND user_id=?',(id,u['id']))
         audit('conversation_delete',u['role'],id)

@@ -15,7 +15,7 @@ FILES=('main.py','start.sh','requirements.txt','requirements-lock.txt','.env.exa
          'docs/SERVICE_RAG.md','docs/CONVERSATION_WEB.md','docs/KNOWLEDGE_ACCEPTANCE.md','docs/CONFIGURATION_GUIDES.md','docs/PRIVATE_BUNDLE.md')
 MODULES=('__init__','accounts','admin_system','app','config','conversations','generation',
          'http_limits','legacy','model_provider','operations','provider_errors','quality_feedback',
-         'public_share','rag','runtime_lock','service_evidence','storage','sync_knowledge','token_usage','web_search')
+          'public_share','rag','runtime_lock','service_evidence','storage','sync_knowledge','token_usage','web_search','attachments','document_extractors')
 ASSETS=('index.html','Logo.png','answer-renderer.js','app.js','conversations.js','feedback.js',
         'login-aurora.js','management.js','theme.js','conversation-web.css','management.css',
         'modern.css','quality.css','readability.css','style.css','workspace.css')
