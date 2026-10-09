@@ -3,7 +3,7 @@ from datetime import date,datetime,timezone
 import asyncio, hashlib, json, re, secrets, time
 import httpx
 from fastapi import FastAPI,HTTPException,Request,Response,UploadFile,File,Form
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse,StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel,Field
 from pypdf import PdfReader
@@ -12,8 +12,8 @@ from contextlib import asynccontextmanager
 from typing import Literal
 from cyberant import accounts,config,token_usage,runtime_lock
 from cyberant import conversations,quality_feedback
-APP_VERSION='2026.10.05-knowledge-guides-3'
-PROMPT_VERSION='accepted-configuration-3'
+APP_VERSION='2026.10.09-chat-tools-1'
+PROMPT_VERSION='service-files-web-4'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
 from cyberant import admin_system,rag,model_provider,storage,web_search,provider_errors,service_evidence,attachments,document_extractors,url_reader
@@ -186,7 +186,36 @@ def create_app():
         try:return await answer_chat(data,req,u,id)
         finally:ACTIVE_CONVERSATIONS.discard(id)
 
+    @app.post('/api/chat/stream')
+    async def stream_chat(data:Chat,req:Request):
+        # Authenticate before opening a stream; keep normal /chat compatibility.
+        user(req)
+        events=asyncio.Queue()
+        async def progress(stage):await events.put(dict(type='progress',stage=stage))
+        req.state.chat_progress=progress
+        async def work():
+            try:await events.put(dict(type='result',data=await chat(data,req)))
+            except HTTPException as e:await events.put(dict(type='error',status=e.status_code,detail=e.detail))
+            except Exception:await events.put(dict(type='error',status=500,detail='Không hoàn tất yêu cầu; kiểm tra lịch sử và usage trước khi gửi lại.'))
+        async def stream():
+            task=asyncio.create_task(work())
+            try:
+                while True:
+                    try:event=await asyncio.wait_for(events.get(),10)
+                    except TimeoutError:
+                        yield ': keepalive\n\n';continue
+                    yield 'data: '+json.dumps(event,ensure_ascii=False)+'\n\n'
+                    if event['type'] in ('result','error'):break
+            finally:
+                if not task.done():task.cancel()
+                await asyncio.gather(task,return_exceptions=True)
+        return StreamingResponse(stream(),media_type='text/event-stream',headers={'X-Accel-Buffering':'no','Cache-Control':'no-store'})
+
     async def answer_chat(data,req,u,conversation_id):
+        async def progress(stage):
+            callback=getattr(req.state,'chat_progress',None)
+            if callback:await callback(stage)
+        await progress('Đang đọc file và kiểm tra nguồn nội bộ')
         start=time.monotonic();q=data.question.strip();allowed=docs_for(u)+attachments.documents(connect,u,conversation_id);effective=q
         history=conversations.context(connect,u,conversation_id,allowed)
         if history:effective=rag.followup(q,history[-1]['effective_query'])
@@ -235,7 +264,7 @@ def create_app():
                 raise provider_failure(e) from None
             finally:token_usage.settle(connect,reservation)
         # No record lookup or invented customer identity; this costs zero API calls.
-        if re.search(r'\b(crm-|contract-|quote-|ticket-|cong no|ho so khach|ten khach hang|khach hang thuc|dien thoai khach)',rag.norm(effective)):
+        if not any(d.get('attachment_id') for d in allowed) and re.search(r'\b(crm-|contract-|quote-|ticket-|cong no|ho so khach|ten khach hang|khach hang thuc|dien thoai khach)',rag.norm(effective)):
             answer='Kho này chỉ giữ tài liệu lý thuyết và biểu mẫu trống; không lưu hồ sơ, liên hệ, hợp đồng hay công nợ khách hàng.'
             routing={'groups':[],'routing':'local','candidates':0};mode='Không có dữ liệu khách hàng'
         else:
@@ -257,6 +286,7 @@ def create_app():
             retrieved_count=len(found)
             retrieved_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found]
             budget,output=rag.budgets(effective,cfg['input_budget'],cfg['output_budget'])
+            if file_docs or requested_urls:budget,output=cfg['input_budget'],cfg['output_budget']
             try:
                 web_cfg=web_search.settings();model_provider.headers(cfg)
                 messages,packed,estimated=rag.pack(effective,found,budget,data.audience,packing,history=history)
@@ -270,6 +300,7 @@ def create_app():
             provider_deadline=time.monotonic()+240
             try:
                 if requested_urls:
+                    await progress('Đang đọc URL công khai được chỉ định')
                     url_deadline=time.monotonic()+90
                     for url in requested_urls:
                         try:
@@ -282,6 +313,7 @@ def create_app():
                             url_reports.append(dict(url=url,status='unreadable',units=0,warnings=['Không đọc được URL: có thể bị chặn, yêu cầu đăng nhập, vượt giới hạn hoặc không an toàn.']))
                     web_state='sources_returned' if web else 'no_valid_sources'
                 if lookup and query and web_cfg['enabled']:
+                    await progress('Đang tìm kiếm Internet bằng truy vấn công khai')
                     lookup_messages=web_search.messages(query)
                     lookup_size=sum(rag.estimate_tokens(m['content'])+16 for m in lookup_messages)+64
                     _,web_usage,_=await invoke(lookup_messages,{**cfg,'web_lookup':True,'web_max_results':web_cfg['max_results']},web_cfg['output_tokens'],lookup_size)
@@ -293,6 +325,7 @@ def create_app():
                     report['sent_units']=sum(d['url']==report['url'] and d['id'] in sent_web for d in web)
                 web=[d for d in web if d['id'] in packing['web_sent']]
                 if web_state=='sources_returned' and not web:web_state='budget_omitted'
+                await progress('Đang phân tích nguồn và tổng hợp câu trả lời')
                 answer,_,finish=await invoke(messages,cfg,output,estimated)
                 need_web='[NEED_WEB]' in answer or answer.strip()=='Kho tri thức chưa có đủ căn cứ để trả lời câu hỏi này.'
                 if need_web and web_state=='not_needed':
@@ -346,6 +379,7 @@ def create_app():
                     answer+='\n\nNgữ cảnh trả lời trước không vừa ngân sách đầu vào; hãy nêu mục cần tiếp tục hoặc trích đoạn liên quan. Không thể coi lượt này là phần nối tiếp đầy đủ.'
             finally:LOCK.leave()
         fresh=user(req);fresh_docs={d['id']:d for d in docs_for(fresh)+attachments.documents(connect,fresh,conversation_id)}
+        await progress('Đang kiểm tra trích dẫn và lưu kết quả')
         sent_history=set(packing.get('history_sent',[]))
         if any(s['id'] not in fresh_docs or s.get('source_digest')!=source(fresh_docs[s['id']])['source_digest']
                for h in history if h['chat_id'] in sent_history for s in h['sources']):

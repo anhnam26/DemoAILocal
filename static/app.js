@@ -26,7 +26,9 @@ const fileLabel=document.createElement('label');fileLabel.textContent='Đính k�
 const chatFiles=document.createElement('input');chatFiles.type='file';chatFiles.multiple=true;chatFiles.accept='.txt,.md,.csv,.pdf,.docx,.xlsx,.pptx';chatFiles.setAttribute('aria-label','Đính kèm tài liệu');
 const attachedList=document.createElement('div');attachedList.setAttribute('aria-live','polite');fileLabel.append(chatFiles);fileControls.append(fileLabel,attachedList);$('#chat-form').append(fileControls);
 const filePrivacy=document.createElement('small');filePrivacy.textContent='File chỉ thuộc cuộc trò chuyện này. Nội dung được gửi tới model AI khi trả lời; chỉ tải dữ liệu bạn được phép chia sẻ với nhà cung cấp.';fileControls.prepend(filePrivacy);
-let fileBusy=false;
+let fileBusy=false,chatController=null;
+const stopChat=document.createElement('button');stopChat.type='button';stopChat.textContent='Dừng';stopChat.className='hidden';$('#chat-form .composer-bottom').append(stopChat);
+stopChat.onclick=()=>chatController?.abort();
 async function refreshAttachments(){
   attachedList.replaceChildren();if(!currentConversation)return;
   const cv=currentConversation,result=await api('/conversations/'+cv+'/attachments');if(cv!==currentConversation)return;
@@ -59,6 +61,7 @@ async function api(path,options={}){
     if(urlInput.value.trim()){body.urls=urlInput.value.split(/\n/).map(x=>x.trim()).filter(Boolean);urlInput.value=''}
     if(webInput.value.trim()){body.web_query=webInput.value.trim();webInput.value=''}
     options={...options,body:JSON.stringify(body)};
+    return streamChat(options);
   }
   let r;try{r=await fetch('/api'+path,{...options,headers:options.body instanceof FormData?{}:{'Content-Type':'application/json',...options.headers}})}
   catch{throw Error('Mất kết nối máy chủ. Kiểm tra mạng; yêu cầu có thể đã được xử lý. Hệ thống không tự gửi lại.')}
@@ -68,6 +71,30 @@ async function api(path,options={}){
     throw Error(errors[r.status]||'Không đọc được phản hồi máy chủ (HTTP '+r.status+').')
   }
   if(!r.ok)throw Error(typeof d.detail==='string'?d.detail:'Dữ liệu chưa hợp lệ (HTTP '+r.status+').');return d
+}
+async function streamChat(options){
+  chatController=new AbortController();stopChat.classList.remove('hidden');
+  try{
+    const response=await fetch('/api/chat/stream',{...options,signal:chatController.signal,headers:{'Content-Type':'application/json'}});
+    if(!response.ok){const data=await response.json().catch(()=>({}));throw Error(typeof data.detail==='string'?data.detail:'Không thể bắt đầu trả lời (HTTP '+response.status+').')}
+    const reader=response.body.getReader(),decoder=new TextDecoder();let buffer='';
+    while(true){
+      const {value,done}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});
+      let end;
+      while((end=buffer.indexOf('\n\n'))>=0){
+        const block=buffer.slice(0,end);buffer=buffer.slice(end+2);
+        const line=block.split('\n').find(s=>s.startsWith('data: '));if(!line)continue;
+        const event=JSON.parse(line.slice(6));
+        if(event.type==='progress'){const indicator=$('#messages .thinking');if(indicator)indicator.textContent=event.stage+'…'}
+        if(event.type==='error')throw Error(event.detail);
+        if(event.type==='result')return event.data;
+      }
+    }
+    throw Error('Kết nối kết thúc trước khi nhận kết quả. Kiểm tra lịch sử và usage; không tự gửi lại.');
+  }catch(e){
+    if(e.name==='AbortError')throw Error('Đã dừng chờ/xử lý. Provider có thể đã tính phí; kiểm tra lịch sử và usage trước khi gửi lại.');
+    throw e;
+  }finally{chatController=null;stopChat.classList.add('hidden')}
 }
 async function copyAnswer(message){
   const text=message.dataset.answer;
@@ -131,6 +158,10 @@ function appendAnswer(data){
     }catch{}
   }
   $('#messages').append(div);
+  if(data.truncated){
+    const next=document.createElement('button');next.type='button';next.textContent='Tiếp tục câu trả lời';
+    next.onclick=()=>{if(!busy&&!fileBusy)ask('Tiếp tục hướng dẫn ở trên')};div.querySelector('.answer-toolbar').append(next);
+  }
   if(data.evidence_items?.length){
     const section=document.createElement('section');section.className='message-text source-appendix';
     const heading=document.createElement('h3');heading.textContent=`Dữ liệu nguồn đầy đủ: ${data.evidence_items.length} bản ghi`;section.append(heading);

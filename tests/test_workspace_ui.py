@@ -129,6 +129,40 @@ class WorkspaceUI(unittest.TestCase):
         self.assertIn(older,sent);self.assertNotIn(latest,sent)
         self.assertIn('Ngữ cảnh trả lời trước không vừa ngân sách',payload['answer'])
 
+    def test_stream_progress_and_validated_final(self):
+        member=self.client();cv=member.post('/api/conversations').json()['id']
+        response=member.post('/api/chat/stream',json=dict(question='SOW RMA',conversation_id=cv))
+        self.assertEqual(response.status_code,200,response.text)
+        events=[json.loads(line[6:]) for line in response.text.splitlines() if line.startswith('data: ')]
+        self.assertTrue(any(e['type']=='progress' for e in events))
+        self.assertEqual(events[-1]['type'],'result');self.assertIn('chat_id',events[-1]['data'])
+        async def bad(*args):return 'FAKE [INVALID-123]',dict(prompt_tokens=10,completion_tokens=10,total_tokens=20),'stop'
+        with patch('cyberant.model_provider.complete',side_effect=bad):
+            response=member.post('/api/chat/stream',json=dict(question='RMA là gì?',conversation_id=cv))
+        self.assertNotIn('FAKE [INVALID-123]',response.text)
+        async def fail(*args):raise httpx.ConnectError('SECRET fixture')
+        with patch('cyberant.model_provider.complete',side_effect=fail):
+            response=member.post('/api/chat/stream',json=dict(question='RMA là gì?',conversation_id=cv))
+        self.assertIn('"type": "error"',response.text);self.assertNotIn('SECRET fixture',response.text)
+
+    def test_stream_cancel_releases_active_but_preserves_usage(self):
+        member=self.client();cv=member.post('/api/conversations').json()['id'];started=threading.Event()
+        async def slow(*args):started.set();await asyncio.sleep(30)
+        with patch('cyberant.model_provider.complete',side_effect=slow):
+            with member.stream('POST','/api/chat/stream',json=dict(question='RMA là gì?',conversation_id=cv)) as response:
+                for line in response.iter_lines():
+                    if 'Đang phân tích' in line:break
+                self.assertTrue(started.wait(5))
+            deadline=time.time()+5
+            while time.time()<deadline:
+                with self.module.connect() as c:
+                    statuses=[r[0] for r in c.execute('SELECT status FROM token_usage ORDER BY created DESC LIMIT 1')]
+                if statuses==['uncertain']:break
+                time.sleep(.05)
+            self.assertEqual(statuses,['uncertain'])
+        response=member.post('/api/chat',json=dict(question='RMA là gì?',conversation_id=cv))
+        self.assertEqual(response.status_code,200,response.text)
+
     def test_direct_url_sources_no_paid_search(self):
         from unittest.mock import AsyncMock
         member=self.client();cv=member.post('/api/conversations').json()['id']
@@ -612,7 +646,7 @@ class WorkspaceUI(unittest.TestCase):
             page.evaluate("()=>document.querySelector('.message.assistant').remove()")
             page.locator('#chat-audience').select_option('sales')
             page.locator('#question').fill('RMA là gì?')
-            with page.expect_request(lambda request: request.url.endswith('/api/chat') and request.method=='POST') as request:
+            with page.expect_request(lambda request: request.url.endswith('/api/chat/stream') and request.method=='POST') as request:
                 page.locator('#send').click()
             self.assertEqual(request.value.post_data_json['audience'],'sales')
             expect(page.locator('.inline-citation').first).to_be_visible(timeout=30000)
