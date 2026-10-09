@@ -53,7 +53,20 @@ def resolve_services(question):
         services=[s for s in services if s!='fortigate_configuration']
     if 'fortigate_configuration' in services:
         services=[s for s in services if s!='it_configuration']
+    if not services and re.search(r'\b(sow|bom|statement of work|bill of materials)\b',q) and re.search(r'\b(cong ty|tat ca dich vu|toan bo dich vu)\b',q):
+        services=list(SERVICES)
     return services
+
+
+def artifacts(question,kind,documents):
+    """Complete artifact records within the caller's allowed corpus, never top-k."""
+    if kind not in ('sow','bom','sow_bom'):return []
+    services=resolve_services(question)
+    types={'service_sow','migration_sow','migration_summary'} if kind=='sow' else {'bom_rules','service_requirements'}
+    if kind=='sow_bom':types|={'service_sow','migration_sow','migration_summary'}
+    if re.search(r'\b(tat ca|toan bo|day du)\b',normalize(question)):types|={'service_requirements','workflow'}
+    return sorted((link(d) for d in documents if service_id(d) in services and d.get('data_type') in types),
+                  key=lambda d:(d['service_id'],d.get('data_type',''),str(d.get('source_location',{}).get('source_file','')),str(d.get('source_location',{}).get('source_row','')).zfill(8),d['id']))
 
 
 def service_id(doc):

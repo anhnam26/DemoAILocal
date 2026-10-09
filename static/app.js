@@ -90,6 +90,18 @@ function appendAnswer(data){
     }catch{}
   }
   $('#messages').append(div);
+  if(data.evidence_items?.length){
+    const section=document.createElement('section');section.className='message-text source-appendix';
+    const heading=document.createElement('h3');heading.textContent=`Dữ liệu nguồn đầy đủ: ${data.evidence_items.length} bản ghi`;section.append(heading);
+    const note=document.createElement('p');note.textContent='Nội dung nguồn bên dưới được hiển thị nguyên vẹn, độc lập với phần tổng hợp AI. Không tự trở thành báo giá hoặc cam kết; giữ riêng từng phiên bản/phạm vi.';section.append(note);
+    for(const item of data.evidence_items){
+      const title=document.createElement('h4');title.textContent=`${item.service_id} · ${item.title} [${item.id}] · ${item.version} · ${item.review_status||''}`;
+      const location=document.createElement('small');location.textContent=Object.entries(item.source_location||{}).map(([k,v])=>`${k}: ${v}`).join(' · ');
+      const body=document.createElement('pre');body.className='source-record';body.textContent=item.body;
+      section.append(title,location,body);
+    }
+    div.append(section);
+  }
 }
 async function ask(q){if(busy||modelSaving||conversationLoading)return;const model=$('#chat-model').value;if(!model||!health.configured){toast($('#model-status').textContent);return}busy=true;updateChatControls();$('#welcome').classList.add('hidden');appendUser(q);$('#question').value='';$('#send').disabled=true;const indicator=document.createElement('div');indicator.className='thinking';indicator.textContent='Đang tra cứu tài liệu và tổng hợp câu trả lời. Bạn có thể chuyển sang mục khác.';$('#messages').append(indicator);$('.chat-main').scrollTop=$('.chat-main').scrollHeight;try{const data=await api('/chat',{method:'POST',body:JSON.stringify({question:q,conversation_id:currentConversation,model})});currentConversation=data.conversation_id;indicator.remove();appendAnswer(data);loadedMessages.push({...data,question:q});if(['Trao đổi & giải đáp','Cuộc trò chuyện mới'].includes($('#conversation-title').textContent))$('#conversation-title').textContent=q.slice(0,100);refreshAccountUsage().catch(()=>{})}catch(e){indicator.className='message assistant';indicator.textContent=e.message;toast(e.message)}finally{busy=false;updateChatControls();checkHealth();loadConversations().catch(e=>toast(e.message));const last=$$('.message.assistant').at(-1),panel=$('.chat-main');if(last){if(innerWidth<=600)last.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});else panel.scrollTop+=last.getBoundingClientRect().top-panel.getBoundingClientRect().top-20}}}
 function showDoc(d){$('#modal-title').textContent=d.title;$('#modal-meta').textContent=`${d.id} · ${d.version} · ${d.owner} · ${d.status} · ${d.review_status||'reference'}`;$('#modal-body').innerHTML=renderAnswer(d.body);$('#modal-references').innerHTML=(d.references||[]).filter(r=>{try{return new URL(r.url).protocol==='https:'}catch{return false}}).map(r=>`<p><a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.title)} ↗</a><br><small>Kiểm nguồn: ${esc(r.checked_at)}</small></p>`).join('');$('#document-modal').showModal()}

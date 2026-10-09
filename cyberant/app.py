@@ -16,7 +16,7 @@ APP_VERSION='2026.10.05-knowledge-guides-3'
 PROMPT_VERSION='accepted-configuration-3'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
-from cyberant import admin_system,rag,model_provider,storage,web_search,provider_errors
+from cyberant import admin_system,rag,model_provider,storage,web_search,provider_errors,service_evidence
 
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -162,6 +162,7 @@ def create_app():
         provider_deadline=None
         finish=None;output=0;budget=0;reservation=None;retrieved_count=0;citation_status='not_checked'
         retrieved_sources=[];citation_errors=[];packing={};web=[];web_state='not_needed';usages=[];usage_records=[]
+        artifacts=service_evidence.artifacts(effective,rag.intent(effective),allowed)
         async def invoke(messages,settings,limit,input_size):
             nonlocal calls,reservation
             remaining=provider_deadline-time.monotonic()
@@ -199,6 +200,10 @@ def create_app():
         else:
             retrieval_cap=rag.retrieval_limit(effective,cfg['top_k'])
             found,routing=await asyncio.to_thread(rag.retrieve,effective,allowed,retrieval_cap)
+            if artifacts:
+                artifact_chunks=[chunk for d in artifacts for chunk in rag.chunks(d)]
+                artifact_ids={d['id'] for d in artifacts}
+                found=artifact_chunks+[d for d in found if d['id'] not in artifact_ids]
             if history and rag.is_followup(q):
                 prior_ids={s['id'] for h in history[-6:] for s in h['sources']}
                 present={d['id'] for d in found}
@@ -286,9 +291,14 @@ def create_app():
             raise HTTPException(409,'Nguồn trong ngữ cảnh đã thay đổi trong lúc xử lý; hãy hỏi lại.')
         if any(d['id'] not in fresh_docs or source(d)['source_digest']!=source(fresh_docs[d['id']])['source_digest'] for d in found if d['id'] in used):
             raise HTTPException(409,'Nguồn đã thay đổi trong lúc xử lý; hãy hỏi lại.')
+        if any(d['id'] not in fresh_docs or source(d)['source_digest']!=source(fresh_docs[d['id']])['source_digest'] for d in artifacts):
+            raise HTTPException(409,'Danh mục nguồn đã thay đổi; hãy hỏi lại.')
         source_docs={d['id']:d for d in found if d['id'] in used}
+        source_docs.update({d['id']:d for d in artifacts})
         dependencies={s['id']:dict(id=s['id'],source_digest=s['source_digest']) for h in history if h['chat_id'] in sent_history for s in h['sources']}
-        out=dict(answer=answer,sources=[source(d) for d in source_docs.values()],context_sources=list(dependencies.values()),web_sources=[{k:d[k] for k in ('id','title','url','retrieved_at')} for d in web],web_status=web_state,needs_review=review,mode=mode,
+        out=dict(answer=answer,evidence_items=[dict(id=d['id'],title=d['title'],body=d['body'],service_id=d['service_id'],version=d['version'],review_status=d.get('review_status'),source_location=d['source_location']) for d in artifacts],
+                 artifact_coverage=dict(available=len(artifacts),displayed=len(artifacts),sent_to_model=sum(d['id'] in {p['id'] for p in found} for d in artifacts),verification='record_completeness_not_factual_verification'),
+                 sources=[source(d) for d in source_docs.values()],context_sources=list(dependencies.values()),web_sources=[{k:d[k] for k in ('id','title','url','retrieved_at')} for d in web],web_status=web_state,needs_review=review,mode=mode,
                  elapsed=round(time.monotonic()-start,2),citations_verified=bool(used or web),effective_query=effective,
                  usage=usage,model=cfg['model'],api_calls=calls,finish_reason=finish,output_token_limit=output,
                  citation_status=citation_status,grounding_verified=False,

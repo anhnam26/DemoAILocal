@@ -129,6 +129,25 @@ class WorkspaceUI(unittest.TestCase):
         self.assertIn(older,sent);self.assertNotIn(latest,sent)
         self.assertIn('Ngữ cảnh trả lời trước không vừa ngân sách',payload['answer'])
 
+    def test_complete_artifacts_survive_history_and_revoke(self):
+        member=self.client();cv=member.post('/api/conversations').json()['id']
+        result=member.post('/api/chat',json=dict(question='Toàn bộ SOW chuyển đổi cấu hình FortiGate',conversation_id=cv))
+        self.assertEqual(result.status_code,200,result.text)
+        payload=result.json();items=payload['evidence_items']
+        self.assertGreaterEqual(len(items),21)
+        self.assertEqual(payload['artifact_coverage']['available'],len(items))
+        reopened=member.get('/api/conversations/'+cv).json()['messages'][0]
+        self.assertEqual(reopened['evidence_items'],items)
+        id=items[0]['id']
+        with self.module.connect() as c:
+            raw=c.execute('SELECT payload FROM docs WHERE id=?',(id,)).fetchone()[0]
+            doc=json.loads(raw);doc['status']='retired'
+            c.execute('UPDATE docs SET payload=? WHERE id=?',(json.dumps(doc),id))
+        try:
+            self.assertEqual(member.get('/api/conversations/'+cv).json()['messages'][0]['evidence_items'],[])
+        finally:
+            with self.module.connect() as c:c.execute('UPDATE docs SET payload=? WHERE id=?',(raw,id))
+
     def test_01_api_permissions_history_and_citations(self):
         member, admin = self.client(), self.client('admin')
         response = member.get('/')

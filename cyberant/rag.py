@@ -165,6 +165,7 @@ def configuration(question):
     """Small deterministic routing profile, not a claim of semantic completeness."""
     q=norm(question)
     if intent(question)!='procedure':return None
+    if 'configuration_migration' in service_evidence.resolve_services(question):return None
     topic=next((t for t,p in TOPICS.items() if re.search(p,q)),None)
     if not topic:return None
     # A standalone named device/topic is broad; a named feature is focused.

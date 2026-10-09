@@ -1,3 +1,4 @@
+.source-record { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; padding: 12px; border: 1px solid var(--border, #7775); border-radius: 8px; }
 .web-search-controls { margin-top: 8px; padding: 8px 12px; color: var(--muted); font-size: 12px; }
 .web-search-controls summary { cursor: pointer; }
 .web-search-controls small { display: block; margin: 8px 0; }
