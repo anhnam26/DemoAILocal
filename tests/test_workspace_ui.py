@@ -39,7 +39,7 @@ class WorkspaceUI(unittest.TestCase):
         values = dict(APP_DATA_DIR=str(cls.data), APP_ENV='development', APP_ORIGINS=cls.base,
                       BOOTSTRAP_ADMIN_PASSWORD=PASSWORD,
                       OPENROUTER_MODEL=MODELS[0], OPENROUTER_MODEL2=MODELS[1],
-                      OPENROUTER_API_KEY='fake-key-never-sent')
+                      OPENROUTER_API_KEY='fake-key-never-sent',WEB_SEARCH_ENABLED='true',WEB_SEARCH_PROVIDER_APPROVED='true',WEB_SEARCH_USER_DAILY_LIMIT='100')
         cls.config_patch = patch('cyberant.config.env', return_value=values)
         cls.config_patch.start()
         from cyberant import operations
@@ -219,13 +219,18 @@ class WorkspaceUI(unittest.TestCase):
             page.locator('#view-chat').evaluate("""el=>{const d=new DataTransfer();d.items.add(new File(['Dropped text'],'drop.txt',{type:'text/plain'}));el.dispatchEvent(new DragEvent('dragenter',{bubbles:true,dataTransfer:d}));el.dispatchEvent(new DragEvent('drop',{bubbles:true,cancelable:true,dataTransfer:d}));}""")
             expect(page.locator('.chat-files')).to_contain_text('drop.txt')
             expect(page.locator('.file-drop-overlay')).to_be_hidden()
+            page.wait_for_function('()=>!fileBusy')
             page.locator('#question').fill(('Long draft line\n'*30))
             self.assertLessEqual(page.locator('#question').bounding_box()['height'],182)
             for width,theme in ((1440,'light'),(1440,'dark'),(390,'dark'),(390,'light')):
                 page.set_viewport_size({'width':width,'height':900 if width>600 else 844})
                 page.evaluate("theme=>document.documentElement.dataset.theme=theme",theme)
+                page.wait_for_timeout(300)
                 self.assertLessEqual(page.evaluate('document.documentElement.scrollWidth'),width)
                 page.screenshot(path=str(ROOT/'plan_action'/f'13-composer-{width}-{theme}.png'))
+            page.set_viewport_size({'width':1440,'height':900});page.locator('#question').fill('')
+            page.evaluate("$('#toast').classList.add('hidden')")
+            page.screenshot(path=str(ROOT/'plan_action'/'13-composer-normal.png'))
             self.assertEqual(errors,[]);context.close();browser.close()
 
     def test_chat_file_api_owner_context_and_deletion(self):
@@ -351,7 +356,9 @@ class WorkspaceUI(unittest.TestCase):
             if web_id:return 'DNS sử dụng tên miền ['+web_id[1]+'].',usage,'stop'
             match=re.search(r'\[([A-Z0-9-]+)\]',text)
             return ('Giải thích nội bộ ['+match[1]+'].' if match else 'Giải thích nguyên lý chung.'),usage,'stop'
-        with patch('cyberant.model_provider.complete',side_effect=fake):
+        async def read_page(url):
+            return dict(url=url,units=1,warnings=[],sources=[dict(id='WEB-read',title='DNS',url=url,body='Actual page evidence',retrieved_at='2026-10-09',review_status='external_unverified',chunk=1,version='web')])
+        with patch('cyberant.model_provider.complete',side_effect=fake),patch('cyberant.url_reader.read',side_effect=read_page):
             cv=member.post('/api/conversations').json()['id']
             first=member.post('/api/chat',json=dict(question='RMA là gì?',conversation_id=cv))
             self.assertEqual(first.status_code,200,first.text)
@@ -431,13 +438,45 @@ class WorkspaceUI(unittest.TestCase):
             return 'Chưa đủ dữ kiện [NEED_WEB]',usage,'stop'
         # Explicit small input cap: a 3KB atomic excerpt cannot fit <=2666 bytes.
         small={**self.module.config.env(),'RAG_INPUT_BYTES':'8000'}
-        with patch('cyberant.model_provider.complete',side_effect=omitted),patch('cyberant.config.env',return_value=small):
+        async def read_page(url):
+            return dict(url=url,units=1,warnings=[],sources=[dict(id='WEB-huge',title='x'*200,url=url,body='x'*3000,retrieved_at='2026-10-09',review_status='external_unverified',chunk=1,version='web')])
+        with patch('cyberant.model_provider.complete',side_effect=omitted),patch('cyberant.config.env',return_value=small),patch('cyberant.url_reader.read',side_effect=read_page):
             result=member.post('/api/chat',json=dict(question='DNS là gì?',conversation_id=cv))
             self.assertEqual(result.status_code,200,result.text)
             self.assertEqual(result.json()['web_status'],'budget_omitted')
             self.assertEqual(result.json()['api_calls'],2)
             self.assertEqual(len(seen),2)
         member.delete('/api/conversations/'+cv)
+
+    def test_controlled_search_reads_pages_not_snippets(self):
+        member=self.client();seen=[];reads=[]
+        async def provider(messages,settings,max_tokens):
+            seen.append((messages,settings));usage=dict(prompt_tokens=80,completion_tokens=40,total_tokens=120)
+            if settings.get('web_lookup'):
+                return 'DISCOVERY PROSE',usage|dict(web_annotations=[dict(type='url_citation',url_citation=dict(url='https://docs.example.com/'+str(i),content='SNIPPET NOT EVIDENCE',title='docs')) for i in range(6)]),'stop'
+            return 'Safe general response',usage,'stop'
+        async def read(url):
+            reads.append(url)
+            return dict(url=url,units=1,warnings=[],sources=[dict(id='WEB-page-'+str(len(reads)),title='Actual',url=url,body='ACTUAL PAGE',retrieved_at='2026-10-09',review_status='external_unverified',chunk=1,version='web')])
+        with patch('cyberant.model_provider.complete',side_effect=provider),patch('cyberant.url_reader.read',side_effect=read):
+            cv=member.post('/api/conversations').json()['id']
+            response=member.post('/api/chat',json=dict(question='DNS mới nhất',urls=['https://example.com/a','https://example.com/b'],web_query='DNS official docs',conversation_id=cv))
+            self.assertEqual(response.status_code,200,response.text)
+            self.assertEqual(len(reads),3);self.assertEqual(sum(s.get('web_lookup',False) for _,s in seen),1)
+            self.assertIn('ACTUAL PAGE',str(seen[-1][0]));self.assertNotIn('SNIPPET NOT EVIDENCE',str(seen[-1][0]))
+            self.assertNotIn('DISCOVERY PROSE',str(seen[-1][0]))
+            seen.clear();reads.clear()
+            cfg={**self.module.config.env(),'WEB_SEARCH_PROVIDER_APPROVED':'false'}
+            with patch('cyberant.config.env',return_value=cfg):
+                response=member.post('/api/chat',json=dict(question='DNS mới nhất',conversation_id=cv))
+            self.assertEqual(response.status_code,200);self.assertEqual(len(seen),1);self.assertEqual(reads,[])
+            self.assertEqual(response.json()['web_status'],'disabled')
+            seen.clear()
+            bad=member.post('/api/chat',json=dict(question='Đọc https://example.com/?api_key=SECRET',conversation_id=cv))
+            self.assertEqual(bad.status_code,400);self.assertEqual(seen,[])
+            with self.module.connect() as c:
+                self.assertEqual(c.execute("SELECT COUNT(*) FROM audit WHERE action='web_search_reserve' AND detail='pending'").fetchone()[0],0)
+            member.delete('/api/conversations/'+cv)
 
     def test_05_password_permissions_and_admin_reset(self):
         member, admin = self.client(), self.client('admin')
@@ -685,7 +724,8 @@ class WorkspaceUI(unittest.TestCase):
             page.locator('.header-theme').click()
             page.wait_for_timeout(200)  # Allow the existing button color transition to finish.
             page.screenshot(path=str(self.artifacts / 'chat-light.png'))
-            page.locator('.message-footer [data-doc]').first.click()
+            page.locator('.source-details summary').first.click()
+            page.locator('.source-details [data-doc]').first.click()
             expect(page.locator('#document-modal')).to_be_visible()
             page.locator('#close-modal').click()
             page.reload()

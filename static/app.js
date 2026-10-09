@@ -201,14 +201,22 @@ function appendAnswer(data){
       div.querySelector('.message-footer').append(link);
     }catch{}
   }
+  const toolbar=div.querySelector('.answer-toolbar'),footer=div.querySelector('.message-footer');
+  const details=document.createElement('details');details.className='source-details';
+  const summary=document.createElement('summary');summary.textContent=`Nguồn & chi tiết · ${(data.sources||[]).length+(data.web_sources||[]).length} nguồn`;
+  const meta=document.createElement('p');meta.textContent=footer.querySelector('span').textContent;
+  const sourceLinks=document.createElement('div');sourceLinks.className='source-links';
+  footer.querySelectorAll('[data-doc],.web-source').forEach(item=>sourceLinks.append(item));
+  details.append(summary,sourceLinks,meta);footer.querySelector('span').remove();
+  div.append(details,toolbar,footer);
   $('#messages').append(div);
   if(data.truncated){
     const next=document.createElement('button');next.type='button';next.textContent='Tiếp tục câu trả lời';
     next.onclick=()=>{if(!busy&&!fileBusy)ask('Tiếp tục hướng dẫn ở trên')};div.querySelector('.answer-toolbar').append(next);
   }
   if(data.evidence_items?.length){
-    const section=document.createElement('section');section.className='message-text source-appendix';
-    const heading=document.createElement('h3');heading.textContent=`Dữ liệu nguồn đầy đủ: ${data.evidence_items.length} bản ghi`;section.append(heading);
+    const section=document.createElement('details');section.className='message-text source-appendix';
+    const heading=document.createElement('summary');heading.textContent=`Dữ liệu nguồn đầy đủ: ${data.evidence_items.length} bản ghi`;section.append(heading);
     const note=document.createElement('p');note.textContent='Nội dung nguồn bên dưới được hiển thị nguyên vẹn, độc lập với phần tổng hợp AI. Không tự trở thành báo giá hoặc cam kết; giữ riêng từng phiên bản/phạm vi.';section.append(note);
     const table=document.createElement('table'),header=document.createElement('tr');
     for(const label of ['Dịch vụ','Bản ghi nguồn','Phiên bản','Nguồn gốc']){const th=document.createElement('th');th.textContent=label;header.append(th)}
