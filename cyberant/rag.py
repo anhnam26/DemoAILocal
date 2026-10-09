@@ -206,7 +206,7 @@ Không biến checklist demo hoặc giới hạn site/VLAN/tunnel demo thành y�
     else:text+='\nCÂU HỎI TẬP TRUNG: Đi sâu đúng tính năng được hỏi, không mở thành hướng dẫn toàn bộ thiết bị hoặc SOW/BOM.'
     return text
 
-def retrieve(question, documents, top_k=6):
+def retrieve(question, documents, top_k=6,route=True):
     if not documents:return [], {'groups':[], 'candidates':0, 'routing':'local'}
     encoded=json.dumps(documents,ensure_ascii=False,sort_keys=True)
     docs,v,chars,w,words=index(encoded)
@@ -250,8 +250,8 @@ def retrieve(question, documents, top_k=6):
     threshold=max(.10,float(scores.max())*.28)
     candidates=[int(i) for i in np.argsort(scores)[::-1][:60] if scores[i]>=threshold]
     selected=[];counts={}
-    services=service_evidence.resolve_services(question)
-    profile=configuration(question)
+    services=service_evidence.resolve_services(question) if route else []
+    profile=configuration(question) if route else None
     required=service_evidence.requirements(question,kind)
     if profile:
         relevant=[i for i,d in enumerate(docs) if configuration_source(profile,question,d)
@@ -356,13 +356,17 @@ def pack(question,found,budget,audience='auto',diagnostics=None,history=None,web
     technical_uncovered=set(profile['required']) if profile else set()
     while remaining:
         def priority(d):
+            if d.get('attachment_id'):return 1000
             if profile:return len(configuration_facets(d)&technical_uncovered)
             pairs={(service_evidence.service_id(d),f) for f in service_evidence.facets(d)}
             return sum(1+.1*(len(required)-required.index(f)) for s,f in pairs&uncovered)
         d=max(remaining,key=priority);remaining.remove(d)
         # Deduplicate complete evidence only: never delete a warning or a step.
         # Same wording in distinct versions/services is not interchangeable evidence.
-        folded=(d['body'].strip(),service_evidence.service_id(d),d.get('review_status'),d.get('version'))
+        # Separate uploaded sheets/pages/files are distinct evidence, even with
+        # identical text (e.g. equal quantities must not collapse into one row).
+        folded=(d['body'].strip(),service_evidence.service_id(d),d.get('review_status'),d.get('version'),
+                d['id'] if d.get('attachment_id') else None)
         reason='duplicate' if folded in seen else 'budget' if count(render(selected+[d]))>budget else None
         if reason:
             omitted.append(dict(id=d['id'],chunk=d.get('chunk',1),reason=reason));continue

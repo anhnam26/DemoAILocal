@@ -271,8 +271,13 @@ def create_app():
             retrieval_cap=rag.retrieval_limit(effective,cfg['top_k'])
             found,routing=await asyncio.to_thread(rag.retrieve,effective,allowed,retrieval_cap)
             file_docs=[d for d in allowed if d.get('attachment_id')]
-            if file_docs and sum(rag.estimate_tokens(d['body']) for d in file_docs)<=cfg['input_budget']//2:
-                file_chunks=[chunk for d in file_docs for chunk in rag.chunks(d)]
+            if file_docs:
+                if sum(rag.estimate_tokens(d['body']) for d in file_docs)<=cfg['input_budget']//2:
+                    file_chunks=[chunk for d in file_docs for chunk in rag.chunks(d)]
+                else:
+                    # Service/configuration routing applies to company knowledge,
+                    # not arbitrary uploads whose titles may contain no topic.
+                    file_chunks,_=await asyncio.to_thread(rag.retrieve,effective,file_docs,retrieval_cap,False)
                 found=file_chunks+[d for d in found if not d.get('attachment_id')]
             if artifacts:
                 artifact_chunks=[chunk for d in artifacts for chunk in rag.chunks(d)]
@@ -282,7 +287,7 @@ def create_app():
                 prior_ids={s['id'] for h in history[-6:] for s in h['sources']}
                 present={d['id'] for d in found}
                 prior_chunks=[chunk for d in allowed if d['id'] in prior_ids-present for chunk in rag.chunks(d)]
-                found=(prior_chunks+found)[:retrieval_cap]
+                found=found+prior_chunks[:retrieval_cap]
             retrieved_count=len(found)
             retrieved_sources=[dict(id=d['id'],chunk=d['chunk'],digest=d['source_digest']) for d in found]
             budget,output=rag.budgets(effective,cfg['input_budget'],cfg['output_budget'])
@@ -346,6 +351,8 @@ def create_app():
                 answer=answer.replace('[NEED_WEB]','').strip()
                 usage=web_search.aggregate(usages)
                 answer=re.sub(r'<think\b[^>]*>.*?(?:</think>|$)','',answer,flags=re.S|re.I).strip()
+                # Normalize typography, not IDs; unknown IDs still fail closed.
+                answer=re.sub(r'【([A-Za-z0-9_-]+)】',r'[\1]',answer)
                 ids={d['id'] for d in found+web};cited=set(re.findall(r'\[([A-Za-z0-9_-]+)\]',answer))
                 used=list(dict.fromkeys(d['id'] for d in found if d['id'] in cited))
                 web=[d for d in web if d['id'] in cited]
@@ -389,9 +396,15 @@ def create_app():
             raise HTTPException(409,'Nguồn đã thay đổi trong lúc xử lý; hãy hỏi lại.')
         if any(d['id'] not in fresh_docs or source(d)['source_digest']!=source(fresh_docs[d['id']])['source_digest'] for d in artifacts):
             raise HTTPException(409,'Danh mục nguồn đã thay đổi; hãy hỏi lại.')
+        sent_file_docs=[d for d in found if d.get('attachment_id')]
+        if any(d['id'] not in fresh_docs or source(d)['source_digest']!=source(fresh_docs[d['id']])['source_digest'] for d in sent_file_docs):
+            raise HTTPException(409,'File đã thay đổi trong lúc xử lý; hãy hỏi lại.')
         source_docs={d['id']:d for d in found if d['id'] in used}
         source_docs.update({d['id']:d for d in artifacts})
         dependencies={s['id']:dict(id=s['id'],source_digest=s['source_digest']) for h in history if h['chat_id'] in sent_history for s in h['sources']}
+        # A model can use an upload without emitting a citation. Retention and
+        # future context must still honor file deletion/revocation in that case.
+        dependencies.update({d['id']:dict(id=d['id'],source_digest=d['source_digest']) for d in sent_file_docs})
         sent_files={d['id'] for d in found if d.get('attachment_id')};file_units=[d for d in allowed if d.get('attachment_id')]
         if file_units and len(sent_files)<len(file_units):answer+=f'\n\n**Phạm vi file:** gửi model {len(sent_files)}/{len(file_units)} phần trích xuất; chưa thể coi là đọc toàn bộ file trong lượt này.'
         file_list=attachments.listing(connect,fresh,conversation_id)
