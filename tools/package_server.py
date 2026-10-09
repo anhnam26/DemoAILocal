@@ -12,7 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 FILES=('main.py','start.sh','requirements.txt','requirements-lock.txt','.env.example',
        'README.md','SECURITY.md','deploy/cyberant.service.example','deploy/nginx.conf.example',
        'docs/DEPLOYMENT.md','docs/DATA_LAYOUT.md','docs/PUBLIC_SHARE.md',
-          'docs/SERVICE_RAG.md','docs/CONVERSATION_WEB.md','docs/KNOWLEDGE_ACCEPTANCE.md','docs/CONFIGURATION_GUIDES.md','docs/PRIVATE_BUNDLE.md','docs/CHAT_CAPABILITIES.md')
+           'docs/SERVICE_RAG.md','docs/CONVERSATION_WEB.md','docs/KNOWLEDGE_ACCEPTANCE.md','docs/CONFIGURATION_GUIDES.md','docs/PRIVATE_BUNDLE.md','docs/CHAT_CAPABILITIES.md','docs/STRUCTURED_FILE_EXTRACTION.md')
 MODULES=('__init__','accounts','admin_system','app','config','conversations','generation',
          'http_limits','legacy','model_provider','operations','provider_errors','quality_feedback',
           'public_share','rag','runtime_lock','service_evidence','storage','sync_knowledge','token_usage','web_search','attachments','document_extractors','url_reader')

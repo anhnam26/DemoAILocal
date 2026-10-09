@@ -1,6 +1,6 @@
 # Chat: file riêng, đọc URL và SOW/BOM đầy đủ
 
-Phiên bản code `2026.10.09-chat-tools-1`. Giữ FastAPI/SQLite/JS/OpenRouter.
+Phiên bản code `2026.10.09-chat-tools-2`. Giữ FastAPI/SQLite/JS/OpenRouter.
 Code được kiểm thử offline; chưa triển khai/migrate/restart dữ liệu đang chạy.
 
 ## SOW/BOM và trả lời chi tiết
@@ -43,7 +43,14 @@ PDF tối đa 500 trang, ZIP tối đa 40 MB giải nén. Vượt giới hạn f
 bản cắt thiếu. Parser chạy subprocess Python hiện có, timeout 30s và kill khi cancel.
 Không tạo environment/dependency mới.
 
-- DOCX: đoạn/bảng theo thứ tự, header/footer/footnotes có vị trí.
+- DOCX/XLSX extraction JSON v2 có cấu trúc: xem [STRUCTURED_FILE_EXTRACTION](STRUCTURED_FILE_EXTRACTION.md).
+  DOCX giữ heading, bản hiện hành tracked changes, từng hàng bảng/merge/header,
+  notes/comments riêng; XLSX giữ raw/typed values, format, formula/cache,
+  sheet/row/column ẩn và declared table headers. Metadata vào evidence body/model.
+  File lưu v1 vẫn đọc tương thích, không tự reparse hoặc migrate SQL.
+  Preview và chọn từng phần/cả file cho lượt tiếp theo, server kiểm scope/owner;
+  lịch sử có dependency ngoài phạm vi chọn không được đưa lại vào prompt.
+- DOCX: đoạn/hàng bảng theo thứ tự, header/footer/footnotes có vị trí (không phải trang render).
 - Excel: sheet/hàng/ô, merged ranges, formula/cached value có nhãn; **không tính
   lại formula**, không gọi external relationships, không biến X thành quantity.
 - PPTX: slide/notes; PDF từng trang, không còn giới hạn 30 trang như upload admin.
