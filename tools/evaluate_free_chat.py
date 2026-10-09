@@ -111,7 +111,11 @@ def run(names,output):
             response=await real_post(client,url,**kwargs)
             record['status']=response.status_code
             if response.status_code==200:
-                data=response.json();record['usage']=data.get('usage');record['choices']=data.get('choices')
+                data=response.json();record['usage']=data.get('usage')
+                # Do not persist private reasoning traces, even if a provider
+                # ignores reasoning.exclude. Only the visible draft is needed.
+                record['choices']=[{'finish_reason':choice.get('finish_reason'),
+                                    'message':{'content':choice.get('message',{}).get('content')}} for choice in data.get('choices',[])]
             return response
         except Exception as error:
             record['error_type']=type(error).__name__;raise
@@ -142,7 +146,10 @@ def run(names,output):
                     start=time.monotonic();response=client.post('/api/chat',json={'question':question,'conversation_id':cv,'model':MODEL})
                     result={'case':name,'question':question,'status':response.status_code,'elapsed':round(time.monotonic()-start,2),'response':response.json()}
                     report['results'].append(result)
-                    with connect() as c:report['ledger']=[dict(r) for r in c.execute('SELECT status,prompt_tokens,completion_tokens,total_tokens,cost,note FROM token_usage')]
+                    with connect() as c:
+                        ledger=[dict(r) for r in c.execute('SELECT status,prompt_tokens,completion_tokens,total_tokens,cost,note FROM token_usage')]
+                    report['ledger']=ledger
+                    result['ledger_snapshot']=ledger
                     if response.status_code!=200 and name!='private_url':report['stopped']=True
                     save();print(name,response.status_code,'calls='+str(len(report['calls'])),flush=True)
                     if report.get('stopped'):break

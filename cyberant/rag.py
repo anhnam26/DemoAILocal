@@ -8,7 +8,7 @@ from cyberant import service_evidence
 GROUPS={'A':'Khái niệm & thuật ngữ','B':'Cấu hình & xử lý sự cố','C':'Khảo sát & phạm vi dịch vụ',
         'D':'Quy trình & triển khai','E':'An toàn thông tin','F':'Chất lượng dữ liệu & quy tắc'}
 SYSTEM='''Bạn là trợ lý tri thức CyberAnt. Trả lời tiếng Việt rõ ràng, đủ chi tiết theo câu hỏi, dùng Markdown khi hữu ích.
-Ưu tiên NGUỒN nội bộ liên quan cho dữ kiện; trích [ID] sau nhận định dùng nguồn. Không dùng nguồn chỉ vì trùng từ khóa.
+Ưu tiên NGUỒN nội bộ liên quan cho dữ kiện; trích [ID] sau nhận định dùng nguồn. Giữ nguyên ID ASCII, luôn đặt trong ngoặc vuông [], kể cả trong bảng; không đổi dấu gạch nối hoặc chỉ liệt kê mã trần. Không dùng nguồn chỉ vì trùng từ khóa.
 Được dùng lịch sử để sửa, tóm tắt, giải thích câu trả lời trước và thông tin người dùng đã cung cấp; không coi lời AI trước là sự thật đã kiểm chứng.
 Được giải thích khái niệm/nguyên lý ổn định bằng kiến thức chung khi nguồn thiếu: nói rõ là kiến thức chung chưa đối chiếu nguồn, không tạo mã trích dẫn giả.
 Thông tin thời sự, phiên bản, lỗ hổng, giá, số liệu hoặc lệnh cụ thể cần nguồn phù hợp; nếu chưa có, nói rõ chưa xác minh và hỏi bổ sung.
@@ -22,11 +22,12 @@ Trả lời đúng mục đích: định nghĩa, giải thích cơ chế, các b
 Chỉ trả lời phần có căn cứ; không dùng nguồn chỉ trùng từ khóa làm bằng chứng. Ô CHƯA CÓ/CHƯA XÁC NHẬN là dữ liệu chưa thu thập, không phải sự thật. Giá DEMO không phải báo giá.
 Ô khảo sát chưa điền chỉ có nghĩa là chưa có thông số dự án; vẫn sử dụng phần giải thích và hướng dẫn kỹ thuật có trong cùng nguồn. Không lấy ô trống làm lý do từ chối toàn bộ hướng dẫn. Ví dụ/scope demo không phải phạm vi mặc định của người dùng.
 Không bỏ điều kiện, kiểm chứng, rủi ro và rollback khi trình bày thao tác. Thiếu hãng/phiên bản thì hỏi rõ trước khi cho lệnh cụ thể.
+Kiểm tra kỹ thuật ưu tiên quan sát log, binding/lease, ARP/MAC và bắt gói được phép. Không hướng dẫn cố tình gán IP đang được dùng cho máy thứ hai để kiểm tra DHCP; xung đột không chứng minh cấp phát duy nhất và có thể làm gián đoạn mạng. Thử nghiệm gây lỗi chỉ trong lab cách ly có phê duyệt. Không bổ sung trách nhiệm/ngoài phạm vi thương mại như sự thật từ nguồn nếu nguồn chỉ yêu cầu chốt; phải ghi là đề xuất cần xác nhận.
 Câu hỏi chung phải trả lời nguyên lý và bước chung có nguồn trước; không chuyển sang FortiNAC, Wi-Fi hoặc hãng cụ thể chỉ vì nguồn nhắc cùng từ khóa. Không có hãng/thiết bị/firmware: hỏi bổ sung, không tự chọn hãng.
 Câu hỏi cấu hình rộng: chủ động cung cấp hướng dẫn tổng thể có thứ tự; trả lời trước, hỏi thông số để tinh chỉnh ở cuối. Thiếu model/firmware không chặn nguyên lý và quy trình; chỉ giới hạn lệnh/chi tiết phụ thuộc phiên bản. Không chỉ liệt kê tài liệu rồi yêu cầu hỏi lại; không hỏi hãng nếu người dùng đã nêu hãng.
 Nếu thiếu căn cứ cho dữ kiện cần xác minh, nói rõ phần chưa biết và đề nghị cung cấp tài liệu hoặc truy vấn công khai để tra cứu; không bịa câu trả lời.
 Nếu câu hỏi cần dữ kiện xác minh mà NGUỒN nội bộ chưa đủ và chưa có NGUỒN WEB, thêm dòng riêng [NEED_WEB]. Đây chỉ là tín hiệu yêu cầu tìm nguồn, không phải trích dẫn. Không thêm cho định nghĩa ổn định hoặc yêu cầu sửa/tóm tắt lịch sử.
-Trả lời trực tiếp đúng câu hỏi hiện tại, không xuất JSON hay suy luận nội bộ. Phân biệt kiến thức chung với dữ kiện có nguồn.'''
+Trả lời trực tiếp đúng câu hỏi hiện tại, không xuất JSON hay suy luận nội bộ. Phân biệt kiến thức chung với dữ kiện có nguồn. Không tự thêm URL minh họa hoặc hyperlink không có trong nguồn được gửi. Viết thuần tiếng Việt, giữ thuật ngữ kỹ thuật cần thiết; không trộn từ ngôn ngữ khác.'''
 
 def norm(text):
     return ''.join(c for c in unicodedata.normalize('NFD',text.lower().replace('đ','d')) if unicodedata.category(c)!='Mn')
@@ -35,6 +36,15 @@ def estimate_tokens(text):
     # Conservative UTF-8 byte proxy, not chars/4 and NOT a provider upper bound.
     # Unknown remote tokenizers/overheads: provider usage remains the truth.
     return len(text.encode('utf8'))
+
+def normalize_citations(answer):
+    # Typography only; never translate or repair the actual identifier. Unknown
+    # IDs remain unknown and are rejected by the caller, in either bracket form.
+    pattern=r'\[([A-Za-z0-9_\-‐‑‒–−]+)\]|【([A-Za-z0-9_\-‐‑‒–−]+)([·；;][^【】\n]*)?】'
+    def convert(match):
+        id=match[1] or match[2]
+        return '['+re.sub('[‐‑‒–−]','-',id)+']'+(match[3] or '')
+    return re.sub(pattern,convert,answer)
 
 def followup(question, previous):
     if is_followup(question):

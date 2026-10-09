@@ -40,6 +40,25 @@ class ChatEvidenceIntegrity(unittest.TestCase):
         self.assertIn('['+id+']',result['answer'])
         invalid=self.ask('Đọc file đính kèm',f'Quantity 7 【FAKE-999】')
         self.assertEqual(invalid['citation_status'],'invalid')
+        unicode_dash=self.ask('Đọc file đính kèm','Quantity 7 ['+id.replace('-','‑')+']')
+        self.assertEqual(unicode_dash['citation_status'],'ids_valid_not_entailment_checked')
+        invalid_dash=self.ask('Đọc file đính kèm','Quantity 7 [FAKE‑999]')
+        self.assertEqual(invalid_dash['citation_status'],'invalid')
+        positional=self.ask('Đọc file đính kèm',f'Quantity 7 【{id}·Dòng 1】')
+        self.assertEqual(positional['citation_status'],'ids_valid_not_entailment_checked')
+        self.assertIn('Dòng 1',positional['answer'])
+
+    def test_prompt_requires_safe_checks_and_exact_citation_format(self):
+        self.assertIn('Không hướng dẫn cố tình gán IP đang được dùng',rag.SYSTEM)
+        self.assertIn('luôn đặt trong ngoặc vuông []',rag.SYSTEM)
+        self.assertIn('đề xuất cần xác nhận',rag.SYSTEM)
+
+    def test_company_partial_model_context_has_visible_warning(self):
+        result=self.ask('Liệt kê toàn bộ SOW BOM dịch vụ công ty','Bản tóm tắt cần kiểm tra')
+        coverage=result['artifact_coverage']
+        self.assertGreater(coverage['available'],coverage['sent_to_model'])
+        self.assertIn('**Phạm vi SOW/BOM:**',result['answer'])
+        self.assertIn('chưa thể coi là đầy đủ',result['answer'])
 
     def test_distinct_file_locations_not_deduplicated(self):
         id=self.save([dict(location='North A1:B1',body='Quantity | 6'),dict(location='South A1:B1',body='Quantity | 6')])

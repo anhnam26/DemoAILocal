@@ -12,8 +12,8 @@ from contextlib import asynccontextmanager
 from typing import Literal
 from cyberant import accounts,config,token_usage,runtime_lock
 from cyberant import conversations,quality_feedback
-APP_VERSION='2026.10.09-chat-tools-1'
-PROMPT_VERSION='service-files-web-4'
+APP_VERSION='2026.10.09-chat-tools-2'
+PROMPT_VERSION='service-files-web-5'
 from cyberant.generation import GenerationGate
 from cyberant.http_limits import BodyLimitMiddleware
 from cyberant import admin_system,rag,model_provider,storage,web_search,provider_errors,service_evidence,attachments,document_extractors,url_reader
@@ -352,7 +352,7 @@ def create_app():
                 usage=web_search.aggregate(usages)
                 answer=re.sub(r'<think\b[^>]*>.*?(?:</think>|$)','',answer,flags=re.S|re.I).strip()
                 # Normalize typography, not IDs; unknown IDs still fail closed.
-                answer=re.sub(r'【([A-Za-z0-9_-]+)】',r'[\1]',answer)
+                answer=rag.normalize_citations(answer)
                 ids={d['id'] for d in found+web};cited=set(re.findall(r'\[([A-Za-z0-9_-]+)\]',answer))
                 used=list(dict.fromkeys(d['id'] for d in found if d['id'] in cited))
                 web=[d for d in web if d['id'] in cited]
@@ -408,6 +408,9 @@ def create_app():
         sent_files={d['id'] for d in found if d.get('attachment_id')};file_units=[d for d in allowed if d.get('attachment_id')]
         if file_units and len(sent_files)<len(file_units):answer+=f'\n\n**Phạm vi file:** gửi model {len(sent_files)}/{len(file_units)} phần trích xuất; chưa thể coi là đọc toàn bộ file trong lượt này.'
         file_list=attachments.listing(connect,fresh,conversation_id)
+        sent_artifact_ids={d['id'] for d in found}&{d['id'] for d in artifacts}
+        if artifacts and len(sent_artifact_ids)<len(artifacts):
+            answer+=f'\n\n**Phạm vi SOW/BOM:** gửi model {len(sent_artifact_ids)}/{len(artifacts)} bản ghi. Phụ lục nguồn hiển thị đủ bản ghi, nhưng phần AI tổng hợp chưa thể coi là đầy đủ hoặc đã xác minh nội dung.'
         for f in file_list:
             if f['warnings']:answer+='\n\n**Lưu ý trích xuất '+f['name']+':** '+' '.join(f['warnings'])
         for report in url_reports:
